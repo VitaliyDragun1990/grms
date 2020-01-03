@@ -1,0 +1,5 @@
+Example: com.revenat.germes.application.model
+    com.revenat - organization's root domain name
+    germes - application name
+    application - layer name
+    model - layer's module name
