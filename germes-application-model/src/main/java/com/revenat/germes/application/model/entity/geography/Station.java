@@ -24,12 +24,20 @@ public class Station extends AbstractEntity {
 
     private TransportType transportType;
 
-    public City getCity() {
-        return city;
+    /**
+     * You shouldn't create station object directly. Use
+     * {@link City} functionality instead
+     *
+     * @param city city where this station is located
+     * @param transportType transport type this station belongs to
+     */
+    public Station(final City city, final TransportType transportType) {
+        this.city = city;
+        this.transportType = transportType;
     }
 
-    public void setCity(final City city) {
-        this.city = city;
+    public City getCity() {
+        return city;
     }
 
     public Address getAddress() {
@@ -58,9 +66,5 @@ public class Station extends AbstractEntity {
 
     public TransportType getTransportType() {
         return transportType;
-    }
-
-    public void setTransportType(final TransportType transportType) {
-        this.transportType = transportType;
     }
 }

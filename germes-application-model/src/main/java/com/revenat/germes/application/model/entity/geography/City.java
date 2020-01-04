@@ -2,6 +2,7 @@ package com.revenat.germes.application.model.entity.geography;
 
 import com.revenat.germes.application.infrastructure.util.CommonUtil;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
+import com.revenat.germes.application.model.entity.transport.TransportType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +23,10 @@ public class City extends AbstractEntity {
     private String region;
 
     private Set<Station> stations;
+
+    public City(final String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;
@@ -51,13 +56,20 @@ public class City extends AbstractEntity {
         return CommonUtil.getSafeSet(stations);
     }
 
-    public void addStation(final Station station) {
-        requireNonNull(station, "station parameter is not initialized");
+    /**
+     * Add station of the specified {@link TransportType}
+     * to station list
+     *
+     * @return newly added station
+     */
+    public Station addStation(final TransportType transportType) {
+        requireNonNull(transportType, "transportType parameter is not initialized");
         if (stations == null) {
             stations = new HashSet<>();
         }
+        Station station = new Station(this, transportType);
         stations.add(station);
-        station.setCity(this);
+        return station;
     }
 
     public void removeStation(final Station station) {

@@ -1,5 +1,6 @@
 package com.revenat.germes.application.model.entity.geography;
 
+import com.revenat.germes.application.model.entity.transport.TransportType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class CityTest {
 
     @BeforeEach
     void setUp() {
-        city = new City();
+        city = new City("test city");
     }
 
     @Test
@@ -30,32 +31,19 @@ class CityTest {
 
     @Test
     void shouldContainOneStationAfterItWasAdded() {
-        Station station = new Station();
-
-        city.addStation(station);
+        final Station station = city.addStation(TransportType.AUTO);
 
         assertContainsStations(city, station);
     }
 
     @Test
-    void shouldFailIfTryToAddNullStation() {
+    void shouldFailIfTryToAddStationWithoutTransportType() {
         assertThrows(NullPointerException.class, () -> city.addStation(null));
     }
 
     @Test
-    void shouldNotAddDuplicateStation() {
-        Station station = new Station();
-
-        city.addStation(station);
-        city.addStation(station);
-
-        assertThat(city.getStations(), hasSize(1));
-    }
-
-    @Test
     void shouldRemoveStationIfPresent() {
-        Station station = new Station();
-        city.addStation(station);
+        final Station station = city.addStation(TransportType.AUTO);
 
         city.removeStation(station);
 
@@ -67,7 +55,7 @@ class CityTest {
         assertThrows(NullPointerException.class, () -> city.removeStation(null));
     }
 
-    private void assertContainsStations(City city, Station... stations) {
+    private void assertContainsStations(final City city, final Station... stations) {
         assertThat(city.getStations(), hasItems(stations));
         Arrays.stream(stations).forEach(station -> assertThat(station, hasProperty("city", equalTo(city))));
     }
