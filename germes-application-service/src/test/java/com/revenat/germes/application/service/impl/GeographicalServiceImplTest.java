@@ -31,6 +31,8 @@ class GeographicalServiceImplTest {
     @Test
     void shouldNotFindAnyCityIfNoCityWasSaved() {
         List<City> cities = service.findCities();
+
+        assertThat(cities, hasSize(0));
     }
 
     @Test
