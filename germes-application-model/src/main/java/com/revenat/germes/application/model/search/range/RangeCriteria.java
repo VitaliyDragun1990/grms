@@ -1,6 +1,6 @@
 package com.revenat.germes.application.model.search.range;
 
-import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
+import com.revenat.germes.application.infrastructure.helper.Checker;
 
 /**
  * Pagination parameters for data retrieval operations
@@ -20,12 +20,10 @@ public final class RangeCriteria {
     private final int rowCount;
 
     public RangeCriteria(int page, int rowCount) {
-        if (page < 0) {
-            throw new InvalidParameterException("Incorrect page index: " + page);
-        }
-        if (rowCount < 0) {
-            throw new InvalidParameterException("Incorrect row count: " + rowCount);
-        }
+        Checker checker = new Checker();
+        checker.checkParameter(page < 0, "Incorrect page index: %s", page);
+        checker.checkParameter(rowCount < 0, "Incorrect row count: %s", rowCount);
+
         this.page = page;
         this.rowCount = rowCount;
     }

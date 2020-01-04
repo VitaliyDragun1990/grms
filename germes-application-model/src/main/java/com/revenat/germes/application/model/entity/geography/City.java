@@ -1,6 +1,6 @@
 package com.revenat.germes.application.model.entity.geography;
 
-import com.revenat.germes.application.infrastructure.util.CommonUtil;
+import com.revenat.germes.application.infrastructure.helper.SafeCollectionWrapper;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
 
@@ -53,7 +53,7 @@ public class City extends AbstractEntity {
     }
 
     public Set<Station> getStations() {
-        return CommonUtil.getSafeSet(stations);
+        return new SafeCollectionWrapper<>(stations).asSafeSet();
     }
 
     /**
@@ -67,7 +67,7 @@ public class City extends AbstractEntity {
         if (stations == null) {
             stations = new HashSet<>();
         }
-        Station station = new Station(this, transportType);
+        final Station station = new Station(this, transportType);
         stations.add(station);
         return station;
     }

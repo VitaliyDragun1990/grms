@@ -1,6 +1,6 @@
 package com.revenat.germes.application.service.impl;
 
-import com.revenat.germes.application.infrastructure.util.CommonUtil;
+import com.revenat.germes.application.infrastructure.helper.SafeCollectionWrapper;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.service.GeographicalService;
 
@@ -16,7 +16,7 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     @Override
     public List<City> findCities() {
-        return CommonUtil.getSafeList(cities);
+        return new SafeCollectionWrapper<>(cities).asSafeList();
     }
 
     @Override
