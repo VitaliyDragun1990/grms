@@ -10,6 +10,104 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>germes-presentation-rest</artifactId>
+    <packaging>war</packaging>
 
+    <properties>
+        <jersey.version>2.29.1</jersey.version>
+        <jaxb.version>2.3.2</jaxb.version>
+        <warOutputDir>e:\servers\germes_tomcat-9.0.30\webapps</warOutputDir>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.revenat</groupId>
+            <artifactId>germes-application-service</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-grizzly2-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${jaxb.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>germes-rest</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+<!--                    <outputDirectory>${warOutputDir}</outputDirectory>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.25.v20191220</version>
+                <configuration>
+                    <httpConnector>
+                        <port>9090</port>
+                    </httpConnector>
+                    <stopPort>8005</stopPort>
+                    <stopKey>STOP</stopKey>
+                    <webApp>
+                        <contextPath>/rest</contextPath>
+                    </webApp>
+                    <jvmArgs>-Dfile.encoding=UTF-8</jvmArgs>
+                </configuration>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>start-jetty</id>-->
+<!--                        <phase>pre-integration-test</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>run</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <scanIntervalSeconds>10</scanIntervalSeconds>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                    <execution>-->
+<!--                        <id>stop-jetty</id>-->
+<!--                        <phase>post-integration-test</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>stop</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
