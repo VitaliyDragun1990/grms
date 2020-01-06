@@ -21,6 +21,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 <!--        <java.version>1.8</java.version>-->
+        <jersey.version>2.29.1</jersey.version>
+        <jersey-junit.version>2.1.0</jersey-junit.version>
+        <jaxb.version>2.3.2</jaxb.version>
+        <warOutputDir>e:\servers\germes_tomcat-9.0.30\webapps</warOutputDir>
         <junit.version>5.5.1</junit.version>
         <hamcrest.version>2.1</hamcrest.version>
         <mockito.version>3.0.0</mockito.version>
@@ -28,6 +32,18 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.github.hanleyt</groupId>
+                <artifactId>jersey-junit</artifactId>
+                <version>${jersey-junit.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
