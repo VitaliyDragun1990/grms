@@ -29,7 +29,7 @@ public class ClassInstanceCreator<T> {
         try {
             final Constructor<T> declaredConstructor = clazz.getDeclaredConstructor();
             declaredConstructor.setAccessible(true);
-            return clazz.getDeclaredConstructor().newInstance();
+            return declaredConstructor.newInstance();
         } catch (final InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new ConfigurationException(e);
         }

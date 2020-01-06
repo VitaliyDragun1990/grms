@@ -28,6 +28,9 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
+    private City() {
+    }
+
     public String getName() {
         return name;
     }
