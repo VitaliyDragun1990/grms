@@ -19,10 +19,10 @@ public final class RangeCriteria {
      */
     private final int rowCount;
 
-    public RangeCriteria(int page, int rowCount) {
-        Checker checker = new Checker();
-        checker.checkParameter(page < 0, "Incorrect page index: %s", page);
-        checker.checkParameter(rowCount < 0, "Incorrect row count: %s", rowCount);
+    public RangeCriteria(final int page, final int rowCount) {
+        final Checker checker = new Checker();
+        checker.checkParameter(page >= 0, "Incorrect page index: %s", page);
+        checker.checkParameter(rowCount >= 0, "Incorrect row count: %s", rowCount);
 
         this.page = page;
         this.rowCount = rowCount;

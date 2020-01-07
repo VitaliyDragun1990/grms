@@ -3,6 +3,8 @@ package com.revenat.germes.application.model.entity.geography;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
 
+import java.util.Objects;
+
 /**
  * Station where passengers can get of or take special kind
  * of transport. Multiple stations compose route of the trip.
@@ -11,7 +13,7 @@ import com.revenat.germes.application.model.entity.transport.TransportType;
  */
 public class Station extends AbstractEntity {
 
-    private City city;
+    private final City city;
 
     private Address address;
 
@@ -22,7 +24,7 @@ public class Station extends AbstractEntity {
 
     private Coordinate coordinate;
 
-    private TransportType transportType;
+    private final TransportType transportType;
 
     /**
      * You shouldn't create station object directly. Use
@@ -66,5 +68,27 @@ public class Station extends AbstractEntity {
 
     public TransportType getTransportType() {
         return transportType;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        final Station station = (Station) o;
+        return Objects.equals(city, station.city) &&
+                Objects.equals(address, station.address) &&
+                transportType == station.transportType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), city, address, transportType);
     }
 }
