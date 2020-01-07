@@ -1,12 +1,11 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
-import com.revenat.germes.application.infrastructure.helper.Checker;
-import com.revenat.germes.application.infrastructure.helper.ClassInstanceCreator;
-import com.revenat.germes.application.infrastructure.helper.ObjectStateCopier;
-import com.revenat.germes.application.infrastructure.helper.SimilarFieldsFinder;
+import com.revenat.germes.application.infrastructure.helper.*;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.service.transfrom.BaseDTO;
 import com.revenat.germes.application.service.transfrom.Transformer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -16,6 +15,8 @@ import java.util.List;
  * @author Vitaliy Dragun
  */
 public class SimpleDTOTransformer implements Transformer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleDTOTransformer.class);
 
     private final Checker checker = new Checker();
 
@@ -27,6 +28,11 @@ public class SimpleDTOTransformer implements Transformer {
         copyState(entity, dto);
         dto.transform(entity);
 
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("SimpleDTOTransformer.transform: {} DTO object",
+                    new ToStringBuilder(dto).shortStyle());
+        }
+
         return dto;
     }
 
@@ -37,6 +43,11 @@ public class SimpleDTOTransformer implements Transformer {
         final T entity = createInstance(entityClass);
         copyState(dto, entity);
         dto.untransform(entity);
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("SimpleDTOTransformer.untransform: {} entity object",
+                    new ToStringBuilder(entity).shortStyle());
+        }
 
         return entity;
     }

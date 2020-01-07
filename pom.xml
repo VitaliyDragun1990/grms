@@ -24,6 +24,8 @@
         <jersey.version>2.29.1</jersey.version>
         <jersey-junit.version>2.1.0</jersey-junit.version>
         <jaxb.version>2.3.2</jaxb.version>
+        <log4j.version>2.11.2</log4j.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
         <warOutputDir>e:\servers\germes_tomcat-9.0.30\webapps</warOutputDir>
         <junit.version>5.5.1</junit.version>
         <hamcrest.version>2.1</hamcrest.version>
@@ -39,6 +41,29 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.github.hanleyt</groupId>
                 <artifactId>jersey-junit</artifactId>
@@ -65,6 +90,21 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <pluginManagement>
