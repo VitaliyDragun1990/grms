@@ -1,7 +1,10 @@
 package com.revenat.germes.application.model.entity.geography;
 
+import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
+import com.revenat.germes.application.model.search.StationCriteria;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
@@ -36,6 +39,53 @@ public class Station extends AbstractEntity {
     public Station(final City city, final TransportType transportType) {
         this.city = city;
         this.transportType = transportType;
+    }
+
+    /**
+     * Verifies if current station matches specified criteria
+     *
+     * @param criteria station criteria
+     * @return {@code true} if current station matches specified criteria, {@code false} otherwise
+     */
+    public boolean match(final StationCriteria criteria) {
+        new Checker().checkParameter(criteria != null, "Station criteria is not initialized");
+        return cityNameMatch(criteria.getCityName()) &&
+                transportTypeMatch(criteria.getTransportType()) &&
+                addressMatch(criteria.getAddress());
+    }
+
+    private boolean addressMatch(final String addressString) {
+        return StringUtils.isEmpty(addressString) ||
+                fullAddressMatch(addressString) ||
+                streetAndZipMatch(addressString) ||
+                streetAndHouseMatch(addressString) ||
+                addressString.contains(address.getStreet()) ||
+                addressString.contains(address.getZipCode()) ||
+                addressString.contains(address.getHouseNo());
+    }
+
+    private boolean streetAndHouseMatch(final String addressString) {
+        return addressString.contains(address.getStreet()) &&
+                addressString.contains(address.getHouseNo());
+    }
+
+    private boolean streetAndZipMatch(final String addressString) {
+        return addressString.contains(address.getStreet()) &&
+                addressString.contains(address.getZipCode());
+    }
+
+    private boolean fullAddressMatch(final String addressString) {
+        return addressString.contains(address.getStreet()) &&
+                addressString.contains(address.getZipCode()) &&
+                addressString.contains(address.getHouseNo());
+    }
+
+    private boolean transportTypeMatch(final TransportType transportType) {
+        return transportType == null || this.transportType.equals(transportType);
+    }
+
+    private boolean cityNameMatch(final String cityName) {
+        return StringUtils.isEmpty(cityName) || city.getName().equals(cityName);
     }
 
     public City getCity() {
