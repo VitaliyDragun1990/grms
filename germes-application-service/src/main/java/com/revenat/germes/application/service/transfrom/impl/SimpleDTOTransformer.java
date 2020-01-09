@@ -1,12 +1,15 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
-import com.revenat.germes.application.infrastructure.helper.*;
+import com.revenat.germes.application.infrastructure.helper.Checker;
+import com.revenat.germes.application.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.service.transfrom.BaseDTO;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import com.revenat.germes.application.service.transfrom.helper.ClassInstanceCreator;
 import com.revenat.germes.application.service.transfrom.helper.ObjectStateCopier;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
+import com.revenat.germes.application.service.transfrom.impl.cache.CachedFieldProvider;
+import com.revenat.germes.application.service.transfrom.impl.cache.FieldProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +24,17 @@ public class SimpleDTOTransformer implements Transformer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleDTOTransformer.class);
 
-    private final Checker checker = new Checker();
+    private final Checker checker;
+
+    private final FieldProvider fieldProvider;
+
+    private final ClassInstanceCreator classInstanceCreator;
+
+    public SimpleDTOTransformer() {
+        fieldProvider = new CachedFieldProvider(new SimilarFieldsFinder());
+        classInstanceCreator = new ClassInstanceCreator();
+        checker = new Checker();
+    }
 
     @Override
     public <T extends AbstractEntity, P extends BaseDTO<T>> P transform(final T entity, final Class<P> dtoClass) {
@@ -61,11 +74,11 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     private <S, D> void copyState(final S source, final D dest) {
-        final List<String> fieldNamesToCopy = new SimilarFieldsFinder(source.getClass(), dest.getClass()).findByName();
+        final List<String> fieldNamesToCopy = fieldProvider.getFieldNames(source.getClass(), dest.getClass());
         new ObjectStateCopier(source, dest).copyState(fieldNamesToCopy);
     }
 
     private <E> E createInstance(final Class<E> dtoClass) {
-        return new ClassInstanceCreator<>(dtoClass).createInstance();
+        return classInstanceCreator.createInstance(dtoClass);
     }
 }

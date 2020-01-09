@@ -11,13 +11,12 @@ import java.lang.reflect.InvocationTargetException;
  *
  * @author Vitaliy Dragun
  */
-public class ClassInstanceCreator<T> {
+public class ClassInstanceCreator {
 
-    private final Class<T> clazz;
+    private final Checker checker;
 
-    public ClassInstanceCreator(final Class<T> clazz) {
-        new Checker().checkParameter(clazz != null, "clazz object can not be null");
-        this.clazz = clazz;
+    public ClassInstanceCreator() {
+        checker = new Checker();
     }
 
     /**
@@ -26,7 +25,8 @@ public class ClassInstanceCreator<T> {
      * @return instance of the class
      * @throws ConfigurationException if creation fails
      */
-    public T createInstance() {
+    public <T> T createInstance(final Class<T> clazz) {
+        checker.checkParameter(clazz != null, "clazz object can not be null");
         try {
             final Constructor<T> declaredConstructor = clazz.getDeclaredConstructor();
             declaredConstructor.setAccessible(true);

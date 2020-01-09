@@ -16,13 +16,14 @@ class ClassInstanceCreatorTest {
 
     @Test
     void shouldNotBeCreatedWithNullParameter() {
-        assertThrows(InvalidParameterException.class, () -> new ClassInstanceCreator<String>(null));
+        assertThrows(InvalidParameterException.class,
+                () -> new ClassInstanceCreator().createInstance(null));
     }
 
     @Test
     void shouldCreateInstanceIfClassHasDefaultConstructor() {
         final ClassWithDefaultConstructor instance =
-                new ClassInstanceCreator<>(ClassWithDefaultConstructor.class).createInstance();
+                new ClassInstanceCreator().createInstance(ClassWithDefaultConstructor.class);
 
         assertNotNull(instance);
     }
@@ -30,7 +31,7 @@ class ClassInstanceCreatorTest {
     @Test
     void shouldCreateInstanceIfClassHasNoArgsConstructor() {
         final ClassWithExplicitNoArgsConstructor instance =
-                new ClassInstanceCreator<>(ClassWithExplicitNoArgsConstructor.class).createInstance();
+                new ClassInstanceCreator().createInstance(ClassWithExplicitNoArgsConstructor.class);
 
         assertNotNull(instance);
     }
@@ -38,7 +39,7 @@ class ClassInstanceCreatorTest {
     @Test
     void shouldCreateInstanceIfClassHasPrivateNoArgsConstructor() {
         final ClassWithExplicitPrivateNoArgsConstructor instance =
-                new ClassInstanceCreator<>(ClassWithExplicitPrivateNoArgsConstructor.class).createInstance();
+                new ClassInstanceCreator().createInstance(ClassWithExplicitPrivateNoArgsConstructor.class);
 
         assertNotNull(instance);
     }
@@ -46,7 +47,7 @@ class ClassInstanceCreatorTest {
     @Test
     void shouldFailToCreateInstanceIfClassDoesNotHaveNoArgConstructor() {
         assertThrows(ConfigurationException.class,
-                () -> new ClassInstanceCreator<>(ClassWithoutNoArgsConstructor.class).createInstance());
+                () -> new ClassInstanceCreator().createInstance(ClassWithoutNoArgsConstructor.class));
     }
 
     static class ClassWithDefaultConstructor {

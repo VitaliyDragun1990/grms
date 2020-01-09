@@ -17,16 +17,12 @@ import java.util.stream.Collectors;
  */
 public class SimilarFieldsFinder {
 
-    private final Class<?> clazz1;
+    private final Checker checker = new Checker();
 
-    private final Class<?> clazz2;
+    private final FieldsExtractor fieldsExtractor;
 
-    public SimilarFieldsFinder(final Class<?> clazz1, final Class<?> clazz2) {
-        final Checker checker = new Checker();
-        checker.checkParameter(clazz1 != null, "clazz1 object can not be null");
-        checker.checkParameter(clazz2 != null, "clazz2 object can not be null");
-        this.clazz1 = clazz1;
-        this.clazz2 = clazz2;
+    public SimilarFieldsFinder() {
+        fieldsExtractor = new FieldsExtractor();
     }
 
     /**
@@ -37,7 +33,9 @@ public class SimilarFieldsFinder {
      * @return list of field names
      * @throws ConfigurationException if operation fails
      */
-    public List<String> findByName() {
+    public List<String> findByName(final Class<?> clazz1, final Class<?> clazz2) {
+        checker.checkParameter(clazz1 != null, "clazz1 object can not be null");
+        checker.checkParameter(clazz2 != null, "clazz2 object can not be null");
         try {
             final List<String> targetFieldNames =
                     getFields(clazz2).stream()
@@ -74,6 +72,6 @@ public class SimilarFieldsFinder {
     }
 
     private List<Field> getFields(final Class<?> clazz) {
-        return new FieldsExtractor(clazz).getAllFields();
+        return fieldsExtractor.getAllFields(clazz);
     }
 }

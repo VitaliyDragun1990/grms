@@ -18,17 +18,12 @@ public class FieldsExtractor {
 
     private final Checker checker = new Checker();
 
-    private final Class<?> clazz;
-
-    public FieldsExtractor(final Class<?> clazz) {
-        checker.checkParameter(clazz != null, "Class to extract fields from must be initialized");
-        this.clazz = clazz;
-    }
-
     /**
      * Returns all declared fields from the given class and all its superclasses
      */
-    public List<Field> getAllFields() {
+    public List<Field> getAllFields(final Class<?> clazz) {
+        checker.checkParameter(clazz != null, "Class to extract fields from must be initialized");
+
         final List<Field> result = new ArrayList<>();
         Class<?> current = clazz;
         while (current != null) {
@@ -45,8 +40,10 @@ public class FieldsExtractor {
      * @param fieldName name of the field to return
      * @return {@link Optional} with found field if any, empty {@link Optional} otherwise
      */
-    public Optional<Field> findFieldByName(final String fieldName) {
+    public Optional<Field> findFieldByName(final Class<?> clazz, final String fieldName) {
+        checker.checkParameter(clazz != null, "Class to extract fields from must be initialized");
         checker.checkParameter(fieldName != null, "Name of the field to find should be initialized");
+
         Class<?> current = clazz;
         while (current != null) {
             try {

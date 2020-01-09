@@ -18,62 +18,62 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SimilarFieldsFinderTest {
 
     @Test
-    void canNotBeCreatedWithoutInitializedArguments() {
-        assertThrows(InvalidParameterException.class, () -> new SimilarFieldsFinder(null, Destination.class));
-        assertThrows(InvalidParameterException.class, () -> new SimilarFieldsFinder(Source.class, null));
-        assertThrows(InvalidParameterException.class, () -> new SimilarFieldsFinder(null, null));
+    void shouldFailToFindIfEitherOfTheArgumentIsInitialized() {
+        assertThrows(InvalidParameterException.class, () -> new SimilarFieldsFinder().findByName(null, Destination.class));
+        assertThrows(InvalidParameterException.class, () -> new SimilarFieldsFinder().findByName(Source.class, null));
+        assertThrows(InvalidParameterException.class, () -> new SimilarFieldsFinder().findByName(null, null));
     }
 
     @Test
     void shouldIgnoreFieldsAnnotatedWithIgnore() {
-        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder(Source.class, Destination.class);
+        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder();
 
-        final List<String> result = similarFieldsFinder.findByName();
+        final List<String> result = similarFieldsFinder.findByName(Source.class, Destination.class);
 
         assertThat(result, is(not(hasItem(equalTo("ignored")))));
     }
 
     @Test
     void shouldIgnoreStaticFields() {
-        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder(Source.class, Destination.class);
+        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder();
 
-        final List<String> result = similarFieldsFinder.findByName();
+        final List<String> result = similarFieldsFinder.findByName(Source.class, Destination.class);
 
         assertThat(result, is(not(hasItem(equalTo("staticField")))));
     }
 
     @Test
     void shouldIgnoreFinalFields() {
-        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder(Source.class, Destination.class);
+        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder();
 
-        final List<String> result = similarFieldsFinder.findByName();
+        final List<String> result = similarFieldsFinder.findByName(Source.class, Destination.class);
 
         assertThat(result, is(not(hasItem(equalTo("finalField")))));
     }
 
     @Test
     void shouldConsiderBaseClassFields() {
-        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder(Source.class, Destination.class);
+        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder();
 
-        final List<String> result = similarFieldsFinder.findByName();
+        final List<String> result = similarFieldsFinder.findByName(Source.class, Destination.class);
 
         assertThat(result, hasItem(equalTo("baseField")));
     }
 
     @Test
     void shouldFindFieldsWithEqualName() {
-        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder(Source.class, Destination.class);
+        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder();
 
-        final List<String> result = similarFieldsFinder.findByName();
+        final List<String> result = similarFieldsFinder.findByName(Source.class, Destination.class);
 
         assertThat(result, hasItem("value"));
     }
 
     @Test
     void shouldFindSimilarFields() {
-        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder(Source.class, Destination.class);
+        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder();
 
-        final List<String> result = similarFieldsFinder.findByName();
+        final List<String> result = similarFieldsFinder.findByName(Source.class, Destination.class);
 
         assertThat(result, hasSize(2));
         assertThat(result, hasItem("value"));
@@ -82,9 +82,9 @@ class SimilarFieldsFinderTest {
 
     @Test
     void shouldReturnEmptyListIfNoSimilarFieldsByName() {
-        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder(Source.class, SomeClass.class);
+        final SimilarFieldsFinder similarFieldsFinder = new SimilarFieldsFinder();
 
-        final List<String> result = similarFieldsFinder.findByName();
+        final List<String> result = similarFieldsFinder.findByName(Source.class, SomeClass.class);
 
         assertThat(result, hasSize(0));
     }

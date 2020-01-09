@@ -20,27 +20,28 @@ public class ObjectStateCopier {
 
     private final Object destination;
 
+    private final FieldsExtractor fieldsExtractor;
+
     public ObjectStateCopier(final Object source, final Object destination) {
         checker.checkParameter(source != null, "Source object is not initialized");
         checker.checkParameter(destination != null, "Destination object is not initialized");
         this.source = source;
         this.destination = destination;
+        fieldsExtractor = new FieldsExtractor();
     }
 
     public void copyState(final List<String> fieldNames) {
         checker.checkParameter(fieldNames != null, "Names of the fields to copy state should be initialized");
-        final FieldsExtractor sourceFieldsExtractor = new FieldsExtractor(source.getClass());
-        final FieldsExtractor destFieldsExtractor = new FieldsExtractor(destination.getClass());
         try {
             for (final String fieldName : fieldNames) {
-                final Optional<Field> srcFieldOptional = sourceFieldsExtractor.findFieldByName(fieldName);
+                final Optional<Field> srcFieldOptional = fieldsExtractor.findFieldByName(source.getClass(), fieldName);
                 // Skip unknown fields
                 if (srcFieldOptional.isPresent()) {
                     final Field srcField = srcFieldOptional.get();
                     srcField.setAccessible(true);
                     final Object value = srcField.get(source);
 
-                    final Optional<Field> dstFieldOptional = destFieldsExtractor.findFieldByName(fieldName);
+                    final Optional<Field> dstFieldOptional = fieldsExtractor.findFieldByName(destination.getClass(), fieldName);
 
                     if (dstFieldOptional.isPresent()) {
                         final Field dstField = dstFieldOptional.get();

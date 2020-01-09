@@ -19,15 +19,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class FieldsExtractorTest {
 
     @Test
-    void canNotBeCreatedWithoutClassToOperatesOn() {
-        assertThrows(InvalidParameterException.class, () -> new FieldsExtractor(null));
+    void shouldFailToExtractFieldsIfArgumentIsNull() {
+        assertThrows(InvalidParameterException.class, () -> new FieldsExtractor().getAllFields(null));
     }
 
     @Test
     void shouldExtractAllFieldsFromInheritanceHierarchy() {
-        FieldsExtractor extractor = new FieldsExtractor(Child.class);
+        FieldsExtractor extractor = new FieldsExtractor();
 
-        final List<Field> result = extractor.getAllFields();
+        final List<Field> result = extractor.getAllFields(Child.class);
 
         assertThat(result, hasSize(2));
         assertThat(result, hasItem(hasProperty("name", equalTo("value"))));
@@ -36,9 +36,9 @@ class FieldsExtractorTest {
 
     @Test
     void shouldFindFieldByName() {
-        FieldsExtractor extractor = new FieldsExtractor(Child.class);
+        FieldsExtractor extractor = new FieldsExtractor();
 
-        final Optional<Field> result = extractor.findFieldByName("value");
+        final Optional<Field> result = extractor.findFieldByName(Child.class,"value");
 
         assertTrue(result.isPresent());
         assertThat(result.get(), hasProperty("name", equalTo("value")));
@@ -46,17 +46,23 @@ class FieldsExtractorTest {
 
     @Test
     void shouldReturnEmptyOptionalIfCannotFindFieldWithSpecifiedName() {
-        FieldsExtractor extractor = new FieldsExtractor(Base.class);
+        FieldsExtractor extractor = new FieldsExtractor();
 
-        final Optional<Field> result = extractor.findFieldByName("text");
+        final Optional<Field> result = extractor.findFieldByName(Base.class,"text");
 
         assertTrue(result.isEmpty());
     }
 
     @Test
     void shouldFailToFindFieldByNameIfNameIsNotInitialized() {
-        FieldsExtractor extractor = new FieldsExtractor(Base.class);
-        assertThrows(InvalidParameterException.class, () -> extractor.findFieldByName(null));
+        FieldsExtractor extractor = new FieldsExtractor();
+        assertThrows(InvalidParameterException.class, () -> extractor.findFieldByName(Base.class, null));
+    }
+
+    @Test
+    void shouldFailToFindFieldByNameIfSourceIsNotInitialized() {
+        FieldsExtractor extractor = new FieldsExtractor();
+        assertThrows(InvalidParameterException.class, () -> extractor.findFieldByName(null, "text"));
     }
 
     static class Base {
