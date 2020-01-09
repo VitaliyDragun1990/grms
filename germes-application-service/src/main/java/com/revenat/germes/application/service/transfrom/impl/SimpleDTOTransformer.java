@@ -4,6 +4,9 @@ import com.revenat.germes.application.infrastructure.helper.*;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.service.transfrom.BaseDTO;
 import com.revenat.germes.application.service.transfrom.Transformer;
+import com.revenat.germes.application.service.transfrom.helper.ClassInstanceCreator;
+import com.revenat.germes.application.service.transfrom.helper.ObjectStateCopier;
+import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
