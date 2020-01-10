@@ -15,6 +15,7 @@ allprojects {
         jerseyVersion = '2.29.1'
         jaxbVersion = '2.3.2'
         jerseyJunitVersion = '2.1.0'
+        hibernateVersion = '5.2.18.Final'
 
         misc = [
                 commonsLang3: "org.apache.commons:commons-lang3:$commonsLang3Version"
@@ -28,6 +29,10 @@ allprojects {
                 jaxbRuntime  : "org.glassfish.jaxb:jaxb-runtime:$jaxbVersion"
         ]
 
+        persistence = [
+                hibernateCore: "org.hibernate:hibernate-core:$hibernateVersion"
+        ]
+
         log = [
                 log4jApi  : "org.apache.logging.log4j:log4j-api:$log4jVersion",
                 log4jCore : "org.apache.logging.log4j:log4j-core:$log4jVersion",
@@ -36,14 +41,14 @@ allprojects {
         ]
 
         tests = [
-                junitApi   : "org.junit.jupiter:junit-jupiter-api:$junitVersion",
-                junitEngine: "org.junit.jupiter:junit-jupiter-engine:$junitVersion",
-                junitParams: "org.junit.jupiter:junit-jupiter-params:$junitVersion",
-                hamcrest : "org.hamcrest:hamcrest:$hamcrestVersion",
-                mockito : "org.mockito:mockito-junit-jupiter:$mockitoVersion",
-                jerseyTestCore : "org.glassfish.jersey.test-framework:jersey-test-framework-core:$jerseyVersion",
-                jerseyTestProvider : "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
-                jerseyJunit : "com.github.hanleyt:jersey-junit:$jerseyJunitVersion"
+                junitApi          : "org.junit.jupiter:junit-jupiter-api:$junitVersion",
+                junitEngine       : "org.junit.jupiter:junit-jupiter-engine:$junitVersion",
+                junitParams       : "org.junit.jupiter:junit-jupiter-params:$junitVersion",
+                hamcrest          : "org.hamcrest:hamcrest:$hamcrestVersion",
+                mockito           : "org.mockito:mockito-junit-jupiter:$mockitoVersion",
+                jerseyTestCore    : "org.glassfish.jersey.test-framework:jersey-test-framework-core:$jerseyVersion",
+                jerseyTestProvider: "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
+                jerseyJunit       : "com.github.hanleyt:jersey-junit:$jerseyJunitVersion"
         ]
     }
 }
