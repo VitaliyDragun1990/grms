@@ -4,6 +4,7 @@ import com.revenat.germes.application.infrastructure.helper.SafeCollectionWrappe
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +15,8 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Vitaliy Dragun
  */
+@Table(name = "CITIES")
+@Entity
 public class City extends AbstractEntity {
 
     private String name;
@@ -31,6 +34,7 @@ public class City extends AbstractEntity {
     private City() {
     }
 
+    @Column(name = "NAME", nullable = false, length = 32)
     public String getName() {
         return name;
     }
@@ -39,6 +43,7 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
+    @Column(name = "DISTRICT", length = 32)
     public String getDistrict() {
         return district;
     }
@@ -47,6 +52,7 @@ public class City extends AbstractEntity {
         this.district = district;
     }
 
+    @Column(name = "REGION", nullable = false, length = 32, unique = true)
     public String getRegion() {
         return region;
     }
@@ -55,6 +61,7 @@ public class City extends AbstractEntity {
         this.region = region;
     }
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city", orphanRemoval = true)
     public Set<Station> getStations() {
         return new SafeCollectionWrapper<>(stations).asSafeSet();
     }

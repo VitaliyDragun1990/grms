@@ -4,9 +4,9 @@
 
 dependencies {
     implementation project(':germes-application-model'), project(':germes-persistence')
-    compileOnly misc.jakartaInject
+    compileOnly misc.jakartaInject, persistence.jpaApi
 
     testImplementation tests.junitApi, tests.hamcrest, tests.mockito
-    testCompileOnly tests.junitParams
+    testCompileOnly tests.junitParams, persistence.jpaApi
     testRuntimeOnly tests.junitEngine
 }

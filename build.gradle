@@ -17,6 +17,7 @@ allprojects {
         jerseyJunitVersion = '2.1.0'
         hibernateVersion = '5.2.18.Final'
         jakartaInjectVersion = '2.6.1'
+        jpaApiVersion = '1.0.0.Final'
 
         misc = [
                 commonsLang3: "org.apache.commons:commons-lang3:$commonsLang3Version",
@@ -32,7 +33,8 @@ allprojects {
         ]
 
         persistence = [
-                hibernateCore: "org.hibernate:hibernate-core:$hibernateVersion"
+                hibernateCore: "org.hibernate:hibernate-core:$hibernateVersion",
+                jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:$jpaApiVersion"
         ]
 
         log = [
