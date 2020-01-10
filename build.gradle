@@ -71,6 +71,10 @@ subprojects {
         implementation log.log4jApi, log.log4jCore, log.log4jSlf4j
     }
 
+    test {
+        useJUnitPlatform()
+    }
+
     sourceCompatibility = '1.11'
 
     publishing {

@@ -3,7 +3,9 @@
  */
 
 dependencies {
-    implementation project(':germes-application-model')
+    implementation project(':germes-application-model'), project(':germes-persistence')
 
-    testImplementation tests.junitApi, tests.junitEngine, tests.junitParams, tests.mockito, tests.hamcrest
+    testImplementation tests.junitApi, tests.hamcrest, tests.mockito
+    testCompileOnly tests.junitParams
+    testRuntimeOnly tests.junitEngine
 }

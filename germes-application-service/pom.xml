@@ -17,6 +17,11 @@
             <artifactId>germes-application-model</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.revenat</groupId>
+            <artifactId>germes-persistence</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>

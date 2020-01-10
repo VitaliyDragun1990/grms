@@ -24,7 +24,7 @@
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
         <Logger name="com.revenat.germes" level="DEBUG">
-            <AppenderRef ref="LogToRollingFile"/>
+            <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Root level="ERROR">
             <AppenderRef ref="LogToConsole"/>
