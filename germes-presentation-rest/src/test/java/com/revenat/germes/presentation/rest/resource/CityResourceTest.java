@@ -28,6 +28,7 @@ import static org.hamcrest.Matchers.*;
  * @author Vitaliy Dragun
  */
 @DisplayName("a city resource")
+@SuppressWarnings("unchecked")
 class CityResourceTest {
 
     @RegisterExtension
