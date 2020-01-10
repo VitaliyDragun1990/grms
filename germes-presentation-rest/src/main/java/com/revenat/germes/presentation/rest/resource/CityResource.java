@@ -3,15 +3,14 @@ package com.revenat.germes.presentation.rest.resource;
 import com.revenat.germes.application.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.service.GeographicalService;
-import com.revenat.germes.application.service.impl.GeographicalServiceImpl;
 import com.revenat.germes.application.service.transfrom.Transformer;
-import com.revenat.germes.application.service.transfrom.impl.SimpleDTOTransformer;
 import com.revenat.germes.presentation.rest.dto.CityDTO;
 import com.revenat.germes.presentation.rest.resource.base.BaseResource;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -41,9 +40,10 @@ public class CityResource extends BaseResource {
      */
     private final Transformer transformer;
 
-    public CityResource() {
-        service = new GeographicalServiceImpl();
-        transformer = new SimpleDTOTransformer();
+    @Inject
+    public CityResource(final GeographicalService geographicalService, final Transformer transformer) {
+        service = geographicalService;
+        this.transformer = transformer;
     }
 
     /**

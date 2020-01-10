@@ -2,12 +2,10 @@ package com.revenat.germes.presentation.rest.resource;
 
 import com.github.hanleyt.JerseyExtension;
 import com.revenat.germes.presentation.rest.dto.CityDTO;
-import com.revenat.germes.presentation.rest.resource.config.JerseyConfig;
+import com.revenat.germes.presentation.rest.config.JerseyConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;

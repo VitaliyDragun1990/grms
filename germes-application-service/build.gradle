@@ -4,6 +4,7 @@
 
 dependencies {
     implementation project(':germes-application-model'), project(':germes-persistence')
+    compileOnly misc.jakartaInject
 
     testImplementation tests.junitApi, tests.hamcrest, tests.mockito
     testCompileOnly tests.junitParams

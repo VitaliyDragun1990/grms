@@ -8,7 +8,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':germes-application-model'), project(':germes-application-service')
+    implementation project(':germes-application-model'), project(':germes-application-service'),
+            project(':germes-persistence')
 
     implementation misc.commonsLang3, log.log4jWeb, server.jerseyHttp, server.jerseyServlet, server.jerseyHk2,
             server.jerseyJson, server.jaxbRuntime

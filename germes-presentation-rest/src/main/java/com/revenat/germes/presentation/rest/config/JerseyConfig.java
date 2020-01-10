@@ -1,5 +1,6 @@
-package com.revenat.germes.presentation.rest.resource.config;
+package com.revenat.germes.presentation.rest.config;
 
+import com.revenat.germes.presentation.config.ComponentFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
@@ -13,6 +14,7 @@ import javax.ws.rs.ApplicationPath;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
+        super(ComponentFeature.class);
         packages("com.revenat.germes.presentation.rest.resource");
     }
 }

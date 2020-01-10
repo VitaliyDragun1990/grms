@@ -9,6 +9,7 @@ import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.persistence.CityRepository;
 import com.revenat.germes.persistence.inmemory.InMemoryCityRepository;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,8 +21,9 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     private final CityRepository cityRepository;
 
-    public GeographicalServiceImpl() {
-        cityRepository = new InMemoryCityRepository();
+    @Inject
+    public GeographicalServiceImpl(CityRepository cityRepository) {
+        this.cityRepository = cityRepository;
     }
 
     @Override

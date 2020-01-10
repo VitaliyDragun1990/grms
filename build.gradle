@@ -16,9 +16,11 @@ allprojects {
         jaxbVersion = '2.3.2'
         jerseyJunitVersion = '2.1.0'
         hibernateVersion = '5.2.18.Final'
+        jakartaInjectVersion = '2.6.1'
 
         misc = [
-                commonsLang3: "org.apache.commons:commons-lang3:$commonsLang3Version"
+                commonsLang3: "org.apache.commons:commons-lang3:$commonsLang3Version",
+                jakartaInject: "org.glassfish.hk2.external:jakarta.inject:$jakartaInjectVersion"
         ]
 
         server = [
