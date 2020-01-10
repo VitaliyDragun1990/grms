@@ -6,6 +6,7 @@ import com.revenat.germes.application.model.entity.transport.TransportType;
 import com.revenat.germes.application.model.search.StationCriteria;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -14,9 +15,11 @@ import java.util.Objects;
  *
  * @author Vitaliy Dragun
  */
+@Table(name = "STATIONS")
+@Entity
 public class Station extends AbstractEntity {
 
-    private final City city;
+    private City city;
 
     private Address address;
 
@@ -27,7 +30,7 @@ public class Station extends AbstractEntity {
 
     private Coordinate coordinate;
 
-    private final TransportType transportType;
+    private TransportType transportType;
 
     /**
      * You shouldn't create station object directly. Use
@@ -39,6 +42,9 @@ public class Station extends AbstractEntity {
     public Station(final City city, final TransportType transportType) {
         this.city = city;
         this.transportType = transportType;
+    }
+
+    private Station() {
     }
 
     /**
@@ -88,10 +94,13 @@ public class Station extends AbstractEntity {
         return StringUtils.isEmpty(cityName) || city.getName().equals(cityName);
     }
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {})
+    @JoinColumn(name = "CITY_ID", nullable = false, updatable = false)
     public City getCity() {
         return city;
     }
 
+    @Embedded
     public Address getAddress() {
         return address;
     }
@@ -100,6 +109,7 @@ public class Station extends AbstractEntity {
         this.address = address;
     }
 
+    @Column(name = "PHONE", length = 16)
     public String getPhone() {
         return phone;
     }
@@ -108,6 +118,7 @@ public class Station extends AbstractEntity {
         this.phone = phone;
     }
 
+    @Embedded
     public Coordinate getCoordinate() {
         return coordinate;
     }
@@ -116,6 +127,8 @@ public class Station extends AbstractEntity {
         this.coordinate = coordinate;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "TRANSPORT_TYPE")
     public TransportType getTransportType() {
         return transportType;
     }
