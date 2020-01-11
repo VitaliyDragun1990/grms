@@ -18,10 +18,12 @@ allprojects {
         hibernateVersion = '5.2.18.Final'
         jakartaInjectVersion = '2.6.1'
         jpaApiVersion = '1.0.0.Final'
+        hibernateToolsVersion = '5.2.12.Final'
 
         misc = [
                 commonsLang3: "org.apache.commons:commons-lang3:$commonsLang3Version",
-                jakartaInject: "org.glassfish.hk2.external:jakarta.inject:$jakartaInjectVersion"
+                jakartaInject: "org.glassfish.hk2.external:jakarta.inject:$jakartaInjectVersion",
+                jaxbRuntime  : "org.glassfish.jaxb:jaxb-runtime:$jaxbVersion"
         ]
 
         server = [
@@ -29,12 +31,12 @@ allprojects {
                 jerseyServlet: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
                 jerseyHk2    : "org.glassfish.jersey.inject:jersey-hk2:$jerseyVersion",
                 jerseyJson   : "org.glassfish.jersey.media:jersey-media-json-jackson:$jerseyVersion",
-                jaxbRuntime  : "org.glassfish.jaxb:jaxb-runtime:$jaxbVersion"
         ]
 
         persistence = [
                 hibernateCore: "org.hibernate:hibernate-core:$hibernateVersion",
-                jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:$jpaApiVersion"
+                jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:$jpaApiVersion",
+                hibernateTools: "org.hibernate:hibernate-tools:$hibernateToolsVersion"
         ]
 
         log = [

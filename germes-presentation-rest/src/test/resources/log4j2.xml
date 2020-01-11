@@ -23,7 +23,7 @@
 
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="com.revenat.germes" level="DEBUG">
+        <Logger name="com.revenat.germes.presentation" level="DEBUG">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Root level="ERROR">

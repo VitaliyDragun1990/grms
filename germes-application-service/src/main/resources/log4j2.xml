@@ -23,7 +23,7 @@
 
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="com.revenat.germes" level="WARN">
+        <Logger name="com.revenat.germes.application.service" level="WARN">
             <AppenderRef ref="LogToRollingFile"/>
         </Logger>
         <Root level="ERROR">

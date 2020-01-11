@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Properties>
-        <Property name="basePath">logs/prod</Property>
+        <Property name="basePath">logs/test</Property>
     </Properties>
 
     <Appenders>
@@ -23,8 +23,8 @@
 
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="com.revenat.germes.presentation" level="WARN">
-            <AppenderRef ref="LogToRollingFile"/>
+        <Logger name="com.revenat.germes.persistence" level="DEBUG">
+            <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Root level="ERROR">
             <AppenderRef ref="LogToConsole"/>

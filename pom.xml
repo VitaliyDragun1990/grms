@@ -28,6 +28,7 @@
         <log4j.version>2.11.2</log4j.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <hibernate.version>5.2.18.Final</hibernate.version>
+        <hibernate-tools.version>5.2.12.Final</hibernate-tools.version>
         <jakarta.inject.version>2.6.1</jakarta.inject.version>
 
         <junit.version>5.5.1</junit.version>

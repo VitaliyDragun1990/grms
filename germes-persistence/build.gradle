@@ -5,4 +5,7 @@
 dependencies {
     implementation project(":germes-application-model")
     implementation persistence.hibernateCore
+
+    testImplementation persistence.hibernateTools
+    testRuntimeOnly misc.jaxbRuntime
 }
