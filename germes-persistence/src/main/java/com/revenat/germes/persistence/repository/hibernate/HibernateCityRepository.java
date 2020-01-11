@@ -26,8 +26,6 @@ public class HibernateCityRepository implements CityRepository {
     @Override
     public void save(final City city) {
         try (final Session session = sessionFactory.openSession()) {
-            city.prePersist();
-            city.getStations().forEach(AbstractEntity::prePersist);
             session.saveOrUpdate(city);
         }
     }

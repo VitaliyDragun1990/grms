@@ -8,7 +8,7 @@ dependencies {
         exclude group: 'org:javassist', module: 'javassist'
     }
 
-    implementation misc.javassist
+    implementation misc.javassist, misc.commonsLang3
 
     compileOnly misc.jakartaInject, misc.jakartaAnnotations
 

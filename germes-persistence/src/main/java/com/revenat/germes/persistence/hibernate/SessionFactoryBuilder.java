@@ -6,7 +6,9 @@ import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Coordinate;
 import com.revenat.germes.application.model.entity.geography.Station;
 import com.revenat.germes.application.model.entity.person.Account;
+import com.revenat.germes.persistence.hibernate.interceptor.TimestampInterceptor;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
@@ -39,7 +41,10 @@ public class SessionFactoryBuilder {
         sources.addAnnotatedClass(Coordinate.class);
         sources.addAnnotatedClass(Address.class);
 
-        sessionFactory = sources.buildMetadata().buildSessionFactory();
+        final Metadata metadata = sources.getMetadataBuilder().build();
+        sessionFactory = metadata.getSessionFactoryBuilder()
+                .applyInterceptor(new TimestampInterceptor())
+                .build();
     }
 
     private Properties loadProperties() {

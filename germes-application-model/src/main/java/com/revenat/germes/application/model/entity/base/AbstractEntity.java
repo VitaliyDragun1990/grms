@@ -14,6 +14,8 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
+    public static final String FIELD_CREATED_AT = "createdAt";
+
     private int id;
 
     private LocalDateTime createdAt;
@@ -71,12 +73,6 @@ public abstract class AbstractEntity {
 
     public void setModifiedBy(final Account modifiedBy) {
         this.modifiedBy = modifiedBy;
-    }
-
-    public void prePersist() {
-        if (getId() == 0) {
-            setCreatedAt(LocalDateTime.now());
-        }
     }
 
     @Override
