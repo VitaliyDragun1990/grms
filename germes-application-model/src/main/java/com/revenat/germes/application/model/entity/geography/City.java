@@ -31,7 +31,7 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
-    private City() {
+    City() {
     }
 
     @Column(name = "NAME", nullable = false, length = 32)
@@ -64,6 +64,10 @@ public class City extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city", orphanRemoval = true)
     public Set<Station> getStations() {
         return new SafeCollectionWrapper<>(stations).asSafeSet();
+    }
+
+    void setStations(Set<Station> stations) {
+        this.stations = stations;
     }
 
     /**

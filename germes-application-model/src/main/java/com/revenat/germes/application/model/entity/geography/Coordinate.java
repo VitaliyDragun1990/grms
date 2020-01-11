@@ -20,7 +20,7 @@ public class Coordinate {
         this.y = y;
     }
 
-    private Coordinate() {
+    Coordinate() {
     }
 
     @Column(name = "X")

@@ -11,14 +11,20 @@ dependencies {
     implementation project(':germes-application-model'), project(':germes-application-service'),
             project(':germes-persistence')
 
-    implementation misc.commonsLang3, log.log4jWeb, server.jerseyHttp, server.jerseyServlet, server.jerseyHk2,
+    implementation misc.commonsLang3, log.log4jWeb, server.jerseyHttp, server.jerseyServlet,
             server.jerseyJson, misc.jaxbRuntime
+
+    implementation( server.jerseyHk2) {
+        exclude group: 'org:javassist', module: 'javassist'
+    }
+
+    implementation misc.javassist
 
     compileOnly persistence.jpaApi
 
     testImplementation tests.junitApi, tests.hamcrest, tests.mockito, tests.jerseyTestCore, tests.jerseyJunit
     testCompileOnly tests.junitParams, persistence.jpaApi
-    testRuntimeOnly tests.junitEngine, tests.jerseyTestProvider
+    testRuntimeOnly tests.junitEngine, tests.jerseyTestProvider, persistence.h2
 }
 
 gretty {

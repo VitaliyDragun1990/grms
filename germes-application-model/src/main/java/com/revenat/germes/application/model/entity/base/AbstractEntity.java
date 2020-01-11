@@ -73,6 +73,12 @@ public abstract class AbstractEntity {
         this.modifiedBy = modifiedBy;
     }
 
+    public void prePersist() {
+        if (getId() == 0) {
+            setCreatedAt(LocalDateTime.now());
+        }
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

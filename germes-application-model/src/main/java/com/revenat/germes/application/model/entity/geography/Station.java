@@ -1,6 +1,5 @@
 package com.revenat.germes.application.model.entity.geography;
 
-import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
 import com.revenat.germes.application.model.search.StationCriteria;
@@ -44,7 +43,7 @@ public class Station extends AbstractEntity {
         this.transportType = transportType;
     }
 
-    private Station() {
+    Station() {
     }
 
     /**
@@ -54,7 +53,6 @@ public class Station extends AbstractEntity {
      * @return {@code true} if current station matches specified criteria, {@code false} otherwise
      */
     public boolean match(final StationCriteria criteria) {
-        new Checker().checkParameter(criteria != null, "Station criteria is not initialized");
         return cityNameMatch(criteria.getCityName()) &&
                 transportTypeMatch(criteria.getTransportType()) &&
                 addressMatch(criteria.getAddress());
@@ -100,6 +98,10 @@ public class Station extends AbstractEntity {
         return city;
     }
 
+    void setCity(City city) {
+        this.city = city;
+    }
+
     @Embedded
     public Address getAddress() {
         return address;
@@ -131,6 +133,10 @@ public class Station extends AbstractEntity {
     @Column(nullable = false, name = "TRANSPORT_TYPE")
     public TransportType getTransportType() {
         return transportType;
+    }
+
+    void setTransportType(TransportType transportType) {
+        this.transportType = transportType;
     }
 
     @Override

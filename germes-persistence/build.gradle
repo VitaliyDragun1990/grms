@@ -4,8 +4,14 @@
 
 dependencies {
     implementation project(":germes-application-model")
-    implementation persistence.hibernateCore
+    implementation(persistence.hibernateCore) {
+        exclude group: 'org:javassist', module: 'javassist'
+    }
+
+    implementation misc.javassist
+
     compileOnly misc.jakartaInject, misc.jakartaAnnotations
+
 
     testImplementation persistence.hibernateTools
     testRuntimeOnly misc.jaxbRuntime

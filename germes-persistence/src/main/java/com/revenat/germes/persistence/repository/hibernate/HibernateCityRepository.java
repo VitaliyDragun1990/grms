@@ -1,5 +1,6 @@
 package com.revenat.germes.persistence.repository.hibernate;
 
+import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.CityRepository;
@@ -25,6 +26,8 @@ public class HibernateCityRepository implements CityRepository {
     @Override
     public void save(final City city) {
         try (final Session session = sessionFactory.openSession()) {
+            city.prePersist();
+            city.getStations().forEach(AbstractEntity::prePersist);
             session.saveOrUpdate(city);
         }
     }

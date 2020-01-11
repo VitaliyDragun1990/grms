@@ -18,10 +18,12 @@ import java.util.stream.Collectors;
  */
 public class GeographicalServiceImpl implements GeographicalService {
 
+    private final Checker checker = new Checker();
+
     private final CityRepository cityRepository;
 
     @Inject
-    public GeographicalServiceImpl(CityRepository cityRepository) {
+    public GeographicalServiceImpl(final CityRepository cityRepository) {
         this.cityRepository = cityRepository;
     }
 
@@ -32,6 +34,7 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     @Override
     public void saveCity(final City city) {
+        checker.checkParameter(city != null, "city to save can not be null");
         cityRepository.save(city);
     }
 
@@ -42,7 +45,9 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     @Override
     public List<Station> searchStations(final StationCriteria stationCriteria, final RangeCriteria rangeCriteria) {
-        new Checker().checkParameter(rangeCriteria != null, "Range criteria is not initialized");
+        checker.checkParameter(stationCriteria != null, "Station criteria is not initialized");
+        checker.checkParameter(rangeCriteria != null, "Range criteria is not initialized");
+
         return cityRepository.findAll().stream()
                 .flatMap(city -> city.getStations().stream())
                 .filter(station -> station.match(stationCriteria))
