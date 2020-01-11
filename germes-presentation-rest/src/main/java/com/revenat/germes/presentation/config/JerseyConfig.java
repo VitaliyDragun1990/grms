@@ -1,6 +1,5 @@
-package com.revenat.germes.presentation.rest.config;
+package com.revenat.germes.presentation.config;
 
-import com.revenat.germes.presentation.config.ComponentFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;

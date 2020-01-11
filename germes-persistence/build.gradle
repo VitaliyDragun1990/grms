@@ -5,7 +5,11 @@
 dependencies {
     implementation project(":germes-application-model")
     implementation persistence.hibernateCore
+    compileOnly misc.jakartaInject, misc.jakartaAnnotations
 
     testImplementation persistence.hibernateTools
     testRuntimeOnly misc.jaxbRuntime
+    testImplementation tests.junitApi
+    testCompileOnly tests.junitParams
+    testRuntimeOnly tests.junitEngine
 }

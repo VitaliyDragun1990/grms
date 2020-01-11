@@ -2,7 +2,7 @@ package com.revenat.germes.presentation.rest.resource;
 
 import com.github.hanleyt.JerseyExtension;
 import com.revenat.germes.presentation.rest.dto.CityDTO;
-import com.revenat.germes.presentation.rest.config.JerseyConfig;
+import com.revenat.germes.presentation.config.JerseyConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;

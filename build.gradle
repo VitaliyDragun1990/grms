@@ -7,22 +7,31 @@ allprojects {
     version = '0.0.1'
 
     ext {
-        log4jVersion = '2.11.2'
+        // misc
         commonsLang3Version = '3.9'
+        jaxbVersion = '2.3.2'
+        jakartaInjectVersion = '2.6.1'
+        jakartaAnnotationsVersion = '1.3.4'
+        // log
+        log4jVersion = '2.11.2'
+        // persistence
+        hibernateVersion = '5.2.18.Final'
+        jpaApiVersion = '1.0.0.Final'
+        hibernateToolsVersion = '5.2.12.Final'
+        h2Version = '1.4.200'
+        sqLiteVersion = '3.30.1'
+        // server
+        jerseyVersion = '2.29.1'
+        // test
         junitVersion = '5.5.1'
         hamcrestVersion = '2.1'
         mockitoVersion = '3.0.0'
-        jerseyVersion = '2.29.1'
-        jaxbVersion = '2.3.2'
         jerseyJunitVersion = '2.1.0'
-        hibernateVersion = '5.2.18.Final'
-        jakartaInjectVersion = '2.6.1'
-        jpaApiVersion = '1.0.0.Final'
-        hibernateToolsVersion = '5.2.12.Final'
 
         misc = [
                 commonsLang3: "org.apache.commons:commons-lang3:$commonsLang3Version",
                 jakartaInject: "org.glassfish.hk2.external:jakarta.inject:$jakartaInjectVersion",
+                jakartaAnnotations : "jakarta.annotation:jakarta.annotation-api:$jakartaAnnotationsVersion",
                 jaxbRuntime  : "org.glassfish.jaxb:jaxb-runtime:$jaxbVersion"
         ]
 
@@ -36,7 +45,9 @@ allprojects {
         persistence = [
                 hibernateCore: "org.hibernate:hibernate-core:$hibernateVersion",
                 jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:$jpaApiVersion",
-                hibernateTools: "org.hibernate:hibernate-tools:$hibernateToolsVersion"
+                hibernateTools: "org.hibernate:hibernate-tools:$hibernateToolsVersion",
+                h2: "com.h2database:h2:$h2Version",
+                sqLite : "org.xerial:sqlite-jdbc:$sqLiteVersion"
         ]
 
         log = [

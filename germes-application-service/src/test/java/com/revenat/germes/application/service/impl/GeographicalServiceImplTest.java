@@ -7,7 +7,7 @@ import com.revenat.germes.application.model.entity.transport.TransportType;
 import com.revenat.germes.application.model.search.StationCriteria;
 import com.revenat.germes.application.model.search.range.RangeCriteria;
 import com.revenat.germes.application.service.GeographicalService;
-import com.revenat.germes.persistence.inmemory.InMemoryCityRepository;
+import com.revenat.germes.persistence.repository.inmemory.InMemoryCityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

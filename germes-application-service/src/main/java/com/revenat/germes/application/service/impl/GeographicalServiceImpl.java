@@ -6,8 +6,7 @@ import com.revenat.germes.application.model.entity.geography.Station;
 import com.revenat.germes.application.model.search.StationCriteria;
 import com.revenat.germes.application.model.search.range.RangeCriteria;
 import com.revenat.germes.application.service.GeographicalService;
-import com.revenat.germes.persistence.CityRepository;
-import com.revenat.germes.persistence.inmemory.InMemoryCityRepository;
+import com.revenat.germes.persistence.repository.CityRepository;
 
 import javax.inject.Inject;
 import java.util.List;

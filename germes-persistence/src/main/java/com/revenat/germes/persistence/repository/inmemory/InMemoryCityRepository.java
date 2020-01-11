@@ -1,8 +1,8 @@
-package com.revenat.germes.persistence.inmemory;
+package com.revenat.germes.persistence.repository.inmemory;
 
 import com.revenat.germes.application.infrastructure.helper.SafeCollectionWrapper;
 import com.revenat.germes.application.model.entity.geography.City;
-import com.revenat.germes.persistence.CityRepository;
+import com.revenat.germes.persistence.repository.CityRepository;
 
 import java.util.ArrayList;
 import java.util.List;
