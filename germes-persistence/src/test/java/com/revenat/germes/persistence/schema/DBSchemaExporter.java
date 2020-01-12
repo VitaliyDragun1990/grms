@@ -1,27 +1,24 @@
 package com.revenat.germes.persistence.schema;
 
-import com.revenat.germes.application.model.entity.geography.Address;
-import com.revenat.germes.application.model.entity.geography.City;
-import com.revenat.germes.application.model.entity.geography.Coordinate;
-import com.revenat.germes.application.model.entity.geography.Station;
-import com.revenat.germes.application.model.entity.person.Account;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.dialect.Dialect;
-import org.hibernate.dialect.MySQL57Dialect;
 import org.hibernate.dialect.PostgreSQL95Dialect;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.tool.schema.TargetType;
+import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.Entity;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.EnumSet;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Dynamically generates SQL database schema
@@ -39,7 +36,7 @@ public class DBSchemaExporter {
      */
     public static void exportDatabaseSchema(final String folderPath,
                                             final Class<? extends Dialect> dialect,
-                                            final List<Class<?>> entityClasses) {
+                                            final Collection<Class<?>> entityClasses) {
         final Metadata metadata = buildMetadata(dialect, entityClasses);
         final SchemaExport schema = new SchemaExport();
         schema.setDelimiter(";");
@@ -59,7 +56,7 @@ public class DBSchemaExporter {
         }
     }
 
-    private static Metadata buildMetadata(final Class<? extends Dialect> dialect, final List<Class<?>> entityClasses) {
+    private static Metadata buildMetadata(final Class<? extends Dialect> dialect, final Collection<Class<?>> entityClasses) {
         final StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySetting("hibernate.dialect", dialect.getName())
                 .build();
@@ -69,9 +66,11 @@ public class DBSchemaExporter {
     }
 
     public static void main(final String[] args) {
+        final Reflections reflections = new Reflections("com.revenat.germes.application.model.entity");
+        final Set<Class<?>> entityClasses = reflections.getTypesAnnotatedWith(Entity.class);
         exportDatabaseSchema(
                 "",
                 /*MySQL57Dialect.class*/PostgreSQL95Dialect.class,
-                List.of(City.class, Address.class, Station.class, Coordinate.class, Account.class));
+                entityClasses);
     }
 }

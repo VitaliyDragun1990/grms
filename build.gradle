@@ -16,9 +16,10 @@ allprojects {
         jaxbVersion = '2.3.2'
         jakartaInjectVersion = '2.6.1'
         jakartaAnnotationsVersion = '1.3.5'
-        javassistVersion = '3.23.1-GA'
+        javassistVersion = '3.26.0-GA'
+        reflectionsVersion = '0.9.12'
         // log
-        log4jVersion = '2.11.2'
+        log4jVersion = '2.13.0'
         // persistence
         hibernateVersion = '5.2.18.Final'
         jpaApiVersion = '1.0.0.Final'
@@ -38,7 +39,8 @@ allprojects {
                 jakartaInject: "org.glassfish.hk2.external:jakarta.inject:$jakartaInjectVersion",
                 jakartaAnnotations : "jakarta.annotation:jakarta.annotation-api:$jakartaAnnotationsVersion",
                 jaxbRuntime  : "org.glassfish.jaxb:jaxb-runtime:$jaxbVersion",
-                javassist: "org.javassist:javassist:$javassistVersion"
+                javassist: "org.javassist:javassist:$javassistVersion",
+                reflections : "org.reflections:reflections:$reflectionsVersion"
         ]
 
         server = [

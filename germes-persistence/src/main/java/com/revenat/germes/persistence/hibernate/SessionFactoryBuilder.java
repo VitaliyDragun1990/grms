@@ -12,10 +12,13 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
+import org.reflections.Reflections;
 
 import javax.annotation.PreDestroy;
+import javax.persistence.Entity;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
@@ -35,16 +38,17 @@ public class SessionFactoryBuilder {
 
         final MetadataSources sources = new MetadataSources(registry);
 
-        sources.addAnnotatedClass(City.class);
-        sources.addAnnotatedClass(Account.class);
-        sources.addAnnotatedClass(Station.class);
-        sources.addAnnotatedClass(Coordinate.class);
-        sources.addAnnotatedClass(Address.class);
+        findEntityClasses().forEach(sources::addAnnotatedClass);
 
         final Metadata metadata = sources.getMetadataBuilder().build();
         sessionFactory = metadata.getSessionFactoryBuilder()
                 .applyInterceptor(new TimestampInterceptor())
                 .build();
+    }
+
+    private Set<Class<?>> findEntityClasses() {
+        Reflections reflections = new Reflections("com.revenat.germes.application.model.entity");
+        return reflections.getTypesAnnotatedWith(Entity.class);
     }
 
     private Properties loadProperties() {
