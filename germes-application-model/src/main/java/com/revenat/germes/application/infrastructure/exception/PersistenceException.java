@@ -11,6 +11,10 @@ public class PersistenceException extends ApplicationException {
 
     private static final long serialVersionUID = 1L;
 
+    public PersistenceException(Throwable cause) {
+        super(cause);
+    }
+
     public PersistenceException(final String message) {
         super(message);
     }

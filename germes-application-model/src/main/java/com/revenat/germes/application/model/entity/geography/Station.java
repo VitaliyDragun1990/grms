@@ -2,8 +2,6 @@ package com.revenat.germes.application.model.entity.geography;
 
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
-import com.revenat.germes.application.model.search.StationCriteria;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -17,6 +15,12 @@ import java.util.Objects;
 @Table(name = "STATIONS")
 @Entity
 public class Station extends AbstractEntity {
+
+    public static final String FIELD_TRANSPORT_TYPE = "transportType";
+
+    public static final String FIELD_CITY = "city";
+
+    public static final String FIELD_ADDRESS = "address";
 
     private City city;
 
@@ -44,52 +48,6 @@ public class Station extends AbstractEntity {
     }
 
     Station() {
-    }
-
-    /**
-     * Verifies if current station matches specified criteria
-     *
-     * @param criteria station criteria
-     * @return {@code true} if current station matches specified criteria, {@code false} otherwise
-     */
-    public boolean match(final StationCriteria criteria) {
-        return cityNameMatch(criteria.getCityName()) &&
-                transportTypeMatch(criteria.getTransportType()) &&
-                addressMatch(criteria.getAddress());
-    }
-
-    private boolean addressMatch(final String addressString) {
-        return StringUtils.isEmpty(addressString) ||
-                fullAddressMatch(addressString) ||
-                streetAndZipMatch(addressString) ||
-                streetAndHouseMatch(addressString) ||
-                addressString.contains(address.getStreet()) ||
-                addressString.contains(address.getZipCode()) ||
-                addressString.contains(address.getHouseNo());
-    }
-
-    private boolean streetAndHouseMatch(final String addressString) {
-        return addressString.contains(address.getStreet()) &&
-                addressString.contains(address.getHouseNo());
-    }
-
-    private boolean streetAndZipMatch(final String addressString) {
-        return addressString.contains(address.getStreet()) &&
-                addressString.contains(address.getZipCode());
-    }
-
-    private boolean fullAddressMatch(final String addressString) {
-        return addressString.contains(address.getStreet()) &&
-                addressString.contains(address.getZipCode()) &&
-                addressString.contains(address.getHouseNo());
-    }
-
-    private boolean transportTypeMatch(final TransportType transportType) {
-        return transportType == null || this.transportType.equals(transportType);
-    }
-
-    private boolean cityNameMatch(final String cityName) {
-        return StringUtils.isEmpty(cityName) || city.getName().equals(cityName);
     }
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {})

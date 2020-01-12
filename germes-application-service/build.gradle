@@ -8,5 +8,5 @@ dependencies {
 
     testImplementation tests.junitApi, tests.hamcrest, tests.mockito
     testCompileOnly tests.junitParams, persistence.jpaApi
-    testRuntimeOnly tests.junitEngine
+    testRuntimeOnly tests.junitEngine, misc.jaxbRuntime, persistence.h2
 }

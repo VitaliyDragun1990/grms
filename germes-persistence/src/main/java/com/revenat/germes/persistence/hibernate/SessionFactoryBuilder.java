@@ -67,7 +67,7 @@ public class SessionFactoryBuilder {
     }
 
     @PreDestroy
-    void destroy() {
+    public void destroy() {
         if (sessionFactory != null) {
             sessionFactory.close();
         }

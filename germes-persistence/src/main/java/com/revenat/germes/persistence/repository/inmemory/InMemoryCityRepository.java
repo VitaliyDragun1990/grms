@@ -31,7 +31,10 @@ public class InMemoryCityRepository implements CityRepository {
      */
     private int stationCounter = 0;
 
-    public InMemoryCityRepository() {
+    private final InMemoryStationRepository stationRepository;
+
+    public InMemoryCityRepository(InMemoryStationRepository stationRepository) {
+        this.stationRepository = stationRepository;
         cities = new ArrayList<>();
     }
 
@@ -45,6 +48,7 @@ public class InMemoryCityRepository implements CityRepository {
             if (station.getId() == 0) {
                 station.setId(++stationCounter);
             }
+            stationRepository.addStation(station);
         });
     }
 
@@ -57,7 +61,10 @@ public class InMemoryCityRepository implements CityRepository {
 
     @Override
     public void delete(final int cityId) {
-        cities.removeIf(city -> city.getId() == cityId);
+        final boolean result = cities.removeIf(city -> city.getId() == cityId);
+        if (result) {
+            stationRepository.removeByCityId(cityId);
+        }
     }
 
     @Override

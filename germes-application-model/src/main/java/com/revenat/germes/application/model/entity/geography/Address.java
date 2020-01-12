@@ -2,6 +2,7 @@ package com.revenat.germes.application.model.entity.geography;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.util.Objects;
 
 /**
  * Value type that stores address attributes
@@ -11,6 +12,12 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class Address {
+
+    public static final String FIELD_ZIP_CODE = "zipCode";
+
+    public static final String FIELD_STREET = "street";
+
+    public static final String FIELD_HOUSE = "houseNo";
 
     private String zipCode;
 
@@ -58,5 +65,20 @@ public class Address {
 
     public void setApartment(final String apartment) {
         this.apartment = apartment;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(zipCode, address.zipCode) &&
+                Objects.equals(street, address.street) &&
+                Objects.equals(houseNo, address.houseNo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(zipCode, street, houseNo);
     }
 }

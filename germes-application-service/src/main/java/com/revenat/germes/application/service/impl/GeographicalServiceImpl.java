@@ -7,6 +7,7 @@ import com.revenat.germes.application.model.search.StationCriteria;
 import com.revenat.germes.application.model.search.range.RangeCriteria;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.persistence.repository.CityRepository;
+import com.revenat.germes.persistence.repository.StationRepository;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -22,9 +23,12 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     private final CityRepository cityRepository;
 
+    private final StationRepository stationRepository;
+
     @Inject
-    public GeographicalServiceImpl(final CityRepository cityRepository) {
+    public GeographicalServiceImpl(final CityRepository cityRepository, final StationRepository stationRepository) {
         this.cityRepository = cityRepository;
+        this.stationRepository = stationRepository;
     }
 
     @Override
@@ -48,9 +52,7 @@ public class GeographicalServiceImpl implements GeographicalService {
         checker.checkParameter(stationCriteria != null, "Station criteria is not initialized");
         checker.checkParameter(rangeCriteria != null, "Range criteria is not initialized");
 
-        return cityRepository.findAll().stream()
-                .flatMap(city -> city.getStations().stream())
-                .filter(station -> station.match(stationCriteria))
+        return stationRepository.findAllByCriteria(stationCriteria).stream()
                 .skip(rangeCriteria.getPage() * (long) rangeCriteria.getRowCount())
                 .limit(rangeCriteria.getRowCount())
                 .collect(Collectors.toUnmodifiableList());

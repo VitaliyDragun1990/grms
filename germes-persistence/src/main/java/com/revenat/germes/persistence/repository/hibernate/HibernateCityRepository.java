@@ -1,6 +1,6 @@
 package com.revenat.germes.persistence.repository.hibernate;
 
-import com.revenat.germes.application.model.entity.base.AbstractEntity;
+import com.revenat.germes.application.infrastructure.exception.PersistenceException;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.CityRepository;
@@ -27,6 +27,8 @@ public class HibernateCityRepository implements CityRepository {
     public void save(final City city) {
         try (final Session session = sessionFactory.openSession()) {
             session.saveOrUpdate(city);
+        } catch (final Exception e) {
+            throw new PersistenceException(e);
         }
     }
 
@@ -34,6 +36,8 @@ public class HibernateCityRepository implements CityRepository {
     public Optional<City> findById(final int cityId) {
         try (final Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.get(City.class, cityId));
+        } catch (final Exception e) {
+            throw new PersistenceException(e);
         }
     }
 
@@ -44,6 +48,8 @@ public class HibernateCityRepository implements CityRepository {
             if (city != null) {
                 session.delete(city);
             }
+        } catch (final Exception e) {
+            throw new PersistenceException(e);
         }
     }
 
@@ -51,6 +57,8 @@ public class HibernateCityRepository implements CityRepository {
     public List<City> findAll() {
         try (final Session session = sessionFactory.openSession()) {
             return session.createQuery("from City", City.class).getResultList();
+        } catch (final Exception e) {
+            throw new PersistenceException(e);
         }
     }
 }

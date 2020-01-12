@@ -8,6 +8,7 @@ import com.revenat.germes.application.model.search.StationCriteria;
 import com.revenat.germes.application.model.search.range.RangeCriteria;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.persistence.repository.inmemory.InMemoryCityRepository;
+import com.revenat.germes.persistence.repository.inmemory.InMemoryStationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,8 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
+ * Unit test for {@link GeographicalService}
+ *
  * @author Vitaliy Dragun
  */
 @DisplayName("geographical service")
@@ -35,7 +38,8 @@ class GeographicalServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        service = new GeographicalServiceImpl(new InMemoryCityRepository());
+        final InMemoryStationRepository stationRepository = new InMemoryStationRepository();
+        service = new GeographicalServiceImpl(new InMemoryCityRepository(stationRepository), stationRepository);
     }
 
     @Test

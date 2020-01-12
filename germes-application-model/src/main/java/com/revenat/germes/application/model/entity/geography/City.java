@@ -15,9 +15,15 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Vitaliy Dragun
  */
-@Table(name = "CITIES")
 @Entity
+@Table(
+        name = "CITIES",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"NAME", "REGION"}, name = "cityNameAndRegionUniqueConstraint")
+        })
 public class City extends AbstractEntity {
+
+    public static final String FIELD_NAME = "name";
 
     private String name;
 
@@ -93,3 +99,5 @@ public class City extends AbstractEntity {
         }
     }
 }
+
+
