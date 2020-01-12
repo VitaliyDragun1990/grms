@@ -6,6 +6,7 @@ import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.CityRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -25,9 +26,13 @@ public class HibernateCityRepository implements CityRepository {
 
     @Override
     public void save(final City city) {
+        Transaction tx = null;
         try (final Session session = sessionFactory.openSession()) {
+            tx = session.beginTransaction();
             session.saveOrUpdate(city);
+            tx.commit();
         } catch (final Exception e) {
+            handleError(tx, e);
             throw new PersistenceException(e);
         }
     }
@@ -43,12 +48,16 @@ public class HibernateCityRepository implements CityRepository {
 
     @Override
     public void delete(final int cityId) {
+        Transaction tx = null;
         try (final Session session = sessionFactory.openSession()) {
+            tx = session.beginTransaction();
             final City city = session.get(City.class, cityId);
             if (city != null) {
                 session.delete(city);
             }
+            tx.commit();
         } catch (final Exception e) {
+            handleError(tx, e);
             throw new PersistenceException(e);
         }
     }
@@ -59,6 +68,16 @@ public class HibernateCityRepository implements CityRepository {
             return session.createQuery("from City", City.class).getResultList();
         } catch (final Exception e) {
             throw new PersistenceException(e);
+        }
+    }
+
+    private void handleError(final Transaction tx, final Exception ex) {
+        if (tx != null && tx.isActive()) {
+            try {
+                tx.rollback();
+            } catch (final Exception e) {
+                ex.addSuppressed(e);
+            }
         }
     }
 }

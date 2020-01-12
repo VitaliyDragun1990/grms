@@ -10,6 +10,8 @@ dependencies {
 
     implementation misc.javassist, misc.commonsLang3, misc.reflections
 
+    runtimeOnly persistence.c3p0
+
     compileOnly misc.jakartaInject, misc.jakartaAnnotations
 
 

@@ -38,13 +38,17 @@ class GeographicalServiceImplIntegrationTest {
 
     private static final String CITY_ODESSA = "Odessa";
     private static final String CITY_KIYV = "Kiyv";
+
     private static final String REGION_ODESSA = "Odessa region";
     private static final String REGION_KIYV = "Kiyv region";
+
     private static final String ZIP_CODE_A = "259687";
     private static final String ZIP_CODE_B = "123456";
+
     private static final String STREET_PEREMOGI = "Peremogi";
     private static final String STREET_SHEVCHENKA = "Shevchenka";
     private static final String STREET_REVOLUTCIY = "Revolutciy";
+
     private static final String HOUSE_NUMBER_12 = "12";
     private static final String HOUSE_NUMBER_12B = "12B";
 

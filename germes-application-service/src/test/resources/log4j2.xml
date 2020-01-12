@@ -12,7 +12,7 @@
         <Logger name="com.revenat.germes.application.service" level="DEBUG">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
-        <Root level="ERROR">
+        <Root level="INFO">
             <AppenderRef ref="LogToConsole"/>
         </Root>
     </Loggers>

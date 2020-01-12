@@ -55,7 +55,8 @@ allprojects {
                 jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:$jpaApiVersion",
                 hibernateTools: "org.hibernate:hibernate-tools:$hibernateToolsVersion",
                 h2: "com.h2database:h2:$h2Version",
-                sqLite : "org.xerial:sqlite-jdbc:$sqLiteVersion"
+                sqLite : "org.xerial:sqlite-jdbc:$sqLiteVersion",
+                c3p0: "org.hibernate:hibernate-c3p0:$hibernateVersion"
         ]
 
         log = [
