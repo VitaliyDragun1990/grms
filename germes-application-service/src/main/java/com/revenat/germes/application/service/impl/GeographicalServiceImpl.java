@@ -1,5 +1,6 @@
 package com.revenat.germes.application.service.impl;
 
+import com.revenat.germes.application.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
@@ -10,8 +11,13 @@ import com.revenat.germes.persistence.repository.CityRepository;
 import com.revenat.germes.persistence.repository.StationRepository;
 
 import javax.inject.Inject;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -25,10 +31,15 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     private final StationRepository stationRepository;
 
+    private final Validator validator;
+
     @Inject
     public GeographicalServiceImpl(final CityRepository cityRepository, final StationRepository stationRepository) {
         this.cityRepository = cityRepository;
         this.stationRepository = stationRepository;
+
+        final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
     }
 
     @Override
@@ -39,6 +50,11 @@ public class GeographicalServiceImpl implements GeographicalService {
     @Override
     public void saveCity(final City city) {
         checker.checkParameter(city != null, "city to save can not be null");
+        final Set<ConstraintViolation<City>> constraintViolations = validator.validate(city);
+        if (!constraintViolations.isEmpty()) {
+            throw new ValidationException("City validation failure", constraintViolations);
+        }
+
         cityRepository.save(city);
     }
 

@@ -4,7 +4,7 @@
 
 dependencies {
     implementation 'org.apache.commons:commons-lang3:3.9'
-    compileOnly persistence.hibernateCore
+    compileOnly persistence.hibernateCore, misc.validationApi
 
     testImplementation tests.junitApi, tests.hamcrest, tests.mockito
     testCompileOnly tests.junitParams, persistence.jpaApi

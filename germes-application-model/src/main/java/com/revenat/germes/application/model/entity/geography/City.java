@@ -5,6 +5,8 @@ import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +42,8 @@ public class City extends AbstractEntity {
     City() {
     }
 
+    @NotNull
+    @Size(min = 2, max = 32)
     @Column(name = "NAME", nullable = false, length = 32)
     public String getName() {
         return name;
@@ -49,6 +53,7 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
+    @Size(min = 2, max = 32)
     @Column(name = "DISTRICT", length = 32)
     public String getDistrict() {
         return district;
@@ -58,6 +63,8 @@ public class City extends AbstractEntity {
         this.district = district;
     }
 
+    @NotNull
+    @Size(min = 2, max = 32)
     @Column(name = "REGION", nullable = false, length = 32)
     public String getRegion() {
         return region;

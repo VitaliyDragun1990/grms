@@ -1,10 +1,10 @@
 package com.revenat.germes.application.service.impl;
 
 import com.revenat.germes.application.infrastructure.exception.PersistenceException;
+import com.revenat.germes.application.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.application.model.entity.geography.Address;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
-import com.revenat.germes.application.model.entity.transport.TransportType;
 import com.revenat.germes.application.model.search.StationCriteria;
 import com.revenat.germes.application.model.search.range.RangeCriteria;
 import com.revenat.germes.application.service.GeographicalService;
@@ -23,6 +23,8 @@ import java.util.Optional;
 
 import static com.revenat.germes.application.model.entity.transport.TransportType.AUTO;
 import static com.revenat.germes.application.model.entity.transport.TransportType.RAILWAY;
+import static com.revenat.germes.application.service.TestData.*;
+import static com.revenat.germes.application.service.TestDataBuilder.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -35,22 +37,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @DisplayName("geographical service")
 class GeographicalServiceImplIntegrationTest {
-
-    private static final String CITY_ODESSA = "Odessa";
-    private static final String CITY_KIYV = "Kiyv";
-
-    private static final String REGION_ODESSA = "Odessa region";
-    private static final String REGION_KIYV = "Kiyv region";
-
-    private static final String ZIP_CODE_A = "259687";
-    private static final String ZIP_CODE_B = "123456";
-
-    private static final String STREET_PEREMOGI = "Peremogi";
-    private static final String STREET_SHEVCHENKA = "Shevchenka";
-    private static final String STREET_REVOLUTCIY = "Revolutciy";
-
-    private static final String HOUSE_NUMBER_12 = "12";
-    private static final String HOUSE_NUMBER_12B = "12B";
 
     private GeographicalService service;
 
@@ -80,7 +66,7 @@ class GeographicalServiceImplIntegrationTest {
     void shouldFailToSaveNewCityIfNotInitialized() {
         final City city = new City(CITY_ODESSA);
 
-        assertThrows(PersistenceException.class, () -> service.saveCity(city));
+        assertThrows(ValidationException.class, () -> service.saveCity(city));
     }
 
     @Test
@@ -260,26 +246,6 @@ class GeographicalServiceImplIntegrationTest {
 
         assertThat(result, hasSize(2));
         assertThat(result, hasItems(equalTo(odessaStation), equalTo(kiyvStation)));
-    }
-
-    private Station buildStation(City city, TransportType transportType, Address address) {
-        final Station station = city.addStation(transportType);
-        station.setAddress(address);
-        return station;
-    }
-
-    private City buildCity(final String name, final String region) {
-        City city = new City(name);
-        city.setRegion(region);
-        return city;
-    }
-
-    private Address buildAddress(final String zipCode, final String street, final String houseNumber) {
-        final Address address = new Address();
-        address.setZipCode(zipCode);
-        address.setStreet(street);
-        address.setHouseNo(houseNumber);
-        return address;
     }
 
     private void assertContainsCities(final List<City> cities, final City... expectedCities) {

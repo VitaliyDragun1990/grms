@@ -1,9 +1,6 @@
 package com.revenat.germes.application.service.impl;
 
-import com.revenat.germes.application.model.entity.geography.Address;
 import com.revenat.germes.application.model.entity.geography.City;
-import com.revenat.germes.application.model.entity.geography.Station;
-import com.revenat.germes.application.model.entity.transport.TransportType;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.CityRepository;
@@ -19,8 +16,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import static com.revenat.germes.application.model.entity.transport.TransportType.AUTO;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.hasItem;
+import static com.revenat.germes.application.service.TestData.*;
+import static com.revenat.germes.application.service.TestDataBuilder.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -32,25 +29,6 @@ import static org.junit.jupiter.api.Assertions.fail;
  */
 @DisplayName("geographical service")
 class GeographicalServiceImplIntegrationPerformanceTest {
-
-    private static final String CITY_ODESSA = "Odessa";
-    private static final String CITY_KIYV = "Kiyv";
-    private static final String CITY_LVIV = "Lviv";
-
-    private static final String REGION_ODESSA = "Odessa region";
-    private static final String REGION_KIYV = "Kiyv region";
-    private static final String REGION_LVIV = "Lviv region";
-
-    private static final String DISTRICT_ODESSA = "Odessa district";
-    private static final String DISTRICT_KIYV = "Kiyv district";
-    private static final String DISTRICT_LVIV = "Lviv district";
-
-    private static final String ZIP_CODE_A = "259687";
-
-    private static final String STREET_PEREMOGI = "Peremogi";
-
-    private static final String HOUSE_NUMBER_12 = "12";
-
 
     private GeographicalService service;
 
@@ -125,9 +103,9 @@ class GeographicalServiceImplIntegrationPerformanceTest {
         buildStation(city, AUTO, buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12));
         service.saveCity(city);
 
-        int initCityCount = service.findCities().size();
-        int threadCount = 200;
-        List<Future<?>> futures = new ArrayList<>();
+        final int initCityCount = service.findCities().size();
+        final int threadCount = 200;
+        final List<Future<?>> futures = new ArrayList<>();
 
         for (int i = 0; i < threadCount; i++) {
             futures.add(executorService.submit(() -> {
@@ -149,26 +127,5 @@ class GeographicalServiceImplIntegrationPerformanceTest {
                 fail(e.getMessage());
             }
         });
-    }
-
-    private Station buildStation(final City city, final TransportType transportType, final Address address) {
-        final Station station = city.addStation(transportType);
-        station.setAddress(address);
-        return station;
-    }
-
-    private City buildCity(final String name, final String region, final String district) {
-        final City city = new City(name);
-        city.setRegion(region);
-        city.setDistrict(district);
-        return city;
-    }
-
-    private Address buildAddress(final String zipCode, final String street, final String houseNumber) {
-        final Address address = new Address();
-        address.setZipCode(zipCode);
-        address.setStreet(street);
-        address.setHouseNo(houseNumber);
-        return address;
     }
 }

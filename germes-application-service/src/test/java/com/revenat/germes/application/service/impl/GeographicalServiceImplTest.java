@@ -3,7 +3,6 @@ package com.revenat.germes.application.service.impl;
 import com.revenat.germes.application.model.entity.geography.Address;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
-import com.revenat.germes.application.model.entity.transport.TransportType;
 import com.revenat.germes.application.model.search.StationCriteria;
 import com.revenat.germes.application.model.search.range.RangeCriteria;
 import com.revenat.germes.application.service.GeographicalService;
@@ -18,6 +17,8 @@ import java.util.Optional;
 
 import static com.revenat.germes.application.model.entity.transport.TransportType.AUTO;
 import static com.revenat.germes.application.model.entity.transport.TransportType.RAILWAY;
+import static com.revenat.germes.application.service.TestData.*;
+import static com.revenat.germes.application.service.TestDataBuilder.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasProperty;
@@ -51,7 +52,7 @@ class GeographicalServiceImplTest {
 
     @Test
     void shouldSaveNewCity() {
-        final City city = new City("Odessa");
+        final City city = buildCity(CITY_ODESSA, REGION_ODESSA);
         service.saveCity(city);
 
         final List<City> cities = service.findCities();
@@ -67,7 +68,7 @@ class GeographicalServiceImplTest {
 
     @Test
     void shouldFindCityById() {
-        final City city = new City("Odessa");
+        final City city = buildCity(CITY_ODESSA, REGION_ODESSA);
         service.saveCity(city);
 
         final Optional<City> cityOptional = service.findCityById(DEFAULT_CITY_ID);
@@ -78,15 +79,13 @@ class GeographicalServiceImplTest {
 
     @Test
     void shouldFindStationsByCityName() {
-        final Address address = buildAddress("259687", "Peremogi", "12");
-        final City city = new City("Odessa");
-        final Station stationA = city.addStation(AUTO);
-        stationA.setAddress(address);
-        final Station stationB = city.addStation(TransportType.RAILWAY);
-        stationB.setAddress(address);
+        final Address address = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
+        final City city = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final Station stationA = buildStation(city, AUTO, address);
+        final Station stationB = buildStation(city, RAILWAY, address);
         service.saveCity(city);
 
-        final List<Station> result = service.searchStations(StationCriteria.byCityName("Odessa"), new RangeCriteria(0, 5));
+        final List<Station> result = service.searchStations(StationCriteria.byCityName(CITY_ODESSA), new RangeCriteria(0, 5));
 
         assertThat(result, hasSize(2));
         assertThat(result, everyItem(hasProperty("city", equalTo(city))));
@@ -96,28 +95,26 @@ class GeographicalServiceImplTest {
 
     @Test
     void shouldNotFindStationByNameIfNoStationWithGivenNamePresent() {
-        final Address address = buildAddress("259687", "Peremogi", "12");
-        final City city = new City("Kiyv");
-        final Station stationA = city.addStation(AUTO);
-        stationA.setAddress(address);
-        final Station stationB = city.addStation(TransportType.RAILWAY);
-        stationB.setAddress(address);
+        final Address address = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
+        final City city = buildCity(CITY_KIYV, REGION_KIYV);
+        buildStation(city, AUTO, address);
+        buildStation(city, RAILWAY, address);
         service.saveCity(city);
 
-        final List<Station> result = service.searchStations(StationCriteria.byCityName("Odessa"), new RangeCriteria(0, 5));
+        final List<Station> result = service.searchStations(StationCriteria.byCityName(CITY_ODESSA), new RangeCriteria(0, 5));
 
         assertThat(result, hasSize(0));
     }
 
     @Test
     void shouldFindStationsByTransportType() {
-        final Address odessaAddress = buildAddress("259687", "Peremogi", "12");
-        final City odessa = new City("Odessa");
+        final Address odessaAddress = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
+        final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
         final Station stationA = odessa.addStation(AUTO);
         stationA.setAddress(odessaAddress);
 
-        final Address kiyvAddress = buildAddress("123456", "Shevchenka", "12B");
-        final City kiyv = new City("Kiyv");
+        final Address kiyvAddress = buildAddress(ZIP_CODE_B, STREET_SHEVCHENKA, HOUSE_NUMBER_12B);
+        final City kiyv = buildCity(CITY_KIYV, REGION_KIYV);
         final Station stationB = odessa.addStation(AUTO);
         stationB.setAddress(kiyvAddress);
 
@@ -133,10 +130,9 @@ class GeographicalServiceImplTest {
 
     @Test
     void shouldNotFindStationsByTransportTypeIfNoStationWithSuchTransportTypePresent() {
-        final Address odessaAddress = buildAddress("259687", "Peremogi", "12");
-        final City odessa = new City("Odessa");
-        final Station stationA = odessa.addStation(AUTO);
-        stationA.setAddress(odessaAddress);
+        final Address odessaAddress = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
+        final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
+        buildStation(odessa, AUTO, odessaAddress);
 
         service.saveCity(odessa);
 
@@ -147,18 +143,16 @@ class GeographicalServiceImplTest {
 
     @Test
     void shouldFindStationsByAddress() {
-        final City odessa = new City("Odessa");
-        final Address odessaAddressA = buildAddress("259687", "Peremogi", "12");
-        final Station stationA = odessa.addStation(AUTO);
-        stationA.setAddress(odessaAddressA);
-        final Address odessaAddressB = buildAddress("259687", "Revolutsii", "12A");
-        final Station stationB = odessa.addStation(RAILWAY);
-        stationB.setAddress(odessaAddressB);
+        final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final Address odessaAddressA = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
+        buildStation(odessa, AUTO, odessaAddressA);
+        final Address odessaAddressB = buildAddress(ZIP_CODE_A, STREET_REVOLUTCIY, HOUSE_NUMBER_12B);
+        final Station stationB = buildStation(odessa, RAILWAY, odessaAddressB);
 
         service.saveCity(odessa);
 
-        final StationCriteria criteria = new StationCriteria("Odessa");
-        criteria.setAddress("Revolutsii");
+        final StationCriteria criteria = new StationCriteria(CITY_ODESSA);
+        criteria.setAddress(STREET_REVOLUTCIY);
         final List<Station> result = service.searchStations(criteria, new RangeCriteria(0, 5));
 
         assertThat(result, hasSize(1));
@@ -167,29 +161,19 @@ class GeographicalServiceImplTest {
 
     @Test
     void shouldNotFindStationsByAddressIfNoStationWithSuchAddressPresent() {
-        final City odessa = new City("Odessa");
-        final Address odessaAddressA = buildAddress("259687", "Peremogi", "12");
-        final Station stationA = odessa.addStation(AUTO);
-        stationA.setAddress(odessaAddressA);
-        final Address odessaAddressB = buildAddress("259687", "Revolutsii", "12A");
-        final Station stationB = odessa.addStation(RAILWAY);
-        stationB.setAddress(odessaAddressB);
+        final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final Address odessaAddressA = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
+        buildStation(odessa, AUTO, odessaAddressA);
+        final Address odessaAddressB = buildAddress(ZIP_CODE_A, STREET_REVOLUTCIY, HOUSE_NUMBER_12B);
+        buildStation(odessa, RAILWAY, odessaAddressB);
 
         service.saveCity(odessa);
 
-        final StationCriteria criteria = new StationCriteria("Odessa");
-        criteria.setAddress("Shevchenka");
+        final StationCriteria criteria = new StationCriteria(CITY_ODESSA);
+        criteria.setAddress(STREET_SHEVCHENKA);
         final List<Station> result = service.searchStations(criteria, new RangeCriteria(0, 5));
 
         assertThat(result, hasSize(0));
-    }
-
-    private Address buildAddress(final String zipCode, final String street, final String houseNumber) {
-        final Address address = new Address();
-        address.setZipCode(zipCode);
-        address.setStreet(street);
-        address.setHouseNo(houseNumber);
-        return address;
     }
 
     private void assertContainsCities(final List<City> cities, final City... expectedCities) {

@@ -2,6 +2,8 @@ package com.revenat.germes.application.model.entity.geography;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
@@ -31,6 +33,8 @@ public class Address {
      */
     private String apartment;
 
+    @NotNull
+    @Size(min = 2, max = 10)
     @Column(name = "ZIP_CODE", length = 10, nullable = false)
     public String getZipCode() {
         return zipCode;
@@ -40,6 +44,8 @@ public class Address {
         this.zipCode = zipCode;
     }
 
+    @NotNull
+    @Size(min = 2, max = 32)
     @Column(name = "STREET", length = 32, nullable = false)
     public String getStreet() {
         return street;
@@ -49,6 +55,8 @@ public class Address {
         this.street = street;
     }
 
+    @NotNull
+    @Size(min = 2, max = 16)
     @Column(name = "HOUSE_NO", length = 16, nullable = false)
     public String getHouseNo() {
         return houseNo;
@@ -58,6 +66,7 @@ public class Address {
         this.houseNo = houseNo;
     }
 
+    @Size(min = 2, max = 16)
     @Column(name = "APARTMENT", length = 16)
     public String getApartment() {
         return apartment;

@@ -4,6 +4,7 @@ import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -50,6 +51,7 @@ public class Station extends AbstractEntity {
     Station() {
     }
 
+    @NotNull
     @ManyToOne(fetch = FetchType.EAGER, cascade = {})
     @JoinColumn(name = "CITY_ID", nullable = false, updatable = false)
     public City getCity() {
@@ -60,6 +62,7 @@ public class Station extends AbstractEntity {
         this.city = city;
     }
 
+    @NotNull
     @Embedded
     public Address getAddress() {
         return address;
@@ -87,6 +90,7 @@ public class Station extends AbstractEntity {
         this.coordinate = coordinate;
     }
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "TRANSPORT_TYPE")
     public TransportType getTransportType() {
