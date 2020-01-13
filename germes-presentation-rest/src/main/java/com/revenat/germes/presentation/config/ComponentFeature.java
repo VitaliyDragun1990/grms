@@ -1,7 +1,5 @@
 package com.revenat.germes.presentation.config;
 
-import com.revenat.germes.presentation.config.ComponentBinder;
-
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;
 

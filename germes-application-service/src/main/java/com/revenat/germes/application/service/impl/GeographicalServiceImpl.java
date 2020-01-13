@@ -50,6 +50,7 @@ public class GeographicalServiceImpl implements GeographicalService {
     @Override
     public void saveCity(final City city) {
         checker.checkParameter(city != null, "city to save can not be null");
+
         final Set<ConstraintViolation<City>> constraintViolations = validator.validate(city);
         if (!constraintViolations.isEmpty()) {
             throw new ValidationException("City validation failure", constraintViolations);

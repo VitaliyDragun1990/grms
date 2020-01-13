@@ -14,6 +14,6 @@ public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
         super(ComponentFeature.class);
-        packages("com.revenat.germes.presentation.rest.resource");
+        packages("com.revenat.germes.presentation.rest");
     }
 }

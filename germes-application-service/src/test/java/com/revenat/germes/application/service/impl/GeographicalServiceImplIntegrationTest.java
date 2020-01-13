@@ -248,6 +248,33 @@ class GeographicalServiceImplIntegrationTest {
         assertThat(result, hasItems(equalTo(odessaStation), equalTo(kiyvStation)));
     }
 
+    @Test
+    void shouldFailToSaveCityWithMissingName() {
+        City city = buildCity(null, REGION_ODESSA);
+
+        ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
+
+        assertThat(e.getMessage(), containsString("name:may not be null"));
+    }
+
+    @Test
+    void shouldFailToSaveCityWithTooShortName() {
+        City city = buildCity(CITY_NAME_TOO_SHORT, REGION_ODESSA);
+
+        ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
+
+        assertThat(e.getMessage(), containsString("name:size must be between 2 and 32"));
+    }
+
+    @Test
+    void shouldFailToSaveCityWithTooLongName() {
+        City city = buildCity(CITY_NAME_TOO_LONG, REGION_ODESSA);
+
+        ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
+
+        assertThat(e.getMessage(), containsString("name:size must be between 2 and 32"));
+    }
+
     private void assertContainsCities(final List<City> cities, final City... expectedCities) {
         assertThat(cities, hasSize(expectedCities.length));
         for (final City city : expectedCities) {

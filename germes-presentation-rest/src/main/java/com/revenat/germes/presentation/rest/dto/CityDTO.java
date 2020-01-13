@@ -27,23 +27,26 @@ public class CityDTO extends BaseDTO<City> {
         return name;
     }
 
-    public void setName(String name) {
+    public CityDTO setName(String name) {
         this.name = name;
+        return this;
     }
 
     public String getDistrict() {
         return district;
     }
 
-    public void setDistrict(String district) {
+    public CityDTO setDistrict(String district) {
         this.district = district;
+        return this;
     }
 
     public String getRegion() {
         return region;
     }
 
-    public void setRegion(String region) {
+    public CityDTO setRegion(String region) {
         this.region = region;
+        return this;
     }
 }

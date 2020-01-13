@@ -1,8 +1,8 @@
 package com.revenat.germes.presentation.rest.resource;
 
 import com.github.hanleyt.JerseyExtension;
-import com.revenat.germes.presentation.rest.dto.CityDTO;
 import com.revenat.germes.presentation.config.JerseyConfig;
+import com.revenat.germes.presentation.rest.dto.CityDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -46,9 +46,10 @@ class CityResourceTest {
     @Test
     void shouldSaveNewCity(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO.setDistrict("Some district");
-        cityDTO.setRegion("Some region");
-        cityDTO.setName("Odessa");
+        cityDTO
+                .setDistrict("Some district")
+                .setRegion("Some region")
+                .setName("Odessa");
 
         final Response response = target
                 .path("cities")
@@ -61,14 +62,15 @@ class CityResourceTest {
     @Test
     void shouldFindAllPresentCities(final WebTarget target) {
         final CityDTO odessa = new CityDTO();
-        odessa.setDistrict("Odessa district");
-        odessa.setRegion("Odessa region");
-        odessa.setName("Odessa");
-
+        odessa
+                .setDistrict("Some district")
+                .setRegion("Some region")
+                .setName("Odessa");
         final CityDTO kiyv = new CityDTO();
-        kiyv.setDistrict("Kiyv district");
-        kiyv.setRegion("Kiyv region");
-        kiyv.setName("Kiyv");
+        kiyv
+                .setDistrict("Kiyv district")
+                .setRegion("Kiyv region")
+                .setName("Kiyv");
         saveCities(target, odessa, kiyv);
 
         final List<Map<String, String>> cities = target.path("cities").request().get(List.class);
@@ -81,9 +83,10 @@ class CityResourceTest {
     @Test
     void shouldFindCityById(final WebTarget target) {
         final CityDTO odessa = new CityDTO();
-        odessa.setDistrict("Odessa district");
-        odessa.setRegion("Odessa region");
-        odessa.setName("Odessa");
+        odessa
+                .setDistrict("Some district")
+                .setRegion("Some region")
+                .setName("Odessa");
         saveCities(target, odessa);
 
         final CityDTO result = target.path("/cities/1").request().get(CityDTO.class);
@@ -103,6 +106,37 @@ class CityResourceTest {
         final Response response = target.path("/cities/aaababb").request().get(Response.class);
 
         assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithoutName(WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setDistrict("Odessa district")
+                .setRegion("Odessa region");
+
+        Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithoutRegion(WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("Odessa")
+                .setDistrict("Odessa district");
+
+        Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+        System.out.println(response.getEntity());
     }
 
     private void assertStatus(final Response response, final Response.Status status) {

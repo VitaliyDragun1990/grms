@@ -7,6 +7,8 @@ public final class TestData {
     public static final String CITY_ODESSA = "Odessa";
     public static final String CITY_KIYV = "Kiyv";
     public static final String CITY_LVIV = "Lviv";
+    public static final String CITY_NAME_TOO_SHORT = "L";
+    public static final String CITY_NAME_TOO_LONG = "N123456678998755852136544156988751236365698742122556332";
 
     public static final String REGION_ODESSA = "Odessa region";
     public static final String REGION_KIYV = "Kiyv region";
