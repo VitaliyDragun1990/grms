@@ -23,7 +23,10 @@ import static java.util.Objects.requireNonNull;
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"NAME", "REGION"}, name = "cityNameAndRegionUniqueConstraint")
         })
+@NamedQuery(name = City.QUERY_DELETE_ALL, query = "delete from City")
 public class City extends AbstractEntity {
+
+    public static final String QUERY_DELETE_ALL = "City.deleteAll";
 
     public static final String FIELD_NAME = "name";
 
@@ -79,7 +82,7 @@ public class City extends AbstractEntity {
         return new SafeCollectionWrapper<>(stations).asSafeSet();
     }
 
-    void setStations(Set<Station> stations) {
+    void setStations(final Set<Station> stations) {
         this.stations = stations;
     }
 

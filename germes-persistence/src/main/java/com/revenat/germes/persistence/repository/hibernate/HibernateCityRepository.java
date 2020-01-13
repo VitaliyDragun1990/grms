@@ -2,6 +2,7 @@ package com.revenat.germes.persistence.repository.hibernate;
 
 import com.revenat.germes.application.infrastructure.exception.PersistenceException;
 import com.revenat.germes.application.model.entity.geography.City;
+import com.revenat.germes.application.model.entity.geography.Station;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.CityRepository;
 import org.hibernate.Session;
@@ -82,10 +83,10 @@ public class HibernateCityRepository implements CityRepository {
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();
-                final Query stationQuery = session.createQuery("delete from Station");
+                final Query stationQuery = session.createNamedQuery(Station.QUERY_DELETE_ALL);
                 stationQuery.executeUpdate();
 
-                final Query cityQuery = session.createQuery("delete from City");
+                final Query cityQuery = session.createNamedQuery(City.QUERY_DELETE_ALL);
                 final int deleted = cityQuery.executeUpdate();
                 LOGGER.debug("Deleted {} cities", deleted);
 
