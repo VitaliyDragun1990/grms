@@ -64,7 +64,8 @@ allprojects {
                 h2: "com.h2database:h2:$h2Version",
                 sqLite : "org.xerial:sqlite-jdbc:$sqLiteVersion",
                 c3p0: "org.hibernate:hibernate-c3p0:$hibernateVersion",
-                mysql : "mysql:mysql-connector-java:$mysqlVersion"
+                mysql : "mysql:mysql-connector-java:$mysqlVersion",
+                hikariCp: "org.hibernate:hibernate-hikaricp:$hibernateVersion"
         ]
 
         log = [
