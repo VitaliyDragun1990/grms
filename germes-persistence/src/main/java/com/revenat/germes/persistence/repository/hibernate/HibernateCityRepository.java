@@ -98,6 +98,34 @@ public class HibernateCityRepository implements CityRepository {
         }
     }
 
+    @Override
+    public void saveAll(final List<City> cities) {
+        int batchSize = sessionFactory.getSessionFactoryOptions().getJdbcBatchSize();
+
+        try (Session session = sessionFactory.openSession()) {
+            Transaction tx = null;
+            try {
+                tx = session.beginTransaction();
+                for (int i = 0; i <  cities.size(); i++) {
+                    // save city instances into active session (but not in the database)
+                    session.persist(cities.get(i));
+                    if (i % batchSize == 0 || i == cities.size() - 1) {
+                        // flush changes to database (save cities into database)
+                        session.flush();
+                        // clear session from all entities
+                        session.clear();
+                    }
+                }
+
+                tx.commit();
+            } catch (Exception e) {
+                handleError(tx, e);
+                throw new PersistenceException(e);
+            }
+        }
+
+    }
+
     private void handleError(final Transaction tx, final Exception ex) {
         if (tx != null && tx.isActive()) {
             try {

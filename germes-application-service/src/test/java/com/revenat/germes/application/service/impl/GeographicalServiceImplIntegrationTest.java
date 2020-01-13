@@ -45,8 +45,8 @@ class GeographicalServiceImplIntegrationTest {
     @BeforeEach
     void setUp() {
         builder = new SessionFactoryBuilder();
-        CityRepository cityRepository = new HibernateCityRepository(builder);
-        StationRepository stationRepository = new HibernateStationRepository(builder);
+        final CityRepository cityRepository = new HibernateCityRepository(builder);
+        final StationRepository stationRepository = new HibernateStationRepository(builder);
         service = new GeographicalServiceImpl(cityRepository, stationRepository);
     }
 
@@ -80,8 +80,8 @@ class GeographicalServiceImplIntegrationTest {
 
     @Test
     void shouldFailToSaveDuplicateCity() {
-        City cityA = buildCity(CITY_ODESSA, REGION_ODESSA);
-        City cityB = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final City cityA = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final City cityB = buildCity(CITY_ODESSA, REGION_ODESSA);
 
         service.saveCity(cityA);
         assertThrows(PersistenceException.class, () -> service.saveCity(cityB));
@@ -89,8 +89,8 @@ class GeographicalServiceImplIntegrationTest {
 
     @Test
     void shouldSaveCityWithSameNameButDifferentRegion() {
-        City cityA = buildCity(CITY_ODESSA, REGION_ODESSA);
-        City cityB = buildCity(CITY_ODESSA, REGION_KIYV);
+        final City cityA = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final City cityB = buildCity(CITY_ODESSA, REGION_KIYV);
 
         service.saveCity(cityA);
         assertDoesNotThrow(() -> service.saveCity(cityB));
@@ -116,7 +116,7 @@ class GeographicalServiceImplIntegrationTest {
 
     @Test
     void shouldFailToSaveCityWithStationIfStationIsNotFullyInitialized() {
-        City city = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final City city = buildCity(CITY_ODESSA, REGION_ODESSA);
         city.addStation(AUTO);
 
         assertThrows(PersistenceException.class, () -> service.saveCity(city));
@@ -125,7 +125,7 @@ class GeographicalServiceImplIntegrationTest {
     @Test
     void shouldSaveCityWithStation() {
         final Address stationAddress = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
-        City city = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final City city = buildCity(CITY_ODESSA, REGION_ODESSA);
         buildStation(city, AUTO, stationAddress);
 
         assertDoesNotThrow(() -> service.saveCity(city));
@@ -250,36 +250,36 @@ class GeographicalServiceImplIntegrationTest {
 
     @Test
     void shouldFailToSaveCityWithMissingName() {
-        City city = buildCity(null, REGION_ODESSA);
+        final City city = buildCity(null, REGION_ODESSA);
 
-        ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
+        final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
 
         assertThat(e.getMessage(), containsString("name:may not be null"));
     }
 
     @Test
     void shouldFailToSaveCityWithTooShortName() {
-        City city = buildCity(CITY_NAME_TOO_SHORT, REGION_ODESSA);
+        final City city = buildCity(CITY_NAME_TOO_SHORT, REGION_ODESSA);
 
-        ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
+        final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
 
         assertThat(e.getMessage(), containsString("name:size must be between 2 and 32"));
     }
 
     @Test
     void shouldFailToSaveCityWithTooLongName() {
-        City city = buildCity(CITY_NAME_TOO_LONG, REGION_ODESSA);
+        final City city = buildCity(CITY_NAME_TOO_LONG, REGION_ODESSA);
 
-        ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
+        final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
 
         assertThat(e.getMessage(), containsString("name:size must be between 2 and 32"));
     }
 
     @Test
     void shouldDeleteAllCities() {
-        City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
-        City kiyv = buildCity(CITY_KIYV, REGION_KIYV);
-        City lviv = buildCity(CITY_LVIV, REGION_LVIV);
+        final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final City kiyv = buildCity(CITY_KIYV, REGION_KIYV);
+        final City lviv = buildCity(CITY_LVIV, REGION_LVIV);
         service.saveCity(odessa);
         service.saveCity(kiyv);
         service.saveCity(lviv);
@@ -292,14 +292,14 @@ class GeographicalServiceImplIntegrationTest {
 
     @Test
     void shouldDeleteAllStationsWhenDeleteAllCities() {
-        City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
         final Address odessaAddressA = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
         final Address odessaAddressB = buildAddress(ZIP_CODE_A, STREET_SHEVCHENKA, HOUSE_NUMBER_12B);
         buildStation(odessa, AUTO, odessaAddressA);
         buildStation(odessa, RAILWAY, odessaAddressB);
         service.saveCity(odessa);
 
-        StationCriteria allStations = new StationCriteria();
+        final StationCriteria allStations = new StationCriteria();
         List<Station> stations = service.searchStations(allStations, new RangeCriteria(0, 5));
         assertThat(stations, hasSize(2));
 
@@ -307,6 +307,18 @@ class GeographicalServiceImplIntegrationTest {
 
         stations = service.searchStations(allStations, new RangeCriteria(0, 5));
         assertThat(stations, hasSize(0));
+    }
+
+    @Test
+    void shouldSaveAllCities() {
+        final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final City kiyv = buildCity(CITY_KIYV, REGION_KIYV);
+        final City lviv = buildCity(CITY_LVIV, REGION_LVIV);
+
+        service.saveCities(List.of(odessa, kiyv, lviv));
+
+        final List<City> cities = service.findCities();
+        assertThat(cities, hasItems(equalTo(odessa), equalTo(kiyv), equalTo(lviv)));
     }
 
     private void assertContainsCities(final List<City> cities, final City... expectedCities) {

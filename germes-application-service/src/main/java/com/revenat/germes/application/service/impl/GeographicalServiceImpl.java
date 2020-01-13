@@ -79,4 +79,9 @@ public class GeographicalServiceImpl implements GeographicalService {
     public void deleteCities() {
         cityRepository.deleteAll();
     }
+
+    @Override
+    public void saveCities(final List<City> cities) {
+        cityRepository.saveAll(cities);
+    }
 }

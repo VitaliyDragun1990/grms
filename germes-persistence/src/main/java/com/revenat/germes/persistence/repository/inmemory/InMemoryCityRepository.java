@@ -33,7 +33,7 @@ public class InMemoryCityRepository implements CityRepository {
 
     private final InMemoryStationRepository stationRepository;
 
-    public InMemoryCityRepository(InMemoryStationRepository stationRepository) {
+    public InMemoryCityRepository(final InMemoryStationRepository stationRepository) {
         this.stationRepository = stationRepository;
         cities = new ArrayList<>();
     }
@@ -75,5 +75,10 @@ public class InMemoryCityRepository implements CityRepository {
     @Override
     public void deleteAll() {
         cities.clear();
+    }
+
+    @Override
+    public void saveAll(final List<City> cities) {
+        cities.forEach(this::save);
     }
 }
