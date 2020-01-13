@@ -7,6 +7,9 @@ import com.revenat.germes.persistence.repository.CityRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -16,6 +19,8 @@ import java.util.Optional;
  * @author Vitaliy Dragun
  */
 public class HibernateCityRepository implements CityRepository {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HibernateCityRepository.class);
 
     private final SessionFactory sessionFactory;
 
@@ -68,6 +73,27 @@ public class HibernateCityRepository implements CityRepository {
             return session.createQuery("from City", City.class).getResultList();
         } catch (final Exception e) {
             throw new PersistenceException(e);
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        try (final Session session = sessionFactory.openSession()) {
+            Transaction tx = null;
+            try {
+                tx = session.beginTransaction();
+                final Query stationQuery = session.createQuery("delete from Station");
+                stationQuery.executeUpdate();
+
+                final Query cityQuery = session.createQuery("delete from City");
+                final int deleted = cityQuery.executeUpdate();
+                LOGGER.debug("Deleted {} cities", deleted);
+
+                tx.commit();
+            } catch (final Exception e) {
+                handleError(tx, e);
+                throw new PersistenceException(e);
+            }
         }
     }
 

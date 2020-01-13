@@ -42,4 +42,9 @@ public interface GeographicalService {
      * @return list with found stations, or empty list otherwise
      */
     List<Station> searchStations(StationCriteria stationCriteria, RangeCriteria rangeCriteria);
+
+    /**
+     * Removes all the cities
+     */
+    void deleteCities();
 }

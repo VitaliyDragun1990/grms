@@ -38,6 +38,10 @@ public class InMemoryStationRepository implements StationRepository {
         stations.removeIf(station -> station.getCity().getId() == cityId);
     }
 
+    void removeAll() {
+        stations.clear();
+    }
+
     /**
      * Verifies if current station matches specified criteria
      *

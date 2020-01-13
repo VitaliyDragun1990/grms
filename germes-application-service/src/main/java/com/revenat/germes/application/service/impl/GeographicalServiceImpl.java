@@ -74,4 +74,9 @@ public class GeographicalServiceImpl implements GeographicalService {
                 .limit(rangeCriteria.getRowCount())
                 .collect(Collectors.toUnmodifiableList());
     }
+
+    @Override
+    public void deleteCities() {
+        cityRepository.deleteAll();
+    }
 }
