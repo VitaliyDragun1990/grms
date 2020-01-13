@@ -38,6 +38,7 @@
         <el-version>3.0.1-b09</el-version>
         <h2.version>1.4.200</h2.version>
         <sqLite.version>3.30.1</sqLite.version>
+        <mysql.version>5.1.47</mysql.version>
 
         <junit.version>5.5.1</junit.version>
         <hamcrest.version>2.1</hamcrest.version>
