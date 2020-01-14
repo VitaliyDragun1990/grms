@@ -32,4 +32,5 @@ dependencies {
 gretty {
     servletContainer = 'jetty9.4'
     contextPath = "/rest"
+    httpPort = 8080
 }

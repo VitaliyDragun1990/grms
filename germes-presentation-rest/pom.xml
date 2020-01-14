@@ -133,7 +133,7 @@
                 <version>9.4.25.v20191220</version>
                 <configuration>
                     <httpConnector>
-                        <port>9090</port>
+                        <port>8080</port>
                     </httpConnector>
                     <stopPort>8005</stopPort>
                     <stopKey>STOP</stopKey>
