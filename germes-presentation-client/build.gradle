@@ -1,0 +1,16 @@
+plugins {
+    id 'war'
+    id "org.gretty" version "3.0.1"
+}
+
+dependencies {
+    implementation project(':germes-presentation-rest')
+
+    runtimeOnly persistence.mysql
+}
+
+gretty {
+    servletContainer = 'jetty9.4'
+    contextPath = '/'
+    httpPort = 8081
+}

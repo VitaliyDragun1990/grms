@@ -4,7 +4,6 @@
 
 plugins {
     id 'war'
-    id "org.gretty" version "3.0.1"
 }
 
 dependencies {
@@ -22,15 +21,7 @@ dependencies {
 
     compileOnly persistence.jpaApi
 
-    runtimeOnly persistence.mysql
-
     testImplementation tests.junitApi, tests.hamcrest, tests.mockito, tests.jerseyTestCore, tests.jerseyJunit
     testCompileOnly tests.junitParams, persistence.jpaApi
     testRuntimeOnly tests.junitEngine, tests.jerseyTestProvider, persistence.h2
-}
-
-gretty {
-    servletContainer = 'jetty9.4'
-    contextPath = "/"
-    httpPort = 8080
 }
