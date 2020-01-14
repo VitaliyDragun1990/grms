@@ -15,4 +15,29 @@ describe('Testing City Controller', function() {
         expect(scope.rowsPerPage).toBeDefined();
         expect(scope.rowsPerPage).toBe(10);
     });
+
+    it('Should return false for non-region center', function() {
+        var city = {
+            name : 'Gribovka',
+            district : 'Ovidiopol',
+            region : 'Odessa'
+        };
+
+        var center = scope.isRegionCenter(city);
+
+        expect(center).toBeFalsy();
+    });
+
+
+    it('Should return true for region center', function() {
+        var city = {
+            name : 'Kiyv',
+            district : '',
+            region : 'Kiyv'
+        };
+
+        var center = scope.isRegionCenter(city);
+
+        expect(center).toBeTruthy();
+    });
 });
