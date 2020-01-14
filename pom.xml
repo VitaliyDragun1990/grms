@@ -15,6 +15,7 @@
         <module>germes-presentation-web</module>
         <module>germes-persistence</module>
         <module>germes-presentation-rest</module>
+        <module>germes-client-angularjs</module>
     </modules>
 
     <properties>

@@ -1,0 +1,1 @@
+Depends on germes-presentation-rest which should be running to process its requests.
