@@ -138,7 +138,7 @@
                     <stopPort>8005</stopPort>
                     <stopKey>STOP</stopKey>
                     <webApp>
-                        <contextPath>/rest</contextPath>
+                        <contextPath>/</contextPath>
                     </webApp>
                     <jvmArgs>-Dfile.encoding=UTF-8</jvmArgs>
                 </configuration>
