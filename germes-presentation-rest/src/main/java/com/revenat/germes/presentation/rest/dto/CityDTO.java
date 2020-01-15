@@ -2,12 +2,15 @@ package com.revenat.germes.presentation.rest.dto;
 
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.service.transfrom.BaseDTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Contains city state for the client-server communication
  *
  * @author Vitaliy Dragun
  */
+@ApiModel(description = "City with transport stations to book and purchase tickets")
 public class CityDTO extends BaseDTO<City> {
 
     private String name;
@@ -23,6 +26,7 @@ public class CityDTO extends BaseDTO<City> {
      */
     private String region;
 
+    @ApiModelProperty(name = "Name of the city", required = true)
     public String getName() {
         return name;
     }
@@ -32,6 +36,7 @@ public class CityDTO extends BaseDTO<City> {
         return this;
     }
 
+    @ApiModelProperty(name = "Name of the city's district. Empty for region center", required = false)
     public String getDistrict() {
         return district;
     }
@@ -41,6 +46,7 @@ public class CityDTO extends BaseDTO<City> {
         return this;
     }
 
+    @ApiModelProperty(name = "Name of the city's region", required = true)
     public String getRegion() {
         return region;
     }

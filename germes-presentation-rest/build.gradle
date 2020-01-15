@@ -17,7 +17,7 @@ dependencies {
         exclude group: 'org:javassist', module: 'javassist'
     }
 
-    implementation misc.javassist
+    implementation misc.javassist, server.swagger
 
     compileOnly persistence.jpaApi
 
