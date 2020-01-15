@@ -9,3 +9,9 @@ app.controller('CityCtrl', ['$scope', 'cityService', function($scope, cityServic
         };
     }
 ]);
+
+app.controller('TranslateCtrl', ['$translate', '$scope', function($translate, $scope) {
+        $scope.changeLanguage = function(lang) {
+            $translate.use(lang);
+        };
+}]);

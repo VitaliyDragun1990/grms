@@ -7,19 +7,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
-    <title>Index Page</title>
+    <title ng-bind="'TITLE' | translate"></title>
 </head>
 <body>
-    <div ng-bind="'Germes project'"></div>
+<div ng-controller="TranslateCtrl">
+    <table>
+            <tbody>
+            <tr>
+                <td><a href="#" ng-click="changeLanguage('en')">EN</a></td>
+                <td><a href="#" ng-click="changeLanguage('ru')">RU</a></td>
+            </tr>
+            </tbody>
+        </table>
+</div>
 
-    <div ng-controller="CityCtrl">Cities
+<div ng-bind="'TITLE' | translate"></div>
+
+<div ng-controller="CityCtrl">{{'CITIES' | translate}}
         <table style="width:100%">
             <tr>
-                <th>Name</th>
-                <th>District</th>
-                <th>Region</th>
+                <th ng-bind="'CITY_NAME' | translate"></th>
+                <th ng-bind="'CITY_DISTRICT' | translate">District</th>
+                <th ng-bind="'CITY_REGION' | translate">Region</th>
             </tr>
             <tr ng-repeat="city in cities">
                 <td ng-bind="city.name"></td>

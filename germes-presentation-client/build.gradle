@@ -1,6 +1,7 @@
 plugins {
     id 'war'
     id "org.gretty" version "3.0.1"
+//	id 'com.challlen.karma' version '1.5.2'
 }
 
 dependencies {
@@ -9,8 +10,28 @@ dependencies {
     runtimeOnly persistence.mysql
 }
 
+/*karma {
+	basePath = 'src/main/webapp'
+	colors = true
+	logLevel = 'INFO'
+	profile = 'default'
+	browser = ['Chrome']
+	frameworks = ['jasmine']
+	reporters = ['progress']
+	profile('default') {
+		libraryBases = ['bower_components/']
+		libraryFiles = ['angular/angular.js', 'angular-mocks/angular-mocks.js', 'angular-resource/angular-resource.js']
+		sourceBases = ['js/']
+		sourceFiles = ['*.js']
+		testBases = ['test/unit/']
+		testFiles = ['*.js']
+	}
+}*/
+
 gretty {
     servletContainer = 'jetty9.4'
     contextPath = '/'
     httpPort = 8081
 }
+
+//karmaRun.dependsOn test
