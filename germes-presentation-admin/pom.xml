@@ -24,6 +24,11 @@
             <artifactId>germes-application-model</artifactId>
             <version>${parent.version}</version>
         </dependency>
+<!--        <dependency>
+            <groupId>org.glassfish.hk2.external</groupId>
+            <artifactId>jakarta.inject</artifactId>
+            <version>${jakarta.inject.version}</version>
+        </dependency>-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>

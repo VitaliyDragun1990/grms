@@ -7,7 +7,7 @@
 
 dependencies {
     implementation project(":germes-application-service"), project(":germes-application-model")
-    implementation ui.primefaces, ui.jsf
+    implementation ui.primefaces, ui.jsf/*, misc.jakartaInject*/
     providedCompile server.servletApi
     runtimeOnly persistence.mysql
 
