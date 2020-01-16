@@ -41,6 +41,9 @@
         <sqLite.version>3.30.1</sqLite.version>
         <mysql.version>5.1.47</mysql.version>
         <swagger.version>1.6.0</swagger.version>
+        <servlet.version>3.1.0</servlet.version>
+        <jsf.version>2.2.14</jsf.version>
+        <primefaces.version>6.0</primefaces.version>
 
         <junit.version>5.5.1</junit.version>
         <hamcrest.version>2.1</hamcrest.version>

@@ -33,11 +33,15 @@ allprojects {
         // server
         jerseyVersion = '2.29.1'
         swaggerVersion = '1.6.0'
+        servletVersion = '3.1.0'
         // test
         junitVersion = '5.5.1'
         hamcrestVersion = '2.1'
         mockitoVersion = '3.0.0'
         jerseyJunitVersion = '2.1.0'
+        // UI
+        primefacesVersion = '6.0'
+        jsfVersion = '2.2.14'
 
         misc = [
                 commonsLang3: "org.apache.commons:commons-lang3:$commonsLang3Version",
@@ -56,7 +60,8 @@ allprojects {
                 jerseyServlet: "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion",
                 jerseyHk2    : "org.glassfish.jersey.inject:jersey-hk2:$jerseyVersion",
                 jerseyJson   : "org.glassfish.jersey.media:jersey-media-json-jackson:$jerseyVersion",
-                swagger : "io.swagger:swagger-jersey2-jaxrs:$swaggerVersion"
+                swagger : "io.swagger:swagger-jersey2-jaxrs:$swaggerVersion",
+                servletApi : "javax.servlet:javax.servlet-api:$servletVersion"
         ]
 
         persistence = [
@@ -75,6 +80,11 @@ allprojects {
                 log4jCore : "org.apache.logging.log4j:log4j-core:$log4jVersion",
                 log4jSlf4j: "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion",
                 log4jWeb  : "org.apache.logging.log4j:log4j-web:$log4jVersion",
+        ]
+
+        ui = [
+                primefaces : "org.primefaces:primefaces:$primefacesVersion",
+                jsf : "org.glassfish:javax.faces:$jsfVersion"
         ]
 
         tests = [
