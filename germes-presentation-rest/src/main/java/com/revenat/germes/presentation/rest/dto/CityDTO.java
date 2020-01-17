@@ -1,7 +1,7 @@
 package com.revenat.germes.presentation.rest.dto;
 
 import com.revenat.germes.application.model.entity.geography.City;
-import com.revenat.germes.application.service.transfrom.BaseDTO;
+import com.revenat.germes.presentation.rest.dto.base.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

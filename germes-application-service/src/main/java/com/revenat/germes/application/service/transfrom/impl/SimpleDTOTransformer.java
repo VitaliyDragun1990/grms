@@ -3,7 +3,7 @@ package com.revenat.germes.application.service.transfrom.impl;
 import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
-import com.revenat.germes.application.service.transfrom.BaseDTO;
+import com.revenat.germes.application.model.transform.Transformable;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import com.revenat.germes.application.service.transfrom.helper.ClassInstanceCreator;
 import com.revenat.germes.application.service.transfrom.helper.ObjectStateCopier;
@@ -39,7 +39,7 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P extends BaseDTO<T>> P transform(final T entity, final Class<P> dtoClass) {
+    public <T extends AbstractEntity, P extends Transformable<T>> P transform(final T entity, final Class<P> dtoClass) {
         checkParams(entity, dtoClass);
 
         final P dto = createInstance(dtoClass);
@@ -55,7 +55,20 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P extends BaseDTO<T>> T untransform(final P dto, final Class<T> entityClass) {
+    public <T extends AbstractEntity, P extends Transformable<T>> void transform(T entity, P dto) {
+        checkParams(entity, dto);
+
+        copyState(entity, dto);
+        dto.transform(entity);
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("SimpleDTOTransformer.transform: {} DTO object",
+                    new ToStringBuilder(dto).shortStyle());
+        }
+    }
+
+    @Override
+    public <T extends AbstractEntity, P extends Transformable<T>> T untransform(final P dto, final Class<T> entityClass) {
         checkParams(dto, entityClass);
 
         final T entity = createInstance(entityClass);
@@ -70,9 +83,14 @@ public class SimpleDTOTransformer implements Transformer {
         return entity;
     }
 
-    private void checkParams(final Object param, final Class<?> clazz) {
-        checker.checkParameter(param != null, "Source transformation object is not initialized");
-        checker.checkParameter(clazz != null, "No class defined for transformation");
+    private void checkParams(final Object src, final Class<?> targetClz) {
+        checker.checkParameter(src != null, "Source transformation object is not initialized");
+        checker.checkParameter(targetClz != null, "No class defined for transformation");
+    }
+
+    private void checkParams(final Object src, final Object target) {
+        checker.checkParameter(src != null, "Source transformation object is not initialized");
+        checker.checkParameter(target != null, "Target transformation object is not initialized");
     }
 
     private <S, D> void copyState(final S source, final D dest) {

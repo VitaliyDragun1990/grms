@@ -1,6 +1,7 @@
 package com.revenat.germes.presentation.admin.dto;
 
 import com.revenat.germes.application.model.entity.geography.City;
+import com.revenat.germes.application.model.transform.Transformable;
 
 
 import javax.faces.bean.ManagedBean;
@@ -14,7 +15,7 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean(name = "currentCity", eager = true)
 @ViewScoped
-public class CityBean extends City {
+public class CityBean implements Transformable<City> {
 
     private int id;
 
@@ -25,46 +26,51 @@ public class CityBean extends City {
     private String region;
 
     public void clear() {
+        id = 0;
         setName("");
         setDistrict("");
         setRegion("");
-        setId(0);
     }
 
-    public void update(final City city) {
-        setName(city.getName());
-        setDistrict(city.getDistrict());
-        setRegion(city.getRegion());
-        setId(city.getId());
+    public int getId() {
+        return id;
     }
 
-    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
 
-    @Override
     public void setName(final String name) {
         this.name = name;
     }
 
-    @Override
     public String getDistrict() {
         return district;
     }
 
-    @Override
     public void setDistrict(final String district) {
         this.district = district;
     }
 
-    @Override
     public String getRegion() {
         return region;
     }
 
-    @Override
     public void setRegion(final String region) {
         this.region = region;
+    }
+
+    @Override
+    public void transform(City city) {
+
+    }
+
+    @Override
+    public City untransform(City city) {
+        return city;
     }
 }

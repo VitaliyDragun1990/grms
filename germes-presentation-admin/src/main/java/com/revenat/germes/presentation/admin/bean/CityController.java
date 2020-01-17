@@ -2,6 +2,7 @@ package com.revenat.germes.presentation.admin.bean;
 
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.service.GeographicalService;
+import com.revenat.germes.application.service.transfrom.Transformer;
 import com.revenat.germes.presentation.admin.dto.CityBean;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,9 +21,12 @@ public class CityController {
 
     private final  GeographicalService geographicalService;
 
+    private final Transformer transformer;
+
     @Inject
-    public CityController(final GeographicalService geographicalService) {
+    public CityController(final GeographicalService geographicalService, final Transformer transformer) {
         this.geographicalService = geographicalService;
+        this.transformer = transformer;
     }
 
     public List<City> getCities() {
@@ -37,6 +41,10 @@ public class CityController {
         city.setRegion(cityBean.getRegion());
         city.setId(cityBean.getId());
         geographicalService.saveCity(city);
+    }
+
+    public void updateCity(final City city, final CityBean cityBean) {
+        transformer.transform(city, cityBean);
     }
 
     public void deleteCity(final int cityId) {

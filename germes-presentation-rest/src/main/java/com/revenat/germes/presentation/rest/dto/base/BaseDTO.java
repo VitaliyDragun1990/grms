@@ -1,13 +1,14 @@
-package com.revenat.germes.application.service.transfrom;
+package com.revenat.germes.presentation.rest.dto.base;
 
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
+import com.revenat.germes.application.model.transform.Transformable;
 
 /**
  * Base class for all DTO classes
  *
  * @author Vitaliy Dragun
  */
-public abstract class BaseDTO<T extends AbstractEntity> {
+public abstract class BaseDTO<T extends AbstractEntity> implements Transformable<T> {
 
     /**
      * Unique entity identifier

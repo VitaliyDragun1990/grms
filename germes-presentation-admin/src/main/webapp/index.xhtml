@@ -28,7 +28,7 @@
                    <p:commandButton value="Edit"
                                     oncomplete="PF('cityDlg').show();"
                                     update=":cityForm:cityDialog"
-                                    actionListener="#{currentCity.update(city)}"/>
+                                    actionListener="#{cityController.updateCity(city, currentCity)}"/>
                    <p:commandButton value="Remove"
                                     update="citiesTable"
                                     actionListener="#{cityController.deleteCity(city.id)}"/>
