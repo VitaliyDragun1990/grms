@@ -42,7 +42,7 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
-    City() {
+    protected City() {
     }
 
     @NotNull
@@ -56,7 +56,7 @@ public class City extends AbstractEntity {
         this.name = name;
     }
 
-    @Size(min = 2, max = 32)
+    @Size(min = 4, max = 32)
     @Column(name = "DISTRICT", length = 32)
     public String getDistrict() {
         return district;

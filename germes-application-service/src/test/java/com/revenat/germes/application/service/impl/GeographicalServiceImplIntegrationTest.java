@@ -310,6 +310,37 @@ class GeographicalServiceImplIntegrationTest {
     }
 
     @Test
+    void shouldDeleteCityWithSpecifiedId() {
+        final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
+        service.saveCity(odessa);
+
+        service.deleteCity(odessa.getId());
+
+        final List<City> cities = service.findCities();
+        assertThat(cities, hasSize(0));
+    }
+
+    @Test
+    void shouldDeleteAllCityStationsWhenCityIsDeleted() {
+        final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final Address odessaAddressA = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
+        final Address odessaAddressB = buildAddress(ZIP_CODE_A, STREET_SHEVCHENKA, HOUSE_NUMBER_12B);
+        buildStation(odessa, AUTO, odessaAddressA);
+        buildStation(odessa, RAILWAY, odessaAddressB);
+        service.saveCity(odessa);
+
+        final StationCriteria odessaStations = StationCriteria.byCityName(CITY_ODESSA);
+        List<Station> stations = service.searchStations(odessaStations, new RangeCriteria(0, 5));
+        assertThat(stations, hasSize(2));
+
+        service.deleteCity(odessa.getId());
+
+        stations = service.searchStations(odessaStations, new RangeCriteria(0, 5));
+        assertThat(stations, hasSize(0));
+
+    }
+
+    @Test
     void shouldSaveAllCities() {
         final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
         final City kiyv = buildCity(CITY_KIYV, REGION_KIYV);

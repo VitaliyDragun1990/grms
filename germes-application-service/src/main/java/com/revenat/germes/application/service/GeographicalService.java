@@ -54,4 +54,11 @@ public interface GeographicalService {
      * @param cities city instances to save
      */
     void saveCities(List<City> cities);
+
+    /**
+     * Delete city with specified identifier
+     *
+     * @param cityId unique identifier of the city to delete
+     */
+    void deleteCity(int cityId);
 }

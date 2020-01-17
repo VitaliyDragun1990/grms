@@ -1,12 +1,22 @@
 package com.revenat.germes.presentation.admin.dto;
 
+import com.revenat.germes.application.model.entity.geography.City;
+
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
 /**
  * {@link CityBean} is a value holder for the city data
  * for admin project
  *
  * @author Vitaliy Dragun
  */
-public class CityBean {
+@ManagedBean(name = "currentCity", eager = true)
+@ViewScoped
+public class CityBean extends City {
+
+    private int id;
 
     private String name;
 
@@ -14,36 +24,47 @@ public class CityBean {
 
     private String region;
 
-    public CityBean() {
+    public void clear() {
+        setName("");
+        setDistrict("");
+        setRegion("");
+        setId(0);
     }
 
-    public CityBean(String name, String district, String region) {
-        this.name = name;
-        this.district = district;
-        this.region = region;
+    public void update(final City city) {
+        setName(city.getName());
+        setDistrict(city.getDistrict());
+        setRegion(city.getRegion());
+        setId(city.getId());
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    @Override
+    public void setName(final String name) {
         this.name = name;
     }
 
+    @Override
     public String getDistrict() {
         return district;
     }
 
-    public void setDistrict(String district) {
+    @Override
+    public void setDistrict(final String district) {
         this.district = district;
     }
 
+    @Override
     public String getRegion() {
         return region;
     }
 
-    public void setRegion(String region) {
+    @Override
+    public void setRegion(final String region) {
         this.region = region;
     }
 }
