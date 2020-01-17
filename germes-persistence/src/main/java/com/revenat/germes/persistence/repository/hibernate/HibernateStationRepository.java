@@ -5,20 +5,25 @@ import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
 import com.revenat.germes.application.model.search.StationCriteria;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.cid.DBSource;
 import com.revenat.germes.persistence.repository.StationRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * @author Vitaliy Dragun
  */
+@Named
+@DBSource
 public class HibernateStationRepository implements StationRepository {
 
     private final SessionFactory sessionFactory;

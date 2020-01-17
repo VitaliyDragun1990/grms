@@ -13,6 +13,7 @@ import com.revenat.germes.application.service.transfrom.impl.cache.FieldProvider
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Named;
 import java.util.List;
 
 /**
@@ -20,6 +21,7 @@ import java.util.List;
  *
  * @author Vitaliy Dragun
  */
+@Named
 public class SimpleDTOTransformer implements Transformer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleDTOTransformer.class);

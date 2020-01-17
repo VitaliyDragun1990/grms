@@ -4,6 +4,7 @@ import com.revenat.germes.application.infrastructure.exception.PersistenceExcept
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.cid.DBSource;
 import com.revenat.germes.persistence.repository.CityRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,12 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * @author Vitaliy Dragun
  */
+@Named
+@DBSource
 public class HibernateCityRepository implements CityRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HibernateCityRepository.class);

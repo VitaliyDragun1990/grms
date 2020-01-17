@@ -1,11 +1,6 @@
 package com.revenat.germes.persistence.hibernate;
 
 import com.revenat.germes.application.infrastructure.exception.PersistenceException;
-import com.revenat.germes.application.model.entity.geography.Address;
-import com.revenat.germes.application.model.entity.geography.City;
-import com.revenat.germes.application.model.entity.geography.Coordinate;
-import com.revenat.germes.application.model.entity.geography.Station;
-import com.revenat.germes.application.model.entity.person.Account;
 import com.revenat.germes.persistence.hibernate.interceptor.TimestampInterceptor;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -15,6 +10,7 @@ import org.hibernate.service.ServiceRegistry;
 import org.reflections.Reflections;
 
 import javax.annotation.PreDestroy;
+import javax.inject.Named;
 import javax.persistence.Entity;
 import java.io.InputStream;
 import java.util.Properties;
@@ -29,6 +25,7 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Vitaliy Dragun
  */
+@Named
 public class SessionFactoryBuilder {
 
     private final SessionFactory sessionFactory;

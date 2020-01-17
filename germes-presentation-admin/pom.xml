@@ -17,18 +17,18 @@
         <dependency>
             <groupId>com.revenat</groupId>
             <artifactId>germes-application-service</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.revenat</groupId>
             <artifactId>germes-application-model</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
-<!--        <dependency>
+        <dependency>
             <groupId>org.glassfish.hk2.external</groupId>
             <artifactId>jakarta.inject</artifactId>
             <version>${jakarta.inject.version}</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -36,14 +36,37 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.faces</artifactId>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
             <version>${jsf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>${primefaces.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>1.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${jaxb.version}</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
@@ -72,6 +95,28 @@
                     </webApp>
                     <jvmArgs>-Dfile.encoding=UTF-8</jvmArgs>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jboss.weld.servlet</groupId>
+                        <artifactId>weld-servlet</artifactId>
+                        <version>${weld.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.eclipse.jetty</groupId>
+                        <artifactId>jetty-servlet</artifactId>
+                        <version>9.4.25.v20191220</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.glassfish</groupId>
+                        <artifactId>javax.faces</artifactId>
+                        <version>2.2.14</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.jboss</groupId>
+                        <artifactId>jandex</artifactId>
+                        <version>${jandex.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

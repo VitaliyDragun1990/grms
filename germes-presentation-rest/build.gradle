@@ -11,7 +11,7 @@ dependencies {
             project(':germes-persistence')
 
     implementation misc.commonsLang3, log.log4jWeb, server.jerseyHttp, server.jerseyServlet,
-            server.jerseyJson, misc.jaxbRuntime
+            server.jerseyJson
 
     implementation( server.jerseyHk2) {
         exclude group: 'org:javassist', module: 'javassist'
@@ -20,6 +20,8 @@ dependencies {
     implementation misc.javassist, server.swagger
 
     compileOnly persistence.jpaApi
+
+    runtimeOnly misc.jaxbRuntime
 
     testImplementation tests.junitApi, tests.hamcrest, tests.mockito, tests.jerseyTestCore, tests.jerseyJunit
     testCompileOnly tests.junitParams, persistence.jpaApi

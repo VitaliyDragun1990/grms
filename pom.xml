@@ -44,6 +44,10 @@
         <servlet.version>3.1.0</servlet.version>
         <jsf.version>2.2.14</jsf.version>
         <primefaces.version>6.0</primefaces.version>
+        <weld.version>2.4.1.Final</weld.version>
+        <jandex.version>2.0.3.Final</jandex.version>
+        <commonsLogging.version>1.2</commonsLogging.version>
+        <jbossLogging.version>3.3.2.Final</jbossLogging.version>
 
         <junit.version>5.5.1</junit.version>
         <hamcrest.version>2.1</hamcrest.version>
@@ -80,6 +84,18 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>${commonsLogging.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <version>${jbossLogging.version}</version>
             </dependency>
 
             <dependency>

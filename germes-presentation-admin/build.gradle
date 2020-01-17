@@ -7,9 +7,10 @@
 
 dependencies {
     implementation project(":germes-application-service"), project(":germes-application-model")
-    implementation ui.primefaces, ui.jsf/*, misc.jakartaInject*/
+    implementation ui.primefaces, ui.jsf, misc.jakartaInject, server.weldServlet
     providedCompile server.servletApi
-    runtimeOnly persistence.mysql
+    runtimeOnly persistence.mysql, misc.jaxbRuntime
+    compileOnly persistence.jpaApi
 
     testImplementation tests.junitApi, tests.hamcrest, tests.mockito
     testCompileOnly tests.junitParams, persistence.jpaApi

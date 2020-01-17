@@ -2,6 +2,7 @@ package com.revenat.germes.application.service.transfrom.impl.cache;
 
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
 
+import javax.inject.Named;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Objects;
  *
  * @author Vitaliy Dragun
  */
+@Named
 public class CachedFieldProvider extends FieldProvider {
     /**
      * Mapping between transformation pair and field names

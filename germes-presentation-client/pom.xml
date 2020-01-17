@@ -12,6 +12,20 @@
     <artifactId>germes-presentation-client</artifactId>
     <packaging>war</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.revenat</groupId>
+            <artifactId>germes-presentation-rest</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>germes-client</finalName>
         <plugins>

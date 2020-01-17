@@ -1,10 +1,11 @@
 package com.revenat.germes.presentation.admin.bean;
 
-import com.revenat.germes.presentation.admin.dto.CityBean;
+import com.revenat.germes.application.model.entity.geography.City;
+import com.revenat.germes.application.service.GeographicalService;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-import java.util.ArrayList;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 
 /**
@@ -12,19 +13,18 @@ import java.util.List;
  *
  * @author Vitaliy Dragun
  */
-@ManagedBean
+@Named
 @RequestScoped
 public class CitiesBean {
 
-    private final List<CityBean> cities;
+    private final GeographicalService geographicalService;
 
-    public CitiesBean() {
-        cities = new ArrayList<>();
-        cities.add(new CityBean("Odessa", "", "Odessa"));
-        cities.add(new CityBean("Izmail", "", "Izmail"));
+    @Inject
+    public CitiesBean(final GeographicalService geographicalService) {
+        this.geographicalService = geographicalService;
     }
 
-    public List<CityBean> getCities() {
-        return cities;
+    public List<City> getCities() {
+        return geographicalService.findCities();
     }
 }
