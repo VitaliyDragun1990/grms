@@ -44,6 +44,7 @@ allprojects {
         // UI
         primefacesVersion = '6.0'
         jsfVersion = '2.2.14'
+        bootstrapVersion = '1.0.10'
 
         misc = [
                 commonsLang3: "org.apache.commons:commons-lang3:$commonsLang3Version",
@@ -88,7 +89,8 @@ allprojects {
 
         ui = [
                 primefaces : "org.primefaces:primefaces:$primefacesVersion",
-                jsf : "org.glassfish:javax.faces:$jsfVersion"
+                jsf : "org.glassfish:javax.faces:$jsfVersion",
+                bootstrap : "org.primefaces.themes:bootstrap:$bootstrapVersion"
         ]
 
         tests = [
