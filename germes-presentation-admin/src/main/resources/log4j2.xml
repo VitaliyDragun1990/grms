@@ -9,8 +9,8 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level - %msg%n"/>
         </Console>
 
-        <RollingFile name="LogToRollingFile" fileName="${basePath}/rolling-admin.log"
-                     filePattern="${basePath}/$${date:yyyy-MM}/rolling-admin-%d{MM-dd-yyyy}-%i.log.gz">
+        <RollingFile name="LogToRollingFile" fileName="${basePath}/germes-admin.log"
+                     filePattern="${basePath}/$${date:yyyy-MM}/germes-admin-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout>
                 <Pattern>%d{HH:mm:ss.SSS} %-5level - %msg%n</Pattern>
             </PatternLayout>
@@ -23,11 +23,12 @@
 
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="com.revenat.germes" level="INFO">
+        <Logger name="com.revenat.germes" level="INFO" additivity="false">
             <AppenderRef ref="LogToRollingFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Logger>
-        <Root level="ERROR">
+        <Root level="WARN">
+            <AppenderRef ref="LogToRollingFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Root>
     </Loggers>

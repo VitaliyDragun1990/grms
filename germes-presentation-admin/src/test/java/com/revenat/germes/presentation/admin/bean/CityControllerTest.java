@@ -3,7 +3,6 @@ package com.revenat.germes.presentation.admin.bean;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.transfrom.Transformer;
-import com.revenat.germes.presentation.admin.dto.CityBean;
 import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;

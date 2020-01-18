@@ -24,3 +24,14 @@ gretty {
     contextPath = '/'
     httpPort = 9091
 }
+
+processResources {
+    doFirst {
+        ant.native2ascii(
+                src   : project.file('src/main/resources/txt'),
+                dest  : project.file('src/main/resources/ui'),
+                ext : '.properties'
+        )
+    }
+    exclude('txt')
+}

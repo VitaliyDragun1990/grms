@@ -1,6 +1,7 @@
 package com.revenat.germes.presentation.admin.dto;
 
 import com.revenat.germes.application.model.entity.geography.City;
+import com.revenat.germes.presentation.admin.bean.CityBean;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;

@@ -1,9 +1,11 @@
 package com.revenat.germes.presentation.admin.bean;
 
+import com.revenat.germes.application.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.transfrom.Transformer;
-import com.revenat.germes.presentation.admin.dto.CityBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,6 +21,8 @@ import java.util.List;
 @ApplicationScoped
 public class CityController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CityController.class);
+
     private final  GeographicalService geographicalService;
 
     private final Transformer transformer;
@@ -27,15 +31,20 @@ public class CityController {
     public CityController(final GeographicalService geographicalService, final Transformer transformer) {
         this.geographicalService = geographicalService;
         this.transformer = transformer;
+        LOGGER.info("CityController has been created");
     }
 
     public List<City> getCities() {
-        return geographicalService.findCities()/*.stream()
-                .map(city -> new CityBean(city.getId(), city.getName(), city.getDistrict(), city.getRegion()))
-                .collect(Collectors.toList())*/;
+        final List<City> cities = geographicalService.findCities();
+
+        LOGGER.info("LoggerController.getCities() -> {} cities found", cities.size());
+
+        return cities;
     }
 
     public void saveCity(final CityBean cityBean) {
+        LOGGER.info("CityController.saveCity(): {}", new ToStringBuilder(cityBean).shortStyle());
+
         final City city = new City(cityBean.getName());
         city.setDistrict(cityBean.getDistrict());
         city.setRegion(cityBean.getRegion());
@@ -44,10 +53,15 @@ public class CityController {
     }
 
     public void updateCity(final City city, final CityBean cityBean) {
+        LOGGER.info("CityController.updateCity(): {} <- {}", new ToStringBuilder(city).shortStyle(),
+                new ToStringBuilder(cityBean).shortStyle());
+
         transformer.transform(city, cityBean);
     }
 
     public void deleteCity(final int cityId) {
+        LOGGER.info("CityController.deleteCity(): {}", cityId);
+
         geographicalService.deleteCity(cityId);
     }
 }
