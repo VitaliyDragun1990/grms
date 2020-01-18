@@ -16,11 +16,17 @@ import static java.util.stream.Collectors.joining;
 public class ValidationException extends FlowException {
     private static final long serialVersionUID = 1L;
 
-    public <T> ValidationException(String message, Set<ConstraintViolation<T>> constraints) {
-        super(message + ":" +
-                constraints.stream()
-                        .map(constraint -> constraint.getPropertyPath().toString() + ":" + constraint.getMessage())
-                        .collect(joining(",")));
+    /**
+     * List of constraints message keys
+     */
+    private final Set<ConstraintViolation<?>> constraints;
+
+    public ValidationException(String message, Set<ConstraintViolation<?>> constraints) {
+        super(message + constraints);
+        this.constraints = constraints;
     }
 
+    public Set<ConstraintViolation<?>> getConstraints() {
+        return constraints;
+    }
 }

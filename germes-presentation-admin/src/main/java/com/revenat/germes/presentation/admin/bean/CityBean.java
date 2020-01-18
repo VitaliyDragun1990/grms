@@ -28,7 +28,7 @@ public class CityBean implements Transformable<City> {
     private String name;
 
     private String district;
-    
+
     private String region;
 
     public void clear() {

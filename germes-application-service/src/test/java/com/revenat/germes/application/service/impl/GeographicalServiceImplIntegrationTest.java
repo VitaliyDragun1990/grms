@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import javax.validation.ConstraintViolation;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ import static com.revenat.germes.application.service.TestData.*;
 import static com.revenat.germes.application.service.TestDataBuilder.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -254,7 +256,7 @@ class GeographicalServiceImplIntegrationTest {
 
         final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
 
-        assertThat(e.getMessage(), containsString("name:may not be null"));
+        assertValidation(e, "name", City.class, "{javax.validation.constraints.NotNull.message}");
     }
 
     @Test
@@ -263,7 +265,7 @@ class GeographicalServiceImplIntegrationTest {
 
         final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
 
-        assertThat(e.getMessage(), containsString("name:size must be between 2 and 32"));
+        assertValidation(e, "name", City.class, "{javax.validation.constraints.Size.message}");
     }
 
     @Test
@@ -272,7 +274,7 @@ class GeographicalServiceImplIntegrationTest {
 
         final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
 
-        assertThat(e.getMessage(), containsString("name:size must be between 2 and 32"));
+        assertValidation(e, "name", City.class, "{javax.validation.constraints.Size.message}");
     }
 
     @Test
@@ -357,5 +359,14 @@ class GeographicalServiceImplIntegrationTest {
         for (final City city : expectedCities) {
             assertThat(cities, hasItem(equalTo(city)));
         }
+    }
+
+    private void assertValidation(final ValidationException ex, final String fieldName,
+                                  final Class<?> clz, final String messageKey) {
+        assertThat(ex.getConstraints(), hasSize(greaterThan(0)));
+        final ConstraintViolation<?> constraint = ex.getConstraints().iterator().next();
+        assertThat(constraint.getMessageTemplate(), equalTo(messageKey));
+        assertThat(constraint.getPropertyPath().toString(), equalTo(fieldName));
+        assertThat(constraint.getRootBeanClass(), equalTo(clz));
     }
 }
