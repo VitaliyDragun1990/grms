@@ -23,8 +23,9 @@
 
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="com.revenat.germes.presentation.admin" level="WARN">
+        <Logger name="com.revenat.germes" level="INFO">
             <AppenderRef ref="LogToRollingFile"/>
+            <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Root level="ERROR">
             <AppenderRef ref="LogToConsole"/>
