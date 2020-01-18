@@ -5,6 +5,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.dialect.Dialect;
+import org.hibernate.dialect.MySQL57Dialect;
 import org.hibernate.dialect.PostgreSQL95Dialect;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.hibernate.tool.schema.TargetType;
@@ -70,7 +71,7 @@ public class DBSchemaExporter {
         final Set<Class<?>> entityClasses = reflections.getTypesAnnotatedWith(Entity.class);
         exportDatabaseSchema(
                 "",
-                /*MySQL57Dialect.class*/PostgreSQL95Dialect.class,
+                MySQL57Dialect.class/*PostgreSQL95Dialect.class*/,
                 entityClasses);
     }
 }

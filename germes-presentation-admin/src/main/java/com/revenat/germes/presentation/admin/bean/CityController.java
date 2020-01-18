@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Initialized;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -23,9 +25,16 @@ public class CityController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CityController.class);
 
-    private final  GeographicalService geographicalService;
+    private final GeographicalService geographicalService;
 
     private final Transformer transformer;
+
+    /**
+     * Weld container for each bean creates proxy and only create bean itself at first request for such
+     * bean. In order to load bean on startup ( like @Startup in EJB) you should add method like one below
+     */
+    void init(@Observes @Initialized(ApplicationScoped.class) final Object event) {
+    }
 
     @Inject
     public CityController(final GeographicalService geographicalService, final Transformer transformer) {

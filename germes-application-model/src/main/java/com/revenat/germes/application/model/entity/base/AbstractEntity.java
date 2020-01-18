@@ -1,6 +1,6 @@
 package com.revenat.germes.application.model.entity.base;
 
-import com.revenat.germes.application.model.entity.person.Account;
+import com.revenat.germes.application.model.entity.person.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,9 +22,9 @@ public abstract class AbstractEntity {
 
     private LocalDateTime modifiedAt;
 
-    private Account createdBy;
+    private User createdBy;
 
-    private Account modifiedBy;
+    private User modifiedBy;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,21 +57,21 @@ public abstract class AbstractEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {})
     @JoinColumn(name = "CREATED_BY", updatable = false)
-    public Account getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(final Account createdBy) {
+    public void setCreatedBy(final User createdBy) {
         this.createdBy = createdBy;
     }
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {})
     @JoinColumn(name = "MODIFIED_BY", insertable = false)
-    public Account getModifiedBy() {
+    public User getModifiedBy() {
         return modifiedBy;
     }
 
-    public void setModifiedBy(final Account modifiedBy) {
+    public void setModifiedBy(final User modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
