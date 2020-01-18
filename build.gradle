@@ -40,6 +40,7 @@ allprojects {
         hamcrestVersion = '2.1'
         mockitoVersion = '3.0.0'
         jerseyJunitVersion = '2.1.0'
+        cdiUnitVersion = '4.1.0'
         // UI
         primefacesVersion = '6.0'
         jsfVersion = '2.2.14'
@@ -94,11 +95,13 @@ allprojects {
                 junitApi          : "org.junit.jupiter:junit-jupiter-api:$junitVersion",
                 junitEngine       : "org.junit.jupiter:junit-jupiter-engine:$junitVersion",
                 junitParams       : "org.junit.jupiter:junit-jupiter-params:$junitVersion",
+                junitVintage : "org.junit.vintage:junit-vintage-engine:$junitVersion",
                 hamcrest          : "org.hamcrest:hamcrest:$hamcrestVersion",
                 mockito           : "org.mockito:mockito-junit-jupiter:$mockitoVersion",
                 jerseyTestCore    : "org.glassfish.jersey.test-framework:jersey-test-framework-core:$jerseyVersion",
                 jerseyTestProvider: "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
-                jerseyJunit       : "com.github.hanleyt:jersey-junit:$jerseyJunitVersion"
+                jerseyJunit       : "com.github.hanleyt:jersey-junit:$jerseyJunitVersion",
+                cdiUnit : "org.jglue.cdi-unit:cdi-unit:$cdiUnitVersion"
         ]
     }
 }

@@ -12,7 +12,7 @@ dependencies {
     runtimeOnly persistence.mysql, misc.jaxbRuntime
     compileOnly persistence.jpaApi
 
-    testImplementation tests.junitApi, tests.hamcrest, tests.mockito
+    testImplementation tests.junitApi, tests.junitVintage, tests.hamcrest, tests.mockito, server.weldSe, tests.cdiUnit
     testCompileOnly tests.junitParams, persistence.jpaApi
     testRuntimeOnly tests.junitEngine, persistence.h2
 }
