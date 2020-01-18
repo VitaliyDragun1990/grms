@@ -43,6 +43,7 @@ public class CityControllerTest {
     @Test
     public void shouldSaveCity() {
         CityBean cityBean = new CityBean();
+        when(transformer.untransform(cityBean, City.class)).thenReturn(new City("test"));
 
         cityController.saveCity(cityBean);
 

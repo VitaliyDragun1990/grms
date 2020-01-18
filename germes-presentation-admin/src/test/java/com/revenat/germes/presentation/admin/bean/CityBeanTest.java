@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.admin.dto;
+package com.revenat.germes.presentation.admin.bean;
 
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.presentation.admin.bean.CityBean;

@@ -45,11 +45,7 @@ public class CityController {
     public void saveCity(final CityBean cityBean) {
         LOGGER.info("CityController.saveCity(): {}", new ToStringBuilder(cityBean).shortStyle());
 
-        final City city = new City(cityBean.getName());
-        city.setDistrict(cityBean.getDistrict());
-        city.setRegion(cityBean.getRegion());
-        city.setId(cityBean.getId());
-        geographicalService.saveCity(city);
+        geographicalService.saveCity(transformer.untransform(cityBean, City.class));
     }
 
     public void updateCity(final City city, final CityBean cityBean) {
