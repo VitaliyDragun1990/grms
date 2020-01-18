@@ -3,7 +3,8 @@
  */
 plugins {
     id 'war'
-    id "org.gretty" version "3.0.1"
+    id "org.gretty"
+    id "io.franzbecker.gradle-lombok"
 }
 
 repositories {

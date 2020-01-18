@@ -2,6 +2,9 @@ package com.revenat.germes.presentation.admin.bean;
 
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.transform.Transformable;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 
 import javax.faces.bean.ManagedBean;
@@ -15,6 +18,9 @@ import javax.faces.bean.ViewScoped;
  */
 @ManagedBean(name = "currentCity", eager = true)
 @ViewScoped
+@ToString
+@Getter
+@Setter
 public class CityBean implements Transformable<City> {
 
     private int id;
@@ -22,7 +28,7 @@ public class CityBean implements Transformable<City> {
     private String name;
 
     private String district;
-
+    
     private String region;
 
     public void clear() {
@@ -30,38 +36,6 @@ public class CityBean implements Transformable<City> {
         setName("");
         setDistrict("");
         setRegion("");
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(final String district) {
-        this.district = district;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(final String region) {
-        this.region = region;
     }
 
     @Override

@@ -1,6 +1,6 @@
 plugins {
     id 'war'
-    id "org.gretty" version "3.0.1"
+    id "org.gretty"
 //	id 'com.challlen.karma' version '1.5.2'
 }
 

@@ -4,6 +4,8 @@
 
 plugins {
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "io.franzbecker.gradle-lombok" version "3.2.0"
+    id "org.gretty" version "3.0.1"
 }
 
 allprojects {
@@ -21,6 +23,7 @@ allprojects {
         hibernateValidatorVersion = '5.4.3.Final'
         validationApiVersion = '1.1.0.Final'
         elVersion = '3.0.1-b09'
+        lombokVersion = '1.18.10'
         // log
         log4jVersion = '2.13.0'
         // persistence
@@ -55,7 +58,8 @@ allprojects {
                 reflections : "org.reflections:reflections:$reflectionsVersion",
                 hibernateValidator : "org.hibernate:hibernate-validator:$hibernateValidatorVersion",
                 validationApi : "javax.validation:validation-api:$validationApiVersion",
-                el : "org.glassfish:javax.el:$elVersion"
+                el : "org.glassfish:javax.el:$elVersion",
+                lombok : "org.projectlombok:lombok:$lombokVersion"
         ]
 
         server = [
@@ -133,6 +137,7 @@ subprojects {
 
     dependencies {
         implementation log.log4jApi, log.log4jCore, log.log4jSlf4j
+        compileOnly misc.lombok
     }
 
     test {
