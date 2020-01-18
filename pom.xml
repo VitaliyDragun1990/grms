@@ -49,6 +49,7 @@
         <commonsLogging.version>1.2</commonsLogging.version>
         <jbossLogging.version>3.3.2.Final</jbossLogging.version>
         <cdunit.version>4.1.0</cdunit.version>
+        <shiro.version>1.4.0</shiro.version>
 
         <junit.version>5.5.1</junit.version>
         <hamcrest.version>2.1</hamcrest.version>

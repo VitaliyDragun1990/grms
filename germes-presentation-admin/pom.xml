@@ -33,6 +33,7 @@
             <artifactId>germes-application-model</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.glassfish.hk2.external</groupId>
             <artifactId>jakarta.inject</artifactId>
@@ -83,6 +84,19 @@
             <version>1.0.10</version>
         </dependency>
 
+        <!--security-->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-web</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+
+        <!--test-->
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se-core</artifactId>

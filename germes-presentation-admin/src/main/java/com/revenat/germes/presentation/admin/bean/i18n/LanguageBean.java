@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.admin.i18n;
+package com.revenat.germes.presentation.admin.bean.i18n;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
