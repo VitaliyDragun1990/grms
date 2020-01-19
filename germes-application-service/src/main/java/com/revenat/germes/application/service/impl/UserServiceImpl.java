@@ -4,6 +4,7 @@ import com.revenat.germes.application.infrastructure.exception.flow.ValidationEx
 import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
+import com.revenat.germes.persistence.infrastructure.cid.DBSource;
 import com.revenat.germes.persistence.repository.UserRepository;
 
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final Checker checker = new Checker();
 
     @Inject
-    public UserServiceImpl(final UserRepository userRepository) {
+    public UserServiceImpl(@DBSource final UserRepository userRepository) {
         this.userRepository = userRepository;
 
         final ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
