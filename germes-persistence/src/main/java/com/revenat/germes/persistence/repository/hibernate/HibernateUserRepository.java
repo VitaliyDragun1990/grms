@@ -4,6 +4,7 @@ import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.infrastructure.cid.DBSource;
 import com.revenat.germes.persistence.repository.UserRepository;
+import org.hibernate.query.Query;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,6 +31,15 @@ public class HibernateUserRepository extends BaseHibernateRepository implements 
     @Override
     public Optional<User> findById(final int userId) {
         return query(session -> Optional.ofNullable(session.get(User.class, userId)));
+    }
+
+    @Override
+    public Optional<User> findByUserName(final String userName) {
+        return query(session -> {
+            final Query<User> query = session.createNamedQuery(User.QUERY_FIND_BY_USERNAME, User.class);
+            query.setParameter("userName", userName);
+            return query.uniqueResultOptional();
+        });
     }
 
     @Override

@@ -14,11 +14,14 @@ import javax.validation.constraints.Size;
 @Table(name = "USERS")
 @Entity
 @NamedQueries({
-        @NamedQuery(name = User.QUERY_FIND_ALL, query = "from User")
+        @NamedQuery(name = User.QUERY_FIND_ALL, query = "from User"),
+        @NamedQuery(name = User.QUERY_FIND_BY_USERNAME, query = "from User u where u.userName = :userName")
 })
 public class User extends AbstractEntity {
 
     public static final String QUERY_FIND_ALL = "User.findAll";
+
+    public static final String QUERY_FIND_BY_USERNAME = "User.findByUsername";
 
     private String userName;
 

@@ -28,6 +28,14 @@ public interface UserService {
     Optional<User> findById(int userId);
 
     /**
+     * Returns user with specified username
+     *
+     * @param userName username to search user with
+     * @return optional with found user, or empty one otherwise
+     */
+    Optional<User> findByUserName(String userName);
+
+    /**
      * Deletes user with specified identifier
      *
      * @param userId unique identifier to delete user with

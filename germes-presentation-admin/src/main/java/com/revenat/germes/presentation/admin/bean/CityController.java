@@ -29,13 +29,6 @@ public class CityController {
 
     private final Transformer transformer;
 
-    /**
-     * Weld container for each bean creates proxy and only create bean itself at first request for such
-     * bean. In order to load bean on startup ( like @Startup in EJB) you should add method like one below
-     */
-    void init(@Observes @Initialized(ApplicationScoped.class) final Object event) {
-    }
-
     @Inject
     public CityController(final GeographicalService geographicalService, final Transformer transformer) {
         this.geographicalService = geographicalService;

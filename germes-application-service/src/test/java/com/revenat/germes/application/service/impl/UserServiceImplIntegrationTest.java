@@ -189,6 +189,31 @@ class UserServiceImplIntegrationTest {
         assertThrows(InvalidParameterException.class, () -> service.save(null));
     }
 
+    @Test
+    void shouldReturnEmptyOptionalIfNoUserWithSpecifiedUsername() {
+        final Optional<User> userOptional = service.findByUserName(JOE_12345);
+
+        assertTrue(userOptional.isEmpty());
+    }
+
+    @Test
+    void shouldFindUserByUsername() {
+        final User user = new User();
+        user.setUserName(JOE_12345);
+        user.setPassword(SECRET);
+        service.save(user);
+
+        final Optional<User> userOptional = service.findByUserName(JOE_12345);
+
+        assertTrue(userOptional.isPresent());
+        assertThat(userOptional.get(), equalTo(user));
+    }
+
+    @Test
+    void shouldFailToFindUserByUsernameIfSpecifiedUsernameIsNull() {
+        assertThrows(InvalidParameterException.class, () -> service.findByUserName(null));
+    }
+
     private void assertValidation(final ValidationException ex, final String fieldName,
                                   final Class<?> clz, final String messageKey) {
         assertThat(ex.getConstraints(), hasSize(greaterThan(0)));

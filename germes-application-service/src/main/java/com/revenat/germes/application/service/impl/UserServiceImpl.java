@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
         validator = validatorFactory.getValidator();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void save(final User user) {
         checker.checkParameter(user != null, "user to save can not be null");
@@ -52,6 +51,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findById(final int userId) {
         return userRepository.findById(userId);
+    }
+
+    @Override
+    public Optional<User> findByUserName(final String userName) {
+        checker.checkParameter(userName != null, "userName to find user with can not be null");
+
+        return userRepository.findByUserName(userName);
     }
 
     @Override
