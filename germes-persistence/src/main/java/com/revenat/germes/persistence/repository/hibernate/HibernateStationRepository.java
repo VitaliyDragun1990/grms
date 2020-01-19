@@ -8,12 +8,9 @@ import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.infrastructure.cid.DBSource;
 import com.revenat.germes.persistence.repository.StationRepository;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.PersistenceException;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +21,16 @@ import java.util.List;
  */
 @Named
 @DBSource
-public class HibernateStationRepository implements StationRepository {
-
-    private final SessionFactory sessionFactory;
+public class HibernateStationRepository extends BaseHibernateRepository implements StationRepository {
 
     @Inject
     public HibernateStationRepository(final SessionFactoryBuilder sessionFactoryBuilder) {
-        sessionFactory = sessionFactoryBuilder.getSessionFactory();
+        super(sessionFactoryBuilder);
     }
 
     @Override
     public List<Station> findAllByCriteria(final StationCriteria stationCriteria) {
-        try (final Session session = sessionFactory.openSession()) {
+        return query(session -> {
             final CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             final CriteriaQuery<Station> query = criteriaBuilder.createQuery(Station.class);
             final Root<Station> root = query.from(Station.class);
@@ -45,9 +40,7 @@ public class HibernateStationRepository implements StationRepository {
             query.select(root).where(predicates);
 
             return session.createQuery(query).getResultList();
-        } catch (final Exception e) {
-            throw new PersistenceException(e);
-        }
+        });
     }
 
     private Predicate[] buildPredicates(final StationCriteria stationCriteria, final Root<Station> root, final CriteriaBuilder cb) {

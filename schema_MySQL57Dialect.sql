@@ -10,7 +10,7 @@ drop table if exists STATIONS;
 drop table if exists USERS;
 create table CITIES (ID integer not null auto_increment, CREATED_AT datetime(6) not null, MODIFIED_AT datetime(6), DISTRICT varchar(32), NAME varchar(32) not null, REGION varchar(32) not null, CREATED_BY integer, MODIFIED_BY integer, primary key (ID)) engine=InnoDB;
 create table STATIONS (ID integer not null auto_increment, CREATED_AT datetime(6) not null, MODIFIED_AT datetime(6), APARTMENT varchar(16), HOUSE_NO varchar(16) not null, STREET varchar(32) not null, ZIP_CODE varchar(10) not null, X double precision, Y double precision, PHONE varchar(16), TRANSPORT_TYPE varchar(255) not null, CREATED_BY integer, MODIFIED_BY integer, CITY_ID integer not null, primary key (ID)) engine=InnoDB;
-create table USERS (ID integer not null auto_increment, CREATED_AT datetime(6) not null, MODIFIED_AT datetime(6), password varchar(255), USERNAME varchar(24) not null, CREATED_BY integer, MODIFIED_BY integer, primary key (ID)) engine=InnoDB;
+create table USERS (ID integer not null auto_increment, CREATED_AT datetime(6) not null, MODIFIED_AT datetime(6), PASSWORD varchar(24) not null, USERNAME varchar(24) not null, CREATED_BY integer, MODIFIED_BY integer, primary key (ID)) engine=InnoDB;
 alter table CITIES add constraint cityNameAndRegionUniqueConstraint unique (NAME, REGION);
 alter table USERS add constraint UK_h6k33r31i2nvrri9lok4r163j unique (USERNAME);
 alter table CITIES add constraint FKic0yipqoyj15kgdfw4yg30agw foreign key (CREATED_BY) references USERS (ID);
