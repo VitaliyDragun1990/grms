@@ -1,4 +1,4 @@
-package com.revenat.germes.persistence.infrastructure.cid;
+package com.revenat.germes.persistence.infrastructure.cdi;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.ElementType;

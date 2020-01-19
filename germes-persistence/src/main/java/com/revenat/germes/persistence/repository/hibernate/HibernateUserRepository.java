@@ -2,7 +2,7 @@ package com.revenat.germes.persistence.repository.hibernate;
 
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
-import com.revenat.germes.persistence.infrastructure.cid.DBSource;
+import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.UserRepository;
 import org.hibernate.query.Query;
 

@@ -4,7 +4,7 @@ import com.revenat.germes.application.infrastructure.exception.flow.ValidationEx
 import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
-import com.revenat.germes.persistence.infrastructure.cid.DBSource;
+import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.UserRepository;
 
 import javax.inject.Inject;

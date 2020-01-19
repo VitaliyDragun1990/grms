@@ -5,7 +5,7 @@ import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
 import com.revenat.germes.application.model.search.StationCriteria;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
-import com.revenat.germes.persistence.infrastructure.cid.DBSource;
+import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.StationRepository;
 import org.apache.commons.lang3.StringUtils;
 

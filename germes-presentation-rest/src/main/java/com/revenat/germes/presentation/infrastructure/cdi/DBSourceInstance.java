@@ -1,11 +1,11 @@
 package com.revenat.germes.presentation.infrastructure.cdi;
 
-import com.revenat.germes.persistence.infrastructure.cid.DBSource;
+import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import org.glassfish.hk2.api.AnnotationLiteral;
 
 /**
  * Special class that has to be created for HK2 processor to support qualifier
- * {@linkplain com.revenat.germes.persistence.infrastructure.cid.DBSource @DBSource} annotation
+ * {@linkplain com.revenat.germes.persistence.infrastructure.cdi.DBSource @DBSource} annotation
  *
  * @author Vitaliy Dragun
  */
