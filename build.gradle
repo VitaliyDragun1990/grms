@@ -24,6 +24,7 @@ allprojects {
         validationApiVersion = '1.1.0.Final'
         elVersion = '3.0.1-b09'
         lombokVersion = '1.18.10'
+        guavaVersion = '20.0'
         // log
         log4jVersion = '2.13.0'
         commonsLoggingVersion = '1.2'
@@ -62,7 +63,8 @@ allprojects {
                 hibernateValidator : "org.hibernate:hibernate-validator:$hibernateValidatorVersion",
                 validationApi : "javax.validation:validation-api:$validationApiVersion",
                 el : "org.glassfish:javax.el:$elVersion",
-                lombok : "org.projectlombok:lombok:$lombokVersion"
+                lombok : "org.projectlombok:lombok:$lombokVersion",
+                guava : "com.google.guava:guava:$guavaVersion"
         ]
 
         server = [

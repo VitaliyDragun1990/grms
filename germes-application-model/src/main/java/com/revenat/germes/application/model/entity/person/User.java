@@ -39,8 +39,8 @@ public class User extends AbstractEntity {
     }
 
     @NotNull
-    @Size(min = 5, max = 24)
-    @Column(name = "PASSWORD", nullable = false, length = 24)
+    @Size(min = 5, max = 256)
+    @Column(name = "PASSWORD", nullable = false, length = 256)
     public String getPassword() {
         return password;
     }

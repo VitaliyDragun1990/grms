@@ -3,6 +3,7 @@ package com.revenat.germes.presentation.admin.security;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -24,6 +25,12 @@ public class CDIRealm extends AuthorizingRealm {
 
     public CDIRealm(final UserService userService) {
         this.userService = userService;
+
+        final HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
+        credentialsMatcher.setHashAlgorithmName("SHA-256");
+        credentialsMatcher.setStoredCredentialsHexEncoded(true);
+
+        setCredentialsMatcher(credentialsMatcher);
     }
 
     @Override

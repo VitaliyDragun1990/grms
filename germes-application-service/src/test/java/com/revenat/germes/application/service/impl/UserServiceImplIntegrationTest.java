@@ -176,7 +176,7 @@ class UserServiceImplIntegrationTest {
     void shouldFailToSaveUserIfPasswordIsToLong() {
         User user = new User();
         user.setUserName(JOE_12345);
-        user.setPassword("s".repeat(25));
+        user.setPassword("s".repeat(512));
 
         final ValidationException e = assertThrows(ValidationException.class, () -> service.save(user));
 
