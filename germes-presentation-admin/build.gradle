@@ -41,3 +41,7 @@ processResources {
     }
     exclude('txt')
 }
+
+war {
+    archiveName 'admin.war'
+}

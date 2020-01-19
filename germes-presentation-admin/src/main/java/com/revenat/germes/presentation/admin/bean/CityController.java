@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -47,11 +45,12 @@ public class CityController {
     public void saveCity(final CityBean cityBean) {
         LOGGER.info("CityController.saveCity(): {}", new ToStringBuilder(cityBean).shortStyle());
 
-        geographicalService.saveCity(transformer.untransform(cityBean, City.class));
+        final City cityToSave = transformer.untransform(cityBean, City.class);
+        geographicalService.saveCity(cityToSave);
     }
 
     public void updateCity(final City city, final CityBean cityBean) {
-        LOGGER.info("CityController.updateCity(): {} <- {}", new ToStringBuilder(city).shortStyle(),
+        LOGGER.info("CityController.updateCity(): {} <- {}", new ToStringBuilder(city).shortStyle("stations"),
                 new ToStringBuilder(cityBean).shortStyle());
 
         transformer.transform(city, cityBean);

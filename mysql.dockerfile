@@ -12,4 +12,5 @@ ENV MYSQL_ROOT_PASSWORD=root \
 # docker build -t germes/mysql -f mysql.dockerfile . [--no-cache=true]
 
 # Run container from created image
-# docker run --name germes_db --publish 3307:3306 -e MYSQL_ROOT_PASSWORD=19900225 -d germes/mysql
+# docker run --name germes_db --publish 3307:3306 -e MYSQL_ROOT_PASSWORD=19900225 --memory=512M \
+# --volume /var/project_data/germes/database/mysql:/var/lib/mysql --cpus=1 -d germes/mysql
