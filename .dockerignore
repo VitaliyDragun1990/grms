@@ -1,5 +1,0 @@
-.git
-.settings
-.idea
-germes-*/*
-!germes-presentation-admin/src/main/resources/docker

@@ -39,7 +39,7 @@ processResources {
                 ext : '.properties'
         )
     }
-    exclude('txt')
+    exclude('txt', 'docker')
 }
 
 war {
