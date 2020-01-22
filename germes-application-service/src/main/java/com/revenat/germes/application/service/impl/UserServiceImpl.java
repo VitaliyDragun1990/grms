@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void save(final User user) {
         checker.checkParameter(user != null, "user to save can not be null");
 

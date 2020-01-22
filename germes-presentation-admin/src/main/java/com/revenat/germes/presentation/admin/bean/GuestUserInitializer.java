@@ -14,12 +14,12 @@ import javax.inject.Named;
 import java.time.LocalDateTime;
 
 /**
- * Creates guest user if not exists at application startup
+ * CDI-managed bean responsible for creating guest user if it does not exists at application startup
  *
  * @author Vitaliy Dragun
  */
 @Named
-@ApplicationScoped()
+@ApplicationScoped
 public class GuestUserInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GuestUserInitializer.class);

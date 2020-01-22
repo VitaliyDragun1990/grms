@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 
 /**
  * {@link CityBean} is a value holder for the city data
@@ -16,12 +16,14 @@ import javax.faces.bean.ViewScoped;
  *
  * @author Vitaliy Dragun
  */
-@ManagedBean(name = "currentCity", eager = true)
+@Named("currentCity")
 @ViewScoped
 @ToString
 @Getter
 @Setter
-public class CityBean implements Transformable<City> {
+public class CityBean implements Transformable<City>, Serializable {
+
+    private static final long serialVersionUID = -368720723800007386L;
 
     private int id;
 
@@ -39,12 +41,12 @@ public class CityBean implements Transformable<City> {
     }
 
     @Override
-    public void transform(City city) {
+    public void transform(final City city) {
 
     }
 
     @Override
-    public City untransform(City city) {
+    public City untransform(final City city) {
         return city;
     }
 }

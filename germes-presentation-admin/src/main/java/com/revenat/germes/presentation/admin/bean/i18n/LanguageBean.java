@@ -1,18 +1,22 @@
 package com.revenat.germes.presentation.admin.bean.i18n;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
+ * CDI-managed bean to store user locale for i18n
+ *
  * @author Vitaliy Dragun
  */
-@ManagedBean(name = "language")
+@Named("language")
 @SessionScoped
-public class LanguageBean {
+public class LanguageBean implements Serializable {
 
+    private static final long serialVersionUID = 1538715230418655991L;
     /**
      * Locale for the current user
      */
