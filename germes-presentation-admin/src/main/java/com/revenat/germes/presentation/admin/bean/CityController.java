@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.push.Push;
+import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -26,6 +28,10 @@ public class CityController {
     private final GeographicalService geographicalService;
 
     private final Transformer transformer;
+
+    @Inject
+    @Push
+    private PushContext cityChannel;
 
     @Inject
     public CityController(final GeographicalService geographicalService, final Transformer transformer) {
@@ -47,6 +53,8 @@ public class CityController {
 
         final City cityToSave = transformer.untransform(cityBean, City.class);
         geographicalService.saveCity(cityToSave);
+
+        cityChannel.send("test");
     }
 
     public void updateCity(final City city, final CityBean cityBean) {
