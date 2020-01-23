@@ -43,6 +43,7 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <warName>client</warName>
+                    <packagingExcludes>test,package.json</packagingExcludes>
                 </configuration>
             </plugin>
             <plugin>
