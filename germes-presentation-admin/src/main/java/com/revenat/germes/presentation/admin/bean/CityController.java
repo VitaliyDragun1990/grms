@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 import javax.faces.push.Push;
 import javax.faces.push.PushContext;
 import javax.inject.Inject;
@@ -34,7 +35,8 @@ public class CityController {
     private PushContext cityChannel;
 
     @Inject
-    public CityController(final GeographicalService geographicalService, final Transformer transformer) {
+    public CityController(@Default final GeographicalService geographicalService,
+                          @Default final Transformer transformer) {
         this.geographicalService = geographicalService;
         this.transformer = transformer;
         LOGGER.info("CityController has been created");

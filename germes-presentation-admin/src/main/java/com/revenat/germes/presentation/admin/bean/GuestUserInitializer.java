@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class GuestUserInitializer {
     private final Encrypter encrypter;
 
     @Inject
-    public GuestUserInitializer(final UserService userService) {
+    public GuestUserInitializer(@Default final UserService userService) {
         this.userService = userService;
         encrypter = new Encrypter();
     }

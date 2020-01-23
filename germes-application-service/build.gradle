@@ -5,7 +5,7 @@
 dependencies {
     implementation project(':germes-application-model'), project(':germes-persistence')
     implementation misc.hibernateValidator
-    compileOnly misc.jakartaInject, persistence.jpaApi
+    compileOnly misc.jakartaInject, persistence.jpaApi, misc.jakartaCdi
     runtimeOnly misc.el
 
     testImplementation tests.junitApi, tests.hamcrest, tests.mockito

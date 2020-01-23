@@ -25,6 +25,7 @@ allprojects {
         elVersion = '3.0.1-b09'
         lombokVersion = '1.18.10'
         guavaVersion = '20.0'
+        jakartaCdiVersion = '2.0.2'
         // log
         log4jVersion = '2.13.0'
         commonsLoggingVersion = '1.2'
@@ -64,7 +65,8 @@ allprojects {
                 validationApi : "javax.validation:validation-api:$validationApiVersion",
                 el : "org.glassfish:javax.el:$elVersion",
                 lombok : "org.projectlombok:lombok:$lombokVersion",
-                guava : "com.google.guava:guava:$guavaVersion"
+                guava : "com.google.guava:guava:$guavaVersion",
+                jakartaCdi : "jakarta.enterprise:jakarta.enterprise.cdi-api:$jakartaCdiVersion"
         ]
 
         server = [

@@ -5,6 +5,7 @@ import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
 import org.apache.shiro.web.env.WebEnvironment;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebListener;
@@ -18,6 +19,7 @@ import javax.servlet.annotation.WebListener;
 public class CdiEnvironmentLoaderListener extends EnvironmentLoaderListener {
 
     @Inject
+    @Default
     private UserService userService;
 
     @Override
