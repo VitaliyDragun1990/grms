@@ -6,7 +6,7 @@ dependencies {
     implementation project(':germes-application-model'), project(':germes-application-service'),
             project(':germes-persistence')
 
-    implementation misc.commonsLang3, log.log4jWeb, server.jerseyHttp, server.jerseyServlet,
+    implementation misc.commonsLang3, log.log4jWeb, server.jerseyServlet,
             server.jerseyJson
 
     implementation( server.jerseyHk2) {
@@ -19,7 +19,7 @@ dependencies {
 
     runtimeOnly misc.jaxbRuntime
 
-    testImplementation tests.junitApi, tests.hamcrest, tests.mockito, tests.jerseyTestCore, tests.jerseyJunit
+    testImplementation tests.junitApi, tests.hamcrest, tests.mockito, tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
     testCompileOnly tests.junitParams, persistence.jpaApi
     testRuntimeOnly tests.junitEngine, tests.jerseyTestProvider, persistence.h2
 }

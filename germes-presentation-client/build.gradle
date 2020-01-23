@@ -36,9 +36,8 @@ gretty {
 
 war {
     archiveName 'client.war'
-    exclude 'test'
-    exclude 'bowler.json'
-    exclude 'package.json'
+    exclude('test', '**/*bower.json', '**/package.json', '**/*.md', '**/*.gzip', '**/*.map', '*.js')
+    classpath = classpath.filter {!project.hasProperty('payara') || !it.name.contains('jersey')}
 }
 
 //karmaRun.dependsOn test
