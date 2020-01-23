@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Optional;
  */
 @Named
 @DBSource
+@Dependent
 public class HibernateCityRepository extends BaseHibernateRepository implements CityRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HibernateCityRepository.class);

@@ -34,4 +34,11 @@ gretty {
     httpPort = 8081
 }
 
+war {
+    archiveName 'client.war'
+    exclude 'test'
+    exclude 'bowler.json'
+    exclude 'package.json'
+}
+
 //karmaRun.dependsOn test

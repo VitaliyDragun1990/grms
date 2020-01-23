@@ -11,7 +11,7 @@ import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.CityRepository;
 import com.revenat.germes.persistence.repository.StationRepository;
 
-import javax.enterprise.inject.Default;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.Validation;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @author Vitaliy Dragun
  */
 @Named
-@Default
+@Dependent
 public class GeographicalServiceImpl implements GeographicalService {
 
     private final Checker checker = new Checker();

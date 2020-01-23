@@ -27,13 +27,22 @@
     </dependencies>
 
     <build>
-        <finalName>germes-client</finalName>
+        <finalName>client</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>docker/*.*</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <warName>client</warName>
                 </configuration>
             </plugin>
             <plugin>

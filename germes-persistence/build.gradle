@@ -12,7 +12,7 @@ dependencies {
 
     runtimeOnly persistence.hikariCp
 
-    compileOnly misc.jakartaInject, misc.jakartaAnnotations
+    compileOnly misc.jakartaInject, misc.jakartaAnnotations, misc.jakartaCdi
 
 
     testImplementation persistence.hibernateTools

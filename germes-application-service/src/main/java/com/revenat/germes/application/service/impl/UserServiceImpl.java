@@ -7,7 +7,7 @@ import com.revenat.germes.application.service.UserService;
 import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.UserRepository;
 
-import javax.enterprise.inject.Default;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.Validation;
@@ -21,7 +21,7 @@ import java.util.Set;
  * @author Vitaliy Dragun
  */
 @Named
-@Default
+@Dependent
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;

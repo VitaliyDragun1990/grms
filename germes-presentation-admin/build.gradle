@@ -13,8 +13,8 @@ repositories {
 
 dependencies {
     implementation project(":germes-application-service"), project(":germes-application-model")
-    implementation ui.primefaces, ui.jsf, ui.bootstrap, misc.jakartaInject, server.weldServlet, security.shiroCore, security.shiroWeb
-    providedCompile server.servletApi
+    implementation ui.primefaces, ui.jsf, ui.bootstrap, misc.jakartaInject, /*server.weldServlet,*/ security.shiroCore, security.shiroWeb
+    providedCompile server.servletApi, server.weldServlet
     runtimeOnly persistence.mysql, misc.jaxbRuntime, log.commonsLogging
     compileOnly persistence.jpaApi
 

@@ -38,7 +38,7 @@
         <guava.version>20.0</guava.version>
         <cdi.version>2.0</cdi.version>
         <lombok.version>1.18.10</lombok.version>
-
+        <jakarta-cdi.version>2.0.2</jakarta-cdi.version>
         <!--server-->
         <jersey.version>2.29.1</jersey.version>
         <servlet.version>3.1.0</servlet.version>
@@ -79,6 +79,12 @@
                 <version>${jersey.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>${jakarta-cdi.version}</version>
             </dependency>
 
             <dependency>

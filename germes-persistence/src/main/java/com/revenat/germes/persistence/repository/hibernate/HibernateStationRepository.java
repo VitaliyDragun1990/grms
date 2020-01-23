@@ -9,6 +9,7 @@ import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.StationRepository;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.criteria.*;
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @Named
 @DBSource
+@Dependent
 public class HibernateStationRepository extends BaseHibernateRepository implements StationRepository {
 
     @Inject

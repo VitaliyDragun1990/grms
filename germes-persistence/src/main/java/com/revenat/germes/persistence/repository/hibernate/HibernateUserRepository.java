@@ -6,6 +6,7 @@ import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.UserRepository;
 import org.hibernate.query.Query;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Optional;
  */
 @Named
 @DBSource
+@Dependent
 public class HibernateUserRepository extends BaseHibernateRepository implements UserRepository {
 
     @Inject

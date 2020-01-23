@@ -10,7 +10,10 @@ import org.hibernate.service.ServiceRegistry;
 import org.reflections.Reflections;
 
 import javax.annotation.PreDestroy;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.inject.Named;
+import javax.inject.Singleton;
 import javax.persistence.Entity;
 import java.io.InputStream;
 import java.util.Properties;
@@ -26,6 +29,7 @@ import static java.util.Objects.requireNonNull;
  * @author Vitaliy Dragun
  */
 @Named
+@ApplicationScoped
 public class SessionFactoryBuilder {
 
     private final SessionFactory sessionFactory;
