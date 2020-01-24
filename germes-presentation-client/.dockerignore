@@ -1,0 +1,3 @@
+*
+!src/main/resources/docker
+!build/libs/client.war
