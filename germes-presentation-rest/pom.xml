@@ -83,6 +83,11 @@
             <artifactId>jersey-media-multipart</artifactId>
             <scope>${jersey.scope}</scope>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-sse</artifactId>
+            <scope>${jersey.scope}</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>

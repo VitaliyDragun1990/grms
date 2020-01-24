@@ -7,7 +7,7 @@ dependencies {
             project(':germes-persistence')
 
     implementation misc.commonsLang3, log.log4jWeb, server.jerseyServlet,
-            server.jerseyJson
+            server.jerseyJson, server.jerseySse
 
     implementation( server.jerseyHk2) {
         exclude group: 'org:javassist', module: 'javassist'

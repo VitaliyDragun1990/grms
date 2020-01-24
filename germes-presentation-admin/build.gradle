@@ -42,10 +42,6 @@ processResources {
     exclude('txt', 'docker')
 }
 
-def isWildFlyDependency(File file) {
-    return ["jboss", "weld", "cdi", "javax.faces", "validation-api", "javax.el"].findIndexOf { file.getName().contains(it) } >= 0
-}
-
 war {
     archiveName 'admin.war'
     classpath = classpath.filter {!project.hasProperty('payara') || !it.name.contains('weld')}
