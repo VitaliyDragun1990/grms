@@ -33,8 +33,9 @@ public class SseResource {
     public void currentTime(@Context final SseEventSink eventSink, @Context final Sse sse) {
         new Thread(() -> {
            while (!terminationFlag.get()) {
-               final OutboundSseEvent sseEvent = sse.newEventBuilder().name("current-time")
-                       .data(String.class, LocalTime.now().toString()).build();
+               final OutboundSseEvent sseEvent = sse.newEventBuilder()
+                       .data(String.class, LocalTime.now().toString())
+                       .build();
                eventSink.send(sseEvent);
                try {
                    Thread.sleep(1000);
