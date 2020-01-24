@@ -14,10 +14,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 import static javax.ws.rs.core.Response.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * {@link CityResourceTest} is an integration test that verifies
@@ -26,7 +30,6 @@ import static org.hamcrest.Matchers.*;
  * @author Vitaliy Dragun
  */
 @DisplayName("a city resource")
-@SuppressWarnings("unchecked")
 class CityResourceTest {
 
     @RegisterExtension
@@ -57,6 +60,43 @@ class CityResourceTest {
                 .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
 
         assertStatus(response, NO_CONTENT);
+    }
+
+    @Test
+    void shouldSaveNewCityReactClient(final WebTarget target) throws Throwable {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setDistrict("Odessa")
+                .setRegion("Odessa")
+                .setName("Odessa");
+
+
+        final CompletableFuture<Void> cf = target
+                .path("cities")
+                .request()
+                .rx()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON))
+                .thenAccept(response -> assertStatus(response, NO_CONTENT))
+                .thenCompose(v -> target.path("cities").request().rx().get(Response.class))
+                .thenAccept(response -> assertCityPresent(response, "Odessa"))
+                .toCompletableFuture();
+
+        try {
+            cf.join();
+        } catch (final CompletionException e) {
+            if (e.getCause() != null) {
+                throw e.getCause();
+            }
+            fail(e.getMessage());
+        }
+
+    }
+
+    private Response assertCityPresent(final Response response, final String cityName) {
+        final List<Map<String, String>> cities = response.readEntity(List.class);
+        assertNotNull(cities);
+        assertThat(cities, hasItems(hasEntry(equalTo("name"), equalTo(cityName))));
+        return response;
     }
 
     @Test
@@ -102,20 +142,20 @@ class CityResourceTest {
     }
 
     @Test
-    void shouldReturnStatusBadRequestIfFindCityByInvalidIdValue(WebTarget target) {
+    void shouldReturnStatusBadRequestIfFindCityByInvalidIdValue(final WebTarget target) {
         final Response response = target.path("/cities/aaababb").request().get(Response.class);
 
         assertStatus(response, BAD_REQUEST);
     }
 
     @Test
-    void shouldReturnStatusBadRequestIfTryToSaveCityWithoutName(WebTarget target) {
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithoutName(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
         cityDTO
                 .setDistrict("Odessa district")
                 .setRegion("Odessa region");
 
-        Response response = target
+        final Response response = target
                 .path("/cities")
                 .request()
                 .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
@@ -124,13 +164,13 @@ class CityResourceTest {
     }
 
     @Test
-    void shouldReturnStatusBadRequestIfTryToSaveCityWithoutRegion(WebTarget target) {
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithoutRegion(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
         cityDTO
                 .setName("Odessa")
                 .setDistrict("Odessa district");
 
-        Response response = target
+        final Response response = target
                 .path("/cities")
                 .request()
                 .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
