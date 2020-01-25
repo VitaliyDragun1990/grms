@@ -1,6 +1,6 @@
 FROM tomcat:9.0-jdk11-openjdk-slim
 
-ADD build/libs/admin.war /usr/local/tomcat/webapps/
+ADD build/libs/admin.war /usr/local/tomcat/webapps/ROOT.war
 
 # Run using docker console from germes-presentation-admin directory -> creates image with name germes/mysql
 # docker build -t germes/admin-tomcat -f src/main/resources/docker/admin-tomcat.dockerfile . [--no-cache=true]

@@ -1,5 +1,8 @@
 package com.revenat.germes.presentation.admin.bean.i18n;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -16,6 +19,8 @@ import java.util.Locale;
 @SessionScoped
 public class LanguageBean implements Serializable {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LanguageBean.class);
+
     private static final long serialVersionUID = 1538715230418655991L;
     /**
      * Locale for the current user
@@ -28,6 +33,7 @@ public class LanguageBean implements Serializable {
 
     public void setLanguage(final String lang) {
         locale = new Locale(lang);
+        LOGGER.info("Set language:{}", lang);
     }
 
     @PostConstruct

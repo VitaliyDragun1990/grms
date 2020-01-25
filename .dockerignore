@@ -1,0 +1,15 @@
+**/target
+**/build
+**/bin
+**/out
+**/logs
+**/node_modules
+*.text
+.gradle
+.git
+.idea
+.settings
+**/*.project
+**/*.log
+**/*.bat
+**/*.iml
