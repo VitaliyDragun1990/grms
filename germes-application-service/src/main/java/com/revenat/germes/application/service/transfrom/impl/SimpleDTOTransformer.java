@@ -9,7 +9,6 @@ import com.revenat.germes.application.service.transfrom.helper.ClassInstanceCrea
 import com.revenat.germes.application.service.transfrom.helper.ObjectStateCopier;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
 import com.revenat.germes.application.service.transfrom.impl.cache.CachedFieldProvider;
-import com.revenat.germes.application.service.transfrom.impl.cache.FieldProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +95,7 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     private <S, D> void copyState(final S source, final D dest) {
-        final List<String> fieldNamesToCopy = fieldProvider.getFieldNames(source.getClass(), dest.getClass());
+        final List<String> fieldNamesToCopy = fieldProvider.getSimilarFieldNames(source.getClass(), dest.getClass());
         new ObjectStateCopier(source, dest).copyState(fieldNamesToCopy);
     }
 

@@ -26,6 +26,7 @@ allprojects {
         lombokVersion = '1.18.10'
         guavaVersion = '20.0'
         jakartaCdiVersion = '2.0.2'
+        jmhVersion = '1.23'
         // log
         log4jVersion = '2.13.0'
         commonsLoggingVersion = '1.2'
@@ -66,7 +67,9 @@ allprojects {
                 el : "org.glassfish:javax.el:$elVersion",
                 lombok : "org.projectlombok:lombok:$lombokVersion",
                 guava : "com.google.guava:guava:$guavaVersion",
-                jakartaCdi : "jakarta.enterprise:jakarta.enterprise.cdi-api:$jakartaCdiVersion"
+                jakartaCdi : "jakarta.enterprise:jakarta.enterprise.cdi-api:$jakartaCdiVersion",
+                jmhCore : "org.openjdk.jmh:jmh-core:$jmhVersion",
+                jmhGenerator : "org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion"
         ]
 
         server = [

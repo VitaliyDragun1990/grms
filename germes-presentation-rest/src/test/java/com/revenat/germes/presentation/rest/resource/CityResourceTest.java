@@ -30,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author Vitaliy Dragun
  */
 @DisplayName("a city resource")
+@SuppressWarnings("unchecked")
 class CityResourceTest {
 
     @RegisterExtension
@@ -40,6 +41,7 @@ class CityResourceTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void shouldNotFindAnyCityIfNoCityWereSaved(final WebTarget target) {
         final List<Map<String, String>> cities = target.path("cities").request().get(List.class);
 
@@ -90,13 +92,6 @@ class CityResourceTest {
             fail(e.getMessage());
         }
 
-    }
-
-    private Response assertCityPresent(final Response response, final String cityName) {
-        final List<Map<String, String>> cities = response.readEntity(List.class);
-        assertNotNull(cities);
-        assertThat(cities, hasItems(hasEntry(equalTo("name"), equalTo(cityName))));
-        return response;
     }
 
     @Test
@@ -192,5 +187,11 @@ class CityResourceTest {
 
             assertThat(response.getStatus(), equalTo(NO_CONTENT.getStatusCode()));
         }
+    }
+
+    private void assertCityPresent(final Response response, final String cityName) {
+        final List<Map<String, String>> cities = response.readEntity(List.class);
+        assertNotNull(cities);
+        assertThat(cities, hasItems(hasEntry(equalTo("name"), equalTo(cityName))));
     }
 }

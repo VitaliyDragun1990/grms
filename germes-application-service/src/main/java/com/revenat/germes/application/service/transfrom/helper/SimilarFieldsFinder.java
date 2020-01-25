@@ -36,25 +36,28 @@ public class SimilarFieldsFinder {
     public List<String> findByName(final Class<?> clazz1, final Class<?> clazz2) {
         checker.checkParameter(clazz1 != null, "clazz1 object can not be null");
         checker.checkParameter(clazz2 != null, "clazz2 object can not be null");
-        try {
-            final List<String> targetFieldNames =
-                    getFields(clazz2).stream()
-                            .filter(isNotIgnored())
-                            .filter(isNotStatic())
-                            .filter(isNotFinal())
-                            .map(Field::getName)
-                            .collect(Collectors.toList());
 
-            final List<Field> sourceFields = getFields(clazz1);
-            return sourceFields.stream()
+        final List<Field> clazz1Fields = getFields(clazz1);
+        final List<Field> clazz2Fields = getFields(clazz2);
+
+        final List<Field> srcFields = clazz1Fields.size() < clazz2Fields.size() ? clazz1Fields : clazz2Fields;
+        final List<Field> dstFields = clazz1Fields.size() > clazz2Fields.size() ? clazz1Fields : clazz2Fields;
+
+        try {
+            List<String> srcNames = srcFields.stream()
+                    .filter(isNotIgnored())
+                    .map(Field::getName)
+                    .collect(Collectors.toList());
+
+            return dstFields.stream()
                     .filter(isNotIgnored())
                     .filter(isNotStatic())
                     .filter(isNotFinal())
                     .map(Field::getName)
-                    .filter(targetFieldNames::contains)
+                    .filter(srcNames::contains)
                     .collect(Collectors.toUnmodifiableList());
 
-        } catch (final SecurityException e) {
+        } catch (SecurityException e) {
             throw new ConfigurationException(e);
         }
     }

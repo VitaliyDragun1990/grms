@@ -1,0 +1,5 @@
+Benchmark                                                                (provider)  Mode  Cnt     Score    Error  Units
+FieldProviderBenchmark.getSimilarFieldNames_objectsWithSimilarFields          Basic  avgt    3  4577.586 ± 37.057  ns/op
+FieldProviderBenchmark.getSimilarFieldNames_objectsWithSimilarFields         Cached  avgt    3    63.178 ±  0.152  ns/op
+FieldProviderBenchmark.getSimilarFieldNames_objectsWithoutSimilarFields       Basic  avgt    3  2544.744 ± 12.330  ns/op
+FieldProviderBenchmark.getSimilarFieldNames_objectsWithoutSimilarFields      Cached  avgt    3    63.169 ±  0.548  ns/op

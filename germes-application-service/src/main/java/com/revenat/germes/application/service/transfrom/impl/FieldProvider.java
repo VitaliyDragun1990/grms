@@ -1,4 +1,4 @@
-package com.revenat.germes.application.service.transfrom.impl.cache;
+package com.revenat.germes.application.service.transfrom.impl;
 
 import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
@@ -26,7 +26,7 @@ public class FieldProvider {
      * @param dest destination class
      * @return list of similar field names
      */
-    public List<String> getFieldNames(final Class<?> src, final Class<?> dest) {
+    public List<String> getSimilarFieldNames(final Class<?> src, final Class<?> dest) {
         return fieldsFinder.findByName(src, dest);
     }
 }

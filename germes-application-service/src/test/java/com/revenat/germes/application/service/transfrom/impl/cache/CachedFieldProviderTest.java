@@ -1,6 +1,7 @@
 package com.revenat.germes.application.service.transfrom.impl.cache;
 
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
+import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +27,7 @@ class CachedFieldProviderTest {
     void shouldProvideSimilarFieldNames() {
         final FieldProvider fieldProvider = new CachedFieldProvider(new SimilarFieldsFinder());
 
-        final List<String> result = fieldProvider.getFieldNames(Source.class, Destination.class);
+        final List<String> result = fieldProvider.getSimilarFieldNames(Source.class, Destination.class);
 
         assertThat(result, hasSize(1));
         assertThat(result, hasItem(equalTo("value")));
@@ -37,9 +38,9 @@ class CachedFieldProviderTest {
         final FieldProvider fieldProvider = new CachedFieldProvider(fieldFinderMock);
         when(fieldFinderMock.findByName(Source.class, Destination.class)).thenReturn(List.of("value"));
 
-        fieldProvider.getFieldNames(Source.class, Destination.class);
-        fieldProvider.getFieldNames(Source.class, Destination.class);
-        fieldProvider.getFieldNames(Source.class, Destination.class);
+        fieldProvider.getSimilarFieldNames(Source.class, Destination.class);
+        fieldProvider.getSimilarFieldNames(Source.class, Destination.class);
+        fieldProvider.getSimilarFieldNames(Source.class, Destination.class);
 
         verify(fieldFinderMock, times(1)).findByName(Source.class, Destination.class);
     }
