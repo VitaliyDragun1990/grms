@@ -1,5 +1,5 @@
-Benchmark                                                                (provider)  Mode  Cnt     Score      Error  Units
-FieldProviderBenchmark.getSimilarFieldNames_objectsWithSimilarFields          Basic  avgt    3  4915.265 ± 1586.213  ns/op
-FieldProviderBenchmark.getSimilarFieldNames_objectsWithSimilarFields         Cached  avgt    3    68.102 ±  126.826  ns/op
-FieldProviderBenchmark.getSimilarFieldNames_objectsWithoutSimilarFields       Basic  avgt    3  2613.116 ±  951.436  ns/op
-FieldProviderBenchmark.getSimilarFieldNames_objectsWithoutSimilarFields      Cached  avgt    3    62.288 ±   10.691  ns/op
+Benchmark                                                             Mode  Cnt    Score    Error  Units
+ClassGraphBenchmark.findClassesByEntityAnnotation                    thrpt    3   51.155 ±  5.475  ops/s
+ClassGraphBenchmark.findClassesImplementingCityRepositoryInterface   thrpt    3   41.019 ±  7.900  ops/s
+ReflectionsBenchmark.findClassesByEntityAnnotation                   thrpt    3  204.897 ± 65.129  ops/s
+ReflectionsBenchmark.findClassesImplementingCityRepositoryInterface  thrpt    3  116.709 ± 21.666  ops/s

@@ -27,6 +27,7 @@ allprojects {
         guavaVersion = '20.0'
         jakartaCdiVersion = '2.0.2'
         jmhVersion = '1.23'
+        classgraphVersion = '4.8.60'
         // log
         log4jVersion = '2.13.0'
         commonsLoggingVersion = '1.2'
@@ -69,7 +70,8 @@ allprojects {
                 guava : "com.google.guava:guava:$guavaVersion",
                 jakartaCdi : "jakarta.enterprise:jakarta.enterprise.cdi-api:$jakartaCdiVersion",
                 jmhCore : "org.openjdk.jmh:jmh-core:$jmhVersion",
-                jmhGenerator : "org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion"
+                jmhGenerator : "org.openjdk.jmh:jmh-generator-annprocess:$jmhVersion",
+                classgraph : "io.github.classgraph:classgraph:$classgraphVersion"
         ]
 
         server = [
