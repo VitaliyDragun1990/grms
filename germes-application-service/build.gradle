@@ -12,3 +12,7 @@ dependencies {
     testCompileOnly tests.junitParams, persistence.jpaApi
     testRuntimeOnly tests.junitEngine, misc.jaxbRuntime, persistence.h2
 }
+
+jar {
+    exclude('**/benchmark/**')
+}
