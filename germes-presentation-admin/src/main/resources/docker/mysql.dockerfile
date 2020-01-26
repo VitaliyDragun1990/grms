@@ -3,7 +3,7 @@ FROM mysql:5.7
 # Addinitonal info about author, organization, enc
 LABEL Author="Vitaliy Dragun", Version=0.1
 # Define environment variables for image to use
-ENV MYSQL_ROOT_PASSWORD=root \
+ENV MYSQL_ROOT_PASSWORD=19900225 \
     MYSQL_USER=germes \
     MYSQL_PASSWORD=germes \
     MYSQL_DATABASE=germes
