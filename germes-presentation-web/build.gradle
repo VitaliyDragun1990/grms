@@ -1,0 +1,22 @@
+plugins {
+    id 'war'
+    id "org.gretty"
+}
+
+dependencies {
+    implementation project(':germes-presentation-rest')
+
+    runtimeOnly persistence.mysql
+}
+
+gretty {
+    servletContainer = 'jetty9.4'
+    contextPath = '/'
+    httpPort = 8080
+}
+
+war {
+    archiveName 'web.war'
+    exclude('test', '**/*bower.json', '**/package.json', '**/*.md', '**/*.gzip', '**/*.map', '*.js')
+    classpath = classpath.filter {!project.hasProperty('payara') || !it.name.contains('jersey')}
+}

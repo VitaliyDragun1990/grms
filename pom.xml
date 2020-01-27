@@ -16,6 +16,7 @@
         <module>germes-persistence</module>
         <module>germes-presentation-rest</module>
         <module>germes-presentation-client</module>
+        <module>germes-presentation-web</module>
     </modules>
 
     <properties>
