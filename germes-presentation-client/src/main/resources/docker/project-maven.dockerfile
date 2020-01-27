@@ -1,5 +1,8 @@
 FROM maven:3.6.3-jdk-11-slim AS maven3
 
+# to customise build for Payara/Wildfly
+ARG build_flag
+
 COPY pom.xml /opt/maven/pom.xml
 COPY germes-presentation-admin/pom.xml /opt/maven/germes-presentation-admin/pom.xml
 COPY germes-presentation-client/pom.xml /opt/maven/germes-presentation-client/pom.xml
@@ -14,10 +17,10 @@ RUN mvn verify
 
 COPY . /opt/maven/
 
-RUN mvn clean package
+RUN mvn clean package $build_flag && cp /opt/maven/germes-presentation-client/target/client.war /opt && \
+    cp /opt/maven/germes-presentation-admin/target/admin.war /opt && \
+    rm -rf /opt/maven
 
-FROM tomcat:9.0-jdk11-openjdk-slim
-
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
-
-COPY --from=maven3 /opt/maven/germes-presentation-client/target/client.war /usr/local/tomcat/webapps/ROOT.war
+# From project root directory
+# docker build [--build-arg build_flag=-Ppayara] -t germes/base[:payara] \
+# -f germes-presentation-client/src/main/resources/docker/project-maven.dockerfile .

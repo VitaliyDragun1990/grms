@@ -20,8 +20,8 @@ COPY . /home/gradle/project/
 
 RUN gradle clean assemble
 
-FROM tomcat:9.0-jdk11-openjdk-slim
+FROM jetty:9.4.18-jre11
 
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
+RUN rm -rf /var/lib/jetty/webapps/ROOT
 
-COPY --from=gradle6 /home/gradle/project/germes-presentation-client/build/libs/client.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=gradle6 /home/gradle/project/germes-presentation-admin/build/libs/admin.war /var/lib/jetty/webapps/ROOT.war

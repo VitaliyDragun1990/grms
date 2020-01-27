@@ -20,7 +20,7 @@ app.controller('EventCtrl', ['$scope', function($scope) {
         $scope.currentTime = '';
 
         if (typeof(EventSource) !== "undefined") {
-            var source = new EventSource('/api/sse/time');
+            var source = new EventSource('api/sse/time');
 
             source.onmessage = function (event) {
                 $scope.currentTime = event.data;

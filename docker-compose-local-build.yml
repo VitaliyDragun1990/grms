@@ -16,6 +16,7 @@
 # Restart specified service/container
 # docker-compose restart <service name>
 
+# FOR DEPLOYING WAR ARCHIVES ALREADY BUILT ON LOCAL MACHINE
 version: '3.7'
 # Services definition
 services:
@@ -57,14 +58,14 @@ services:
   client:
     build:
       context: germes-presentation-client
-      dockerfile: src/main/resources/docker/client-tomcat.dockerfile
+      dockerfile: src/main/resources/docker/client-jetty.dockerfile
     ports:
       - "8080:8080"
     networks:
       - network1
     depends_on:
       - mysql
-    entrypoint: bash -c "sleep 5s && catalina.sh run"
+    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
     #environment:
     #- JAVA_OPTS=--add-modules javax.xml.bind
 # Networks definition

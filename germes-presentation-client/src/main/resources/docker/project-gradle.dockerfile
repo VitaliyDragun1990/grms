@@ -1,5 +1,8 @@
 FROM gradle:6.0-jdk11 AS gradle6
 
+# to customise build for Payara/Wildfly
+ARG build_flag
+
 USER root
 
 COPY build.gradle /home/gradle/project/build.gradle
@@ -18,10 +21,10 @@ RUN gradle test
 
 COPY . /home/gradle/project/
 
-RUN gradle clean assemble
+RUN gradle clean assemble $build_flag && cp /home/gradle/project/germes-presentation-client/build/libs/client.war /home/gradle && \
+    cp /home/gradle/project/germes-presentation-admin/build/libs/admin.war /home/gradle && \
+    rm -rf /home/gradle/project
 
-FROM tomcat:9.0-jdk11-openjdk-slim
-
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
-
-COPY --from=gradle6 /home/gradle/project/germes-presentation-client/build/libs/client.war /usr/local/tomcat/webapps/ROOT.war
+# From project root directory
+# docker build [--build-arg build_flag=-Ppayara] -t germes/base[:payara] \
+# -f germes-presentation-client/src/main/resources/docker/project-gradle.dockerfile .

@@ -16,8 +16,8 @@ COPY . /opt/maven/
 
 RUN mvn clean package
 
-FROM tomcat:9.0-jdk11-openjdk-slim
+FROM jetty:9.4.18-jre11
 
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
+RUN rm -rf /var/lib/jetty/webapps/ROOT
 
-COPY --from=maven3 /opt/maven/germes-presentation-client/target/client.war /usr/local/tomcat/webapps/ROOT.war
+COPY --from=maven3 /opt/maven/germes-presentation-client/target/admin.war /var/lib/jetty/webapps/ROOT.war

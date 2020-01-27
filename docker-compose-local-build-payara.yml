@@ -1,0 +1,29 @@
+# Start container using docker-compose.yml in foreground mode
+# docker-compose [-f docker-compose-filename] up
+
+# Start container using docker-compose.yml in foreground mode, rebuild any existing images
+# docker-compose [-f docker-compose-filename] up --build
+
+# Start container using docker-compose.yml in detached mode
+# docker-compose [-f docker-compose-filename] up -d
+
+# Stop all containers started via docker-compose and delete them
+# docker-compose [-f docker-compose-filename] down
+
+# Output log content of all running containers
+# docker-compose [-f docker-compose-filename] logs [service]
+
+# Restart specified service/container
+# docker-compose [-f docker-compose-filename] restart <service name>
+
+# OVERRIDING base Jetty specific settings for Payara specific settings
+version: '3.7'
+# Services overriding
+services:
+  admin:
+    build:
+      dockerfile: src/main/resources/docker/admin-payara.dockerfile
+    ports:
+      - "9000:8080"
+      - "4849:4848"
+    entrypoint: bash -c "sleep 60s && asadmin start-domain -v"
