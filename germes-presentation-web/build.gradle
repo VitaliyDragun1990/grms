@@ -1,7 +1,10 @@
 plugins {
     id 'war'
     id "org.gretty"
+    id "com.moowork.node" version "1.3.1"
 }
+
+apply plugin: "com.moowork.node"
 
 dependencies {
     implementation project(':germes-presentation-rest')
@@ -15,8 +18,22 @@ gretty {
     httpPort = 8080
 }
 
+node {
+    nodeModulesDir = file("client")
+}
+
+task buildAngular(type:NpmTask, dependsOn:'npmInstall') {
+    args = ['run', 'build']
+}
+
+task cleanAngular(type:Delete) {
+    delete "${projectDir}/client/dist"
+}
+
+assemble.dependsOn 'buildAngular'
+clean.dependsOn 'cleanAngular'
+
 war {
     archiveName 'web.war'
-    exclude('test', '**/*bower.json', '**/package.json', '**/*.md', '**/*.gzip', '**/*.map', '*.js')
-    classpath = classpath.filter {!project.hasProperty('payara') || !it.name.contains('jersey')}
+    from 'client/dist'
 }
