@@ -1,27 +1,38 @@
+import { CityService } from './city.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageComponent } from './language/language.component';
+import { CitiesComponent } from './cities/cities.component';
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+
 describe('AppComponent', () => {
+
+  let httpController: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent, CitiesComponent, LanguageComponent
       ],
+      imports: [TranslateModule.forRoot(), HttpClientTestingModule],
+      providers: [TranslateService, CityService]
     }).compileComponents();
+
+    httpController = TestBed.get(HttpTestingController);
   }));
+
+  afterEach(() => {
+    httpController.verify();
+  });
+
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
+
+    let cityRequest =httpController.expectOne('api/cities');
     expect(app).toBeTruthy();
-  }));
-  it(`should have as title 'app'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('app');
-  }));
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
+
+    cityRequest.flush({});
   }));
 });

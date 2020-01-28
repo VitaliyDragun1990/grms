@@ -22,16 +22,21 @@ node {
     nodeModulesDir = file("client")
 }
 
-task buildAngular(type:NpmTask, dependsOn:'npmInstall') {
-    args = ['run', 'build']
-}
-
 task cleanAngular(type:Delete) {
     delete "${projectDir}/client/dist"
 }
 
-assemble.dependsOn 'buildAngular'
+task testAngular(type:NpmTask) {
+    args = ['run', 'testExit']
+}
+
+task buildAngular(type:NpmTask, dependsOn:'npmInstall') {
+    args = ['run', 'build']
+}
+
 clean.dependsOn 'cleanAngular'
+test.dependsOn 'testAngular'
+assemble.dependsOn 'buildAngular'
 
 war {
     archiveName 'web.war'

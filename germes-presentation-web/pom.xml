@@ -58,6 +58,21 @@
                             </goals>
                         </execution>
                         <execution>
+                            <id>test angular</id>
+                            <configuration>
+                                <workingDirectory>client/src/</workingDirectory>
+                                <executable>npm</executable>
+                                <arguments>
+                                    <argument>run</argument>
+                                    <argument>testExit</argument>
+                                </arguments>
+                            </configuration>
+                            <phase>generate-resources</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                        </execution>
+                        <execution>
                             <id>build angular</id>
                             <configuration>
                                 <workingDirectory>client/src/</workingDirectory>
