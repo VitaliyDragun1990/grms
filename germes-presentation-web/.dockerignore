@@ -1,0 +1,4 @@
+*
+!src/main/resources/docker
+!build/libs/web.war
+target/web.war

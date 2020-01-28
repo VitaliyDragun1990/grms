@@ -52,7 +52,7 @@
                 <version>9.4.25.v20191220</version>
                 <configuration>
                     <httpConnector>
-                        <port>8081</port>
+                        <port>8080</port>
                     </httpConnector>
                     <stopPort>8006</stopPort>
                     <stopKey>STOP</stopKey>

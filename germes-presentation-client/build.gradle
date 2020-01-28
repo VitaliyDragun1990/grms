@@ -31,7 +31,7 @@ dependencies {
 gretty {
     servletContainer = 'jetty9.4'
     contextPath = '/'
-    httpPort = 8081
+    httpPort = 8080
 }
 
 war {

@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <jersey.scope>provided</jersey.scope>
+        <jersey.scope>compile</jersey.scope>
     </properties>
 
     <dependencyManagement>

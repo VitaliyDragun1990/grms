@@ -1,3 +1,4 @@
+import { CityService } from './../city.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,7 +11,9 @@ export class CitiesComponent implements OnInit {
   rowsPerPage = 10;
   cities: any;
 
-  constructor() { }
+  constructor(cityService: CityService) {
+    cityService.getCities().subscribe(res => this.cities = res);
+   }
 
   ngOnInit() {
   }
