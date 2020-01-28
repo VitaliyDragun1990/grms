@@ -1,5 +1,6 @@
 import { CityService } from './../city.service';
 import { Component, OnInit } from '@angular/core';
+import { City } from '../city';
 
 @Component({
   selector: 'app-cities',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class CitiesComponent implements OnInit {
 
   rowsPerPage = 10;
-  cities: any;
+  cities: City[];
 
   constructor(cityService: CityService) {
     cityService.getCities().subscribe(res => this.cities = res);
@@ -18,7 +19,7 @@ export class CitiesComponent implements OnInit {
   ngOnInit() {
   }
 
-  isRegionCenter(city: any): boolean {
+  isRegionCenter(city: City): boolean {
     if (city.district) {
       return false;
     }

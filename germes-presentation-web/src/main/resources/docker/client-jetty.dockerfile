@@ -1,6 +1,6 @@
 FROM jetty:9.4.18-jre11
 
-#ADD build/libs/web.war /var/lib/jetty/webapps/ROOT.war
+#ADD target/web.war /var/lib/jetty/webapps/ROOT.war
 ADD build/libs/web.war /var/lib/jetty/webapps/ROOT.war
 
 # Run using docker console from germes-presentation-admin directory -> creates image with name germes/mysql
