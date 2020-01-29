@@ -57,7 +57,7 @@ services:
   # Germes client application
   client:
     build:
-      context: germes-presentation-client
+      context: germes-presentation-web
       dockerfile: src/main/resources/docker/client-jetty.dockerfile
     ports:
       - "8080:8080"

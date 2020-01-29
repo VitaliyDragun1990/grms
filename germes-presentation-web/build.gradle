@@ -39,6 +39,7 @@ test.dependsOn 'testAngular'
 assemble.dependsOn 'buildAngular'
 
 war {
-    archiveName 'web.war'
-    from 'client/dist'
+    archiveName 'client.war'
+    from !project.hasProperty('angularDir') ? 'client/dist' : project.property('angularDir').toString()
+    classpath = classpath.filter {!project.hasProperty('payara') || !it.name.contains('jersey')}
 }

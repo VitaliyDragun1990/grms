@@ -22,14 +22,14 @@ version: '3.7'
 services:
   admin:
     build:
-      dockerfile: germes-presentation-client/src/main/resources/docker/payara-gradle.dockerfile
+      dockerfile: germes-presentation-web/src/main/resources/docker/payara-maven.dockerfile
     ports:
       - "9000:8080"
       - "4849:4848"
     entrypoint: bash -c "sleep 5s && asadmin start-domain -v"
   client:
     build:
-      dockerfile: germes-presentation-client/src/main/resources/docker/payara-gradle.dockerfile
+      dockerfile: germes-presentation-web/src/main/resources/docker/payara-maven.dockerfile
     ports:
       - "8080:8080"
       - "4848:4848"

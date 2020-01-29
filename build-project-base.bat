@@ -1,1 +1,0 @@
-docker build -t germes/base -f germes-presentation-client/src/main/resources/docker/project-gradle.dockerfile .

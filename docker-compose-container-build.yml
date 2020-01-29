@@ -44,9 +44,9 @@ services:
   admin:
     build:
       context: .
-      dockerfile: germes-presentation-client/src/main/resources/docker/jetty-gradle.dockerfile
+      dockerfile: germes-presentation-web/src/main/resources/docker/jetty-maven.dockerfile
       args:
-        - war_path=/home/gradle/admin.war
+        - war_path=/opt/admin.war
     ports:
       - "9000:8080"
     networks:
@@ -60,9 +60,9 @@ services:
   client:
     build:
       context: .
-      dockerfile: germes-presentation-client/src/main/resources/docker/jetty-gradle.dockerfile
+      dockerfile: germes-presentation-web/src/main/resources/docker/jetty-maven.dockerfile
       args:
-        - war_path=/home/gradle/client.war
+        - war_path=/opt/client.war
     ports:
       - "8080:8080"
     networks:
