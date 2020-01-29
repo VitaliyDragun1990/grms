@@ -5,8 +5,7 @@
 rootProject.name = 'germes'
 include(':germes-application-model')
 include(':germes-application-service')
-include(':germes-presentation-admin')
 include(':germes-persistence')
+include(':germes-presentation-admin')
 include(':germes-presentation-rest')
-include(':germes-presentation-client')
 include(':germes-presentation-web')
