@@ -21,8 +21,9 @@ COPY germes-presentation-rest/pom.xml /opt/maven/germes-presentation-rest/pom.xm
 COPY germes-application-model/pom.xml /opt/maven/germes-application-model/pom.xml
 COPY germes-application-service/pom.xml /opt/maven/germes-application-service/pom.xml
 COPY germes-persistence/pom.xml /opt/maven/germes-persistence/pom.xml
+RUN mkdir /opt/maven/germes-presentation-web/empty
 WORKDIR /opt/maven
-RUN mvn verify -Dmaven.exec.skip=true -Dangular.dist.folder=.
+RUN mvn verify -e -Dmaven.exec.skip=true -Dangular.dist.folder=empty
 
 # Copy all project source code files and build client and admin applications
 COPY . /opt/maven/

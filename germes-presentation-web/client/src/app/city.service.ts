@@ -1,7 +1,7 @@
 import { City } from './city';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'Rxjs';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class CityService {
