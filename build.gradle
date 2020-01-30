@@ -33,7 +33,7 @@ allprojects {
         commonsLoggingVersion = '1.2'
         // persistence
         hibernateVersion = '5.2.18.Final'
-        jpaApiVersion = '1.0.0.Final'
+        jpaApiVersion = '2.2'
         hibernateToolsVersion = '5.2.12.Final'
         h2Version = '1.4.200'
         sqLiteVersion = '3.30.1'
@@ -87,7 +87,7 @@ allprojects {
 
         persistence = [
                 hibernateCore: "org.hibernate:hibernate-core:$hibernateVersion",
-                jpaApi: "org.hibernate.javax.persistence:hibernate-jpa-2.1-api:$jpaApiVersion",
+                jpaApi: "javax.persistence:javax.persistence-api:$jpaApiVersion",
                 hibernateTools: "org.hibernate:hibernate-tools:$hibernateToolsVersion",
                 h2: "com.h2database:h2:$h2Version",
                 sqLite : "org.xerial:sqlite-jdbc:$sqLiteVersion",
@@ -157,6 +157,10 @@ subprojects {
     dependencies {
         implementation log.log4jApi, log.log4jCore, log.log4jSlf4j
         compileOnly misc.lombok
+
+        testImplementation tests.junitApi, tests.hamcrest, tests.mockito
+        testRuntimeOnly persistence.hikariCp, tests.junitEngine, persistence.h2
+        testCompileOnly tests.junitParams
     }
 
     test {

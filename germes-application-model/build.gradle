@@ -3,10 +3,6 @@
  */
 
 dependencies {
-    implementation misc.commonsLang3, misc.guava
-    compileOnly persistence.hibernateCore, misc.validationApi
-
-    testImplementation tests.junitApi, tests.hamcrest, tests.mockito
-    testCompileOnly tests.junitParams, persistence.jpaApi
-    testRuntimeOnly tests.junitEngine
+    implementation misc.commonsLang3, misc.guava, persistence.jpaApi
+    compileOnly misc.validationApi
 }

@@ -8,9 +8,8 @@ dependencies {
     compileOnly misc.jakartaInject, persistence.jpaApi, misc.jakartaCdi
     runtimeOnly misc.el
 
-    testImplementation tests.junitApi, tests.hamcrest, tests.mockito
-    testCompileOnly tests.junitParams, persistence.jpaApi
-    testRuntimeOnly tests.junitEngine, misc.jaxbRuntime, persistence.h2
+    testCompileOnly persistence.jpaApi
+    testRuntimeOnly misc.jaxbRuntime
 }
 
 jar {

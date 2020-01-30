@@ -9,7 +9,7 @@ apply plugin: "com.moowork.node"
 dependencies {
     implementation project(':germes-presentation-rest')
 
-    runtimeOnly persistence.mysql
+    runtimeOnly persistence.mysql, persistence.hikariCp
 }
 
 gretty {
@@ -26,11 +26,11 @@ task cleanAngular(type:Delete) {
     delete "${projectDir}/client/dist"
 }
 
-task testAngular(type:NpmTask) {
+task testAngular(type:CacheableNpmTask) {
     args = ['run', 'testExit']
 }
 
-task buildAngular(type:NpmTask, dependsOn:'npmInstall') {
+task buildAngular(type:CacheableNpmTask, dependsOn:'npmInstall') {
     args = ['run', 'build']
 }
 
@@ -42,4 +42,16 @@ war {
     archiveName 'client.war'
     from !project.hasProperty('angularDir') ? 'client/dist' : project.property('angularDir').toString()
     classpath = classpath.filter {!project.hasProperty('payara') || !it.name.contains('jersey')}
+}
+
+import com.moowork.gradle.node.npm.NpmTask
+
+@CacheableTask
+class CacheableNpmTask extends NpmTask {
+
+    @InputFiles
+    FileCollection sourceFiles = project.files('client/src', 'client/package.json', 'client/.angular-cli.json')
+
+    @OutputDirectory
+    File outputDir = project.file("client/dist");
 }

@@ -19,7 +19,7 @@ dependencies {
 
     runtimeOnly misc.jaxbRuntime
 
-    testImplementation tests.junitApi, tests.hamcrest, tests.mockito, tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
-    testCompileOnly tests.junitParams, persistence.jpaApi
-    testRuntimeOnly tests.junitEngine, tests.jerseyTestProvider, persistence.h2
+    testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
+    testCompileOnly persistence.jpaApi
+    testRuntimeOnly tests.jerseyTestProvider
 }
