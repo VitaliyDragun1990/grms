@@ -1,6 +1,7 @@
 package com.revenat.germes.application.model.search;
 
 import com.revenat.germes.application.model.entity.transport.TransportType;
+import lombok.Setter;
 
 import static java.util.Objects.requireNonNull;
 
@@ -9,6 +10,7 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Vitaliy Dragun
  */
+@Setter
 public final class StationCriteria {
 
     private String cityName;
@@ -43,23 +45,12 @@ public final class StationCriteria {
         return cityName;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-
     public TransportType getTransportType() {
         return transportType;
-    }
-
-    public void setTransportType(TransportType transportType) {
-        this.transportType = transportType;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

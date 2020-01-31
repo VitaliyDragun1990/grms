@@ -1,5 +1,7 @@
 package com.revenat.germes.application.model.entity.geography;
 
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
@@ -13,6 +15,7 @@ import java.util.Objects;
  * @author Vitaliy Dragun
  */
 @Embeddable
+@Setter
 public class Address {
 
     public static final String FIELD_ZIP_CODE = "zipCode";
@@ -40,19 +43,11 @@ public class Address {
         return zipCode;
     }
 
-    public void setZipCode(final String zipCode) {
-        this.zipCode = zipCode;
-    }
-
     @NotNull
     @Size(min = 2, max = 32)
     @Column(name = "STREET", length = 32, nullable = false)
     public String getStreet() {
         return street;
-    }
-
-    public void setStreet(final String street) {
-        this.street = street;
     }
 
     @NotNull
@@ -62,18 +57,10 @@ public class Address {
         return houseNo;
     }
 
-    public void setHouseNo(final String houseNo) {
-        this.houseNo = houseNo;
-    }
-
     @Size(min = 2, max = 16)
     @Column(name = "APARTMENT", length = 16)
     public String getApartment() {
         return apartment;
-    }
-
-    public void setApartment(final String apartment) {
-        this.apartment = apartment;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.revenat.germes.application.model.entity.base;
 
 import com.revenat.germes.application.model.entity.person.User;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.Objects;
  * @author Vitaliy Dragun
  */
 @MappedSuperclass
+@Setter
 public abstract class AbstractEntity {
 
     public static final String FIELD_CREATED_AT = "createdAt";
@@ -33,26 +35,14 @@ public abstract class AbstractEntity {
         return id;
     }
 
-    public void setId(final int id) {
-        this.id = id;
-    }
-
     @Column(name = "CREATED_AT", nullable = false, updatable = false)
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(final LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     @Column(name = "MODIFIED_AT", insertable = false)
     public LocalDateTime getModifiedAt() {
         return modifiedAt;
-    }
-
-    public void setModifiedAt(final LocalDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
     }
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {})
@@ -61,18 +51,10 @@ public abstract class AbstractEntity {
         return createdBy;
     }
 
-    public void setCreatedBy(final User createdBy) {
-        this.createdBy = createdBy;
-    }
-
     @OneToOne(fetch = FetchType.LAZY, cascade = {})
     @JoinColumn(name = "MODIFIED_BY", insertable = false)
     public User getModifiedBy() {
         return modifiedBy;
-    }
-
-    public void setModifiedBy(final User modifiedBy) {
-        this.modifiedBy = modifiedBy;
     }
 
     @Override

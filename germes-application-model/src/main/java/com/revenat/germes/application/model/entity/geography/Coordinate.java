@@ -1,5 +1,7 @@
 package com.revenat.germes.application.model.entity.geography;
 
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -9,6 +11,7 @@ import javax.persistence.Embeddable;
  * @author Vitaliy Dragun
  */
 @Embeddable
+@Setter
 public class Coordinate {
 
     private double x;
@@ -28,16 +31,9 @@ public class Coordinate {
         return x;
     }
 
-    public void setX(final double x) {
-        this.x = x;
-    }
-
     @Column(name = "Y")
     public double getY() {
         return y;
     }
 
-    public void setY(final double y) {
-        this.y = y;
-    }
 }

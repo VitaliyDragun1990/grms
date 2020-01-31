@@ -3,6 +3,8 @@ package com.revenat.germes.application.model.entity.geography;
 import com.revenat.germes.application.infrastructure.helper.SafeCollectionWrapper;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
+import lombok.AccessLevel;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -35,12 +37,16 @@ public class City extends AbstractEntity {
 
     public static final String FIELD_NAME = "name";
 
+    @Setter
     private String name;
 
+    @Setter
     private String district;
 
+    @Setter
     private String region;
 
+    @Setter(AccessLevel.PACKAGE)
     private Set<Station> stations;
 
     public City(final String name) {
@@ -57,18 +63,10 @@ public class City extends AbstractEntity {
         return name;
     }
 
-    public void setName(final String name) {
-        this.name = name;
-    }
-
     @Size(min = 4, max = 32)
     @Column(name = "DISTRICT", length = 32)
     public String getDistrict() {
         return district;
-    }
-
-    public void setDistrict(final String district) {
-        this.district = district;
     }
 
     @NotNull
@@ -78,17 +76,9 @@ public class City extends AbstractEntity {
         return region;
     }
 
-    public void setRegion(final String region) {
-        this.region = region;
-    }
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city", orphanRemoval = true)
     public Set<Station> getStations() {
         return new SafeCollectionWrapper<>(stations).asSafeSet();
-    }
-
-    void setStations(final Set<Station> stations) {
-        this.stations = stations;
     }
 
     /**

@@ -2,6 +2,7 @@ package com.revenat.germes.application.model.entity.geography;
 
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.transport.TransportType;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import java.util.Objects;
 @Table(name = "STATIONS")
 @Entity
 @NamedQuery(name = Station.QUERY_DELETE_ALL, query = "delete from Station")
+@Setter
 public class Station extends AbstractEntity {
 
     public static final String QUERY_DELETE_ALL = "Station.deleteAll";
@@ -51,6 +53,9 @@ public class Station extends AbstractEntity {
         this.transportType = transportType;
     }
 
+    /**
+     * For ORM purpose
+     */
     Station() {
     }
 
@@ -61,18 +66,10 @@ public class Station extends AbstractEntity {
         return city;
     }
 
-    void setCity(City city) {
-        this.city = city;
-    }
-
     @NotNull
     @Embedded
     public Address getAddress() {
         return address;
-    }
-
-    public void setAddress(final Address address) {
-        this.address = address;
     }
 
     @Column(name = "PHONE", length = 16)
@@ -80,17 +77,9 @@ public class Station extends AbstractEntity {
         return phone;
     }
 
-    public void setPhone(final String phone) {
-        this.phone = phone;
-    }
-
     @Embedded
     public Coordinate getCoordinate() {
         return coordinate;
-    }
-
-    public void setCoordinate(final Coordinate coordinate) {
-        this.coordinate = coordinate;
     }
 
     @NotNull
@@ -98,10 +87,6 @@ public class Station extends AbstractEntity {
     @Column(nullable = false, name = "TRANSPORT_TYPE")
     public TransportType getTransportType() {
         return transportType;
-    }
-
-    void setTransportType(TransportType transportType) {
-        this.transportType = transportType;
     }
 
     @Override
