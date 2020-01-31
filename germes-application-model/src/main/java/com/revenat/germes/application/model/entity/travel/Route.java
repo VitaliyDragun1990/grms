@@ -13,7 +13,7 @@ import java.time.LocalTime;
  *
  * @author Vitaliy Dragun
  */
-@Table(name = "ROUTE")
+@Table(name = "ROUTES")
 @Entity
 @Setter
 public class Route extends AbstractEntity  {

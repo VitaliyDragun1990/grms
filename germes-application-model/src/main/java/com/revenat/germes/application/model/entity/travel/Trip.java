@@ -8,11 +8,11 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * Concrete trip according  to the given route at the specified date/time
+ * Concrete trip according to the given route at the specified date/time
  *
  * @author Vitaliy Dragun
  */
-@Table(name = "TRIP")
+@Table(name = "TRIPS")
 @Entity
 @Setter
 public class Trip extends AbstractEntity {

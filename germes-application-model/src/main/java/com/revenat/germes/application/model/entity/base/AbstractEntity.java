@@ -1,11 +1,11 @@
 package com.revenat.germes.application.model.entity.base;
 
 import com.revenat.germes.application.model.entity.person.User;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * Base class for all business entities
@@ -14,6 +14,7 @@ import java.util.Objects;
  */
 @MappedSuperclass
 @Setter
+@EqualsAndHashCode(of = "id")
 public abstract class AbstractEntity {
 
     public static final String FIELD_CREATED_AT = "createdAt";
@@ -57,20 +58,4 @@ public abstract class AbstractEntity {
         return modifiedBy;
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        final AbstractEntity that = (AbstractEntity) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
