@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
@@ -46,17 +46,19 @@ public class City extends AbstractEntity {
     @Setter
     private String region;
 
-    @Setter(AccessLevel.PACKAGE)
+    @Setter(AccessLevel.PRIVATE)
     private Set<Station> stations;
 
     public City(final String name) {
+        this();
         this.name = name;
     }
 
     protected City() {
+        this.stations = new HashSet<>();
     }
 
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 32)
     @Column(name = "NAME", nullable = false, length = 32)
     public String getName() {
@@ -69,14 +71,14 @@ public class City extends AbstractEntity {
         return district;
     }
 
-    @NotNull
+    @NotBlank
     @Size(min = 2, max = 32)
     @Column(name = "REGION", nullable = false, length = 32)
     public String getRegion() {
         return region;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city"/*, orphanRemoval = true*/)
     public Set<Station> getStations() {
         return new SafeCollectionWrapper<>(stations).asSafeSet();
     }
@@ -89,9 +91,6 @@ public class City extends AbstractEntity {
      */
     public Station addStation(final TransportType transportType) {
         requireNonNull(transportType, "transportType parameter is not initialized");
-        if (stations == null) {
-            stations = new HashSet<>();
-        }
         final Station station = new Station(this, transportType);
         stations.add(station);
         return station;
@@ -104,5 +103,3 @@ public class City extends AbstractEntity {
         }
     }
 }
-
-

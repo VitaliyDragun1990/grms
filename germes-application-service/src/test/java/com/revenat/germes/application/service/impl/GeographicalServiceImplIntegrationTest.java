@@ -256,7 +256,7 @@ class GeographicalServiceImplIntegrationTest {
 
         final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
 
-        assertValidation(e, "name", City.class, "{javax.validation.constraints.NotNull.message}");
+        assertValidation(e, "name", City.class, "{javax.validation.constraints.NotBlank.message}");
     }
 
     @Test

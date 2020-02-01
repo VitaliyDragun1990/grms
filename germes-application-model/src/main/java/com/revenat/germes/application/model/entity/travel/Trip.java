@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 @Setter
 public class Trip extends AbstractEntity {
 
+    public static final String FIELD_ROUTE = "route";
+
     /**
      * Route of the trip
      */

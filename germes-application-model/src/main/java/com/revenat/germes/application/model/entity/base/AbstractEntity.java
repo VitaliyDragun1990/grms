@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = "id")
 public abstract class AbstractEntity {
 
+    public static final String FIELD_ID = "id";
+
     public static final String FIELD_CREATED_AT = "createdAt";
 
     private int id;

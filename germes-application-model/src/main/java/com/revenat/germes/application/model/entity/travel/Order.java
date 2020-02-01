@@ -10,14 +10,17 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
- * Order of the ticket by user
+ * Order (booking/reservation) of the ticket by user
  *
  * @author Vitaliy Dragun
  */
+// TODO: make user who created such Order obligatory attribute (createdBy property)
 @Entity
 @Table(name = "ORDERS")
 @Setter
 public class Order extends AbstractEntity {
+
+    public static final String FIELD_TRIP = "trip";
 
     /**
      * Current order state
@@ -25,7 +28,7 @@ public class Order extends AbstractEntity {
     private OrderState state;
 
     /**
-     * Date/time when user should pay for the order(tocket)
+     * Date/time when user should pay for the order(ticket)
      */
     private LocalDateTime dueDate;
 
