@@ -45,4 +45,5 @@ war {
     archiveName 'admin.war'
     classpath = classpath.filter {!project.hasProperty('payara') || !it.name.contains('weld')}
     classpath = classpath.filter {!project.hasProperty('wildfly') || !isWildFlyDependency(it)}
+    classpath = classpath.filter {!it.name.contains('jmh-')}
 }

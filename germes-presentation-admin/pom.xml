@@ -158,6 +158,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <warName>admin</warName>
+                    <packagingExcludes>WEB-INF/lib/jmh-*.jar</packagingExcludes>
                 </configuration>
             </plugin>
             <plugin>

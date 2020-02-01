@@ -42,6 +42,7 @@ war {
     archiveName 'client.war'
     from !project.hasProperty('angularDir') ? 'client/dist' : project.property('angularDir').toString()
     classpath = classpath.filter {!project.hasProperty('payara') || !it.name.contains('jersey')}
+    classpath = classpath.filter {!it.name.contains('jmh-')}
 }
 
 import com.moowork.gradle.node.npm.NpmTask

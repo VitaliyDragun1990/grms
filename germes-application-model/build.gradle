@@ -7,6 +7,10 @@ plugins {
 }
 
 dependencies {
-    implementation misc.commonsLang3, misc.guava, persistence.jpaApi
+    implementation misc.commonsLang3, misc.guava, persistence.jpaApi, misc.jmhCore, misc.jmhGenerator
     compileOnly misc.validationApi
+}
+
+jar {
+    exclude('**/benchmark/**')
 }
