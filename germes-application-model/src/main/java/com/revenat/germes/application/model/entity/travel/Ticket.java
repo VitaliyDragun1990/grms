@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "TICKETS")
 @NamedQuery(name = Ticket.QUERY_FIND_ALL, query = "from Ticket")
-@AssociationOverride(name = "createdBy", joinColumns = @JoinColumn(name = "CREATED_BY", updatable = false, nullable = false))
+//@AssociationOverride(name = "createdBy", joinColumns = @JoinColumn(name = "CREATED_BY", updatable = false, nullable = false))
 @Setter
 public class Ticket extends AbstractEntity {
 

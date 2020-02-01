@@ -76,7 +76,7 @@ public interface TransportService {
     /**
      * Cancel ticket reservation with specified identifier
      */
-    void cancelReservation(int orderId);
+    void cancelReservation(int orderId, String reason);
 
     /**
      * Completes reservation and purchase a ticket

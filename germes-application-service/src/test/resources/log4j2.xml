@@ -8,10 +8,6 @@
     </Appenders>
 
     <Loggers>
-        <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="com.revenat.germes.application.service" level="DEBUG">
-            <AppenderRef ref="LogToConsole"/>
-        </Logger>
         <Root level="INFO">
             <AppenderRef ref="LogToConsole"/>
         </Root>

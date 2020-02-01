@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Hibernate implementation of the {@link OrderRepository}
@@ -49,5 +50,10 @@ public class HibernateOrderRepository extends BaseHibernateRepository implements
 
             return session.createQuery(query).getResultList();
         });
+    }
+
+    @Override
+    public Optional<Order> findById(final int id) {
+        return query(session -> Optional.ofNullable(session.get(Order.class, id)));
     }
 }

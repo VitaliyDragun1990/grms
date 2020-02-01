@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.revenat.germes.application.model.entity.transport.TransportType.AUTO;
 import static com.revenat.germes.persistence.repository.TestData.*;
@@ -28,6 +29,7 @@ import static com.revenat.germes.persistence.repository.TestDataBuilder.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Vitaliy Dragun
@@ -133,6 +135,29 @@ class HibernateOrderRepositoryTest {
         order.setTrip(null);
 
         assertThrows(PersistenceException.class, () -> orderRepository.save(order));
+    }
+
+    @Test
+    void shouldReturnEmptyOptionalIfCanNotFindOrderWithSpecifiedId() {
+        final Optional<Order> optionalOrder = orderRepository.findById(10);
+
+        assertTrue(optionalOrder.isEmpty(), "should return empty optional for unknown id");
+    }
+
+    @Test
+    void shouldFindOrderById() {
+        final Order order = new Order();
+        order.setClientName("John Smith");
+        order.setClientPhone("555-87964");
+        order.setDueDate(LocalDateTime.now().plusDays(2));
+        order.setState(OrderState.PENDING);
+        order.setTrip(trip);
+        orderRepository.save(order);
+
+        final Optional<Order> optionalOrder = orderRepository.findById(order.getId());
+
+        assertTrue(optionalOrder.isPresent(), "should return optional with order for valid id");
+        assertThat(optionalOrder.get(), equalTo(order));
     }
 
     private void assertOrderPresent(final Order order) {

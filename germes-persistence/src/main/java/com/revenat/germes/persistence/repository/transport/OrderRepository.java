@@ -3,6 +3,7 @@ package com.revenat.germes.persistence.repository.transport;
 import com.revenat.germes.application.model.entity.travel.Order;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Defines CRUD operations to access Order objects in the persistent storage
@@ -22,4 +23,11 @@ public interface OrderRepository {
      * @param tripId identifier of the trip to find orders linked to
      */
     List<Order> findAll(int tripId);
+
+    /**
+     * Returns order with specified id, or empty Optional if no order was found
+     *
+     * @param id identification of the order to find
+     */
+    Optional<Order> findById(int id);
 }

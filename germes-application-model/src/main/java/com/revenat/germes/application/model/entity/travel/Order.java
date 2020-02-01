@@ -1,7 +1,10 @@
 package com.revenat.germes.application.model.entity.travel;
 
+import com.revenat.germes.application.infrastructure.exception.flow.ReservationException;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,6 +22,8 @@ import java.time.LocalDateTime;
 @Table(name = "ORDERS")
 @Setter
 public class Order extends AbstractEntity {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Order.class);
 
     public static final String FIELD_TRIP = "trip";
 
@@ -101,5 +106,40 @@ public class Order extends AbstractEntity {
     @Column(name = "CANCELLATION_REASON", length = 128)
     public String getCancellationReason() {
         return cancellationReason;
+    }
+
+    @Transient
+    public boolean isCompleted() {
+        return state == OrderState.COMPLETED;
+    }
+
+    @Transient
+    public boolean isCancelled() {
+        return state == OrderState.CANCELLED;
+    }
+
+    /**
+     * Cancels current order
+     *
+     * @param reason cancellation reason
+     */
+    public void cancel(final String reason) {
+        if (dueDate.isBefore(LocalDateTime.now())) {
+            LOGGER.warn("This order misses due date and should be automatically cancelled, id: {}", getId());
+        }
+        state = OrderState.CANCELLED;
+        cancellationReason = reason;
+    }
+
+    /**
+     * Makes necessary checks and completes the order
+     *
+     * @throws ReservationException if order can not be complete for some reason
+     */
+    public void complete() {
+        if (dueDate.isBefore(LocalDateTime.now())) {
+            throw new ReservationException("This order misses due date, id: " + getId());
+        }
+        state = OrderState.COMPLETED;
     }
 }
