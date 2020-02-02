@@ -5,7 +5,6 @@ import com.revenat.germes.application.model.entity.transport.TransportType;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -59,14 +58,12 @@ public class Station extends AbstractEntity {
     Station() {
     }
 
-    @NotNull
     @ManyToOne(fetch = FetchType.EAGER, cascade = {})
     @JoinColumn(name = "CITY_ID", nullable = false, updatable = false)
     public City getCity() {
         return city;
     }
 
-    @NotNull
     @Embedded
     public Address getAddress() {
         return address;
@@ -82,7 +79,6 @@ public class Station extends AbstractEntity {
         return coordinate;
     }
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "TRANSPORT_TYPE")
     public TransportType getTransportType() {

@@ -15,9 +15,9 @@ dependencies {
 
     implementation misc.javassist, server.swagger
 
-    compileOnly persistence.jpaApi
+    compileOnly persistence.jpaApi, misc.validationApi
 
-    runtimeOnly misc.jaxbRuntime
+    runtimeOnly misc.jaxbRuntime, server.jerseyValidation
 
     testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
     testCompileOnly persistence.jpaApi

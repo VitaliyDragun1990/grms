@@ -7,9 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
@@ -62,20 +59,17 @@ public class Order extends AbstractEntity {
      */
     private String cancellationReason;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "ORDER_STATE", nullable = false)
     public OrderState getState() {
         return state;
     }
 
-    @NotNull
     @Column(name = "DUE_DATE", nullable = false)
     public LocalDateTime getDueDate() {
         return dueDate;
     }
 
-    @NotNull
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "TRIP_ID", nullable = false)
     public Trip getTrip() {
@@ -88,21 +82,16 @@ public class Order extends AbstractEntity {
         return ticket;
     }
 
-    @NotBlank
-    @Size(max = 32)
     @Column(name = "CLIENT_NAME", length = 32, nullable = false)
     public String getClientName() {
         return clientName;
     }
 
-    @NotBlank
-    @Size(max = 24)
     @Column(name = "CLIENT_PHONE", nullable = false, length = 24)
     public String getClientPhone() {
         return clientPhone;
     }
 
-    @Size(max = 128)
     @Column(name = "CANCELLATION_REASON", length = 128)
     public String getCancellationReason() {
         return cancellationReason;

@@ -42,7 +42,7 @@ public class GuestUserInitializer {
      * to load it on startup (analog to @Startup EJB annotation)
      */
     void init(@Observes @Initialized(ApplicationScoped.class) final Object event) {
-        LOGGER.info("UserInitializer has been load.");
+        LOGGER.info("UserInitializer has been loaded.");
 
         if (userService.findByUserName(GUEST).isEmpty()) {
             final User user = new User();

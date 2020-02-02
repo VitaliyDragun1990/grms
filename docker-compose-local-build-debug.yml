@@ -1,0 +1,78 @@
+# Start container using docker-compose.yml in foreground mode
+# docker-compose up
+
+# Start container using docker-compose.yml in foreground mode, rebuild any existing images
+# docker-compose up --build
+
+# Start container using docker-compose.yml in detached mode
+# docker-compose up -d
+
+# Stop all containers started via docker-compose and delete them
+# docker-compose down
+
+# Output log content of all running containers
+# docker-compose logs
+
+# Restart specified service/container
+# docker-compose restart <service name>
+
+# FOR DEPLOYING WAR ARCHIVES ALREADY BUILT ON LOCAL MACHINE
+version: '3.7'
+# Services definition
+services:
+  # Germes mysql database server
+  mysql:
+    build:
+      context: germes-presentation-admin
+      dockerfile: src/main/resources/docker/mysql.dockerfile
+      #logging:
+      # driver: none
+    networks:
+      - network1
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_USER=germes
+      - MYSQL_PASSWORD=germes
+      - MYSQL_DATABASE=germes
+    env_file:
+      - mysql.env
+    command: ['--collation-server=utf8mb4_unicode_ci', '--character-set-server=utf8mb4']
+    volumes:
+      - germes-mysql-data:/var/lib/mysql
+  # Germes admin application
+  admin:
+    build:
+      context: germes-presentation-admin
+      dockerfile: src/main/resources/docker/admin-jetty.dockerfile
+    ports:
+      - "9000:8080"
+    networks:
+      - network1
+    depends_on:
+      - mysql
+    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
+    #environment:
+    #- JAVA_OPTS=--add-modules javax.xml.bind
+  # Germes client application
+  client:
+    build:
+      context: germes-presentation-web
+      dockerfile: src/main/resources/docker/client-jetty.dockerfile
+    ports:
+      - "8080:8080"
+      - "8000:8000"
+    networks:
+      - network1
+    depends_on:
+      - mysql
+    entrypoint: bash -c "sleep 5s && java -agentlib:jdwp=transport=dt_socket,address=0.0.0.0:8000,server=y,suspend=n -jar /usr/local/jetty/start.jar"
+    #environment:
+    #- JAVA_OPTS=--add-modules javax.xml.bind
+# Networks definition
+networks:
+  network1:
+    driver: bridge
+# Volumes definition
+volumes:
+  germes-mysql-data:

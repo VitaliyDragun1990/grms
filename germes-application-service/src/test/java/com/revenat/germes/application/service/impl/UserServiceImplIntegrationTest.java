@@ -1,7 +1,6 @@
 package com.revenat.germes.application.service.impl;
 
 import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
-import com.revenat.germes.application.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
@@ -11,13 +10,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -118,72 +117,6 @@ class UserServiceImplIntegrationTest {
     }
 
     @Test
-    void shouldFailToSaveUserIfUsernameIsNull() {
-        User user = new User();
-        user.setUserName(null);
-        user.setPassword(SECRET);
-
-        final ValidationException e = assertThrows(ValidationException.class, () -> service.save(user));
-
-        assertValidation(e, "userName", User.class, "{javax.validation.constraints.NotNull.message}");
-    }
-
-    @Test
-    void shouldFailToSaveUserIfPasswordIsNull() {
-        User user = new User();
-        user.setUserName(JOE_12345);
-        user.setPassword(null);
-
-        final ValidationException e = assertThrows(ValidationException.class, () -> service.save(user));
-
-        assertValidation(e, "password", User.class, "{javax.validation.constraints.NotNull.message}");
-    }
-
-    @Test
-    void shouldFailToSaveUserIfUsernameIsToShort() {
-        User user = new User();
-        user.setUserName("aa");
-        user.setPassword(SECRET);
-
-        final ValidationException e = assertThrows(ValidationException.class, () -> service.save(user));
-
-        assertValidation(e, "userName", User.class, "{javax.validation.constraints.Size.message}");
-    }
-
-    @Test
-    void shouldFailToSaveUserIfUsernameIsToLong() {
-        User user = new User();
-        user.setUserName("a".repeat(25));
-        user.setPassword(SECRET);
-
-        final ValidationException e = assertThrows(ValidationException.class, () -> service.save(user));
-
-        assertValidation(e, "userName", User.class, "{javax.validation.constraints.Size.message}");
-    }
-
-    @Test
-    void shouldFailToSaveUserIfPasswordIsToShort() {
-        User user = new User();
-        user.setUserName(JOE_12345);
-        user.setPassword("ss");
-
-        final ValidationException e = assertThrows(ValidationException.class, () -> service.save(user));
-
-        assertValidation(e, "password", User.class, "{javax.validation.constraints.Size.message}");
-    }
-
-    @Test
-    void shouldFailToSaveUserIfPasswordIsToLong() {
-        User user = new User();
-        user.setUserName(JOE_12345);
-        user.setPassword("s".repeat(512));
-
-        final ValidationException e = assertThrows(ValidationException.class, () -> service.save(user));
-
-        assertValidation(e, "password", User.class, "{javax.validation.constraints.Size.message}");
-    }
-
-    @Test
     void shouldFailToSaveNotInitializeUser() {
 
         assertThrows(InvalidParameterException.class, () -> service.save(null));
@@ -212,15 +145,6 @@ class UserServiceImplIntegrationTest {
     @Test
     void shouldFailToFindUserByUsernameIfSpecifiedUsernameIsNull() {
         assertThrows(InvalidParameterException.class, () -> service.findByUserName(null));
-    }
-
-    private void assertValidation(final ValidationException ex, final String fieldName,
-                                  final Class<?> clz, final String messageKey) {
-        assertThat(ex.getConstraints(), hasSize(greaterThan(0)));
-        final ConstraintViolation<?> constraint = ex.getConstraints().iterator().next();
-        assertThat(constraint.getMessageTemplate(), equalTo(messageKey));
-        assertThat(constraint.getPropertyPath().toString(), equalTo(fieldName));
-        assertThat(constraint.getRootBeanClass(), equalTo(clz));
     }
 
     private void assertPresentUsers(final User... users) {

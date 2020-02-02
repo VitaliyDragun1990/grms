@@ -7,7 +7,6 @@ import lombok.AccessLevel;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -61,27 +60,23 @@ public class Route extends AbstractEntity  {
         trips = new HashSet<>();
     }
 
-    @NotNull
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "START_ID", nullable = false)
     public Station getStart() {
         return start;
     }
 
-    @NotNull
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DESTINATION_ID", nullable = false)
     public Station getDestination() {
         return destination;
     }
 
-    @NotNull
     @Column(name = "START_TIME", nullable = false)
     public LocalTime getStartTime() {
         return startTime;
     }
 
-    @NotNull
     @Column(name = "END_TIME", nullable = false)
     public LocalTime getEndTime() {
         return endTime;

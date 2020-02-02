@@ -6,10 +6,6 @@ import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.function.Supplier;
 
 /**
  * Trip ticket
@@ -42,22 +38,17 @@ public class Ticket extends AbstractEntity {
      */
     private String uid;
 
-    @NotNull
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "TRIP_ID", nullable = false)
     public Trip getTrip() {
         return trip;
     }
 
-    @NotBlank
-    @Size(max = 32)
     @Column(name = "CLIENT_NAME", length = 32, nullable = false)
     public String getClientName() {
         return clientName;
     }
 
-    @NotBlank
-    @Size(max = 60)
     @Column(length = 60, nullable = false, unique = true)
     public String getUid() {
         return uid;

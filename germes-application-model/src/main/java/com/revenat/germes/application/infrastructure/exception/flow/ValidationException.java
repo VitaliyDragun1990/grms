@@ -5,8 +5,6 @@ import com.revenat.germes.application.infrastructure.exception.FlowException;
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
-import static java.util.stream.Collectors.joining;
-
 /**
  * {@link ValidationException} is raised when attribute values of the
  * object model violates business rules or restrictions

@@ -40,6 +40,12 @@
     <dependencies>
         <dependency>
             <groupId>com.revenat</groupId>
+            <artifactId>germes-application-model</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.revenat</groupId>
             <artifactId>germes-application-service</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
@@ -85,6 +91,16 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-sse</artifactId>
             <scope>${jersey.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-bean-validation</artifactId>
+            <scope>${jersey.scope}</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
         </dependency>
 
         <dependency>

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -68,7 +69,7 @@ public class CityResource extends BaseResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Saves new city instance")
-    public void saveCity(final CityDTO cityDTO) {
+    public void saveCity(@Valid final CityDTO cityDTO) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("CityResource.saveCity: {}", new ToStringBuilder(cityDTO).shortStyle());
         }

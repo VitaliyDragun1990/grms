@@ -4,7 +4,6 @@ import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
@@ -49,20 +48,17 @@ public class Trip extends AbstractEntity {
      */
     private double price;
 
-    @NotNull
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ROUTE_ID", nullable = false)
     public Route getRoute() {
         return route;
     }
 
-    @NotNull
     @Column(name = "START_TIME", nullable = false)
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    @NotNull
     @Column(name = "END_TIME", nullable = false)
     public LocalDateTime getEndTime() {
         return endTime;

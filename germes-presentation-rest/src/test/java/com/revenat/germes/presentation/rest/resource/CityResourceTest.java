@@ -174,6 +174,149 @@ class CityResourceTest {
         System.out.println(response.getEntity());
     }
 
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithTooShortName(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("O")
+                .setDistrict("Odessa")
+                .setRegion("Odessa");
+
+        final Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithTooLongName(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("a".repeat(33))
+                .setDistrict("Odessa")
+                .setRegion("Odessa");
+
+        final Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithEmptyName(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("")
+                .setDistrict("Odessa")
+                .setRegion("Odessa");
+
+        final Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithTooShortRegion(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("Odessa")
+                .setDistrict("Odessa")
+                .setRegion("O");
+
+        final Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithTooLongRegion(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("Odessa")
+                .setDistrict("Odessa")
+                .setRegion("O".repeat(35));
+
+        final Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithEmptyRegion(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("Odessa")
+                .setDistrict("Odessa")
+                .setRegion("");
+
+        final Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithTooLongDistrict(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("Odessa")
+                .setDistrict("O".repeat(35))
+                .setRegion("Odessa");
+
+        final Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToSaveCityWithTooShortDistrict(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("Odessa")
+                .setDistrict("O")
+                .setRegion("Odessa");
+
+        final Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldReturnStatusNoContentIfTryToSaveCityWithoutDistrict(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setName("Odessa")
+                .setRegion("Odessa");
+
+        final Response response = target
+                .path("/cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, NO_CONTENT);
+    }
+
     private void assertStatus(final Response response, final Response.Status status) {
         assertThat(response.getStatus(), equalTo(status.getStatusCode()));
     }

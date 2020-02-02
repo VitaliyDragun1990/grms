@@ -1,5 +1,6 @@
 package com.revenat.germes.application.service.impl;
 
+import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.application.infrastructure.helper.generator.text.StringGenerator;
 import com.revenat.germes.application.model.entity.travel.Order;
 import com.revenat.germes.application.model.entity.travel.Route;
@@ -132,18 +133,14 @@ public class TransportServiceImpl implements TransportService {
     @Override
     public Ticket buyTicket(final int tripId, final String clientName) {
         final Optional<Trip> tripOptional = tripRepository.findById(tripId);
-        if (tripOptional.isPresent()) {
-            final Ticket ticket = new Ticket();
-            ticket.setTrip(tripOptional.get());
-            ticket.setClientName(clientName);
-            ticket.generateUid(ticketNumberGenerator);
-            ticketRepository.save(ticket);
 
-            return ticket;
-        } else {
-            LOGGER.error("Invalid trip identifier: {}", tripId);
-            // TODO: notify REST service about invalid tripId
-            return null;
-        }
+        final Trip trip = tripOptional.orElseThrow(() -> new InvalidParameterException("Invalid trip identifier: " + tripId));
+        final Ticket ticket = new Ticket();
+        ticket.setTrip(trip);
+        ticket.setClientName(clientName);
+        ticket.generateUid(ticketNumberGenerator);
+        ticketRepository.save(ticket);
+
+        return ticket;
     }
 }

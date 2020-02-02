@@ -1,5 +1,6 @@
 package com.revenat.germes.application.service.impl;
 
+import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.application.model.entity.travel.Order;
 import com.revenat.germes.application.model.entity.travel.Ticket;
 import com.revenat.germes.application.model.entity.travel.Trip;
@@ -18,8 +19,7 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -107,9 +107,8 @@ class TransportServiceImplTest {
     void shouldFailToBuyTicketIfNoTripWithSpecifiedId() {
         when(tripRepository.findById(1)).thenReturn(Optional.empty());
 
-        final Ticket ticket = transportService.buyTicket(1, JOHN_SMITH);
+        assertThrows(InvalidParameterException.class, () -> transportService.buyTicket(1, JOHN_SMITH));
 
         verify(ticketRepository, never()).save(ArgumentMatchers.any(Ticket.class));
-        assertNull(ticket, "should return null if no ticket was bought");
     }
 }

@@ -18,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ConstraintViolation;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,6 @@ import static com.revenat.germes.application.service.TestData.*;
 import static com.revenat.germes.application.service.TestDataBuilder.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,13 +60,6 @@ class GeographicalServiceImplIntegrationTest {
         final List<City> cities = service.findCities();
 
         assertThat(cities, hasSize(0));
-    }
-
-    @Test
-    void shouldFailToSaveNewCityIfNotInitialized() {
-        final City city = new City(CITY_ODESSA);
-
-        assertThrows(ValidationException.class, () -> service.saveCity(city));
     }
 
     @Test
@@ -251,33 +242,6 @@ class GeographicalServiceImplIntegrationTest {
     }
 
     @Test
-    void shouldFailToSaveCityWithMissingName() {
-        final City city = buildCity(null, REGION_ODESSA);
-
-        final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
-
-        assertValidation(e, "name", City.class, "{javax.validation.constraints.NotBlank.message}");
-    }
-
-    @Test
-    void shouldFailToSaveCityWithTooShortName() {
-        final City city = buildCity(CITY_NAME_TOO_SHORT, REGION_ODESSA);
-
-        final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
-
-        assertValidation(e, "name", City.class, "{javax.validation.constraints.Size.message}");
-    }
-
-    @Test
-    void shouldFailToSaveCityWithTooLongName() {
-        final City city = buildCity(CITY_NAME_TOO_LONG, REGION_ODESSA);
-
-        final ValidationException e = assertThrows(ValidationException.class, () -> service.saveCity(city));
-
-        assertValidation(e, "name", City.class, "{javax.validation.constraints.Size.message}");
-    }
-
-    @Test
     void shouldDeleteAllCities() {
         final City odessa = buildCity(CITY_ODESSA, REGION_ODESSA);
         final City kiyv = buildCity(CITY_KIYV, REGION_KIYV);
@@ -359,14 +323,5 @@ class GeographicalServiceImplIntegrationTest {
         for (final City city : expectedCities) {
             assertThat(cities, hasItem(equalTo(city)));
         }
-    }
-
-    private void assertValidation(final ValidationException ex, final String fieldName,
-                                  final Class<?> clz, final String messageKey) {
-        assertThat(ex.getConstraints(), hasSize(greaterThan(0)));
-        final ConstraintViolation<?> constraint = ex.getConstraints().iterator().next();
-        assertThat(constraint.getMessageTemplate(), equalTo(messageKey));
-        assertThat(constraint.getPropertyPath().toString(), equalTo(fieldName));
-        assertThat(constraint.getRootBeanClass(), equalTo(clz));
     }
 }
