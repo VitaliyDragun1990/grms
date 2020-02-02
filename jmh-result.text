@@ -1,5 +1,6 @@
-Benchmark                                                             Mode  Cnt    Score    Error  Units
-ClassGraphBenchmark.findClassesByEntityAnnotation                    thrpt    3   41.884 ± 67.487  ops/s
-ClassGraphBenchmark.findClassesImplementingCityRepositoryInterface   thrpt    3   34.535 ± 23.445  ops/s
-ReflectionsBenchmark.findClassesByEntityAnnotation                   thrpt    3  167.361 ± 49.164  ops/s
-ReflectionsBenchmark.findClassesImplementingCityRepositoryInterface  thrpt    3   97.990 ± 14.781  ops/s
+Benchmark                                            (generator)  Mode  Cnt     Score     Error  Units
+NumberGeneratorBenchmark.generateSingleRandomNumber          Seq  avgt    3    23.356 ±   9.011  ns/op
+NumberGeneratorBenchmark.generateSingleRandomNumber       Random  avgt    3    62.141 ±   7.929  ns/op
+NumberGeneratorBenchmark.generateSingleRandomNumber      Secured  avgt    3  2803.268 ± 119.552  ns/op
+StringGeneratorBenchmark.generateDigitString                 N/A  avgt    3  3335.115 ± 177.976  ns/op
+StringGeneratorBenchmark.generateUUIDString                  N/A  avgt    3  2798.080 ± 163.190  ns/op
