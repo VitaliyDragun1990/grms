@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
@@ -43,9 +44,6 @@ class TransportServiceImplTest {
 
     @Mock
     private TripRepository tripRepository;
-
-    @Captor
-    private ArgumentCaptor<Ticket> ticketArgumentCaptor;
 
     @Test
     void shouldCancelReservationForOrder() {
@@ -98,21 +96,20 @@ class TransportServiceImplTest {
         trip.setId(1);
         when(tripRepository.findById(1)).thenReturn(Optional.of(trip));
 
-        transportService.buyTicket(1, JOHN_SMITH);
+        final Ticket ticket = transportService.buyTicket(1, JOHN_SMITH);
 
-        verify(ticketRepository, times(1)).save(ticketArgumentCaptor.capture());
-        final Ticket savedTicket = ticketArgumentCaptor.getValue();
-
-        assertThat(savedTicket.getTrip(), equalTo(trip));
-        assertThat(savedTicket.getClientName(), equalTo(JOHN_SMITH));
+        verify(ticketRepository, times(1)).save(ArgumentMatchers.eq(ticket));
+        assertThat(ticket.getTrip(), equalTo(trip));
+        assertThat(ticket.getClientName(), equalTo(JOHN_SMITH));
     }
 
     @Test
     void shouldFailToBuyTicketIfNoTripWithSpecifiedId() {
         when(tripRepository.findById(1)).thenReturn(Optional.empty());
 
-        transportService.buyTicket(1, JOHN_SMITH);
+        final Ticket ticket = transportService.buyTicket(1, JOHN_SMITH);
 
         verify(ticketRepository, never()).save(ArgumentMatchers.any(Ticket.class));
+        assertNull(ticket, "should return null if no ticket was bought");
     }
 }

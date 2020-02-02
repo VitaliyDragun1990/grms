@@ -89,5 +89,5 @@ public interface TransportService {
      * @param tripId identifier for the trip to buy ticket for
      * @param clientName name of the client who buys the ticket
      */
-    void buyTicket(int tripId, String clientName);
+    Ticket buyTicket(int tripId, String clientName);
 }

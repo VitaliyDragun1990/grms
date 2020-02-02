@@ -1,5 +1,7 @@
 package com.revenat.germes.application.model.entity.travel;
 
+import com.revenat.germes.application.infrastructure.helper.Checker;
+import com.revenat.germes.application.infrastructure.helper.generator.text.StringGenerator;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import lombok.Setter;
 
@@ -7,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.function.Supplier;
 
 /**
  * Trip ticket
@@ -21,6 +24,8 @@ import javax.validation.constraints.Size;
 public class Ticket extends AbstractEntity {
 
     public static final String QUERY_FIND_ALL = "Ticket.findAll";
+
+    public static final int TICKET_NUMBER_SIZE = 32;
 
     /**
      * Link to the underlying trip
@@ -56,6 +61,16 @@ public class Ticket extends AbstractEntity {
     @Column(length = 60, nullable = false, unique = true)
     public String getUid() {
         return uid;
+    }
+
+    /**
+     * Generates system-unique ticket number
+     *
+     * @param uidGenerator  string generator that should generate unique uid strings
+     */
+    public void generateUid(final StringGenerator uidGenerator) {
+        new Checker().checkParameter(uidGenerator != null, "uidGenerator should be initialized");
+        uid = uidGenerator.generate();
     }
 
 }

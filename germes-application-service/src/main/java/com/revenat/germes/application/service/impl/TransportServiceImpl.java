@@ -1,9 +1,11 @@
 package com.revenat.germes.application.service.impl;
 
+import com.revenat.germes.application.infrastructure.helper.generator.text.StringGenerator;
 import com.revenat.germes.application.model.entity.travel.Order;
 import com.revenat.germes.application.model.entity.travel.Route;
 import com.revenat.germes.application.model.entity.travel.Ticket;
 import com.revenat.germes.application.model.entity.travel.Trip;
+import com.revenat.germes.application.model.entity.travel.generator.TicketNumberGenerator;
 import com.revenat.germes.application.service.TransportService;
 import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.transport.OrderRepository;
@@ -37,6 +39,11 @@ public class TransportServiceImpl implements TransportService {
     private final TicketRepository ticketRepository;
 
     private final OrderRepository orderRepository;
+
+    /**
+     * Default generator for ticket numbers
+     */
+    private final StringGenerator ticketNumberGenerator = new TicketNumberGenerator();
 
     @Inject
     public TransportServiceImpl(@DBSource final RouteRepository routeRepository,
@@ -123,15 +130,20 @@ public class TransportServiceImpl implements TransportService {
     }
 
     @Override
-    public void buyTicket(final int tripId, final String clientName) {
+    public Ticket buyTicket(final int tripId, final String clientName) {
         final Optional<Trip> tripOptional = tripRepository.findById(tripId);
-        tripOptional.ifPresentOrElse(trip -> {
+        if (tripOptional.isPresent()) {
             final Ticket ticket = new Ticket();
-            ticket.setTrip(trip);
+            ticket.setTrip(tripOptional.get());
             ticket.setClientName(clientName);
-            // TODO temporary solution, should be replaced by actual implementation
-            ticket.setUid(String.valueOf(System.nanoTime()));
+            ticket.generateUid(ticketNumberGenerator);
             ticketRepository.save(ticket);
-        }, () -> LOGGER.error("Invalid trip identifier: {}", tripId));
+
+            return ticket;
+        } else {
+            LOGGER.error("Invalid trip identifier: {}", tripId);
+            // TODO: notify REST service about invalid tripId
+            return null;
+        }
     }
 }
