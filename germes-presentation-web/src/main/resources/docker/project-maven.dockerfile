@@ -29,6 +29,7 @@ RUN mvn verify -e -Dmaven.exec.skip=true -Dangular.dist.folder=empty
 COPY . /opt/maven/
 RUN mvn clean package $build_flag && cp /opt/maven/germes-presentation-web/target/client.war /opt && \
     cp /opt/maven/germes-presentation-admin/target/admin.war /opt && \
+    cp /opt/maven/germes-presentation-web/target/generated/swagger-ui/swagger.json /opt && \
     rm -rf /opt/maven
 
 # From project root directory

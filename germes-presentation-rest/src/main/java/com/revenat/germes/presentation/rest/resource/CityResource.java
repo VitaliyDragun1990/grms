@@ -68,8 +68,12 @@ public class CityResource extends BaseResource {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Saves new city instance")
-    public void saveCity(@Valid final CityDTO cityDTO) {
+    @ApiOperation(value = "Saves new city instance", consumes = MediaType.APPLICATION_JSON)
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid content of city object"),
+            @ApiResponse(code = 204, message = "City instance has been saved")
+    })
+    public void saveCity(@Valid @ApiParam(name = "city", required = true) final CityDTO cityDTO) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("CityResource.saveCity: {}", new ToStringBuilder(cityDTO).shortStyle());
         }

@@ -32,7 +32,6 @@ public class JerseyConfig extends ResourceConfig {
         beanConfig.setTitle("Germes project");
         beanConfig.setContact("Vitaly Dragun");
         beanConfig.setSchemes(new String[]{"http"});
-        beanConfig.setHost("localhost:8081");
         beanConfig.setBasePath("/");
         beanConfig.setResourcePackage("com.revenat.germes.presentation.rest");
         beanConfig.setScan(true);

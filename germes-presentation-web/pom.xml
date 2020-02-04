@@ -15,6 +15,7 @@
     <properties>
         <maven.exec.skip>false</maven.exec.skip>
         <angular.dist.folder>client/dist</angular.dist.folder>
+        <host>192.168.99.100</host>
     </properties>
 
     <dependencies>
@@ -106,6 +107,39 @@
                     </webResources>
                     <packagingExcludes>WEB-INF/lib/jmh-*.jar</packagingExcludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>3.1.7</version>
+                <configuration>
+                    <apiSources>
+                        <apiSource>
+                            <springmvc>false</springmvc>
+                            <locations>
+                                <location>com.revenat.germes.presentation.rest</location>
+                            </locations>
+                            <schemes>
+                                <scheme>http</scheme>
+                            </schemes>
+                            <host>${host}:8080</host>
+                            <basePath>/api</basePath>
+                            <info>
+                                <title>Germes client project</title>
+                                <version>v1</version>
+                            </info>
+                            <swaggerDirectory>${basedir}/target/generated/swagger-ui</swaggerDirectory>
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>

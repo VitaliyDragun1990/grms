@@ -34,7 +34,7 @@ public class CityDTO extends BaseDTO<City> {
     @Size(min = 2, max = 32)
     private String region;
 
-    @ApiModelProperty(name = "Name of the city", required = true)
+    @ApiModelProperty(value = "Name of the city", name = "name", required = true)
     public String getName() {
         return name;
     }
@@ -44,7 +44,7 @@ public class CityDTO extends BaseDTO<City> {
         return this;
     }
 
-    @ApiModelProperty(name = "Name of the city's district. Empty for region center", required = false)
+    @ApiModelProperty(value = "Name of the city's district. Empty for region center", name="district")
     public String getDistrict() {
         return district;
     }
@@ -54,7 +54,7 @@ public class CityDTO extends BaseDTO<City> {
         return this;
     }
 
-    @ApiModelProperty(name = "Name of the city's region", required = true)
+    @ApiModelProperty(value = "Name of the city's region", name="region", required = true)
     public String getRegion() {
         return region;
     }
