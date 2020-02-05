@@ -15,6 +15,7 @@ import javax.inject.Named;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -43,6 +44,11 @@ public class HibernateStationRepository extends BaseHibernateRepository implemen
 
             return session.createQuery(query).getResultList();
         });
+    }
+
+    @Override
+    public Optional<Station> findById(int stationId) {
+        return query(session -> Optional.ofNullable(session.get(Station.class, stationId)));
     }
 
     private Predicate[] buildPredicates(final StationCriteria stationCriteria, final Root<Station> root, final CriteriaBuilder cb) {

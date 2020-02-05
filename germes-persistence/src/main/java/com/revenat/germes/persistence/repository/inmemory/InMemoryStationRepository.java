@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +33,11 @@ public class InMemoryStationRepository implements StationRepository {
         return stations.stream()
                 .filter(station -> match(stationCriteria, station))
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public Optional<Station> findById(int stationId) {
+        return stations.stream().filter(station -> station.getId() == stationId).findAny();
     }
 
     void removeByCityId(int cityId) {

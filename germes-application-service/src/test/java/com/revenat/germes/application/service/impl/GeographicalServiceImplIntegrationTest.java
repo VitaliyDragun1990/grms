@@ -138,6 +138,26 @@ class GeographicalServiceImplIntegrationTest {
     }
 
     @Test
+    void shouldReturnEmptyOptionalIfNoStationWithSpecifiedIdExists() {
+        final Optional<Station> optionalStation = service.findStationById(999);
+
+        assertTrue(optionalStation.isEmpty());
+    }
+
+    @Test
+    void shouldFindStationById() {
+        final Address stationAddress = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
+        final City city = buildCity(CITY_ODESSA, REGION_ODESSA);
+        final Station station = buildStation(city, AUTO, stationAddress);
+        service.saveCity(city);
+
+        final Optional<Station> optionalStation = service.findStationById(station.getId());
+
+        assertTrue(optionalStation.isPresent());
+        assertThat(optionalStation.get(), equalTo(station));
+    }
+
+    @Test
     void shouldNotFindStationByCityNameIfNoStationWithGivenNamePresent() {
         final Address stationAddress = buildAddress(ZIP_CODE_A, STREET_PEREMOGI, HOUSE_NUMBER_12);
         final City city = buildCity(CITY_KIYV, REGION_KIYV);
@@ -303,7 +323,6 @@ class GeographicalServiceImplIntegrationTest {
 
         stations = service.searchStations(odessaStations, new RangeCriteria(0, 5));
         assertThat(stations, hasSize(0));
-
     }
 
     @Test

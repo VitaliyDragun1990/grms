@@ -44,6 +44,14 @@ public interface GeographicalService {
     List<Station> searchStations(StationCriteria stationCriteria, RangeCriteria rangeCriteria);
 
     /**
+     * Returns station with specified identifier. If no station exists with such identifier then empty
+     * optional is returned
+     *
+     * @param id unique station identifier
+     */
+    Optional<Station> findStationById(int id);
+
+    /**
      * Removes all the cities
      */
     void deleteCities();
