@@ -22,8 +22,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.revenat.germes.application.model.entity.transport.TransportType.AUTO;
-import static com.revenat.germes.persistence.repository.TestData.*;
-import static com.revenat.germes.persistence.repository.TestDataBuilder.*;
+import static com.revenat.germes.persistence.TestData.*;
+import static com.revenat.germes.persistence.TestDataBuilder.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;

@@ -1,4 +1,4 @@
-package com.revenat.germes.persistence.repository;
+package com.revenat.germes.persistence;
 
 /**
  * @author Vitaliy Dragun

@@ -1,4 +1,4 @@
-package com.revenat.germes.persistence.repository;
+package com.revenat.germes.persistence;
 
 import com.revenat.germes.application.model.entity.geography.Address;
 import com.revenat.germes.application.model.entity.geography.City;
