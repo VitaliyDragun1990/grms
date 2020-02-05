@@ -3,6 +3,7 @@ package com.revenat.germes.application.service.transfrom.impl;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.transform.Transformable;
 import com.revenat.germes.application.service.transfrom.Transformer;
+import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class SimpleDTOTransformerTest {
 
     @BeforeEach
     void setUp() {
-        transformer = new SimpleDTOTransformer();
+        transformer = new SimpleDTOTransformer(new FieldProvider(new SimilarFieldsFinder()));
     }
 
     @Test
@@ -46,8 +47,7 @@ public class SimpleDTOTransformerTest {
         entity.setRegion("Od");
         entity.setDistrict("None");
 
-        CityDTO dto = new CityDTO();
-        dto = transformer.transform(entity, CityDTO.class);
+        final CityDTO dto = transformer.transform(entity, CityDTO.class);
 
         assertThat(dto.getId(), equalTo(entity.getId()));
         assertThat(dto.getName(), equalTo(entity.getName()));
@@ -99,11 +99,13 @@ public class SimpleDTOTransformerTest {
 
         private String region;
 
-        public void transform(City entity) {
+        @Override
+        public void transform(final City entity) {
             id = entity.getId();
         }
 
-        public City untransform(City entity) {
+        @Override
+        public City untransform(final City entity) {
             entity.setId(id);
             return entity;
         }
@@ -112,7 +114,7 @@ public class SimpleDTOTransformerTest {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(final int id) {
             this.id = id;
         }
 

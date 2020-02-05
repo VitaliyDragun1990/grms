@@ -3,6 +3,8 @@ package com.revenat.germes.application.service.transfrom.helper;
 import com.revenat.germes.application.infrastructure.exception.ConfigurationException;
 import com.revenat.germes.application.service.transfrom.annotation.Ignore;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
@@ -16,6 +18,8 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Vitaliy Dragun
  */
+@Named
+@Dependent
 public class SimilarFieldsFinder {
 
     private final FieldsExtractor fieldsExtractor;

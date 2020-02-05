@@ -15,23 +15,17 @@ import static java.util.Objects.requireNonNull;
  */
 public class ObjectStateCopier {
 
-    private final Object source;
-
-    private final Object destination;
-
     private final FieldsExtractor fieldsExtractor;
 
-    public ObjectStateCopier(final Object source, final Object destination) {
-        requireNonNull(source, "Source object is not initialized");
-        requireNonNull(destination, "Destination object is not initialized");
-
-        this.source = source;
-        this.destination = destination;
+    public ObjectStateCopier() {
         fieldsExtractor = new FieldsExtractor();
     }
 
-    public void copyState(final List<String> fieldNames) {
+    public void copyState(final Object source, final Object destination, final List<String> fieldNames) {
+        requireNonNull(source, "Source object is not initialized");
+        requireNonNull(destination, "Destination object is not initialized");
         requireNonNull(fieldNames, "Names of the fields to copy state should be initialized");
+
         try {
             for (final String fieldName : fieldNames) {
                 final Optional<Field> srcFieldOptional = fieldsExtractor.findFieldByName(source.getClass(), fieldName);

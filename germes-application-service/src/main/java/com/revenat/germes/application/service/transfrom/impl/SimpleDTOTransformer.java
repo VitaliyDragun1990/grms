@@ -6,12 +6,11 @@ import com.revenat.germes.application.model.transform.Transformable;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import com.revenat.germes.application.service.transfrom.helper.ClassInstanceCreator;
 import com.revenat.germes.application.service.transfrom.helper.ObjectStateCopier;
-import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
-import com.revenat.germes.application.service.transfrom.impl.cache.CachedFieldProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 
@@ -32,9 +31,13 @@ public class SimpleDTOTransformer implements Transformer {
 
     private final ClassInstanceCreator classInstanceCreator;
 
-    public SimpleDTOTransformer() {
-        fieldProvider = new CachedFieldProvider(new SimilarFieldsFinder());
+    private final ObjectStateCopier stateCopier;
+
+    @Inject
+    public SimpleDTOTransformer(final FieldProvider fieldProvider) {
+        this.fieldProvider = fieldProvider;
         classInstanceCreator = new ClassInstanceCreator();
+        stateCopier = new ObjectStateCopier();
     }
 
     @Override
@@ -54,7 +57,7 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> void transform(T entity, P dto) {
+    public <T extends AbstractEntity, P extends Transformable<T>> void transform(final T entity, final P dto) {
         checkParams(entity, dto);
 
         copyState(entity, dto);
@@ -94,7 +97,7 @@ public class SimpleDTOTransformer implements Transformer {
 
     private <S, D> void copyState(final S source, final D dest) {
         final List<String> fieldNamesToCopy = fieldProvider.getSimilarFieldNames(source.getClass(), dest.getClass());
-        new ObjectStateCopier(source, dest).copyState(fieldNamesToCopy);
+        stateCopier.copyState(source, dest, fieldNamesToCopy);
     }
 
     private <E> E createInstance(final Class<E> dtoClass) {

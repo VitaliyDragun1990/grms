@@ -3,6 +3,8 @@ package com.revenat.germes.application.service.transfrom.impl.cache;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +17,14 @@ import java.util.Objects;
  * @author Vitaliy Dragun
  */
 @Named
+@Dependent
 public class CachedFieldProvider extends FieldProvider {
     /**
      * Mapping between transformation pair and field names
      */
     private final Map<TransformationPair, List<String>> cache;
 
+    @Inject
     public CachedFieldProvider(final SimilarFieldsFinder fieldsFinder) {
         super(fieldsFinder);
         cache = new HashMap<>();
