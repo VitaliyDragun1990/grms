@@ -16,7 +16,7 @@ class ClassInstanceCreatorTest {
 
     @Test
     void shouldNotBeCreatedWithNullParameter() {
-        assertThrows(InvalidParameterException.class,
+        assertThrows(NullPointerException.class,
                 () -> new ClassInstanceCreator().createInstance(null));
     }
 

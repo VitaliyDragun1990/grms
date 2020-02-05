@@ -1,9 +1,10 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
-import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
 
 import java.util.List;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Base functionality of the field preparation
@@ -15,7 +16,7 @@ public class FieldProvider {
     protected final SimilarFieldsFinder fieldsFinder;
 
     public FieldProvider(SimilarFieldsFinder fieldsFinder) {
-        new Checker().checkParameter(fieldsFinder != null, "fieldsFiner should be initialized");
+        requireNonNull(fieldsFinder, "fieldsFiner should be initialized");
         this.fieldsFinder = fieldsFinder;
     }
 

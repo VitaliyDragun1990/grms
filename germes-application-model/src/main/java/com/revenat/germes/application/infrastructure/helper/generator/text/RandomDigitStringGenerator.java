@@ -22,7 +22,8 @@ public class RandomDigitStringGenerator implements StringGenerator {
     private final NumberGenerator numberGenerator;
 
     public RandomDigitStringGenerator(final int size) {
-        new Checker().checkParameter(size > 0, "String length should be greater than zero");
+        Checker.checkParameter(size > 0, "String length should be greater than zero");
+
         this.size = size;
         numberGenerator = new RandomNumberGenerator(10);
     }

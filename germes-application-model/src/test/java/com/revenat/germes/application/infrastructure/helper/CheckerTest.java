@@ -16,12 +16,12 @@ class CheckerTest {
     void shouldFailIfParameterCheckIsFalse() {
         assertThrows(
                 InvalidParameterException.class,
-                () -> new Checker().checkParameter(false, "Error message"));
+                () -> Checker.checkParameter(false, "Error message"));
     }
     @Test
     void shouldPassIfParameterCheckIsTrue() {
         assertDoesNotThrow(
-                () -> new Checker().checkParameter(true, "Error message"));
+                () -> Checker.checkParameter(true, "Error message"));
     }
 
 }

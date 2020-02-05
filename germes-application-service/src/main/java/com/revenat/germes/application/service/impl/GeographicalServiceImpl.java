@@ -1,6 +1,5 @@
 package com.revenat.germes.application.service.impl;
 
-import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
 import com.revenat.germes.application.model.search.StationCriteria;
@@ -17,14 +16,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author Vitaliy Dragun
  */
 @Named
 @Dependent
 public class GeographicalServiceImpl implements GeographicalService {
-
-    private final Checker checker = new Checker();
 
     private final CityRepository cityRepository;
 
@@ -44,7 +43,7 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     @Override
     public void saveCity(final City city) {
-        checker.checkParameter(city != null, "city to save can not be null");
+        requireNonNull(city, "city to save can not be null");
 
         cityRepository.save(city);
     }
@@ -56,8 +55,8 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     @Override
     public List<Station> searchStations(final StationCriteria stationCriteria, final RangeCriteria rangeCriteria) {
-        checker.checkParameter(stationCriteria != null, "Station criteria is not initialized");
-        checker.checkParameter(rangeCriteria != null, "Range criteria is not initialized");
+        requireNonNull(stationCriteria, "Station criteria is not initialized");
+        requireNonNull(rangeCriteria, "Range criteria is not initialized");
 
         return stationRepository.findAllByCriteria(stationCriteria).stream()
                 .skip(rangeCriteria.getPage() * (long) rangeCriteria.getRowCount())

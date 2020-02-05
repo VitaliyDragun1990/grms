@@ -1,6 +1,5 @@
 package com.revenat.germes.application.service.impl;
 
-import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
 import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
@@ -12,6 +11,8 @@ import javax.inject.Named;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * @author Vitaliy Dragun
  */
@@ -21,17 +22,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    private final Checker checker = new Checker();
-
     @Inject
     public UserServiceImpl(@DBSource final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public void save(final User user) {
-        checker.checkParameter(user != null, "user to save can not be null");
+        requireNonNull(user, "user to save can not be null");
 
         userRepository.save(user);
     }
@@ -43,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findByUserName(final String userName) {
-        checker.checkParameter(userName != null, "userName to find user with can not be null");
+        requireNonNull(userName, "userName to find user with can not be null");
 
         return userRepository.findByUserName(userName);
     }

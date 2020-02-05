@@ -9,6 +9,9 @@ import com.revenat.germes.application.infrastructure.exception.flow.InvalidParam
  */
 public final class Checker {
 
+    private Checker() {
+    }
+
     /**
      * Verifies that specified parameter check passed and throws exception otherwise
      *
@@ -16,7 +19,7 @@ public final class Checker {
      * @param message message passed to exception if specified check fails
      * @throws InvalidParameterException be thrown in case of failing check
      */
-    public void checkParameter(final boolean check, final String message, final Object... args) throws InvalidParameterException {
+    public static void checkParameter(final boolean check, final String message, final Object... args) throws InvalidParameterException {
         if (!check) {
             throw new InvalidParameterException(String.format(message, args));
         }

@@ -1,6 +1,5 @@
 package com.revenat.germes.application.service.transfrom.helper;
 
-import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.application.service.transfrom.annotation.Ignore;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,9 +18,9 @@ class SimilarFieldsFinderTest {
 
     @Test
     void shouldFailToFindIfEitherOfTheArgumentIsInitialized() {
-        assertThrows(InvalidParameterException.class, () -> new SimilarFieldsFinder().findByName(null, Destination.class));
-        assertThrows(InvalidParameterException.class, () -> new SimilarFieldsFinder().findByName(Source.class, null));
-        assertThrows(InvalidParameterException.class, () -> new SimilarFieldsFinder().findByName(null, null));
+        assertThrows(NullPointerException.class, () -> new SimilarFieldsFinder().findByName(null, Destination.class));
+        assertThrows(NullPointerException.class, () -> new SimilarFieldsFinder().findByName(Source.class, null));
+        assertThrows(NullPointerException.class, () -> new SimilarFieldsFinder().findByName(null, null));
     }
 
     @Test

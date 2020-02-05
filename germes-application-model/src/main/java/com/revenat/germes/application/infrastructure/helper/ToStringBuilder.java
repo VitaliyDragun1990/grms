@@ -3,6 +3,8 @@ package com.revenat.germes.application.infrastructure.helper;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Dynamically converts object into string representation
  *
@@ -13,9 +15,7 @@ public class ToStringBuilder {
     private final Object obj;
 
     public ToStringBuilder(final Object obj) {
-        new Checker().checkParameter(obj != null,
-                "Object to build string representation for can not be null");
-        this.obj = obj;
+        this.obj = requireNonNull(obj, "Object to build string representation for can not be null");;
     }
 
     /**

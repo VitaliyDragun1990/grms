@@ -18,9 +18,9 @@ class ObjectStateCopierTest {
 
     @Test
     void canNotBeCreatedWithoutInitializedArguments() {
-        assertThrows(InvalidParameterException.class, () -> new ObjectStateCopier(new Source(), null));
-        assertThrows(InvalidParameterException.class, () -> new ObjectStateCopier(null, new Destination()));
-        assertThrows(InvalidParameterException.class, () -> new ObjectStateCopier(null, null));
+        assertThrows(NullPointerException.class, () -> new ObjectStateCopier(new Source(), null));
+        assertThrows(NullPointerException.class, () -> new ObjectStateCopier(null, new Destination()));
+        assertThrows(NullPointerException.class, () -> new ObjectStateCopier(null, null));
     }
 
     @Test

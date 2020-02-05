@@ -1,11 +1,11 @@
 package com.revenat.germes.application.model.entity.travel;
 
-import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.infrastructure.helper.generator.text.StringGenerator;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Trip ticket
@@ -60,7 +60,7 @@ public class Ticket extends AbstractEntity {
      * @param uidGenerator  string generator that should generate unique uid strings
      */
     public void generateUid(final StringGenerator uidGenerator) {
-        new Checker().checkParameter(uidGenerator != null, "uidGenerator should be initialized");
+        Objects.requireNonNull(uidGenerator, "uidGenerator should be initialized");
         uid = uidGenerator.generate();
     }
 

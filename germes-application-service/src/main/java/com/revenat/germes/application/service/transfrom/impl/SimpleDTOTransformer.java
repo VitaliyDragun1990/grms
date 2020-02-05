@@ -1,6 +1,5 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
-import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.transform.Transformable;
@@ -16,6 +15,8 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Named;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Default transformation engine implementation
  *
@@ -27,8 +28,6 @@ public class SimpleDTOTransformer implements Transformer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleDTOTransformer.class);
 
-    private final Checker checker;
-
     private final FieldProvider fieldProvider;
 
     private final ClassInstanceCreator classInstanceCreator;
@@ -36,7 +35,6 @@ public class SimpleDTOTransformer implements Transformer {
     public SimpleDTOTransformer() {
         fieldProvider = new CachedFieldProvider(new SimilarFieldsFinder());
         classInstanceCreator = new ClassInstanceCreator();
-        checker = new Checker();
     }
 
     @Override
@@ -85,13 +83,13 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     private void checkParams(final Object src, final Class<?> targetClz) {
-        checker.checkParameter(src != null, "Source transformation object is not initialized");
-        checker.checkParameter(targetClz != null, "No class defined for transformation");
+        requireNonNull(src, "Source transformation object is not initialized");
+        requireNonNull(targetClz, "No class defined for transformation");
     }
 
     private void checkParams(final Object src, final Object target) {
-        checker.checkParameter(src != null, "Source transformation object is not initialized");
-        checker.checkParameter(target != null, "Target transformation object is not initialized");
+        requireNonNull(src, "Source transformation object is not initialized");
+        requireNonNull(target, "Target transformation object is not initialized");
     }
 
     private <S, D> void copyState(final S source, final D dest) {

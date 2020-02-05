@@ -1,6 +1,5 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
-import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.transform.Transformable;
 import com.revenat.germes.application.service.transfrom.Transformer;
@@ -74,20 +73,20 @@ public class SimpleDTOTransformerTest {
 
     @Test
     void shouldFailToTransformIfEitherOfTheArgumentsIsNull() {
-        assertThrows(InvalidParameterException.class, () -> transformer.transform(null, CityDTO.class));
-        assertThrows(InvalidParameterException.class, () -> transformer.transform(new City("Odessa"), (Class<CityDTO>)null));
-        assertThrows(InvalidParameterException.class, () -> transformer.transform(null, (Class<CityDTO>)null));
+        assertThrows(NullPointerException.class, () -> transformer.transform(null, CityDTO.class));
+        assertThrows(NullPointerException.class, () -> transformer.transform(new City("Odessa"), (Class<CityDTO>)null));
+        assertThrows(NullPointerException.class, () -> transformer.transform(null, (Class<CityDTO>)null));
 
-        assertThrows(InvalidParameterException.class, () -> transformer.transform(null, new CityDTO()));
-        assertThrows(InvalidParameterException.class, () -> transformer.transform(new City("Odessa"), (CityDTO)null));
-        assertThrows(InvalidParameterException.class, () -> transformer.transform(null, (CityDTO)null));
+        assertThrows(NullPointerException.class, () -> transformer.transform(null, new CityDTO()));
+        assertThrows(NullPointerException.class, () -> transformer.transform(new City("Odessa"), (CityDTO)null));
+        assertThrows(NullPointerException.class, () -> transformer.transform(null, (CityDTO)null));
     }
 
     @Test
     void shouldFailToUntransformIfEitherOfTheArgumentsIsNull() {
-        assertThrows(InvalidParameterException.class, () -> transformer.untransform(new CityDTO(), null));
-        assertThrows(InvalidParameterException.class, () -> transformer.untransform(null, City.class));
-        assertThrows(InvalidParameterException.class, () -> transformer.untransform(null, null));
+        assertThrows(NullPointerException.class, () -> transformer.untransform(new CityDTO(), null));
+        assertThrows(NullPointerException.class, () -> transformer.untransform(null, City.class));
+        assertThrows(NullPointerException.class, () -> transformer.untransform(null, null));
     }
 
     static class CityDTO implements Transformable<City> {

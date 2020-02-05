@@ -1,6 +1,5 @@
 package com.revenat.germes.application.service.impl;
 
-import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
@@ -119,7 +118,7 @@ class UserServiceImplIntegrationTest {
     @Test
     void shouldFailToSaveNotInitializeUser() {
 
-        assertThrows(InvalidParameterException.class, () -> service.save(null));
+    assertThrows(NullPointerException.class, () -> service.save(null));
     }
 
     @Test
@@ -144,7 +143,7 @@ class UserServiceImplIntegrationTest {
 
     @Test
     void shouldFailToFindUserByUsernameIfSpecifiedUsernameIsNull() {
-        assertThrows(InvalidParameterException.class, () -> service.findByUserName(null));
+        assertThrows(NullPointerException.class, () -> service.findByUserName(null));
     }
 
     private void assertPresentUsers(final User... users) {

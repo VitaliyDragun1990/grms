@@ -1,7 +1,6 @@
 package com.revenat.germes.application.service.transfrom.helper;
 
 import com.revenat.germes.application.infrastructure.exception.ConfigurationException;
-import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.service.transfrom.annotation.Ignore;
 
 import java.lang.reflect.Field;
@@ -10,14 +9,14 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Analyzes provided classes fields and finds similar by chosen criterion
  *
  * @author Vitaliy Dragun
  */
 public class SimilarFieldsFinder {
-
-    private final Checker checker = new Checker();
 
     private final FieldsExtractor fieldsExtractor;
 
@@ -34,8 +33,8 @@ public class SimilarFieldsFinder {
      * @throws ConfigurationException if operation fails
      */
     public List<String> findByName(final Class<?> clazz1, final Class<?> clazz2) {
-        checker.checkParameter(clazz1 != null, "clazz1 object can not be null");
-        checker.checkParameter(clazz2 != null, "clazz2 object can not be null");
+        requireNonNull(clazz1, "clazz1 object can not be null");
+        requireNonNull(clazz2, "clazz2 object can not be null");
 
         final List<Field> clazz1Fields = getFields(clazz1);
         final List<Field> clazz2Fields = getFields(clazz2);

@@ -20,7 +20,7 @@ class FieldsExtractorTest {
 
     @Test
     void shouldFailToExtractFieldsIfArgumentIsNull() {
-        assertThrows(InvalidParameterException.class, () -> new FieldsExtractor().getAllFields(null));
+        assertThrows(NullPointerException.class, () -> new FieldsExtractor().getAllFields(null));
     }
 
     @Test
@@ -56,13 +56,13 @@ class FieldsExtractorTest {
     @Test
     void shouldFailToFindFieldByNameIfNameIsNotInitialized() {
         FieldsExtractor extractor = new FieldsExtractor();
-        assertThrows(InvalidParameterException.class, () -> extractor.findFieldByName(Base.class, null));
+        assertThrows(NullPointerException.class, () -> extractor.findFieldByName(Base.class, null));
     }
 
     @Test
     void shouldFailToFindFieldByNameIfSourceIsNotInitialized() {
         FieldsExtractor extractor = new FieldsExtractor();
-        assertThrows(InvalidParameterException.class, () -> extractor.findFieldByName(null, "text"));
+        assertThrows(NullPointerException.class, () -> extractor.findFieldByName(null, "text"));
     }
 
     static class Base {
