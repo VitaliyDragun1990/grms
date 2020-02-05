@@ -41,6 +41,7 @@
         <jakarta-cdi.version>2.0.2</jakarta-cdi.version>
         <jmh.version>1.23</jmh.version>
         <classgraph.version>4.8.60</classgraph.version>
+        <jackson.version>2.10.1</jackson.version>
 
         <!--server-->
         <jersey.version>2.29.1</jersey.version>
@@ -306,6 +307,22 @@
                 <artifactId>jmh-generator-annprocess</artifactId>
                 <version>${jmh.version}</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-parameter-names</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jdk8</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

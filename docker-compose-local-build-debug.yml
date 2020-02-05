@@ -61,12 +61,12 @@ services:
       dockerfile: src/main/resources/docker/client-jetty.dockerfile
     ports:
       - "8080:8080"
-      - "8000:8000"
+      - "5005:5005"
     networks:
       - network1
     depends_on:
       - mysql
-    entrypoint: bash -c "sleep 5s && java -agentlib:jdwp=transport=dt_socket,address=0.0.0.0:8000,server=y,suspend=n -jar /usr/local/jetty/start.jar"
+    entrypoint: bash -c "sleep 5s && java -agentlib:jdwp=transport=dt_socket,address=0.0.0.0:5005,server=y,suspend=n -jar /usr/local/jetty/start.jar"
     #environment:
     #- JAVA_OPTS=--add-modules javax.xml.bind
 # Networks definition

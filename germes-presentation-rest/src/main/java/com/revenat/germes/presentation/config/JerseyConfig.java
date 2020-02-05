@@ -1,8 +1,10 @@
 package com.revenat.germes.presentation.config;
 
+import com.revenat.germes.presentation.rest.resolver.ObjectMapperContextResolver;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
@@ -16,7 +18,10 @@ import javax.ws.rs.ApplicationPath;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        super(ComponentFeature.class);
+        super(
+                ComponentFeature.class,
+                JacksonFeature.class
+        );
         packages("com.revenat.germes.presentation.rest");
 
         initBeanConfig();

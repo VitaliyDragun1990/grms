@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalTime;
 
@@ -28,10 +29,12 @@ public class RouteDTO  extends BaseDTO<Route> {
     @Positive
     private int destinationId;
 
-    @ApiModelProperty(value = "Route departure time", required = true)
+    @ApiModelProperty(value = "Route departure time", required = true, dataType = "string", example = "10:30:00")
+    @NotNull
     private LocalTime startTime;
 
-    @ApiModelProperty(value = "Route arrival time", required = true)
+    @ApiModelProperty(value = "Route arrival time", required = true, dataType = "string", example = "10:30:00")
+    @NotNull
     private LocalTime endTime;
 
     @ApiModelProperty(value = "Generic ticket price", required = true)

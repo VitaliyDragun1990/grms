@@ -17,6 +17,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
+import static com.revenat.germes.presentation.rest.resource.TestHelper.assertStatus;
+import static com.revenat.germes.presentation.rest.resource.TestHelper.saveResources;
 import static javax.ws.rs.core.Response.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -106,7 +108,7 @@ class CityResourceTest {
                 .setDistrict("Kiyv district")
                 .setRegion("Kiyv region")
                 .setName("Kiyv");
-        saveCities(target, odessa, kiyv);
+        saveResources(target, "cities", odessa, kiyv);
 
         final List<Map<String, String>> cities = target.path("cities").request().get(List.class);
 
@@ -122,7 +124,7 @@ class CityResourceTest {
                 .setDistrict("Some district")
                 .setRegion("Some region")
                 .setName("Odessa");
-        saveCities(target, odessa);
+        saveResources(target, "cities", odessa);
 
         final CityDTO result = target.path("/cities/1").request().get(CityDTO.class);
 
@@ -317,20 +319,20 @@ class CityResourceTest {
         assertStatus(response, NO_CONTENT);
     }
 
-    private void assertStatus(final Response response, final Response.Status status) {
-        assertThat(response.getStatus(), equalTo(status.getStatusCode()));
-    }
-
-    private void saveCities(final WebTarget target, final CityDTO... cities) {
-        for (final CityDTO cityDTO : cities) {
-            final Response response = target
-                    .path("cities")
-                    .request()
-                    .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
-
-            assertThat(response.getStatus(), equalTo(NO_CONTENT.getStatusCode()));
-        }
-    }
+//    private void assertStatus(final Response response, final Response.Status status) {
+//        assertThat(response.getStatus(), equalTo(status.getStatusCode()));
+//    }
+//
+//    private void saveCities(final WebTarget target, final CityDTO... cities) {
+//        for (final CityDTO cityDTO : cities) {
+//            final Response response = target
+//                    .path("cities")
+//                    .request()
+//                    .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+//
+//            assertThat(response.getStatus(), equalTo(NO_CONTENT.getStatusCode()));
+//        }
+//    }
 
     private void assertCityPresent(final Response response, final String cityName) {
         final List<Map<String, String>> cities = response.readEntity(List.class);

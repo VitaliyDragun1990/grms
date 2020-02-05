@@ -94,7 +94,7 @@ public class CityResource extends BaseResource {
     public Response findCityById(@ApiParam(value = "Unique numeric city identifier", required = true)
                                  @PathParam("cityId") final String cityId) {
         LOGGER.info("CityResource.findCityById: {}", cityId);
-        if (!NumberUtils.isCreatable(cityId)) {
+        if (!NumberUtils.isParsable(cityId)) {
             return badRequest;
         }
 
