@@ -22,10 +22,10 @@ import static java.util.Objects.requireNonNull;
 @Dependent
 public class SimilarFieldsLocator {
 
-    private final FieldsExtractor fieldsExtractor;
+    private final FieldManager fieldManager;
 
     public SimilarFieldsLocator() {
-        fieldsExtractor = new FieldsExtractor();
+        fieldManager = new FieldManager();
     }
 
     /**
@@ -78,6 +78,6 @@ public class SimilarFieldsLocator {
     }
 
     private List<Field> getFields(final Class<?> clazz) {
-        return fieldsExtractor.getAllFields(clazz);
+        return fieldManager.getAllFields(clazz);
     }
 }

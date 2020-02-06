@@ -3,7 +3,7 @@ package com.revenat.germes.application.infrastructure.helper;
 import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
 
 /**
- * Incapsulates verification logic
+ * Incapsulates verification business logic
  *
  * @author Vitaliy Dragun
  */

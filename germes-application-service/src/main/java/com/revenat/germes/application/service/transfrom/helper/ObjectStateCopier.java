@@ -15,10 +15,10 @@ import static java.util.Objects.requireNonNull;
  */
 public class ObjectStateCopier {
 
-    private final FieldsExtractor fieldsExtractor;
+    private final FieldManager fieldManager;
 
     public ObjectStateCopier() {
-        fieldsExtractor = new FieldsExtractor();
+        fieldManager = new FieldManager();
     }
 
     public void copyState(final Object source, final Object destination, final List<String> fieldNames) {
@@ -28,14 +28,14 @@ public class ObjectStateCopier {
 
         try {
             for (final String fieldName : fieldNames) {
-                final Optional<Field> srcFieldOptional = fieldsExtractor.findFieldByName(source.getClass(), fieldName);
+                final Optional<Field> srcFieldOptional = fieldManager.findFieldByName(source.getClass(), fieldName);
                 // Skip unknown fields
                 if (srcFieldOptional.isPresent()) {
                     final Field srcField = srcFieldOptional.get();
                     srcField.setAccessible(true);
                     final Object value = srcField.get(source);
 
-                    final Optional<Field> dstFieldOptional = fieldsExtractor.findFieldByName(destination.getClass(), fieldName);
+                    final Optional<Field> dstFieldOptional = fieldManager.findFieldByName(destination.getClass(), fieldName);
 
                     if (dstFieldOptional.isPresent()) {
                         final Field dstField = dstFieldOptional.get();
