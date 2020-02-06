@@ -1,6 +1,7 @@
 package com.revenat.germes.presentation.rest.dto.transport;
 
 import com.revenat.germes.application.model.entity.travel.Route;
+import com.revenat.germes.application.service.transfrom.annotation.DomainProperty;
 import com.revenat.germes.presentation.rest.dto.base.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,10 +22,12 @@ import java.time.LocalTime;
 @ApiModel(description = "Generic route that exists between start and destination stations")
 public class RouteDTO  extends BaseDTO<Route> {
 
+    @DomainProperty("start")
     @ApiModelProperty(value = "Identifier of the start station", required = true)
     @Positive
     private int startId;
 
+    @DomainProperty("destination")
     @ApiModelProperty(value = "Identifier of the destination station", required = true)
     @Positive
     private int destinationId;

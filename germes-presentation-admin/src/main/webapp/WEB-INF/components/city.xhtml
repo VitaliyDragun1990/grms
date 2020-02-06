@@ -6,13 +6,13 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
     <h:form id="cityForm">
-        <p:dialog id="cityDialog"  header="#{msg['city.details']}" widgetVar="cityDlg" modal="true" closeOnExit="true">
+        <p:dialog id="cityDialog"  header="#{msg['route.details']}" widgetVar="cityDlg" modal="true" closeOnExit="true">
             <h:panelGrid columns="2">
-                <h:outputText value="#{msg['city.name']}" />
+                <h:outputText value="#{msg['route.name']}" />
                 <h:inputText value="#{currentCity.name}" />
-                <h:outputText value="#{msg['city.district']}" />
+                <h:outputText value="#{msg['route.district']}" />
                 <h:inputText value="#{currentCity.district}" required="false" />
-                <h:outputText value="#{msg['city.region']}" />
+                <h:outputText value="#{msg['route.region']}" />
                 <h:inputText value="#{currentCity.region}" />
             </h:panelGrid>
             <div style="text-align:right; margin-top:20px">

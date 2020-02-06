@@ -84,6 +84,32 @@ public class FieldManager {
     }
 
     /**
+     * Returns fields that satisfy provided predicates
+     *
+     * @param clazz   class to look for fields
+     * @param filters predicates to test field against
+     * @return list of fields
+     */
+    public List<Field> getFields(final Class<?> clazz, final List<Predicate<Field>> filters) {
+        Asserts.assertNonNull(clazz, "Class to get fields from must be initialized");
+        Asserts.assertNonNull(filters, "filters must be initialized");
+
+        final List<Field> fields = new ArrayList<>();
+
+        Class<?> current = clazz;
+        while (current != null) {
+            fields.addAll(
+                    Arrays.stream(current.getDeclaredFields())
+                            .filter(field -> matchAll(field, filters))
+                            .collect(Collectors.toList())
+            );
+            current = current.getSuperclass();
+        }
+
+        return fields;
+    }
+
+    /**
      * Returns value of the field with specified name
      *
      * @param src       object to get field value from

@@ -1,5 +1,10 @@
 package com.revenat.germes.application.service.transfrom.annotation;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * This annotation should be put on the reference fields in DTO classes to
  * specify source property in the domain class.
@@ -7,6 +12,8 @@ package com.revenat.germes.application.service.transfrom.annotation;
  *
  * @author Vitaliy Dragun
  */
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface DomainProperty {
 
     /**

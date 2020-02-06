@@ -5,9 +5,9 @@
     <th>{{ "CITY_DISTRICT" | translate }}</th>
     <th>{{ "CITY_REGION" | translate }}</th>
   </tr>
-  <tr *ngFor="let city of cities">
-    <td>{{ city.name }}</td>
-    <td>{{ city.district }}</td>
-    <td>{{ city.region }}</td>
+  <tr *ngFor="let route of cities">
+    <td>{{ route.name }}</td>
+    <td>{{ route.district }}</td>
+    <td>{{ route.region }}</td>
   </tr>
 </table>

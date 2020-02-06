@@ -1,5 +1,6 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
+import com.revenat.germes.application.infrastructure.helper.Asserts;
 import com.revenat.germes.application.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.transform.Transformable;
@@ -45,13 +46,7 @@ public class SimpleDTOTransformer implements Transformer {
         checkParams(entity, dtoClass);
 
         final P dto = createInstance(dtoClass);
-        copyState(entity, dto);
-        dto.transform(entity);
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("SimpleDTOTransformer.transform: {} DTO object",
-                    ToStringBuilder.shortStyle(dto));
-        }
+        transform(entity, dto);
 
         return dto;
     }
@@ -86,13 +81,13 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     private void checkParams(final Object src, final Class<?> targetClz) {
-        requireNonNull(src, "Source transformation object is not initialized");
-        requireNonNull(targetClz, "No class defined for transformation");
+        Asserts.assertNonNull(src, "Source transformation object is not initialized");
+        Asserts.assertNonNull(targetClz, "No class defined for transformation");
     }
 
     private void checkParams(final Object src, final Object target) {
-        requireNonNull(src, "Source transformation object is not initialized");
-        requireNonNull(target, "Target transformation object is not initialized");
+        Asserts.assertNonNull(src, "Source transformation object is not initialized");
+        Asserts.assertNonNull(target, "Target transformation object is not initialized");
     }
 
     private <S, D> void copyState(final S source, final D dest) {

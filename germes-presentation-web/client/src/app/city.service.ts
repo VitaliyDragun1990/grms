@@ -1,4 +1,4 @@
-import { City } from './city';
+import { City } from './route';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';

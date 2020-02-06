@@ -1,6 +1,6 @@
-import { CityService } from './../city.service';
+import { CityService } from './../route.service';
 import { Component, OnInit } from '@angular/core';
-import { City } from '../city';
+import { City } from '../route';
 
 @Component({
   selector: 'app-cities',
@@ -19,8 +19,8 @@ export class CitiesComponent implements OnInit {
   ngOnInit() {
   }
 
-  isRegionCenter(city: City): boolean {
-    if (city.district) {
+  isRegionCenter(route: City): boolean {
+    if (route.district) {
       return false;
     }
     return true;

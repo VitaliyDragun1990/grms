@@ -1,6 +1,7 @@
 package com.revenat.germes.presentation.rest.dto.transport;
 
 import com.revenat.germes.application.model.entity.travel.Ticket;
+import com.revenat.germes.application.service.transfrom.annotation.DomainProperty;
 import com.revenat.germes.presentation.rest.dto.base.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -23,6 +24,7 @@ public class TicketDTO extends BaseDTO<Ticket> {
 
     @ApiModelProperty(value = "Identifier of the trip", required = true)
     @Positive
+    @DomainProperty("trip")
     private int tripId;
 
     @ApiModelProperty(value = "Client name", required = true)
