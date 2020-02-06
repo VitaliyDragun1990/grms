@@ -30,7 +30,7 @@ public class FieldsExtractor {
             current = current.getSuperclass();
         }
 
-        return new SafeCollectionWrapper<>(result).asSafeList();
+        return SafeCollectionWrapper.asSafeList(result);
     }
 
     /**

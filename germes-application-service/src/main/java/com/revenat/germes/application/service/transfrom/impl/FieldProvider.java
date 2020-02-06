@@ -1,6 +1,6 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
-import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
+import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
 
 import java.util.List;
 
@@ -13,9 +13,9 @@ import static java.util.Objects.requireNonNull;
  */
 public class FieldProvider {
 
-    protected final SimilarFieldsFinder fieldsFinder;
+    protected final SimilarFieldsLocator fieldsFinder;
 
-    public FieldProvider(SimilarFieldsFinder fieldsFinder) {
+    public FieldProvider(SimilarFieldsLocator fieldsFinder) {
         requireNonNull(fieldsFinder, "fieldsFiner should be initialized");
         this.fieldsFinder = fieldsFinder;
     }

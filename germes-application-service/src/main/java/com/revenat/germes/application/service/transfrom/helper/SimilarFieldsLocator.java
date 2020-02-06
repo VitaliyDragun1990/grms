@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Analyzes provided classes fields and finds similar by chosen criterion
+ * Analyzes provided classes fields and finds similar by specified criterion
  *
  * @author Vitaliy Dragun
  */
 @Named
 @Dependent
-public class SimilarFieldsFinder {
+public class SimilarFieldsLocator {
 
     private final FieldsExtractor fieldsExtractor;
 
-    public SimilarFieldsFinder() {
+    public SimilarFieldsLocator() {
         fieldsExtractor = new FieldsExtractor();
     }
 

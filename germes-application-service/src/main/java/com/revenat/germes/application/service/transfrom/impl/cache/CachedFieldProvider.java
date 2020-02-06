@@ -1,6 +1,6 @@
 package com.revenat.germes.application.service.transfrom.impl.cache;
 
-import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
+import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 
 import javax.enterprise.context.Dependent;
@@ -25,7 +25,7 @@ public class CachedFieldProvider extends FieldProvider {
     private final Map<TransformationPair, List<String>> cache;
 
     @Inject
-    public CachedFieldProvider(final SimilarFieldsFinder fieldsFinder) {
+    public CachedFieldProvider(final SimilarFieldsLocator fieldsFinder) {
         super(fieldsFinder);
         cache = new HashMap<>();
     }

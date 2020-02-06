@@ -73,7 +73,7 @@ public class City extends AbstractEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "city"/*, orphanRemoval = true*/)
     public Set<Station> getStations() {
-        return new SafeCollectionWrapper<>(stations).asSafeSet();
+        return SafeCollectionWrapper.asSafeSet(stations);
     }
 
     /**

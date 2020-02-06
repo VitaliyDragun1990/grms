@@ -7,33 +7,26 @@ import java.util.*;
  *
  * @author Vitaliy Dragun
  */
-public final class SafeCollectionWrapper<T> {
+public final class SafeCollectionWrapper {
 
-    private final Collection<T> source;
-
-    /**
-     * Collection to wrap
-     * @param source may be null
-     */
-    public SafeCollectionWrapper(final Collection<T> source) {
-        this.source = source;
+    private SafeCollectionWrapper() {
     }
 
     /**
      * Returns non-null unmodifiable {@link List} with content copied from the source collection
      */
-    public List<T> asSafeList() {
+    public static <T> List<T> asSafeList(Collection<T> source) {
         return Collections.unmodifiableList(toList(source));
     }
 
     /**
      * Returns non-null unmodifiable {@link List} with content copied from the source collection
      */
-    public Set<T> asSafeSet() {
+    public static <T> Set<T> asSafeSet(Collection<T> source) {
         return Collections.unmodifiableSet(toSet(source));
     }
 
-    private Set<T> toSet(final Collection<T> collection) {
+    private static <T> Set<T> toSet(final Collection<T> collection) {
         final Set<T> set = new HashSet<>();
         if (collection != null) {
             set.addAll(collection);
@@ -41,7 +34,7 @@ public final class SafeCollectionWrapper<T> {
         return set;
     }
 
-    private List<T> toList(final Collection<T> collection) {
+    private static <T> List<T> toList(final Collection<T> collection) {
         final List<T> list =  new ArrayList<>();
         if (collection != null) {
             list.addAll(collection);

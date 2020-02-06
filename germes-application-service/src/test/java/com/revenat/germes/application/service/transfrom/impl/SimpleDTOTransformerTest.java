@@ -3,7 +3,7 @@ package com.revenat.germes.application.service.transfrom.impl;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.transform.Transformable;
 import com.revenat.germes.application.service.transfrom.Transformer;
-import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
+import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ public class SimpleDTOTransformerTest {
 
     @BeforeEach
     void setUp() {
-        transformer = new SimpleDTOTransformer(new FieldProvider(new SimilarFieldsFinder()));
+        transformer = new SimpleDTOTransformer(new FieldProvider(new SimilarFieldsLocator()));
     }
 
     @Test

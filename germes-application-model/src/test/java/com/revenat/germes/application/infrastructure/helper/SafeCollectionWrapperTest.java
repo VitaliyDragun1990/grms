@@ -19,27 +19,21 @@ class SafeCollectionWrapperTest {
 
     @Test
     void shouldReturnEmptySetIfSourceIsNull() {
-        final SafeCollectionWrapper<String> safeCollectionWrapper = new SafeCollectionWrapper<>(Arrays.asList());
-
-        final Set<String> result = safeCollectionWrapper.asSafeSet();
+        final Set<String> result = SafeCollectionWrapper.asSafeSet(Arrays.asList());
 
         assertThat(result, hasSize(0));
     }
 
     @Test
     void shouldReturnEmptyListIfSourceIsNull() {
-        final SafeCollectionWrapper<String> safeCollectionWrapper = new SafeCollectionWrapper<>(Arrays.asList());
-
-        final List<String> result = safeCollectionWrapper.asSafeList();
+        final List<String> result = SafeCollectionWrapper.asSafeList(Arrays.asList());
 
         assertThat(result, hasSize(0));
     }
 
     @Test
     void shouldReturnSetWithSourceContent() {
-        final SafeCollectionWrapper<String> safeCollectionWrapper = new SafeCollectionWrapper<>(Arrays.asList("a", "b"));
-
-        final Set<String> result = safeCollectionWrapper.asSafeSet();
+        final Set<String> result = SafeCollectionWrapper.asSafeSet(Arrays.asList("a", "b"));
 
         assertThat(result, hasSize(2));
         assertThat(result, containsInAnyOrder("a", "b"));
@@ -47,9 +41,7 @@ class SafeCollectionWrapperTest {
 
     @Test
     void shouldReturnListWithSourceContent() {
-        final SafeCollectionWrapper<String> safeCollectionWrapper = new SafeCollectionWrapper<>(Arrays.asList("a", "b"));
-
-        final List<String> result = safeCollectionWrapper.asSafeList();
+        final List<String> result = SafeCollectionWrapper.asSafeList(Arrays.asList("a", "b"));
 
         assertThat(result, hasSize(2));
         assertThat(result, containsInAnyOrder("a", "b"));

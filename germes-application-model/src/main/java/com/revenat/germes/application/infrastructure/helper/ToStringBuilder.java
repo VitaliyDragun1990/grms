@@ -10,12 +10,9 @@ import static java.util.Objects.requireNonNull;
  *
  * @author Vitaliy Dragun
  */
-public class ToStringBuilder {
+public final class ToStringBuilder {
 
-    private final Object obj;
-
-    public ToStringBuilder(final Object obj) {
-        this.obj = requireNonNull(obj, "Object to build string representation for can not be null");;
+    private ToStringBuilder() {
     }
 
     /**
@@ -23,7 +20,8 @@ public class ToStringBuilder {
      *
      * @return string representing object state
      */
-    public String shortStyle() {
+    public static String shortStyle(final Object obj) {
+        requireNonNull(obj, "Object to build string representation for can not be null");
         return ReflectionToStringBuilder.toString(obj, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
@@ -33,7 +31,8 @@ public class ToStringBuilder {
      * @param fieldsToExclude fields to exclude from string representation
      * @return string representing object state
      */
-    public String shortStyle(final String... fieldsToExclude) {
+    public static String shortStyle(final Object obj, final String... fieldsToExclude) {
+        requireNonNull(obj, "Object to build string representation for can not be null");
         return ReflectionToStringBuilder.toStringExclude(obj, fieldsToExclude);
     }
 }

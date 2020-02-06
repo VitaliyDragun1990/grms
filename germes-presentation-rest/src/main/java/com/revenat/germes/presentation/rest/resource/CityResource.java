@@ -75,7 +75,7 @@ public class CityResource extends BaseResource {
     })
     public void saveCity(@Valid @ApiParam(name = "city", required = true) final CityDTO cityDTO) {
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info("CityResource.saveCity: {}", new ToStringBuilder(cityDTO).shortStyle());
+            LOGGER.info("CityResource.saveCity: {}", ToStringBuilder.shortStyle(cityDTO));
         }
         service.saveCity(transformer.untransform(cityDTO, City.class));
     }

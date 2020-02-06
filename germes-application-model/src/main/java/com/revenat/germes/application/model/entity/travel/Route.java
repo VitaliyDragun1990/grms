@@ -89,7 +89,7 @@ public class Route extends AbstractEntity  {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "route"/*, orphanRemoval = true*/)
     public Set<Trip> getTrips() {
-        return new SafeCollectionWrapper<>(trips).asSafeSet();
+        return SafeCollectionWrapper.asSafeSet(trips);
     }
 
     /**

@@ -51,7 +51,7 @@ public class CityController {
     }
 
     public void saveCity(final CityBean cityBean) {
-        LOGGER.info("CityController.saveCity(): {}", new ToStringBuilder(cityBean).shortStyle());
+        LOGGER.info("CityController.saveCity(): {}", ToStringBuilder.shortStyle(cityBean));
 
         final City cityToSave = transformer.untransform(cityBean, City.class);
         geographicalService.saveCity(cityToSave);
@@ -60,8 +60,8 @@ public class CityController {
     }
 
     public void updateCity(final City city, final CityBean cityBean) {
-        LOGGER.info("CityController.updateCity(): {} <- {}", new ToStringBuilder(city).shortStyle("stations"),
-                new ToStringBuilder(cityBean).shortStyle());
+        LOGGER.info("CityController.updateCity(): {} <- {}", ToStringBuilder.shortStyle(city,"stations"),
+                ToStringBuilder.shortStyle(cityBean));
 
         transformer.transform(city, cityBean);
     }

@@ -50,7 +50,7 @@ public class SimpleDTOTransformer implements Transformer {
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("SimpleDTOTransformer.transform: {} DTO object",
-                    new ToStringBuilder(dto).shortStyle());
+                    ToStringBuilder.shortStyle(dto));
         }
 
         return dto;
@@ -65,7 +65,7 @@ public class SimpleDTOTransformer implements Transformer {
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("SimpleDTOTransformer.transform: {} DTO object",
-                    new ToStringBuilder(dto).shortStyle());
+                    ToStringBuilder.shortStyle(dto));
         }
     }
 
@@ -79,7 +79,7 @@ public class SimpleDTOTransformer implements Transformer {
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("SimpleDTOTransformer.untransform: {} entity object",
-                    new ToStringBuilder(entity).shortStyle());
+                    ToStringBuilder.shortStyle(entity));
         }
 
         return entity;

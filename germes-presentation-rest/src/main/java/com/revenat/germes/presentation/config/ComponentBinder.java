@@ -5,7 +5,7 @@ import com.revenat.germes.application.service.TransportService;
 import com.revenat.germes.application.service.impl.GeographicalServiceImpl;
 import com.revenat.germes.application.service.impl.TransportServiceImpl;
 import com.revenat.germes.application.service.transfrom.Transformer;
-import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsFinder;
+import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 import com.revenat.germes.application.service.transfrom.impl.SimpleDTOTransformer;
 import com.revenat.germes.application.service.transfrom.impl.cache.CachedFieldProvider;
@@ -42,7 +42,7 @@ public class ComponentBinder extends AbstractBinder {
         bind(HibernateTicketRepository.class).to(TicketRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
         bind(HibernateOrderRepository.class).to(OrderRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
         bind(CachedFieldProvider.class).to(FieldProvider.class).in(Singleton.class);
-        bind(SimilarFieldsFinder.class).to(SimilarFieldsFinder.class).in(Singleton.class);
+        bind(SimilarFieldsLocator.class).to(SimilarFieldsLocator.class).in(Singleton.class);
         bind(SimpleDTOTransformer.class).to(Transformer.class).in(Singleton.class);
         bind(GeographicalServiceImpl.class).to(GeographicalService.class).in(Singleton.class);
         bind(TransportServiceImpl.class).to(TransportService.class).in(Singleton.class);

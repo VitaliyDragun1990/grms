@@ -69,7 +69,7 @@ public class InMemoryCityRepository implements CityRepository {
 
     @Override
     public List<City> findAll() {
-        return new SafeCollectionWrapper<>(cities).asSafeList();
+        return SafeCollectionWrapper.asSafeList(cities);
     }
 
     @Override
