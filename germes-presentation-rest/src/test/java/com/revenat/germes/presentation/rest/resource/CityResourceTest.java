@@ -43,7 +43,6 @@ class CityResourceTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void shouldNotFindAnyCityIfNoCityWereSaved(final WebTarget target) {
         final List<Map<String, String>> cities = target.path("cities").request().get(List.class);
 
@@ -318,21 +317,6 @@ class CityResourceTest {
 
         assertStatus(response, NO_CONTENT);
     }
-
-//    private void assertStatus(final Response response, final Response.Status status) {
-//        assertThat(response.getStatus(), equalTo(status.getStatusCode()));
-//    }
-//
-//    private void saveCities(final WebTarget target, final CityDTO... cities) {
-//        for (final CityDTO cityDTO : cities) {
-//            final Response response = target
-//                    .path("cities")
-//                    .request()
-//                    .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
-//
-//            assertThat(response.getStatus(), equalTo(NO_CONTENT.getStatusCode()));
-//        }
-//    }
 
     private void assertCityPresent(final Response response, final String cityName) {
         final List<Map<String, String>> cities = response.readEntity(List.class);

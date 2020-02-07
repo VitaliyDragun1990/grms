@@ -1,11 +1,13 @@
 package com.revenat.germes.application.service.transfrom.impl.cache;
 
+import com.revenat.germes.application.service.transfrom.helper.FieldManager;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,16 +26,25 @@ public class CachedFieldProvider extends FieldProvider {
      */
     private final Map<TransformationPair, List<String>> cache;
 
+    private final Map<String, List<String>> domainFields;
+
     @Inject
-    public CachedFieldProvider(final SimilarFieldsLocator fieldsFinder) {
-        super(fieldsFinder);
+    public CachedFieldProvider(final SimilarFieldsLocator fieldsFinder, final FieldManager fieldManager) {
+        super(fieldsFinder, fieldManager);
         cache = new HashMap<>();
+        domainFields = new HashMap<>();
     }
 
     @Override
     public List<String> getSimilarFieldNames(final Class<?> src, final Class<?> dest) {
         final TransformationPair pair = new TransformationPair(src, dest);
-        return cache.computeIfAbsent(pair, p -> fieldsFinder.findByName(src, dest));
+        return cache.computeIfAbsent(pair, p -> super.getSimilarFieldNames(src, dest));
+    }
+
+    @Override
+    public List<String> getDomainPropertyFields(final Class<?> clz) {
+        final String key = clz.getSimpleName();
+        return domainFields.computeIfAbsent(key, item -> super.getDomainPropertyFields(clz));
     }
 
     private static class TransformationPair {

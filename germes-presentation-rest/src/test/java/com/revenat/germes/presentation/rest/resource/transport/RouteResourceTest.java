@@ -57,7 +57,7 @@ class RouteResourceTest {
     }
 
     @Test
-    @Disabled("endpoint fails to process")
+//    @Disabled("endpoint fails to process")
     void shouldSaveNewRoute(final WebTarget target) {
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());

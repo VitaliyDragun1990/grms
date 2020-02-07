@@ -1,8 +1,8 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
 import com.revenat.germes.application.infrastructure.exception.ConfigurationException;
+import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.application.infrastructure.helper.Asserts;
-import com.revenat.germes.application.infrastructure.helper.Checker;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
 import com.revenat.germes.application.model.transform.Transformable;
@@ -11,6 +11,9 @@ import com.revenat.germes.application.service.transfrom.annotation.DomainPropert
 import com.revenat.germes.application.service.transfrom.helper.ClassInstanceCreator;
 import com.revenat.germes.application.service.transfrom.helper.FieldManager;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
@@ -21,75 +24,108 @@ import java.util.Optional;
  *
  * @author Vitaliy Dragun
  */
+@Named
+@Dependent
 public class EntityReferenceTransformer implements Transformer {
-
-    private final EntityLoader entityLoader;
 
     private final ClassInstanceCreator instanceCreator;
 
+    private final EntityLoader entityLoader;
+
     private final FieldManager fieldManager;
 
-    public EntityReferenceTransformer(final EntityLoader entityLoader) {
-        this.entityLoader = entityLoader;
+    private final FieldProvider fieldProvider;
+
+    /**
+     * Transformer object to delegate to continue working process
+     */
+    private final Transformer delegate;
+
+    @Inject
+    public EntityReferenceTransformer(final EntityLoader entityLoader,
+                                      final FieldManager fieldManager,
+                                      final FieldProvider fieldProvider) {
+        Asserts.assertNonNull(entityLoader, "entityLoader is not initialized");
+        Asserts.assertNonNull(fieldManager, "fieldManager is not initialized");
+        Asserts.assertNonNull(fieldProvider, "fieldProvider is not initialized");
+
         instanceCreator = new ClassInstanceCreator();
-        fieldManager = new FieldManager();
+        this.entityLoader = entityLoader;
+        this.fieldManager = fieldManager;
+        this.fieldProvider = fieldProvider;
+        delegate = new SimpleDTOTransformer(fieldProvider);
     }
 
     @Override
     public <T extends AbstractEntity, P extends Transformable<T>> P transform(final T entity, final Class<P> dtoClass) {
-        Asserts.assertNonNull(entity, "Entity object is not initialized");
-        Asserts.assertNonNull(dtoClass, "No DTO class defined for transformation");
+        checkParams(entity, dtoClass);
 
         final P dto = instanceCreator.createInstance(dtoClass);
-        transform(entity, dto);
-
-        return dto;
+        return transform(entity, dto);
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> void transform(final T entity, final P dto) {
-        Asserts.assertNonNull(entity, "Entity object is not initialized");
-        Asserts.assertNonNull(dto, "DTO object is not initialized");
+    public <T extends AbstractEntity, P extends Transformable<T>> P transform(final T entity, final P dto) {
+        checkParams(dto, entity);
 
-        final List<Field> dtoMarkedFields = fieldManager.getFields(
-                dto.getClass(), List.of(field -> field.isAnnotationPresent(DomainProperty.class))
-        );
-        for (final Field dtoMarkedField : dtoMarkedFields) {
-            final String fieldName = dtoMarkedField.getName();
-            final String domainPropertyName = dtoMarkedField.getAnnotation(DomainProperty.class).value();
+        final List<String> markedFieldNames = fieldProvider.getDomainPropertyFields(dto.getClass());
+        for (final String fieldName : markedFieldNames) {
+            final Field dtoField = fieldManager.findFieldByName(dto.getClass(), fieldName).orElseThrow();
+            final String domainPropertyName = dtoField.getAnnotation(DomainProperty.class).value();
             final Object domainPropertyValue = fieldManager.getFieldValue(entity, domainPropertyName);
             final AbstractEntity ref = assertPropertyIsAbstractEntity(entity, domainPropertyValue);
             final int id = ref.getId();
             fieldManager.setFieldValue(dto, fieldName, id);
         }
+
+        return delegate.transform(entity, dto);
     }
 
     @Override
-    @SuppressWarnings({"unchecked", "rawtypes"})
     public <T extends AbstractEntity, P extends Transformable<T>> T untransform(final P dto, final Class<T> entityClass) {
-        Asserts.assertNonNull(dto, "DTO object is not initialized");
-        Asserts.assertNonNull(entityClass, "Np entity class defined for transformation");
+        checkParams(dto, entityClass);
 
         final T entity = instanceCreator.createInstance(entityClass);
 
-        final List<Field> dtoMarkedFields = fieldManager.getFields(
-                dto.getClass(), List.of(field -> field.isAnnotationPresent(DomainProperty.class))
-        );
-        for (final Field dtoMarkedField : dtoMarkedFields) {
-            final String fieldName = dtoMarkedField.getName();
-            final String domainPropertyName = dtoMarkedField.getAnnotation(DomainProperty.class).value();
+        return untransform(dto, entity);
+    }
 
-            final Field entityField = getEntityField(entityClass, domainPropertyName);
+    @Override
+    public <T extends AbstractEntity, P extends Transformable<T>> T untransform(final P dto, final T entity) {
+        checkParams(dto, entity);
+
+        final List<String> markedFieldNames = fieldProvider.getDomainPropertyFields(dto.getClass());
+        for (final String fieldName : markedFieldNames) {
+            final Field dtoField = fieldManager.findFieldByName(dto.getClass(), fieldName).orElseThrow();
+            final String domainPropertyName = dtoField.getAnnotation(DomainProperty.class).value();
+
+            final Field entityField = getEntityField(entity.getClass(), domainPropertyName);
             final int id = (int) fieldManager.getFieldValue(dto, fieldName);
 
-            final Optional<AbstractEntity> optionalValue = entityLoader.load((Class) entityField.getType(), id);
-            Checker.checkParameter(optionalValue.isPresent(),
-                    "There is no " + entityField.getType().getName() + " entity with identifier: " + id);
-            final AbstractEntity domainPropertyValue = optionalValue.get();
+            final AbstractEntity domainPropertyValue = loadEntity(entityField.getType(), id);
             fieldManager.setFieldValue(entity, domainPropertyName, domainPropertyValue);
         }
 
-        return entity;
+        return delegate.untransform(dto, entity);
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private AbstractEntity loadEntity(Class entityClass, int id) {
+        final Optional<? extends AbstractEntity> optionalEntity = entityLoader.load(entityClass, id);
+
+        return optionalEntity.orElseThrow(
+                () -> new InvalidParameterException("There is no " + entityClass.getSimpleName() +
+                        " entity with identifier: " + id));
+    }
+
+    private <T extends AbstractEntity, P extends Transformable<T>> void checkParams(final P dto, final T entity) {
+        Asserts.assertNonNull(entity, "Entity object is not initialized");
+        Asserts.assertNonNull(dto, "DTO object is not initialized");
+    }
+
+    private void checkParams(final Object src, final Class<?> targetClz) {
+        Asserts.assertNonNull(src, "Source transformation object is not initialized");
+        Asserts.assertNonNull(targetClz, "No class is defined for transformation");
     }
 
     private <T extends AbstractEntity> Field getEntityField(final Class<T> entityClass, final String fieldName) {

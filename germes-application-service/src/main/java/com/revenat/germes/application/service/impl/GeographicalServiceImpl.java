@@ -1,5 +1,6 @@
 package com.revenat.germes.application.service.impl;
 
+import com.revenat.germes.application.infrastructure.helper.Asserts;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
 import com.revenat.germes.application.model.search.StationCriteria;
@@ -15,8 +16,6 @@ import javax.inject.Named;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author Vitaliy Dragun
@@ -43,7 +42,7 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     @Override
     public void saveCity(final City city) {
-        requireNonNull(city, "city to save can not be null");
+        Asserts.assertNonNull(city, "city to save can not be null");
 
         cityRepository.save(city);
     }
@@ -55,8 +54,8 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     @Override
     public List<Station> searchStations(final StationCriteria stationCriteria, final RangeCriteria rangeCriteria) {
-        requireNonNull(stationCriteria, "Station criteria is not initialized");
-        requireNonNull(rangeCriteria, "Range criteria is not initialized");
+        Asserts.assertNonNull(stationCriteria, "Station criteria is not initialized");
+        Asserts.assertNonNull(rangeCriteria, "Range criteria is not initialized");
 
         return stationRepository.findAllByCriteria(stationCriteria).stream()
                 .skip(rangeCriteria.getPage() * (long) rangeCriteria.getRowCount())
@@ -65,7 +64,7 @@ public class GeographicalServiceImpl implements GeographicalService {
     }
 
     @Override
-    public Optional<Station> findStationById(int id) {
+    public Optional<Station> findStationById(final int id) {
         return stationRepository.findById(id);
     }
 
@@ -82,5 +81,12 @@ public class GeographicalServiceImpl implements GeographicalService {
     @Override
     public void deleteCity(final int cityId) {
         cityRepository.delete(cityId);
+    }
+
+    @Override
+    public void saveStation(final Station station) {
+        Asserts.assertNonNull(station, "station to save can not be null");
+
+        stationRepository.save(station);
     }
 }

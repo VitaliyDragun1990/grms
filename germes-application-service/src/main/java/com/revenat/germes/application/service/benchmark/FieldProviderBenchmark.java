@@ -3,6 +3,7 @@ package com.revenat.germes.application.service.benchmark;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
+import com.revenat.germes.application.service.transfrom.helper.FieldManager;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 import com.revenat.germes.application.service.transfrom.impl.cache.CachedFieldProvider;
@@ -36,8 +37,8 @@ public class FieldProviderBenchmark {
     @Setup
     public void setup() {
         providers = new HashMap<>();
-        providers.put("Basic", new FieldProvider(new SimilarFieldsLocator()));
-        providers.put("Cached", new CachedFieldProvider(new SimilarFieldsLocator()));
+        providers.put("Basic", new FieldProvider(new SimilarFieldsLocator(), new FieldManager()));
+        providers.put("Cached", new CachedFieldProvider(new SimilarFieldsLocator(), new FieldManager()));
     }
 
     @Benchmark

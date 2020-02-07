@@ -7,6 +7,8 @@ import com.revenat.germes.application.model.entity.loader.EntityLoader;
 import com.revenat.germes.application.model.transform.Transformable;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import com.revenat.germes.application.service.transfrom.annotation.DomainProperty;
+import com.revenat.germes.application.service.transfrom.helper.FieldManager;
+import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +40,9 @@ class EntityReferenceTransformerTest {
 
     @BeforeEach
     void setUp() {
-        transformer = new EntityReferenceTransformer(entityLoader);
+        final FieldManager fieldManager = new FieldManager();
+        final FieldProvider fieldProvider = new FieldProvider(new SimilarFieldsLocator(), fieldManager);
+        transformer = new EntityReferenceTransformer(entityLoader, fieldManager, fieldProvider);
     }
 
     @Test
@@ -80,7 +84,7 @@ class EntityReferenceTransformerTest {
         when(entityLoader.load(Station.class, 1)).thenReturn(Optional.of(start));
         when(entityLoader.load(Station.class, 2)).thenReturn(Optional.of(dest));
 
-        RouteDTO dto = new RouteDTO();
+        final RouteDTO dto = new RouteDTO();
         dto.startId = 1;
         dto.destId = 2;
 
@@ -95,7 +99,7 @@ class EntityReferenceTransformerTest {
     void shouldFailToUntransformIfNoEntityByGivenId() {
         when(entityLoader.load(ArgumentMatchers.any(Class.class), anyInt())).thenReturn(Optional.empty());
 
-        RouteDTO dto = new RouteDTO();
+        final RouteDTO dto = new RouteDTO();
         dto.startId = 1;
         dto.destId = 2;
 
@@ -138,12 +142,12 @@ class EntityReferenceTransformerTest {
         String routeName;
 
         @Override
-        public void transform(Route route) {
+        public void transform(final Route route) {
 
         }
 
         @Override
-        public Route untransform(Route route) {
+        public Route untransform(final Route route) {
             return route;
         }
     }

@@ -47,8 +47,13 @@ public class HibernateStationRepository extends BaseHibernateRepository implemen
     }
 
     @Override
-    public Optional<Station> findById(int stationId) {
+    public Optional<Station> findById(final int stationId) {
         return query(session -> Optional.ofNullable(session.get(Station.class, stationId)));
+    }
+
+    @Override
+    public void save(final Station station) {
+        execute(session -> session.saveOrUpdate(station));
     }
 
     private Predicate[] buildPredicates(final StationCriteria stationCriteria, final Root<Station> root, final CriteriaBuilder cb) {

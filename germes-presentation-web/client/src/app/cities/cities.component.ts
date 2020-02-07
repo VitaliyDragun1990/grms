@@ -1,6 +1,6 @@
-import { CityService } from './../route.service';
+import { CityService } from './../city.service';
 import { Component, OnInit } from '@angular/core';
-import { City } from '../route';
+import { City } from '../city';
 
 @Component({
   selector: 'app-cities',

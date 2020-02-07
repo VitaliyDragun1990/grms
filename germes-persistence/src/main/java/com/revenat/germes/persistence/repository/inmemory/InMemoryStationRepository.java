@@ -40,6 +40,11 @@ public class InMemoryStationRepository implements StationRepository {
         return stations.stream().filter(station -> station.getId() == stationId).findAny();
     }
 
+    @Override
+    public void save(Station station) {
+        stations.add(station);
+    }
+
     void removeByCityId(int cityId) {
         stations.removeIf(station -> station.getCity().getId() == cityId);
     }

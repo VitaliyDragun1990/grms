@@ -2,7 +2,7 @@ import { HttpTestingController, HttpClientTestingModule } from '@angular/common/
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
 
-import { CityService } from './route.service';
+import { CityService } from './city.service';
 
 describe('CityService', () => {
 

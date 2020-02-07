@@ -53,7 +53,7 @@ public class Station extends AbstractEntity {
     }
 
     /**
-     * For ORM purpose
+     * For ORM/Reflection purpose
      */
     Station() {
     }

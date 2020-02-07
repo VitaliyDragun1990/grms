@@ -1,15 +1,19 @@
 package com.revenat.germes.presentation.config;
 
+import com.revenat.germes.application.model.entity.loader.EntityLoader;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.TransportService;
 import com.revenat.germes.application.service.impl.GeographicalServiceImpl;
 import com.revenat.germes.application.service.impl.TransportServiceImpl;
 import com.revenat.germes.application.service.transfrom.Transformer;
+import com.revenat.germes.application.service.transfrom.helper.FieldManager;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
+import com.revenat.germes.application.service.transfrom.impl.EntityReferenceTransformer;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 import com.revenat.germes.application.service.transfrom.impl.SimpleDTOTransformer;
 import com.revenat.germes.application.service.transfrom.impl.cache.CachedFieldProvider;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.hibernate.loader.SessionEntityLoader;
 import com.revenat.germes.persistence.repository.CityRepository;
 import com.revenat.germes.persistence.repository.StationRepository;
 import com.revenat.germes.persistence.repository.hibernate.HibernateCityRepository;
@@ -43,7 +47,9 @@ public class ComponentBinder extends AbstractBinder {
         bind(HibernateOrderRepository.class).to(OrderRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
         bind(CachedFieldProvider.class).to(FieldProvider.class).in(Singleton.class);
         bind(SimilarFieldsLocator.class).to(SimilarFieldsLocator.class).in(Singleton.class);
-        bind(SimpleDTOTransformer.class).to(Transformer.class).in(Singleton.class);
+        bind(FieldManager.class).to(FieldManager.class).in(Singleton.class);
+        bind(SessionEntityLoader.class).to(EntityLoader.class).in(Singleton.class);
+        bind(EntityReferenceTransformer.class).to(Transformer.class).in(Singleton.class);
         bind(GeographicalServiceImpl.class).to(GeographicalService.class).in(Singleton.class);
         bind(TransportServiceImpl.class).to(TransportService.class).in(Singleton.class);
         bind(SessionFactoryBuilder.class).to(SessionFactoryBuilder.class).in(Singleton.class);

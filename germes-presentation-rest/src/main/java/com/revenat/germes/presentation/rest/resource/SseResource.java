@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PreDestroy;
+import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -21,6 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author Vitaliy Dragun
  */
 @Path("sse")
+@Singleton
 public class SseResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SseResource.class);

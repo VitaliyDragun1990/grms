@@ -3,6 +3,7 @@ package com.revenat.germes.application.service.transfrom.impl;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.transform.Transformable;
 import com.revenat.germes.application.service.transfrom.Transformer;
+import com.revenat.germes.application.service.transfrom.helper.FieldManager;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +23,7 @@ public class SimpleDTOTransformerTest {
 
     @BeforeEach
     void setUp() {
-        transformer = new SimpleDTOTransformer(new FieldProvider(new SimilarFieldsLocator()));
+        transformer = new SimpleDTOTransformer(new FieldProvider(new SimilarFieldsLocator(), new FieldManager()));
     }
 
     @Test
@@ -84,9 +85,9 @@ public class SimpleDTOTransformerTest {
 
     @Test
     void shouldFailToUntransformIfEitherOfTheArgumentsIsNull() {
-        assertThrows(NullPointerException.class, () -> transformer.untransform(new CityDTO(), null));
+        assertThrows(NullPointerException.class, () -> transformer.untransform(new CityDTO(), (Class)null));
         assertThrows(NullPointerException.class, () -> transformer.untransform(null, City.class));
-        assertThrows(NullPointerException.class, () -> transformer.untransform(null, null));
+        assertThrows(NullPointerException.class, () -> transformer.untransform((CityDTO)null, (Class)null));
     }
 
     static class CityDTO implements Transformable<City> {

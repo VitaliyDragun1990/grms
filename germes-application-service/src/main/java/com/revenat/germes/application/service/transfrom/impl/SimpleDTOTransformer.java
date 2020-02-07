@@ -15,15 +15,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * Default transformation engine implementation
  *
  * @author Vitaliy Dragun
  */
-@Named
-@Dependent
 public class SimpleDTOTransformer implements Transformer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleDTOTransformer.class);
@@ -34,7 +30,6 @@ public class SimpleDTOTransformer implements Transformer {
 
     private final ObjectStateCopier stateCopier;
 
-    @Inject
     public SimpleDTOTransformer(final FieldProvider fieldProvider) {
         this.fieldProvider = fieldProvider;
         classInstanceCreator = new ClassInstanceCreator();
@@ -46,13 +41,11 @@ public class SimpleDTOTransformer implements Transformer {
         checkParams(entity, dtoClass);
 
         final P dto = createInstance(dtoClass);
-        transform(entity, dto);
-
-        return dto;
+        return transform(entity, dto);
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> void transform(final T entity, final P dto) {
+    public <T extends AbstractEntity, P extends Transformable<T>> P transform(final T entity, final P dto) {
         checkParams(entity, dto);
 
         copyState(entity, dto);
@@ -62,6 +55,8 @@ public class SimpleDTOTransformer implements Transformer {
             LOGGER.debug("SimpleDTOTransformer.transform: {} DTO object",
                     ToStringBuilder.shortStyle(dto));
         }
+
+        return dto;
     }
 
     @Override
@@ -69,6 +64,13 @@ public class SimpleDTOTransformer implements Transformer {
         checkParams(dto, entityClass);
 
         final T entity = createInstance(entityClass);
+        return untransform(dto, entity);
+    }
+
+    @Override
+    public <T extends AbstractEntity, P extends Transformable<T>> T untransform(final P dto, final T entity) {
+        checkParams(dto, entity);
+
         copyState(dto, entity);
         dto.untransform(entity);
 
@@ -82,7 +84,7 @@ public class SimpleDTOTransformer implements Transformer {
 
     private void checkParams(final Object src, final Class<?> targetClz) {
         Asserts.assertNonNull(src, "Source transformation object is not initialized");
-        Asserts.assertNonNull(targetClz, "No class defined for transformation");
+        Asserts.assertNonNull(targetClz, "No class is defined for transformation");
     }
 
     private void checkParams(final Object src, final Object target) {

@@ -14,14 +14,14 @@ import javax.ws.rs.ext.Provider;
  * @author Vitaliy Dragun
  */
 @Provider
-public class NotFountExceptionHandler implements ExceptionMapper<InvalidParameterException> {
+public class InvalidParameterExceptionHandler implements ExceptionMapper<InvalidParameterException> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotFountExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InvalidParameterExceptionHandler.class);
 
     @Override
     public Response toResponse(final InvalidParameterException exception) {
         LOGGER.debug(exception.getMessage(), exception);
 
-        return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();
+        return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
     }
 }

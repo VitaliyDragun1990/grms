@@ -9,6 +9,7 @@ import io.swagger.annotations.*;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
  */
 @Path("routes")
 @Api("routes")
+@Singleton
 public class RouteResource extends BaseResource {
 
     /**

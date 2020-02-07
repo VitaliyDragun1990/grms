@@ -28,4 +28,11 @@ StationRepository {
      * @param stationId unique station identifier
      */
     Optional<Station> findById(int stationId);
+
+    /**
+     * Saves(creates or modifies) specified station instance
+     *
+     * @param station instance to save
+     */
+    void save(Station station);
 }

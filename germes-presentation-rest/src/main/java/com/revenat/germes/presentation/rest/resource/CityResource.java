@@ -64,7 +64,7 @@ public class CityResource extends BaseResource {
     }
 
     /**
-     * Save new city instance
+     * Saves new city instance
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

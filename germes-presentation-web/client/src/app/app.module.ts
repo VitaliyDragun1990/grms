@@ -1,4 +1,4 @@
-import { CityService } from './route.service';
+import { CityService } from './city.service';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
