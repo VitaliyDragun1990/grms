@@ -1,10 +1,12 @@
 package com.revenat.germes.application.service.transfrom.impl.cache;
 
+import com.revenat.germes.application.service.infrastructure.cdi.Cached;
 import com.revenat.germes.application.service.transfrom.helper.FieldManager;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 
 import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.lang.reflect.Field;
@@ -20,6 +22,7 @@ import java.util.Objects;
  */
 @Named
 @Dependent
+@Cached
 public class CachedFieldProvider extends FieldProvider {
     /**
      * Mapping between transformation pair and field names

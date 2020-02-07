@@ -18,8 +18,6 @@ import java.util.Optional;
  *
  * @author Vitaliy Dragun
  */
-@Named
-@Dependent
 @Slf4j
 public class SessionEntityLoader implements EntityLoader {
 

@@ -27,7 +27,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * @author Vitaliy Dragun
  */
 @DisplayName("a station resource")
-@SuppressWarnings("unchecked")
 class StationResourceTest {
 
     private static final String ZIP_CODE = "68355";

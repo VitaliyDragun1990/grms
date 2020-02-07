@@ -2,6 +2,8 @@ package com.revenat.germes.presentation.rest.resource.transport;
 
 import com.github.hanleyt.JerseyExtension;
 import com.revenat.germes.presentation.config.JerseyConfig;
+import com.revenat.germes.presentation.rest.dto.CityDTO;
+import com.revenat.germes.presentation.rest.dto.StationDTO;
 import com.revenat.germes.presentation.rest.dto.transport.RouteDTO;
 import com.revenat.germes.presentation.rest.resolver.ObjectMapperContextResolver;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +38,8 @@ import static org.hamcrest.Matchers.*;
 @DisplayName("a city resource")
 class RouteResourceTest {
 
+    private int cityId;
+
     @RegisterExtension
     JerseyExtension jerseyExtension = new JerseyExtension(this::configureJersey);
 
@@ -47,6 +51,8 @@ class RouteResourceTest {
     void setUp(final WebTarget target, final Client client) {
         client.register(ObjectMapperContextResolver.class);
         target.register(ObjectMapperContextResolver.class);
+
+        cityId = saveCity(target);
     }
 
     @Test
@@ -57,8 +63,10 @@ class RouteResourceTest {
     }
 
     @Test
-//    @Disabled("endpoint fails to process")
     void shouldSaveNewRoute(final WebTarget target) {
+        saveStation(target, cityId); // save start station
+        saveStation(target, cityId); // save destination station
+
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
         route.setEndTime(LocalTime.now().plusHours(5));
@@ -74,8 +82,10 @@ class RouteResourceTest {
     }
 
     @Test
-    @Disabled("endpoint fails to process")
     void shouldFindAllPresentRoutes(final WebTarget target) {
+        saveStation(target, cityId); // save start station
+        saveStation(target, cityId); // save destination station
+
         final RouteDTO routeA = new RouteDTO();
         routeA.setStartTime(LocalTime.of(10, 15));
         routeA.setEndTime(LocalTime.of(14, 15));
@@ -89,16 +99,22 @@ class RouteResourceTest {
         routeB.setDestinationId(1);
         routeB.setPrice(120.0);
 
-        final List<Map<String, String>> routes = target.path("routes").request().get(List.class);
+        saveResources(target, "routes", routeA, routeB);
+
+        final List<Map<String, Object>> routes = target.path("routes").request().get(List.class);
 
         assertThat(routes, hasSize(2));
-        assertThat(routes, hasItem(hasEntry(equalTo("price"), equalTo("150.0"))));
-        assertThat(routes, hasItem(hasEntry(equalTo("price"), equalTo("130.0"))));
+        assertThat(routes, containsInAnyOrder(
+                hasEntry(equalTo("price"), equalTo(150.0d)),
+                hasEntry(equalTo("price"), equalTo(120.0d))
+        ));
     }
 
     @Test
-    @Disabled("endpoint fails to process")
     void shouldFindRouteById(final WebTarget target) {
+        saveStation(target, cityId); // save start station
+        saveStation(target, cityId); // save destination station
+
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
         route.setEndTime(LocalTime.now().plusHours(5));
@@ -110,7 +126,6 @@ class RouteResourceTest {
         final RouteDTO result = target.path("routes/1").request().get(RouteDTO.class);
 
         assertThat(result.getId(), equalTo(1));
-
     }
 
     @Test
@@ -128,7 +143,6 @@ class RouteResourceTest {
     }
 
     @Test
-    @Disabled("endpoint fails to process")
     void shouldReturnStatusBadRequestIfTryToSaveRouteWithNegativeStartId(WebTarget target) {
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
@@ -143,7 +157,6 @@ class RouteResourceTest {
     }
 
     @Test
-    @Disabled("endpoint fails to process")
     void shouldReturnStatusBadRequestIfTryToSaveRouteWithNegativeDestinationId(WebTarget target) {
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
@@ -158,7 +171,6 @@ class RouteResourceTest {
     }
 
     @Test
-    @Disabled("endpoint fails to process")
     void shouldReturnStatusBadRequestIfTryToSaveRouteWithoutStartTime(WebTarget target) {
         final RouteDTO route = new RouteDTO();
         route.setStartTime(null);
@@ -173,7 +185,6 @@ class RouteResourceTest {
     }
 
     @Test
-    @Disabled("endpoint fails to process")
     void shouldReturnStatusBadRequestIfTryToSaveRouteWithoutEndTime(WebTarget target) {
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
@@ -188,7 +199,6 @@ class RouteResourceTest {
     }
 
     @Test
-    @Disabled("endpoint fails to process")
     void shouldReturnStatusBadRequestIfTryToSaveRouteWithNegativePrice(WebTarget target) {
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
@@ -203,13 +213,14 @@ class RouteResourceTest {
     }
 
     @Test
-    @Disabled("endpoint fails to process")
     void shouldReturnStatusBadRequestIfTryToSaveRouteWithNonExistentStartId(WebTarget target) {
+        saveStation(target, cityId); // save destination station
+
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
         route.setEndTime(LocalTime.now().plusHours(5));
         route.setStartId(999);
-        route.setDestinationId(2);
+        route.setDestinationId(1);
         route.setPrice(150.0);
 
         final Response response = target.path("routes").request().post(Entity.entity(route, MediaType.APPLICATION_JSON));
@@ -218,8 +229,9 @@ class RouteResourceTest {
     }
 
     @Test
-    @Disabled("endpoint fails to process")
     void shouldReturnStatusBadRequestIfTryToSaveRouteWithNonExistentDestinationId(WebTarget target) {
+        saveStation(target, cityId); // save start station
+
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
         route.setEndTime(LocalTime.now().plusHours(5));
@@ -230,5 +242,28 @@ class RouteResourceTest {
         final Response response = target.path("routes").request().post(Entity.entity(route, MediaType.APPLICATION_JSON));
 
         assertStatus(response, BAD_REQUEST);
+    }
+
+    private int saveCity(final WebTarget target) {
+        final CityDTO odessa = new CityDTO();
+        odessa
+                .setDistrict("Odessa")
+                .setRegion("Odessa")
+                .setName("Odessa");
+        saveResources(target, "cities", odessa);
+
+        return 1;
+    }
+
+    private int saveStation(final WebTarget target, int cityId) {
+        final StationDTO stationDTO = new StationDTO();
+        stationDTO.setCityId(cityId);
+        stationDTO.setZipCode("68355");
+        stationDTO.setHouseNo("12");
+        stationDTO.setStreet("Shevchenka");
+        stationDTO.setTransportType("Auto");
+        saveResources(target, "stations", stationDTO);
+
+        return 1;
     }
 }

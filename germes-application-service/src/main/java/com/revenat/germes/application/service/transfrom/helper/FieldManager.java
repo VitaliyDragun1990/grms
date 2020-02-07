@@ -4,6 +4,8 @@ import com.revenat.germes.application.infrastructure.exception.ConfigurationExce
 import com.revenat.germes.application.infrastructure.helper.Asserts;
 import com.revenat.germes.application.infrastructure.helper.SafeCollectionWrapper;
 
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
  *
  * @author Vitaliy Dragun
  */
+@Named
+@Dependent
 public class FieldManager {
 
     /**

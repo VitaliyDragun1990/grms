@@ -15,28 +15,28 @@
             <p:commandLink value="RU" actionListener="#{language.setLanguage('ru_RU')}" update="mainContainer"/>
         </h:panelGrid>
 
-        <ui:include src="/WEB-INF/components/route.xhtml"/>
+        <ui:include src="/WEB-INF/components/city.xhtml"/>
 
         <div class="center">
-            <p:panel header="#{msg['route.caption']}" styleClass="cities">
-                <p:dataTable var="route" value="#{cityController.cities}" id="citiesTable">
-                    <p:column headerText="#{msg['route.name']}" sortBy="#{route.name}">
-                        #{route.name}
+            <p:panel header="#{msg['city.caption']}" styleClass="cities">
+                <p:dataTable var="city" value="#{cityController.cities}" id="citiesTable">
+                    <p:column headerText="#{msg['city.name']}" sortBy="#{city.name}">
+                        #{city.name}
                     </p:column>
-                    <p:column headerText="#{msg['route.district']}" sortBy="#{route.district}">
-                        #{route.district}
+                    <p:column headerText="#{msg['city.district']}" sortBy="#{city.district}">
+                        #{city.district}
                     </p:column>
-                    <p:column headerText="#{msg['route.region']}" sortBy="#{route.region}">
-                        #{route.region}
+                    <p:column headerText="#{msg['city.region']}" sortBy="#{city.region}">
+                        #{city.region}
                     </p:column>
                     <p:column>
                         <p:commandButton value="#{msg['button.edit']}"
                                          oncomplete="PF('cityDlg').show();"
                                          update=":cityForm:cityDialog"
-                                         actionListener="#{cityController.updateCity(route, currentCity)}"/>
+                                         actionListener="#{cityController.updateCity(city, currentCity)}"/>
                         <p:commandButton value="#{msg['button.remove']}"
                                          update="citiesTable"
-                                         actionListener="#{cityController.deleteCity(route.id)}"/>
+                                         actionListener="#{cityController.deleteCity(city.id)}"/>
                     </p:column>
                     <f:facet name="footer">
                         <div class="button">
