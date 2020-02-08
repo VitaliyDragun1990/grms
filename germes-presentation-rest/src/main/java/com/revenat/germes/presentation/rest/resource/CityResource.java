@@ -71,13 +71,16 @@ public class CityResource extends BaseResource {
     @ApiOperation(value = "Saves new city instance", consumes = MediaType.APPLICATION_JSON)
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid content of city object"),
-            @ApiResponse(code = 204, message = "City instance has been saved")
+            @ApiResponse(code = 201, message = "City instance has been saved")
     })
-    public void saveCity(@Valid @ApiParam(name = "city", required = true) final CityDTO cityDTO) {
+    public Response saveCity(@Valid @ApiParam(name = "city", required = true) final CityDTO cityDTO) {
         if (LOGGER.isInfoEnabled()) {
             LOGGER.info("CityResource.saveCity: {}", ToStringBuilder.shortStyle(cityDTO));
         }
-        service.saveCity(transformer.untransform(cityDTO, City.class));
+        final City city = transformer.untransform(cityDTO, City.class);
+        service.saveCity(city);
+
+        return resourceCreated(city.getId());
     }
 
     /**
@@ -91,7 +94,7 @@ public class CityResource extends BaseResource {
             @ApiResponse(code = 400, message = "Invalid city identifier"),
             @ApiResponse(code = 404, message = "Identifier of the non-existing city")
     })
-    public Response findCityById(@ApiParam(value = "Unique numeric city identifier", required = true)
+    public Response findById(@ApiParam(value = "Unique numeric city identifier", required = true)
                                  @PathParam("cityId") final String cityId) {
         LOGGER.info("CityResource.findCityById: {}", cityId);
         if (!NumberUtils.isParsable(cityId)) {

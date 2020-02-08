@@ -50,10 +50,13 @@ public class StationResource extends BaseResource {
     @ApiOperation(value = "Saves new station instance", consumes = MediaType.APPLICATION_JSON)
     @ApiResponses({
             @ApiResponse(code = 400, message = "Invalid content of station object"),
-            @ApiResponse(code = 204, message = "Station instance has been saved")
+            @ApiResponse(code = 201, message = "Station instance has been saved")
     })
-    public void save(@Valid @ApiParam(name = "station", required = true) final StationDTO stationDTO) {
-        service.saveStation(transformer.untransform(stationDTO, Station.class));
+    public Response save(@Valid @ApiParam(name = "station", required = true) final StationDTO stationDTO) {
+        final Station station = transformer.untransform(stationDTO, Station.class);
+        service.saveStation(station);
+
+        return resourceCreated(station.getId());
     }
 
     /**
@@ -67,7 +70,7 @@ public class StationResource extends BaseResource {
             @ApiResponse(code = 400, message = "Invalid station identifier"),
             @ApiResponse(code = 404, message = "Identifier of non-existing station")
     })
-    public Response findStationById(@ApiParam(value = "Unique numeric station identifier", required = true)
+    public Response findById(@ApiParam(value = "Unique numeric station identifier", required = true)
                                     @PathParam("stationId") final String stationId) {
         if (!NumberUtils.isParsable(stationId)) {
             return badRequest;

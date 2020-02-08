@@ -14,8 +14,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import static com.revenat.germes.presentation.rest.resource.TestHelper.assertStatus;
-import static com.revenat.germes.presentation.rest.resource.TestHelper.saveResources;
+import static com.revenat.germes.presentation.rest.resource.TestHelper.*;
 import static javax.ws.rs.core.Response.Status.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -71,7 +70,8 @@ class StationResourceTest {
                 .request()
                 .post(Entity.entity(stationDTO, MediaType.APPLICATION_JSON));
 
-        assertStatus(response, NO_CONTENT);
+        assertStatus(response, CREATED);
+        assertCreatedResourceLocationPresent(response);
     }
 
     @Test
@@ -199,9 +199,8 @@ class StationResourceTest {
         stationDTO.setHouseNo(HOUSE_NO_12);
         stationDTO.setStreet(SHEVCHENKA_STREET);
         stationDTO.setTransportType(TRANSPORT_TYPE_AUTO);
-        saveResources(target, "stations", stationDTO);
 
-        return 1;
+        return saveResource(target, "stations", stationDTO);
     }
 
     private int saveCity(final WebTarget target) {
@@ -210,8 +209,7 @@ class StationResourceTest {
                 .setDistrict("Some district")
                 .setRegion("Some region")
                 .setName("Odessa");
-        saveResources(target, "cities", odessa);
 
-        return 1;
+        return saveResource(target, "cities", odessa);
     }
 }

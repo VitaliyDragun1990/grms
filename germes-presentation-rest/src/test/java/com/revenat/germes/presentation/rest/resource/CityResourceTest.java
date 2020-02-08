@@ -17,8 +17,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 
-import static com.revenat.germes.presentation.rest.resource.TestHelper.assertStatus;
-import static com.revenat.germes.presentation.rest.resource.TestHelper.saveResources;
+import static com.revenat.germes.presentation.rest.resource.TestHelper.*;
 import static javax.ws.rs.core.Response.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -62,7 +61,7 @@ class CityResourceTest {
                 .request()
                 .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
 
-        assertStatus(response, NO_CONTENT);
+        assertStatus(response, CREATED);
     }
 
     @Test
@@ -79,7 +78,7 @@ class CityResourceTest {
                 .request()
                 .rx()
                 .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON))
-                .thenAccept(response -> assertStatus(response, NO_CONTENT))
+                .thenAccept(response -> assertStatus(response, CREATED))
                 .thenCompose(v -> target.path("cities").request().rx().get(Response.class))
                 .thenAccept(response -> assertCityPresent(response, "Odessa"))
                 .toCompletableFuture();
@@ -92,7 +91,22 @@ class CityResourceTest {
             }
             fail(e.getMessage());
         }
+    }
 
+    @Test
+    void shouldReturnLocationOfNewlySavedCity(final WebTarget target) {
+        final CityDTO cityDTO = new CityDTO();
+        cityDTO
+                .setDistrict("Some district")
+                .setRegion("Some region")
+                .setName("Odessa");
+
+        final Response response = target
+                .path("cities")
+                .request()
+                .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
+
+        assertCreatedResourceLocationPresent(response);
     }
 
     @Test
@@ -304,7 +318,7 @@ class CityResourceTest {
     }
 
     @Test
-    void shouldReturnStatusNoContentIfTryToSaveCityWithoutDistrict(final WebTarget target) {
+    void shouldReturnStatusCreatedIfTryToSaveCityWithoutDistrict(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
         cityDTO
                 .setName("Odessa")
@@ -315,7 +329,7 @@ class CityResourceTest {
                 .request()
                 .post(Entity.entity(cityDTO, MediaType.APPLICATION_JSON));
 
-        assertStatus(response, NO_CONTENT);
+        assertStatus(response, CREATED);
     }
 
     private void assertCityPresent(final Response response, final String cityName) {

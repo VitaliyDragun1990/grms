@@ -61,10 +61,13 @@ public class RouteResource extends BaseResource {
     @ApiOperation(value = "Saves route object", consumes = MediaType.APPLICATION_JSON)
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid content of the route object"),
-            @ApiResponse(code = 204, message = "Route instance has been saved")
+            @ApiResponse(code = 201, message = "Route instance has been saved")
     })
-    public void save(@Valid @ApiParam(name = "route", required = true) final RouteDTO routeDTO) {
-        transportService.saveRoute(transformer.untransform(routeDTO, Route.class));
+    public Response save(@Valid @ApiParam(name = "route", required = true) final RouteDTO routeDTO) {
+        final Route route = transformer.untransform(routeDTO, Route.class);
+        transportService.saveRoute(route);
+
+        return resourceCreated(route.getId());
     }
 
     /**

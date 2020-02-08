@@ -7,7 +7,6 @@ import com.revenat.germes.presentation.rest.dto.StationDTO;
 import com.revenat.germes.presentation.rest.dto.transport.RouteDTO;
 import com.revenat.germes.presentation.rest.resolver.ObjectMapperContextResolver;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -22,8 +21,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
-import static com.revenat.germes.presentation.rest.resource.TestHelper.assertStatus;
-import static com.revenat.germes.presentation.rest.resource.TestHelper.saveResources;
+import static com.revenat.germes.presentation.rest.resource.TestHelper.*;
 import static javax.ws.rs.core.Response.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -37,6 +35,9 @@ import static org.hamcrest.Matchers.*;
 @SuppressWarnings("unchecked")
 @DisplayName("a city resource")
 class RouteResourceTest {
+
+    private static final double PRICE_150 = 150.0d;
+    private static final double PRICE_120 = 120.0d;
 
     private int cityId;
 
@@ -64,40 +65,41 @@ class RouteResourceTest {
 
     @Test
     void shouldSaveNewRoute(final WebTarget target) {
-        saveStation(target, cityId); // save start station
-        saveStation(target, cityId); // save destination station
+        int startId = saveStation(target, cityId); // save start station
+        int destId = saveStation(target, cityId); // save destination station
 
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
         route.setEndTime(LocalTime.now().plusHours(5));
-        route.setStartId(1);
-        route.setDestinationId(2);
-        route.setPrice(150.0);
+        route.setStartId(startId);
+        route.setDestinationId(destId);
+        route.setPrice(PRICE_150);
 
         final Response response = target.path("routes")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(route, MediaType.APPLICATION_JSON));
 
-        assertStatus(response, NO_CONTENT);
+        assertStatus(response, CREATED);
     }
 
     @Test
     void shouldFindAllPresentRoutes(final WebTarget target) {
-        saveStation(target, cityId); // save start station
-        saveStation(target, cityId); // save destination station
+        int startId = saveStation(target, cityId); // save start station
+        int destId = saveStation(target, cityId); // save destination station
+
 
         final RouteDTO routeA = new RouteDTO();
         routeA.setStartTime(LocalTime.of(10, 15));
         routeA.setEndTime(LocalTime.of(14, 15));
-        routeA.setStartId(1);
-        routeA.setDestinationId(2);
-        routeA.setPrice(150.0);
+        routeA.setStartId(startId);
+        routeA.setDestinationId(destId);
+        routeA.setPrice(PRICE_150);
         final RouteDTO routeB = new RouteDTO();
         routeB.setStartTime(LocalTime.of(12, 30));
         routeB.setEndTime(LocalTime.of(14, 30));
-        routeB.setStartId(2);
-        routeB.setDestinationId(1);
-        routeB.setPrice(120.0);
+        routeB.setStartId(destId);
+        routeB.setDestinationId(startId);
+        routeB.setPrice(PRICE_120);
 
         saveResources(target, "routes", routeA, routeB);
 
@@ -105,32 +107,32 @@ class RouteResourceTest {
 
         assertThat(routes, hasSize(2));
         assertThat(routes, containsInAnyOrder(
-                hasEntry(equalTo("price"), equalTo(150.0d)),
-                hasEntry(equalTo("price"), equalTo(120.0d))
+                hasEntry(equalTo("price"), equalTo(PRICE_150)),
+                hasEntry(equalTo("price"), equalTo(PRICE_120))
         ));
     }
 
     @Test
     void shouldFindRouteById(final WebTarget target) {
-        saveStation(target, cityId); // save start station
-        saveStation(target, cityId); // save destination station
+        int startId = saveStation(target, cityId); // save start station
+        int destId = saveStation(target, cityId); // save destination station
 
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
         route.setEndTime(LocalTime.now().plusHours(5));
-        route.setStartId(1);
-        route.setDestinationId(2);
-        route.setPrice(150.0);
-        saveResources(target, "routes", route);
+        route.setStartId(startId);
+        route.setDestinationId(destId);
+        route.setPrice(PRICE_150);
+        int routeId = saveResource(target, "routes", route);
 
-        final RouteDTO result = target.path("routes/1").request().get(RouteDTO.class);
+        final RouteDTO result = target.path("routes/" + routeId).request().get(RouteDTO.class);
 
         assertThat(result.getId(), equalTo(1));
     }
 
     @Test
     void shouldReturnStatusNotFoundIfNoRouteWithSpecifiedId(WebTarget target) {
-        final Response response  = target.path("routes/1").request().get(Response.class);
+        final Response response  = target.path("routes/999").request().get(Response.class);
 
         assertStatus(response, NOT_FOUND);
     }
@@ -149,7 +151,7 @@ class RouteResourceTest {
         route.setEndTime(LocalTime.now().plusHours(5));
         route.setStartId(-1);
         route.setDestinationId(2);
-        route.setPrice(150.0);
+        route.setPrice(PRICE_150);
 
         final Response response = target.path("routes").request().post(Entity.entity(route, MediaType.APPLICATION_JSON));
 
@@ -163,7 +165,7 @@ class RouteResourceTest {
         route.setEndTime(LocalTime.now().plusHours(5));
         route.setStartId(1);
         route.setDestinationId(-2);
-        route.setPrice(150.0);
+        route.setPrice(PRICE_150);
 
         final Response response = target.path("routes").request().post(Entity.entity(route, MediaType.APPLICATION_JSON));
 
@@ -177,7 +179,7 @@ class RouteResourceTest {
         route.setEndTime(LocalTime.now().plusHours(5));
         route.setStartId(1);
         route.setDestinationId(2);
-        route.setPrice(150.0);
+        route.setPrice(PRICE_150);
 
         final Response response = target.path("routes").request().post(Entity.entity(route, MediaType.APPLICATION_JSON));
 
@@ -191,7 +193,7 @@ class RouteResourceTest {
         route.setEndTime(null);
         route.setStartId(1);
         route.setDestinationId(2);
-        route.setPrice(150.0);
+        route.setPrice(PRICE_150);
 
         final Response response = target.path("routes").request().post(Entity.entity(route, MediaType.APPLICATION_JSON));
 
@@ -205,7 +207,7 @@ class RouteResourceTest {
         route.setEndTime(LocalTime.now().plusHours(5));
         route.setStartId(1);
         route.setDestinationId(2);
-        route.setPrice(-150.0);
+        route.setPrice(-PRICE_150);
 
         final Response response = target.path("routes").request().post(Entity.entity(route, MediaType.APPLICATION_JSON));
 
@@ -214,14 +216,14 @@ class RouteResourceTest {
 
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveRouteWithNonExistentStartId(WebTarget target) {
-        saveStation(target, cityId); // save destination station
+        int destId = saveStation(target, cityId); // save destination station
 
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
         route.setEndTime(LocalTime.now().plusHours(5));
         route.setStartId(999);
-        route.setDestinationId(1);
-        route.setPrice(150.0);
+        route.setDestinationId(destId);
+        route.setPrice(PRICE_150);
 
         final Response response = target.path("routes").request().post(Entity.entity(route, MediaType.APPLICATION_JSON));
 
@@ -230,14 +232,14 @@ class RouteResourceTest {
 
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveRouteWithNonExistentDestinationId(WebTarget target) {
-        saveStation(target, cityId); // save start station
+        int startId = saveStation(target, cityId); // save start station
 
         final RouteDTO route = new RouteDTO();
         route.setStartTime(LocalTime.now());
         route.setEndTime(LocalTime.now().plusHours(5));
-        route.setStartId(1);
+        route.setStartId(startId);
         route.setDestinationId(999);
-        route.setPrice(150.0);
+        route.setPrice(PRICE_150);
 
         final Response response = target.path("routes").request().post(Entity.entity(route, MediaType.APPLICATION_JSON));
 
@@ -250,9 +252,8 @@ class RouteResourceTest {
                 .setDistrict("Odessa")
                 .setRegion("Odessa")
                 .setName("Odessa");
-        saveResources(target, "cities", odessa);
 
-        return 1;
+        return saveResource(target, "cities", odessa);
     }
 
     private int saveStation(final WebTarget target, int cityId) {
@@ -262,8 +263,7 @@ class RouteResourceTest {
         stationDTO.setHouseNo("12");
         stationDTO.setStreet("Shevchenka");
         stationDTO.setTransportType("Auto");
-        saveResources(target, "stations", stationDTO);
 
-        return 1;
+        return saveResource(target, "stations", stationDTO);
     }
 }
