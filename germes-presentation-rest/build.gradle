@@ -22,8 +22,7 @@ dependencies {
 
     runtimeOnly misc.jaxbRuntime, server.jerseyValidation, server.jerseyServlet
 
-    testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp, tests.testcontainers, tests.testcontainersJunit,
-            tests.testcontainersMysql
+    testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
     testCompileOnly persistence.jpaApi
-    testRuntimeOnly tests.jerseyTestProvider, persistence.mysql
+    testRuntimeOnly tests.jerseyTestProvider
 }

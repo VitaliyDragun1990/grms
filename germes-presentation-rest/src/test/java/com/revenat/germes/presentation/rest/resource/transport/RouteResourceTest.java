@@ -10,10 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.testcontainers.containers.FixedHostPortGenericContainer;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
@@ -21,7 +17,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -37,22 +32,12 @@ import static org.hamcrest.Matchers.*;
  *
  * @author Vitaliy Dragun
  */
-@Testcontainers
 @DisplayName("a city resource")
 @SuppressWarnings("unchecked")
 class RouteResourceTest {
 
     private static final double PRICE_150 = 150.0d;
     private static final double PRICE_120 = 120.0d;
-
-    @Container
-    public FixedHostPortGenericContainer<?> mysql = new FixedHostPortGenericContainer<>("mysql:5.7")
-            .withEnv("MYSQL_ROOT_PASSWORD", "test")
-            .withEnv("MYSQL_DATABASE", "germes")
-            .withEnv("MYSQL_USER", "test")
-            .withEnv("MYSQL_PASSWORD", "test")
-            .withExposedPorts(3306);
-
 
     private int cityId;
 
@@ -64,18 +49,7 @@ class RouteResourceTest {
     }
 
     @BeforeEach
-    void setUp(final WebTarget target, final Client client) throws IOException, InterruptedException {
-//        FixedHostPortGenericContainer<?> mysql = new FixedHostPortGenericContainer<>("mysql:5.7")
-//                .withEnv("MYSQL_ROOT_PASSWORD", "test")
-//                .withEnv("MYSQL_DATABASE", "germes")
-//                .withEnv("MYSQL_USER", "germes")
-//                .withEnv("MYSQL_PASSWORD", "germes")
-//                .withExposedPorts(3306);
-        mysql.execInContainer("mysql", "-u", "root", "-ptest");
-        mysql.execInContainer("GRANT", "ALL", "ON", "germes.*", "TO", "'germes'@'%'", "IDENTIFIED", "BY", "'germes'", ";",
-                " FLUSH PRIVILEGES", ";");
-//        mysql.start();
-
+    void setUp(final WebTarget target, final Client client) {
         client.register(ObjectMapperContextResolver.class);
         target.register(ObjectMapperContextResolver.class);
 
