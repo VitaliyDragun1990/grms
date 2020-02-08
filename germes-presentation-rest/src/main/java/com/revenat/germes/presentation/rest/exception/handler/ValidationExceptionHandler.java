@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.rest.exception;
+package com.revenat.germes.presentation.rest.exception.handler;
 
 import com.revenat.germes.application.infrastructure.exception.flow.ValidationException;
 import org.slf4j.Logger;
@@ -21,6 +21,7 @@ public class ValidationExceptionHandler implements ExceptionMapper<ValidationExc
     @Override
     public Response toResponse(final ValidationException exception) {
         LOGGER.error(exception.getMessage(), exception);
+
         return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
     }
 }

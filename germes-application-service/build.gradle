@@ -4,7 +4,7 @@
 
 dependencies {
     implementation project(':germes-application-model'), project(':germes-persistence')
-    implementation /*misc.hibernateValidator,*/ misc.jmhCore, misc.jmhGenerator
+    implementation /*misc.hibernateValidator,*/ misc.jmhCore, misc.jmhGenerator, misc.validationApi
     compileOnly misc.jakartaInject, persistence.jpaApi, misc.jakartaCdi
     runtimeOnly misc.el
 

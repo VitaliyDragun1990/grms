@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.rest.exception;
+package com.revenat.germes.presentation.rest.exception.handler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +28,7 @@ public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
     @Override
     public Response toResponse(final Exception exception) {
         LOGGER.error(exception.getMessage(), exception);
+
         return serverError;
     }
 }

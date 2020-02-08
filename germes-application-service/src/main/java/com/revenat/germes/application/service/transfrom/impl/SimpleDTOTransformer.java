@@ -1,5 +1,6 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
+import com.revenat.germes.application.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.application.infrastructure.helper.Asserts;
 import com.revenat.germes.application.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
@@ -10,9 +11,6 @@ import com.revenat.germes.application.service.transfrom.helper.ObjectStateCopier
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 
 /**
@@ -64,7 +62,12 @@ public class SimpleDTOTransformer implements Transformer {
         checkParams(dto, entityClass);
 
         final T entity = createInstance(entityClass);
-        return untransform(dto, entity);
+
+        try {
+            return untransform(dto, entity);
+        } catch (Exception e) {
+            throw new ValidationException(e.getMessage(), e);
+        }
     }
 
     @Override

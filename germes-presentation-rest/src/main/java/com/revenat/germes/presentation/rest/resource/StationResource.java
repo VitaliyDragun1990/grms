@@ -4,9 +4,9 @@ import com.revenat.germes.application.model.entity.geography.Station;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import com.revenat.germes.presentation.rest.dto.StationDTO;
+import com.revenat.germes.presentation.rest.exception.ResourceNotFoundException;
 import com.revenat.germes.presentation.rest.resource.base.BaseResource;
 import io.swagger.annotations.*;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -14,7 +14,6 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Optional;
 
 /**
  * {@link StationResource} is REST web-service that handles station-related requests
@@ -71,16 +70,10 @@ public class StationResource extends BaseResource {
             @ApiResponse(code = 404, message = "Identifier of non-existing station")
     })
     public Response findById(@ApiParam(value = "Unique numeric station identifier", required = true)
-                                    @PathParam("stationId") final String stationId) {
-        if (!NumberUtils.isParsable(stationId)) {
-            return badRequest;
-        }
+                                    @PathParam("stationId") final int stationId) {
+        final Station station = service.findStationById(stationId)
+                .orElseThrow(() -> new ResourceNotFoundException(Station.class, stationId));
 
-        final Optional<Station> optionalStation = service.findStationById(NumberUtils.toInt(stationId));
-        if (optionalStation.isEmpty()) {
-            return notFound;
-        }
-
-        return ok(transformer.transform(optionalStation.get(), StationDTO.class));
+        return ok(transformer.transform(station, StationDTO.class));
     }
 }

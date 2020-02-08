@@ -4,9 +4,9 @@ import com.revenat.germes.application.model.entity.travel.Route;
 import com.revenat.germes.application.service.TransportService;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import com.revenat.germes.presentation.rest.dto.transport.RouteDTO;
+import com.revenat.germes.presentation.rest.exception.ResourceNotFoundException;
 import com.revenat.germes.presentation.rest.resource.base.BaseResource;
 import io.swagger.annotations.*;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,7 +15,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -83,15 +82,12 @@ public class RouteResource extends BaseResource {
             @ApiResponse(code = 400, message = "Invalid route identifier"),
             @ApiResponse(code = 404, message = "Identifier of the non-existing route")
     })
-    public Response findById(@ApiParam(value = "Unique numeric route identifier") @PathParam("routeId") final String routeId) {
-        if (!NumberUtils.isParsable(routeId)) {
-            return badRequest;
-        }
+    public Response findById(@ApiParam(value = "Unique numeric route identifier")
+                             @PathParam("routeId") final int routeId) {
 
-        final Optional<Route> routeOptional = transportService.findByRouteId(NumberUtils.toInt(routeId));
-        if (routeOptional.isEmpty()) {
-            return notFound;
-        }
-        return ok(transformer.transform(routeOptional.get(), RouteDTO.class));
+        final Route route = transportService.findByRouteId(routeId)
+                .orElseThrow(() -> new ResourceNotFoundException(Route.class, routeId));
+
+        return ok(transformer.transform(route, RouteDTO.class));
     }
 }

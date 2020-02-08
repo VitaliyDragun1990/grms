@@ -3,6 +3,7 @@ package com.revenat.germes.application.infrastructure.exception.flow;
 import com.revenat.germes.application.infrastructure.exception.FlowException;
 
 import javax.validation.ConstraintViolation;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -19,9 +20,14 @@ public class ValidationException extends FlowException {
      */
     private final Set<ConstraintViolation<?>> constraints;
 
-    public ValidationException(String message, Set<ConstraintViolation<?>> constraints) {
+    public ValidationException(final String message, final Set<ConstraintViolation<?>> constraints) {
         super(message + constraints);
         this.constraints = constraints;
+    }
+
+    public ValidationException(final String message, final Throwable cause) {
+        super(message, cause);
+        constraints = Collections.emptySet();
     }
 
     public Set<ConstraintViolation<?>> getConstraints() {

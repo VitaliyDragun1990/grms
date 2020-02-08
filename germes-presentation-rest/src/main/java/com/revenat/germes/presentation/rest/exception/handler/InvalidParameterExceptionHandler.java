@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.rest.exception;
+package com.revenat.germes.presentation.rest.exception.handler;
 
 import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
 import org.slf4j.Logger;
@@ -20,8 +20,8 @@ public class InvalidParameterExceptionHandler implements ExceptionMapper<Invalid
 
     @Override
     public Response toResponse(final InvalidParameterException exception) {
-        LOGGER.debug(exception.getMessage(), exception);
+        LOGGER.error(exception.getMessage(), exception);
 
-        return Response.status(Response.Status.BAD_REQUEST).entity(exception.getMessage()).build();
+        return Response.status(Response.Status.NOT_FOUND).entity(exception.getMessage()).build();
     }
 }

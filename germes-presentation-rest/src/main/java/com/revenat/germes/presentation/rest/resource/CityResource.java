@@ -5,9 +5,9 @@ import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import com.revenat.germes.presentation.rest.dto.CityDTO;
+import com.revenat.germes.presentation.rest.exception.ResourceNotFoundException;
 import com.revenat.germes.presentation.rest.resource.base.BaseResource;
 import io.swagger.annotations.*;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -95,17 +94,12 @@ public class CityResource extends BaseResource {
             @ApiResponse(code = 404, message = "Identifier of the non-existing city")
     })
     public Response findById(@ApiParam(value = "Unique numeric city identifier", required = true)
-                                 @PathParam("cityId") final String cityId) {
+                                 @PathParam("cityId") final int cityId) {
         LOGGER.info("CityResource.findCityById: {}", cityId);
-        if (!NumberUtils.isParsable(cityId)) {
-            return badRequest;
-        }
 
-        final Optional<City> cityOptional = service.findCityById(NumberUtils.toInt(cityId));
-        if (cityOptional.isEmpty()) {
-            return notFound;
-        }
+        final City city = service.findCityById(cityId)
+                .orElseThrow(() -> new ResourceNotFoundException(City.class, cityId));
 
-        return ok(transformer.transform(cityOptional.get(), CityDTO.class));
+        return ok(transformer.transform(city, CityDTO.class));
     }
 }

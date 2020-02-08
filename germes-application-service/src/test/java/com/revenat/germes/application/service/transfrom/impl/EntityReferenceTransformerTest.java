@@ -2,6 +2,7 @@ package com.revenat.germes.application.service.transfrom.impl;
 
 import com.revenat.germes.application.infrastructure.exception.ConfigurationException;
 import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
+import com.revenat.germes.application.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
 import com.revenat.germes.application.model.transform.Transformable;
@@ -103,7 +104,7 @@ class EntityReferenceTransformerTest {
         dto.startId = 1;
         dto.destId = 2;
 
-        assertThrows(InvalidParameterException.class, () -> transformer.untransform(dto, Route.class));
+        assertThrows(ValidationException.class, () -> transformer.untransform(dto, Route.class));
     }
 
     static class Station extends AbstractEntity {

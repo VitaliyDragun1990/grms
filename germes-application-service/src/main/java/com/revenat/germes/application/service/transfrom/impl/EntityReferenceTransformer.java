@@ -2,6 +2,7 @@ package com.revenat.germes.application.service.transfrom.impl;
 
 import com.revenat.germes.application.infrastructure.exception.ConfigurationException;
 import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
+import com.revenat.germes.application.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.application.infrastructure.helper.Asserts;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
@@ -88,7 +89,11 @@ public class EntityReferenceTransformer implements Transformer {
 
         final T entity = instanceCreator.createInstance(entityClass);
 
-        return untransform(dto, entity);
+        try {
+            return untransform(dto, entity);
+        } catch (Exception e) {
+            throw new ValidationException(e.getMessage(), e);
+        }
     }
 
     @Override
