@@ -1,4 +1,4 @@
-package com.revenat.germes.application.infrastructure.benchmark;
+package com.revenat.germes.application.benchmark;
 
 import com.revenat.germes.application.infrastructure.helper.generator.NumberGenerator;
 import com.revenat.germes.application.infrastructure.helper.generator.RandomNumberGenerator;
