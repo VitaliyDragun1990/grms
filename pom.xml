@@ -344,6 +344,11 @@
                 <artifactId>metrics-servlets</artifactId>
                 <version>${dropwizard.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-healthchecks</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

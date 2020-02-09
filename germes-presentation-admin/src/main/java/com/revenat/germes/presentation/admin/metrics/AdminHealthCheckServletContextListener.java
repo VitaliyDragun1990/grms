@@ -2,7 +2,9 @@ package com.revenat.germes.presentation.admin.metrics;
 
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.codahale.metrics.servlets.HealthCheckServlet;
+import com.revenat.germes.application.monitoring.MetricsManager;
 
+import javax.inject.Inject;
 import javax.servlet.annotation.WebListener;
 
 /**
@@ -13,10 +15,11 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class AdminHealthCheckServletContextListener extends HealthCheckServlet.ContextListener {
 
-    public static final HealthCheckRegistry HEALTH_CHECK_REGISTRY = new HealthCheckRegistry();
+    @Inject
+    private MetricsManager metricsManager;
 
     @Override
     protected HealthCheckRegistry getHealthCheckRegistry() {
-        return HEALTH_CHECK_REGISTRY;
+        return metricsManager.getHealthCheckRegistry();
     }
 }

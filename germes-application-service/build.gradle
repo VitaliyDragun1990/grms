@@ -4,7 +4,8 @@
 
 dependencies {
     implementation project(':germes-application-model'), project(':germes-persistence')
-    implementation misc.jmhCore, misc.jmhGenerator, misc.validationApi, metrics.dropwizardCore, metrics.dropwizardJvm
+    implementation misc.jmhCore, misc.jmhGenerator, misc.validationApi, metrics.dropwizardCore, metrics.dropwizardJvm,
+            metrics.dropwizardHealthchecks
     compileOnly misc.jakartaInject, persistence.jpaApi, misc.jakartaCdi
     runtimeOnly misc.el
 

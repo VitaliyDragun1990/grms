@@ -12,7 +12,7 @@ dependencies {
     }
 
     implementation misc.javassist, misc.commonsLang3, misc.reflections, misc.jmhCore, misc.jmhGenerator,
-            misc.classgraph
+            misc.classgraph, metrics.dropwizardHealthchecks
 
     runtimeOnly misc.hibernateValidator
 

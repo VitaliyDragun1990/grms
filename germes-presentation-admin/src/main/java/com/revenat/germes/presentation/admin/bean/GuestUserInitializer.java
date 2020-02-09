@@ -3,9 +3,11 @@ package com.revenat.germes.presentation.admin.bean;
 import com.revenat.germes.application.infrastructure.helper.Encrypter;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
+import com.revenat.germes.presentation.admin.bean.startup.Eager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Observes;
@@ -21,15 +23,16 @@ import java.time.LocalDateTime;
  */
 @Named
 @ApplicationScoped
+@Eager
 public class GuestUserInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GuestUserInitializer.class);
 
     public static final String GUEST = "guest";
 
-    private final UserService userService;
+    private UserService userService;
 
-    private final Encrypter encrypter;
+    private Encrypter encrypter;
 
     @Inject
     public GuestUserInitializer(@Default final UserService userService) {
@@ -38,10 +41,13 @@ public class GuestUserInitializer {
     }
 
     /**
-     * Subscribes to lifecycle events of the bean and effectively told CDI container
-     * to load it on startup (analog to @Startup EJB annotation)
+     * For CDI container purpose
      */
-    void init(@Observes @Initialized(ApplicationScoped.class) final Object event) {
+    GuestUserInitializer() {
+    }
+
+    @PostConstruct
+    void init() {
         LOGGER.info("UserInitializer has been loaded.");
 
         if (userService.findByUserName(GUEST).isEmpty()) {

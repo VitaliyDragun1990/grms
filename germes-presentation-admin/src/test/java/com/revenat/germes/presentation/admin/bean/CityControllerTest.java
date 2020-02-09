@@ -1,6 +1,8 @@
 package com.revenat.germes.presentation.admin.bean;
 
+import com.codahale.metrics.Counter;
 import com.revenat.germes.application.model.entity.geography.City;
+import com.revenat.germes.application.monitoring.MetricsManager;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import org.jglue.cdiunit.CdiRunner;
@@ -38,6 +40,10 @@ public class CityControllerTest {
     private Transformer transformer;
 
     @Produces
+    @Mock
+    private MetricsManager metricsManager;
+
+    @Produces
     @Push
     @Mock
     private PushContext pushContext;
@@ -51,6 +57,7 @@ public class CityControllerTest {
     public void shouldSaveCity() {
         CityBean cityBean = new CityBean();
         when(transformer.untransform(cityBean, City.class)).thenReturn(new City("test"));
+        when(metricsManager.registerMetric(Mockito.any(), Mockito.any())).thenReturn(new Counter());
 
         cityController.saveCity(cityBean);
 

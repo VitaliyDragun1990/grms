@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation project(":germes-application-service"), project(":germes-application-model")
+    implementation project(":germes-application-service"), project(":germes-application-model"), project(":germes-persistence")
     implementation ui.primefaces, ui.jsf, ui.bootstrap, misc.jakartaInject, server.weldServlet, security.shiroCore,
             security.shiroWeb, metrics.dropwizardServlets
     providedCompile server.servletApi
