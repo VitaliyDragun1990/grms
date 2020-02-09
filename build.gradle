@@ -147,7 +147,8 @@ allprojects {
                 dropwizardCore : "io.dropwizard.metrics:metrics-core:$dropwizardVersion",
                 dropwizardJvm : "io.dropwizard.metrics:metrics-jvm:$dropwizardVersion",
                 dropwizardServlets : "io.dropwizard.metrics:metrics-servlets:$dropwizardVersion",
-                dropwizardHealthchecks : "io.dropwizard.metrics:metrics-healthchecks:$dropwizardVersion"
+                dropwizardHealthchecks : "io.dropwizard.metrics:metrics-healthchecks:$dropwizardVersion",
+                dropwizardGraphite : "io.dropwizard.metrics:metrics-graphite:$dropwizardVersion"
         ]
     }
 }

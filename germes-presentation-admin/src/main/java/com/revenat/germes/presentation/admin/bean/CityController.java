@@ -54,7 +54,7 @@ public class CityController {
 
     @PostConstruct
     void init() {
-        savedCityCounter = metricsManager.registerMetric(MetricRegistry.name("admin", "city", "saved"), new Counter());
+        savedCityCounter = metricsManager.registerMetric(MetricRegistry.name("city", "saved"), new Counter());
     }
 
     public List<City> getCities() {

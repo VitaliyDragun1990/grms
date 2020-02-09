@@ -14,7 +14,7 @@ repositories {
 dependencies {
     implementation project(":germes-application-service"), project(":germes-application-model"), project(":germes-persistence")
     implementation ui.primefaces, ui.jsf, ui.bootstrap, misc.jakartaInject, server.weldServlet, security.shiroCore,
-            security.shiroWeb, metrics.dropwizardServlets
+            security.shiroWeb, metrics.dropwizardServlets, metrics.dropwizardGraphite
     providedCompile server.servletApi
     runtimeOnly persistence.mysql, persistence.hikariCp, misc.jaxbRuntime, log.commonsLogging
     compileOnly persistence.jpaApi

@@ -349,6 +349,11 @@
                 <artifactId>metrics-healthchecks</artifactId>
                 <version>${dropwizard.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-graphite</artifactId>
+                <version>${dropwizard.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
