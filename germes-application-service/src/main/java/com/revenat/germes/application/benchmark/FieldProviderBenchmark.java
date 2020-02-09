@@ -1,4 +1,4 @@
-package com.revenat.germes.application.service.benchmark;
+package com.revenat.germes.application.benchmark;
 
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.geography.City;

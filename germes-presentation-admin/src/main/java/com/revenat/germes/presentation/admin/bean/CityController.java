@@ -1,12 +1,16 @@
 package com.revenat.germes.presentation.admin.bean;
 
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.MetricRegistry;
 import com.revenat.germes.application.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.application.model.entity.geography.City;
+import com.revenat.germes.application.monitoring.MetricsManager;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Default;
 import javax.faces.push.Push;
@@ -30,16 +34,27 @@ public class CityController {
 
     private final Transformer transformer;
 
+    private final MetricsManager metricsManager;
+
     @Inject
     @Push
     private PushContext cityChannel;
 
+    private Counter savedCityCounter;
+
     @Inject
     public CityController(@Default final GeographicalService geographicalService,
-                          @Default final Transformer transformer) {
+                          @Default final Transformer transformer,
+                          final MetricsManager metricsManager) {
         this.geographicalService = geographicalService;
         this.transformer = transformer;
+        this.metricsManager = metricsManager;
         LOGGER.info("CityController has been created");
+    }
+
+    @PostConstruct
+    void init() {
+        savedCityCounter = metricsManager.registerMetric(MetricRegistry.name("admin", "city", "saved"), new Counter());
     }
 
     public List<City> getCities() {
@@ -57,6 +72,8 @@ public class CityController {
         geographicalService.saveCity(cityToSave);
 
         cityChannel.send("City has been saved");
+
+        savedCityCounter.inc();
     }
 
     public void updateCity(final City city, final CityBean cityBean) {

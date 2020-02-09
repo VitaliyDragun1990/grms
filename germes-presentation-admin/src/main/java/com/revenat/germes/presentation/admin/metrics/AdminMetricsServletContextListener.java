@@ -2,7 +2,9 @@ package com.revenat.germes.presentation.admin.metrics;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlets.MetricsServlet;
+import com.revenat.germes.application.monitoring.MetricsManager;
 
+import javax.inject.Inject;
 import javax.servlet.annotation.WebListener;
 
 /**
@@ -13,10 +15,11 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class AdminMetricsServletContextListener extends MetricsServlet.ContextListener {
 
-    public static final MetricRegistry METRIC_REGISTRY = new MetricRegistry();
+    @Inject
+    private MetricsManager metricsManager;
 
     @Override
     protected MetricRegistry getMetricRegistry() {
-        return METRIC_REGISTRY;
+        return metricsManager.getMetricRegistry();
     }
 }
