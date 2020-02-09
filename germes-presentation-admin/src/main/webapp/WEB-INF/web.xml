@@ -53,10 +53,19 @@
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+
+    <!-- Define servlet responsible for providing all metrics specific for our application-->
+    <servlet>
+        <servlet-name>metricsServlet</servlet-name>
+        <servlet-class>com.codahale.metrics.servlets.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>metricsServlet</servlet-name>
+        <url-pattern>/metrics/*</url-pattern>
     </servlet-mapping>
 
 </web-app>

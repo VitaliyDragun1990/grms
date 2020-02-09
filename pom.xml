@@ -39,7 +39,6 @@
         <cdi.version>2.0</cdi.version>
         <lombok.version>1.18.10</lombok.version>
         <jakarta-cdi.version>2.0.2</jakarta-cdi.version>
-        <jmh.version>1.23</jmh.version>
         <classgraph.version>4.8.60</classgraph.version>
         <jackson.version>2.10.1</jackson.version>
 
@@ -74,10 +73,17 @@
         <junit.version>5.5.1</junit.version>
         <hamcrest.version>2.1</hamcrest.version>
         <mockito.version>3.0.0</mockito.version>
+
+        <!--benchmarks-->
+        <jmh.version>1.23</jmh.version>
+
+        <!--metrics-->
+        <dropwizard.version>4.1.2</dropwizard.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!--misc -->
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.cdi-api</artifactId>
@@ -93,23 +99,6 @@
                 <artifactId>reflections</artifactId>
                 <version>${reflections.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-hikaricp</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
@@ -120,7 +109,6 @@
                 <artifactId>hibernate-tools</artifactId>
                 <version>${hibernate-tools.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>jaxb-runtime</artifactId>
@@ -130,12 +118,6 @@
                 <groupId>org.glassfish</groupId>
                 <artifactId>javax.el</artifactId>
                 <version>${el-version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>javax.persistence</groupId>
-                <artifactId>javax.persistence-api</artifactId>
-                <version>${jpa-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.validation</groupId>
@@ -147,7 +129,6 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.javassist</groupId>
                 <artifactId>javassist</artifactId>
@@ -158,13 +139,65 @@
                 <artifactId>swagger-jersey2-jaxrs</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>io.github.classgraph</groupId>
                 <artifactId>classgraph</artifactId>
                 <version>${classgraph.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.hk2.external</groupId>
+                <artifactId>jakarta.inject</artifactId>
+                <version>${jakarta.inject.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>${cdi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.module</groupId>
+                <artifactId>jackson-module-parameter-names</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jdk8</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
 
+            <!--server-->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.weld.se</groupId>
+                <artifactId>weld-se-core</artifactId>
+                <version>${weld.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.weld.servlet</groupId>
+                <artifactId>weld-servlet-core</artifactId>
+                <version>${weld.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.weld.module</groupId>
+                <artifactId>weld-web</artifactId>
+                <version>${weld.version}</version>
+            </dependency>
+
+            <!--logging-->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-web</artifactId>
@@ -185,13 +218,6 @@
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${log4j.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-lang3</artifactId>
-                <version>${commons-lang3.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
@@ -204,12 +230,68 @@
                 <version>${jbossLogging.version}</version>
             </dependency>
 
+            <!--ui-->
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.faces</artifactId>
+                <version>${jsf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces</groupId>
+                <artifactId>primefaces</artifactId>
+                <version>${primefaces.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.primefaces.themes</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${primefaces-bootstrap.version}</version>
+            </dependency>
+
+            <!--persistence-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-hikaricp</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>javax.persistence-api</artifactId>
+                <version>${jpa-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+            </dependency>
+
+            <!--security-->
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-core</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shiro</groupId>
+                <artifactId>shiro-web</artifactId>
+                <version>${shiro.version}</version>
+            </dependency>
+
+            <!--tests-->
             <dependency>
                 <groupId>com.github.hanleyt</groupId>
                 <artifactId>jersey-junit</artifactId>
                 <version>${jersey-junit.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
@@ -227,76 +309,13 @@
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${mockito.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${h2.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.glassfish.hk2.external</groupId>
-                <artifactId>jakarta.inject</artifactId>
-                <version>${jakarta.inject.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>${servlet.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>javax.faces</artifactId>
-                <version>${jsf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.primefaces</groupId>
-                <artifactId>primefaces</artifactId>
-                <version>${primefaces.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.primefaces.themes</groupId>
-                <artifactId>bootstrap</artifactId>
-                <version>${primefaces-bootstrap.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>javax.enterprise</groupId>
-                <artifactId>cdi-api</artifactId>
-                <version>${cdi.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-core</artifactId>
-                <version>${shiro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-web</artifactId>
-                <version>${shiro.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.jboss.weld.se</groupId>
-                <artifactId>weld-se-core</artifactId>
-                <version>${weld.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.weld.servlet</groupId>
-                <artifactId>weld-servlet-core</artifactId>
-                <version>${weld.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.weld.module</groupId>
-                <artifactId>weld-web</artifactId>
-                <version>${weld.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.jglue.cdi-unit</groupId>
                 <artifactId>cdi-unit</artifactId>
                 <version>${cdunit.version}</version>
             </dependency>
 
+            <!--benchmarks-->
             <dependency>
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-core</artifactId>
@@ -309,22 +328,22 @@
                 <scope>provided</scope>
             </dependency>
 
+            <!--metrics-->
             <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.version}</version>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-core</artifactId>
+                <version>${dropwizard.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.module</groupId>
-                <artifactId>jackson-module-parameter-names</artifactId>
-                <version>${jackson.version}</version>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-jvm</artifactId>
+                <version>${dropwizard.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jdk8</artifactId>
-                <version>${jackson.version}</version>
+                <groupId>io.dropwizard.metrics</groupId>
+                <artifactId>metrics-servlets</artifactId>
+                <version>${dropwizard.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 

@@ -139,6 +139,12 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!--metrics-->
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-servlets</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

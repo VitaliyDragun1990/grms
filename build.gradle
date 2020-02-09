@@ -29,9 +29,11 @@ allprojects {
         jmhVersion = '1.23'
         classgraphVersion = '4.8.60'
         jacksonVersion = '2.10.1'
+
         // log
         log4jVersion = '2.13.0'
         commonsLoggingVersion = '1.2'
+
         // persistence
         hibernateVersion = '5.2.18.Final'
         jpaApiVersion = '2.2'
@@ -39,23 +41,30 @@ allprojects {
         h2Version = '1.4.200'
         sqLiteVersion = '3.30.1'
         mysqlVersion = '5.1.47'
+
         // server
         jerseyVersion = '2.29.1'
         swaggerVersion = '1.6.0'
         servletVersion = '3.1.0'
         weldVersion = '3.1.3.Final'
+
         // test
         junitVersion = '5.5.1'
         hamcrestVersion = '2.1'
         mockitoVersion = '3.0.0'
         jerseyJunitVersion = '2.1.0'
         cdiUnitVersion = '4.1.0'
+
         // UI
         primefacesVersion = '6.2'
         jsfVersion = '2.3.9'
         bootstrapVersion = '1.0.10'
+
         // security
         shiroVersion = '1.4.0'
+
+        // metrics
+        dropwizardVersion = '4.1.2'
 
         misc = [
                 commonsLang3: "org.apache.commons:commons-lang3:$commonsLang3Version",
@@ -132,6 +141,12 @@ allprojects {
         security = [
                 shiroCore : "org.apache.shiro:shiro-core:$shiroVersion",
                 shiroWeb : "org.apache.shiro:shiro-web:$shiroVersion"
+        ]
+
+        metrics = [
+                dropwizardCore : "io.dropwizard.metrics:metrics-core:$dropwizardVersion",
+                dropwizardJvm : "io.dropwizard.metrics:metrics-jvm:$dropwizardVersion",
+                dropwizardServlets : "io.dropwizard.metrics:metrics-servlets:$dropwizardVersion"
         ]
     }
 }

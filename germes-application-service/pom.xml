@@ -63,6 +63,17 @@
             <artifactId>jmh-generator-annprocess</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!--metrics-->
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-jvm</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
