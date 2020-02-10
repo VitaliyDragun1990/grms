@@ -4,7 +4,9 @@ import com.revenat.germes.application.infrastructure.exception.ConfigurationExce
 import com.revenat.germes.application.infrastructure.helper.Asserts;
 
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 /**
  * Default implementation of the {@link Environment} abstraction
@@ -57,12 +59,22 @@ public class StandardPropertyEnvironment implements Environment {
         return properties.getProperty(name);
     }
 
+    @Override
+    public Map<String, String> getProperties(final String prefix) {
+        Asserts.assertNonNull(prefix, "prefix can not be null");
+
+        return properties.keySet().stream()
+                .map(Object::toString)
+                .filter(key -> key.startsWith(prefix))
+                .collect(Collectors.toUnmodifiableMap(key -> key, properties::getProperty));
+    }
+
     private Properties loadProperties() {
         try {
             final InputStream in = getClass().getClassLoader().getResourceAsStream(propertiesFile);
             final Properties props = new Properties();
 
-            props.load(in);
+            props.load(Asserts.assertNonNull(in, "Can not get input stream"));
 
             return props;
         } catch (final Exception e) {

@@ -1,5 +1,6 @@
 package com.revenat.germes.persistence.repository.hibernate.transport;
 
+import com.revenat.germes.application.infrastructure.environment.StandardPropertyEnvironment;
 import com.revenat.germes.application.infrastructure.exception.PersistenceException;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
@@ -57,7 +58,7 @@ class HibernateTicketRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        sessionFactoryBuilder = new SessionFactoryBuilder();
+        sessionFactoryBuilder = new SessionFactoryBuilder(new StandardPropertyEnvironment());
         routeRepository = new HibernateRouteRepository(sessionFactoryBuilder);
         cityRepository = new HibernateCityRepository(sessionFactoryBuilder);
         tripRepository = new HibernateTripRepository(sessionFactoryBuilder);

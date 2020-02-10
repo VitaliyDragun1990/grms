@@ -2,6 +2,9 @@ package com.revenat.germes.application.infrastructure.environment;
 
 import com.revenat.germes.application.infrastructure.helper.Asserts;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 /**
  * Environment that allows user override configuration properties defined somewhere
  * by specifying environment variables with same name. If environment variable with given name
@@ -27,5 +30,14 @@ public class EnvironmentVariablesOverPropertiesEnvironment implements Environmen
         Asserts.assertNotBlank(name, "Property name can not be blank or empty");
 
         return System.getProperty(name, environment.getProperty(name));
+    }
+
+    @Override
+    public Map<String, String> getProperties(final String prefix) {
+        Asserts.assertNonNull(prefix, "prefix can not be null");
+
+        final Map<String, String> environmentProps = environment.getProperties(prefix);
+        return environmentProps.keySet().stream()
+                .collect(Collectors.toUnmodifiableMap(key -> key, key -> System.getProperty(key, environmentProps.get(key))));
     }
 }

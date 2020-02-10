@@ -32,8 +32,8 @@ public final class Asserts {
      * @param msg message passed to thrown exception if check fails
      * @throws NullPointerException if specified object is null
      */
-    public static void assertNonNull(final Object obj, final String msg) {
-        requireNonNull(obj, msg);
+    public static <T> T assertNonNull(final T obj, final String msg) {
+        return requireNonNull(obj, msg);
     }
 
     /**

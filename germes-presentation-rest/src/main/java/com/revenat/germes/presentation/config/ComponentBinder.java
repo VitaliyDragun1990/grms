@@ -1,5 +1,7 @@
 package com.revenat.germes.presentation.config;
 
+import com.revenat.germes.application.infrastructure.environment.Environment;
+import com.revenat.germes.application.infrastructure.environment.StandardPropertyEnvironment;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.TransportService;
@@ -54,6 +56,7 @@ public class ComponentBinder extends AbstractBinder {
         bind(EntityReferenceTransformer.class).to(Transformer.class).in(Singleton.class);
         bind(GeographicalServiceImpl.class).to(GeographicalService.class).in(Singleton.class);
         bind(TransportServiceImpl.class).to(TransportService.class).in(Singleton.class);
+        bind(StandardPropertyEnvironment.class).to(Environment.class).in(Singleton.class);
         bind(SessionFactoryBuilder.class).to(SessionFactoryBuilder.class).in(Singleton.class);
     }
 }

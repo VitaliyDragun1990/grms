@@ -1,5 +1,6 @@
 package com.revenat.germes.application.service.impl;
 
+import com.revenat.germes.application.infrastructure.environment.StandardPropertyEnvironment;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
@@ -37,7 +38,7 @@ class UserServiceImplIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        builder = new SessionFactoryBuilder();
+        builder = new SessionFactoryBuilder(new StandardPropertyEnvironment());
         service = new UserServiceImpl(new HibernateUserRepository(builder));
     }
 

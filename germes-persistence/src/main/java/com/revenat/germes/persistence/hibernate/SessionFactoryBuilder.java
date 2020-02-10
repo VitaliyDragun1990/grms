@@ -1,5 +1,6 @@
 package com.revenat.germes.persistence.hibernate;
 
+import com.revenat.germes.application.infrastructure.environment.Environment;
 import com.revenat.germes.application.infrastructure.exception.PersistenceException;
 import com.revenat.germes.persistence.hibernate.interceptor.TimestampInterceptor;
 import org.hibernate.SessionFactory;
@@ -11,9 +12,8 @@ import org.reflections.Reflections;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.inject.Singleton;
 import javax.persistence.Entity;
 import java.io.InputStream;
 import java.util.Properties;
@@ -32,10 +32,15 @@ import static java.util.Objects.requireNonNull;
 @ApplicationScoped
 public class SessionFactoryBuilder {
 
-    private final SessionFactory sessionFactory;
+    private static final String PROPERTIES_PREFIX = "hibernate";
 
-    public SessionFactoryBuilder() {
-        final ServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(loadProperties()).build();
+    private SessionFactory sessionFactory;
+
+    @Inject
+    public SessionFactoryBuilder(final Environment environment) {
+        final ServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .applySettings(environment.getProperties(PROPERTIES_PREFIX))
+                .build();
 
         final MetadataSources sources = new MetadataSources(registry);
 
@@ -47,21 +52,16 @@ public class SessionFactoryBuilder {
                 .build();
     }
 
-    private Set<Class<?>> findEntityClasses() {
-        Reflections reflections = new Reflections("com.revenat.germes.application.model.entity");
-        return reflections.getTypesAnnotatedWith(Entity.class);
+    /**
+     * Only for CDI container to be able to create proxy of this application scoped bean
+     */
+    SessionFactoryBuilder() {
+
     }
 
-    private Properties loadProperties() {
-        try {
-            final Properties properties = new Properties();
-            try (final InputStream in = SessionFactoryBuilder.class.getClassLoader().getResourceAsStream("application.properties")) {
-                properties.load(requireNonNull(in, "Can not get input stream"));
-                return properties;
-            }
-        } catch (final Exception e) {
-            throw new PersistenceException("Error while loading application.properties:", e);
-        }
+    private Set<Class<?>> findEntityClasses() {
+        final Reflections reflections = new Reflections("com.revenat.germes.application.model.entity");
+        return reflections.getTypesAnnotatedWith(Entity.class);
     }
 
     /**

@@ -5,8 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.SetSystemProperty;
 
+import java.util.Map;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasEntry;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
@@ -50,5 +53,17 @@ class EnvironmentVariablesOverPropertiesEnvironmentTest {
         final String result = environment.getProperty("key");
 
         assertThat(result, equalTo("environment"));
+    }
+
+    @SetSystemProperty(key = "test.value", value = "environment")
+    @Test
+    void shouldPreferEnvironmentVariablesOverPropertiesWhenReturningPropertiesByPrefix() {
+        environment = new EnvironmentVariablesOverPropertiesEnvironment(new StandardPropertyEnvironment("custom.properties"));
+
+        final Map<String, String> result = environment.getProperties("test");
+
+        assertThat(result.size(), equalTo(2));
+        assertThat(result, hasEntry("test.name", "name"));
+        assertThat(result, hasEntry("test.value", "environment"));
     }
 }
