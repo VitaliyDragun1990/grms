@@ -8,6 +8,8 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
 /**
+ * Provides CDI beans for the admin application
+ *
  * @author Vitaliy Dragun
  */
 @Named
