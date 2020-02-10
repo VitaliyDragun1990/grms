@@ -54,6 +54,7 @@ allprojects {
         mockitoVersion = '3.0.0'
         jerseyJunitVersion = '2.1.0'
         cdiUnitVersion = '4.1.0'
+        junitPioneerVersion = '0.5.3'
 
         // UI
         primefacesVersion = '6.2'
@@ -135,7 +136,8 @@ allprojects {
                 jerseyTestProvider: "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:$jerseyVersion",
                 jerseyHttp   : "org.glassfish.jersey.containers:jersey-container-grizzly2-http:$jerseyVersion",
                 jerseyJunit       : "com.github.hanleyt:jersey-junit:$jerseyJunitVersion",
-                cdiUnit : "org.jglue.cdi-unit:cdi-unit:$cdiUnitVersion"
+                cdiUnit : "org.jglue.cdi-unit:cdi-unit:$cdiUnitVersion",
+                junitPioneer : "org.junit-pioneer:junit-pioneer:$junitPioneerVersion"
         ]
 
         security = [

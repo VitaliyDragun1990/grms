@@ -36,6 +36,12 @@
             <version>${guava.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.junit-pioneer</groupId>
+            <artifactId>junit-pioneer</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- JMH benchmark -->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>

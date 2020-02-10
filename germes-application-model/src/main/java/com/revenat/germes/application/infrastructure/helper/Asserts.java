@@ -29,10 +29,23 @@ public final class Asserts {
      * Verifies that specified object is not null
      *
      * @param obj object to verify
-     * @param msg message passed to thrown exception of check is failed
+     * @param msg message passed to thrown exception if check fails
      * @throws NullPointerException if specified object is null
      */
-    public static void assertNonNull(Object obj, String msg) {
+    public static void assertNonNull(final Object obj, final String msg) {
         requireNonNull(obj, msg);
+    }
+
+    /**
+     * Verifies that specified string is not blank
+     *
+     * @param s   string to verify
+     * @param msg message passed to thrown exception if check fails
+     * @throws IllegalArgumentException if check fails
+     */
+    public static void assertNotBlank(final String s, final String msg) {
+        if (s.isBlank()) {
+            throw new IllegalArgumentException(msg);
+        }
     }
 }

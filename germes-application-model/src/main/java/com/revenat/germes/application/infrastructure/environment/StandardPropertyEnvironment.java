@@ -29,6 +29,7 @@ public class StandardPropertyEnvironment implements Environment {
      */
     public StandardPropertyEnvironment(final String propertiesFile) {
         Asserts.assertNonNull(propertiesFile, "propertiesFile can not be null");
+        Asserts.assertNotBlank(propertiesFile, "propertiesFile can not be blank");
         assertFileExists(propertiesFile);
 
         this.propertiesFile = propertiesFile;
@@ -50,6 +51,9 @@ public class StandardPropertyEnvironment implements Environment {
 
     @Override
     public String getProperty(final String name) {
+        Asserts.assertNonNull(name, "Property name can not be null");
+        Asserts.assertNotBlank(name, "Property name can not be blank or empty");
+
         return properties.getProperty(name);
     }
 

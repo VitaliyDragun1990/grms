@@ -73,6 +73,7 @@
         <junit.version>5.5.1</junit.version>
         <hamcrest.version>2.1</hamcrest.version>
         <mockito.version>3.0.0</mockito.version>
+        <junit-pioneer.version>0.5.3</junit-pioneer.version>
 
         <!--benchmarks-->
         <jmh.version>1.23</jmh.version>
@@ -313,6 +314,11 @@
                 <groupId>org.jglue.cdi-unit</groupId>
                 <artifactId>cdi-unit</artifactId>
                 <version>${cdunit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit-pioneer</groupId>
+                <artifactId>junit-pioneer</artifactId>
+                <version>${junit-pioneer.version}</version>
             </dependency>
 
             <!--benchmarks-->
