@@ -1,7 +1,6 @@
 package com.revenat.germes.application.service.transfrom.impl;
 
 import com.revenat.germes.application.infrastructure.exception.ConfigurationException;
-import com.revenat.germes.application.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.application.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
@@ -42,7 +41,7 @@ class EntityReferenceTransformerTest {
     @BeforeEach
     void setUp() {
         final FieldManager fieldManager = new FieldManager();
-        final FieldProvider fieldProvider = new FieldProvider(new SimilarFieldsLocator(), fieldManager);
+        final BaseFieldProvider fieldProvider = new BaseFieldProvider(new SimilarFieldsLocator(), fieldManager);
         transformer = new EntityReferenceTransformer(entityLoader, fieldManager, fieldProvider);
     }
 

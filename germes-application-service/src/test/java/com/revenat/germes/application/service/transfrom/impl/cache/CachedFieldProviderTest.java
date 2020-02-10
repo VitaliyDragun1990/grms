@@ -3,7 +3,9 @@ package com.revenat.germes.application.service.transfrom.impl.cache;
 import com.revenat.germes.application.service.transfrom.annotation.DomainProperty;
 import com.revenat.germes.application.service.transfrom.helper.FieldManager;
 import com.revenat.germes.application.service.transfrom.helper.SimilarFieldsLocator;
+import com.revenat.germes.application.service.transfrom.impl.BaseFieldProvider;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,12 +13,12 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
 
 /**
@@ -26,9 +28,16 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class CachedFieldProviderTest {
 
+    private FieldProvider actualFieldProvider;
+
+    @BeforeEach
+    void setUp() {
+        actualFieldProvider = new BaseFieldProvider(new SimilarFieldsLocator(), new FieldManager());
+    }
+
     @Test
     void shouldProvideSimilarFieldNames() {
-        final FieldProvider fieldProvider = new CachedFieldProvider(new SimilarFieldsLocator(), new FieldManager());
+        final CachedFieldProvider fieldProvider = new CachedFieldProvider(actualFieldProvider);
 
         final List<String> result = fieldProvider.getSimilarFieldNames(Source.class, Destination.class);
 
@@ -37,20 +46,20 @@ class CachedFieldProviderTest {
     }
 
     @Test
-    void shouldCacheSimilarFieldNamesForSameClassPairs(@Mock final SimilarFieldsLocator fieldLocatorMock) {
-        final FieldProvider fieldProvider = new CachedFieldProvider(fieldLocatorMock, new FieldManager());
-        when(fieldLocatorMock.findByName(Source.class, Destination.class)).thenReturn(List.of("value"));
+    void shouldCacheSimilarFieldNamesForSameClassPairs(@Mock final FieldProvider fieldProviderMock) {
+        final CachedFieldProvider fieldProvider = new CachedFieldProvider(fieldProviderMock);
+        when(fieldProviderMock.getSimilarFieldNames(Source.class, Destination.class)).thenReturn(List.of("value"));
 
         fieldProvider.getSimilarFieldNames(Source.class, Destination.class);
         fieldProvider.getSimilarFieldNames(Source.class, Destination.class);
         fieldProvider.getSimilarFieldNames(Source.class, Destination.class);
 
-        verify(fieldLocatorMock, times(1)).findByName(Source.class, Destination.class);
+        verify(fieldProviderMock, times(1)).getSimilarFieldNames(Source.class, Destination.class);
     }
 
     @Test
     void shouldProvideDomainPropertyFields() {
-        final FieldProvider fieldProvider = new CachedFieldProvider(new SimilarFieldsLocator(), new FieldManager());
+        final CachedFieldProvider fieldProvider = new CachedFieldProvider(actualFieldProvider);
 
         final List<String> result = fieldProvider.getDomainPropertyFields(Destination.class);
 
@@ -59,16 +68,16 @@ class CachedFieldProviderTest {
     }
 
     @Test
-    void shouldCacheDomainPropertyFieldsForSameClass(@Mock FieldManager fieldManagerMock) {
-        final FieldProvider fieldProvider = new CachedFieldProvider(new SimilarFieldsLocator(), fieldManagerMock);
-        when(fieldManagerMock.getFieldNames(ArgumentMatchers.any(Class.class), ArgumentMatchers.any(List.class))).thenReturn(List.of("text"));
+    void shouldCacheDomainPropertyFieldsForSameClass(@Mock final FieldProvider fieldProviderMock) {
+        final CachedFieldProvider fieldProvider = new CachedFieldProvider(fieldProviderMock);
+        when(fieldProviderMock.getDomainPropertyFields(Destination.class)).thenReturn(List.of("text"));
 
         fieldProvider.getDomainPropertyFields(Destination.class);
         fieldProvider.getDomainPropertyFields(Destination.class);
         fieldProvider.getDomainPropertyFields(Destination.class);
 
-        verify(fieldManagerMock, times(1))
-                .getFieldNames(ArgumentMatchers.any(Class.class), ArgumentMatchers.any(List.class));
+        verify(fieldProviderMock, times(1))
+                .getDomainPropertyFields(ArgumentMatchers.any(Class.class));
     }
 
     static class Source {

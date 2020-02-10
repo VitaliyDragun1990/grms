@@ -23,7 +23,7 @@ public class SimpleDTOTransformerTest {
 
     @BeforeEach
     void setUp() {
-        transformer = new SimpleDTOTransformer(new FieldProvider(new SimilarFieldsLocator(), new FieldManager()));
+        transformer = new SimpleDTOTransformer(new BaseFieldProvider(new SimilarFieldsLocator(), new FieldManager()));
     }
 
     @Test

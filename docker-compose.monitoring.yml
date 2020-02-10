@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   graphite:
-    image: graphiteapp/graphite-statsd
+    image: graphiteapp/graphite-statsd:1.1.6-1
     restart: always
     networks:
       - network1
