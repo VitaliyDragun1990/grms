@@ -1,6 +1,7 @@
 package com.revenat.germes.persistence.repository.hibernate.transport;
 
 import com.revenat.germes.application.infrastructure.environment.StandardPropertyEnvironment;
+import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.application.infrastructure.exception.PersistenceException;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.geography.Station;
@@ -53,7 +54,7 @@ class HibernateTripRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        sessionFactoryBuilder = new SessionFactoryBuilder(new StandardPropertyEnvironment());
+        sessionFactoryBuilder = new SessionFactoryBuilder(new StandardPropertyEnvironment(new ComboPropertySource()));
         routeRepository = new HibernateRouteRepository(sessionFactoryBuilder);
         cityRepository = new HibernateCityRepository(sessionFactoryBuilder);
         tripRepository = new HibernateTripRepository(sessionFactoryBuilder);

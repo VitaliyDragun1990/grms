@@ -2,6 +2,8 @@ package com.revenat.germes.presentation.config;
 
 import com.revenat.germes.application.infrastructure.environment.Environment;
 import com.revenat.germes.application.infrastructure.environment.StandardPropertyEnvironment;
+import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
+import com.revenat.germes.application.infrastructure.environment.source.PropertySource;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.TransportService;
@@ -40,6 +42,7 @@ import javax.inject.Singleton;
  * @author Vitaliy Dragun
  */
 public class ComponentBinder extends AbstractBinder {
+
     @Override
     protected void configure() {
         bind(HibernateCityRepository.class).to(CityRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
@@ -48,15 +51,22 @@ public class ComponentBinder extends AbstractBinder {
         bind(HibernateTripRepository.class).to(TripRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
         bind(HibernateTicketRepository.class).to(TicketRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
         bind(HibernateOrderRepository.class).to(OrderRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
+
         bind(BaseFieldProvider.class).to(FieldProvider.class).in(Singleton.class);
         bind(CachedFieldProvider.class).to(FieldProvider.class).in(Singleton.class).qualifiedBy(new CachedInstance());
+
         bind(SimilarFieldsLocator.class).to(SimilarFieldsLocator.class).in(Singleton.class);
         bind(FieldManager.class).to(FieldManager.class).in(Singleton.class);
+
         bind(ServiceEntityLoader.class).to(EntityLoader.class).in(Singleton.class);
+
         bind(EntityReferenceTransformer.class).to(Transformer.class).in(Singleton.class);
+
         bind(GeographicalServiceImpl.class).to(GeographicalService.class).in(Singleton.class);
         bind(TransportServiceImpl.class).to(TransportService.class).in(Singleton.class);
-        bind(StandardPropertyEnvironment.class).to(Environment.class).in(Singleton.class);
+
+        bind(new StandardPropertyEnvironment(new ComboPropertySource())).to(Environment.class);
+
         bind(SessionFactoryBuilder.class).to(SessionFactoryBuilder.class).in(Singleton.class);
     }
 }

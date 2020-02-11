@@ -1,44 +1,55 @@
 package com.revenat.germes.application.infrastructure.environment;
 
+import com.revenat.germes.application.infrastructure.environment.source.PropertySource;
 import com.revenat.germes.application.infrastructure.exception.ConfigurationException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 
+import static java.util.Map.entry;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Vitaliy Dragun
  */
+@ExtendWith(MockitoExtension.class)
 @DisplayName("standard property environment")
 class StandardPropertyEnvironmentTest {
 
     private Environment environment;
 
-    @Test
-    void shouldFailToBeCreatedIfProvidedInvalidPropertyFileName() {
-        assertThrows(ConfigurationException.class, () -> new StandardPropertyEnvironment("test"));
+    @Mock
+    private PropertySource propertySourceMock;
+
+    @BeforeEach
+    void setUp() {
+        environment = new StandardPropertyEnvironment(propertySourceMock);
     }
 
     @Test
-    void canBeCreatedWithProvidedPropertyFileName() {
-        assertDoesNotThrow(() -> new StandardPropertyEnvironment("custom.properties"));
+    void canNotBeCreatedIfProvidedPropertySourceIsNull() {
+        assertThrows(NullPointerException.class, () -> new StandardPropertyEnvironment(null));
     }
 
     @Test
     void shouldReturnNullIfRetrieveNonExistingProperty() {
-        environment = new StandardPropertyEnvironment();
+        when(propertySourceMock.getProperty("test")).thenReturn(null);
 
         assertNull(environment.getProperty("test"), "Should return null for non existing property");
     }
 
     @Test
     void shouldReturnPropertyValueForExistingProperty() {
-        environment = new StandardPropertyEnvironment();
+        when(propertySourceMock.getProperty("key")).thenReturn("value");
 
         final String result = environment.getProperty("key");
 
@@ -47,14 +58,16 @@ class StandardPropertyEnvironmentTest {
 
     @Test
     void shouldFailToReturnPropertiesIfSpecifiedPrefixIsNull() {
-        environment = new StandardPropertyEnvironment();
-
         assertThrows(NullPointerException.class, () -> environment.getProperties(null), "prefix can not be null");
     }
 
     @Test
     void shouldReturnAllPropertiesWithSpecifiedPrefix() {
-        environment = new StandardPropertyEnvironment("custom.properties");
+        when(propertySourceMock.getProperties()).thenReturn(Map.ofEntries(
+                entry("test.name", "name"),
+                entry("test.value", "value"),
+                entry("prod.value", "other")
+        ));
 
         final Map<String, String> result = environment.getProperties("test");
 
@@ -65,7 +78,11 @@ class StandardPropertyEnvironmentTest {
 
     @Test
     void shouldReturnEmptyResultIfNoPropertiesWithSpecifiedPrefix() {
-        environment = new StandardPropertyEnvironment("custom.properties");
+        when(propertySourceMock.getProperties()).thenReturn(Map.ofEntries(
+                entry("test.name", "name"),
+                entry("test.value", "value"),
+                entry("prod.value", "other")
+        ));
 
         final Map<String, String> result = environment.getProperties("production");
 
@@ -74,7 +91,7 @@ class StandardPropertyEnvironmentTest {
 
     @Test
     void shouldReturnPropertyValueAsIntegerIfValueCanBeParsedToInteger() {
-        environment = new StandardPropertyEnvironment("custom.properties");
+        when(propertySourceMock.getProperty("number")).thenReturn("10");
 
         final int result = environment.getPropertyAsInt("number");
 
@@ -83,27 +100,27 @@ class StandardPropertyEnvironmentTest {
 
     @Test
     void shouldFailToReturnPropertyValueAsIntegerIfValueCanNotBeParsedToInteger() {
-        environment = new StandardPropertyEnvironment("custom.properties");
+        when(propertySourceMock.getProperty("number")).thenReturn("false");
 
         assertThrows(ConfigurationException.class,
-                () -> environment.getPropertyAsInt("boolean"),
-                "Can not parse integer from property value:true"
+                () -> environment.getPropertyAsInt("number"),
+                "Can not parse integer from property value:false"
         );
     }
 
     @Test
     void shouldFailToReturnPropertyValueAsIntegerIfNoSuchProperty() {
-        environment = new StandardPropertyEnvironment("custom.properties");
+        when(propertySourceMock.getProperty("number")).thenReturn(null);
 
         assertThrows(ConfigurationException.class,
-                () -> environment.getPropertyAsInt("test.number"),
-                "No property defined with name:test.number"
+                () -> environment.getPropertyAsInt("number"),
+                "No property defined with name:number"
         );
     }
 
     @Test
     void shouldReturnPropertyValueAsBooleanIfValueCanBeParsedToBoolean() {
-        environment = new StandardPropertyEnvironment("custom.properties");
+        when(propertySourceMock.getProperty("boolean")).thenReturn("true");
 
         final boolean result = environment.getPropertyAsBoolean("boolean");
 
@@ -112,18 +129,18 @@ class StandardPropertyEnvironmentTest {
 
     @Test
     void shouldReturnFalseIfValueCanNotBeParsedToBoolean() {
-        environment = new StandardPropertyEnvironment("custom.properties");
+        when(propertySourceMock.getProperty("boolean")).thenReturn("10");
 
-        final boolean result = environment.getPropertyAsBoolean("number");
+        final boolean result = environment.getPropertyAsBoolean("boolean");
 
         assertFalse(result, "should be false if value can not be parsed to boolean");
     }
 
     @Test
     void shouldReturnFalseIfNoSuchPropertyGetAsBoolean() {
-        environment = new StandardPropertyEnvironment("custom.properties");
+        when(propertySourceMock.getProperty("boolean")).thenReturn(null);
 
-        final boolean result = environment.getPropertyAsBoolean("test.boolean");
+        final boolean result = environment.getPropertyAsBoolean("boolean");
 
         assertFalse(result, "should be false if property is absent");
     }

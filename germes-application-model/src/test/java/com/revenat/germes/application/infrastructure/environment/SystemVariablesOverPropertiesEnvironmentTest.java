@@ -1,5 +1,6 @@
 package com.revenat.germes.application.infrastructure.environment;
 
+import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,10 @@ class SystemVariablesOverPropertiesEnvironmentTest {
 
     @BeforeEach
     void setUp() {
-        environment = new SystemVariablesOverPropertiesEnvironment(new StandardPropertyEnvironment());
+        environment = new SystemVariablesOverPropertiesEnvironment(
+                new StandardPropertyEnvironment(
+                        new ComboPropertySource()
+                ));
     }
 
     @Test
@@ -58,7 +62,8 @@ class SystemVariablesOverPropertiesEnvironmentTest {
     @SetSystemProperty(key = "test.value", value = "environment")
     @Test
     void shouldPreferEnvironmentVariablesOverPropertiesWhenReturningPropertiesByPrefix() {
-        environment = new SystemVariablesOverPropertiesEnvironment(new StandardPropertyEnvironment("custom.properties"));
+        environment = new SystemVariablesOverPropertiesEnvironment(new StandardPropertyEnvironment(
+                new ComboPropertySource("custom.properties")));
 
         final Map<String, String> result = environment.getProperties("test");
 

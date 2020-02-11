@@ -1,6 +1,7 @@
 package com.revenat.germes.application.service.impl;
 
 import com.revenat.germes.application.infrastructure.environment.StandardPropertyEnvironment;
+import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.application.infrastructure.exception.PersistenceException;
 import com.revenat.germes.application.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.application.model.entity.geography.Address;
@@ -45,7 +46,7 @@ class GeographicalServiceImplIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        builder = new SessionFactoryBuilder(new StandardPropertyEnvironment());
+        builder = new SessionFactoryBuilder(new StandardPropertyEnvironment(new ComboPropertySource()));
         final CityRepository cityRepository = new HibernateCityRepository(builder);
         final StationRepository stationRepository = new HibernateStationRepository(builder);
         service = new GeographicalServiceImpl(cityRepository, stationRepository);

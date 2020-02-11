@@ -2,6 +2,7 @@ package com.revenat.germes.presentation.admin.config;
 
 import com.revenat.germes.application.infrastructure.environment.Environment;
 import com.revenat.germes.application.infrastructure.environment.StandardPropertyEnvironment;
+import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -19,6 +20,6 @@ public class AdminConfiguration {
     @Produces
     @ApplicationScoped
     public Environment environment() {
-        return new StandardPropertyEnvironment();
+        return new StandardPropertyEnvironment(new ComboPropertySource());
     }
 }

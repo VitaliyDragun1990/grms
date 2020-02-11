@@ -1,6 +1,7 @@
 package com.revenat.germes.persistence.hibernate.loader;
 
 import com.revenat.germes.application.infrastructure.environment.StandardPropertyEnvironment;
+import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
@@ -33,7 +34,7 @@ class SessionEntityLoaderTest {
 
     @BeforeEach
     void setUp() {
-        builder = new SessionFactoryBuilder(new StandardPropertyEnvironment());
+        builder = new SessionFactoryBuilder(new StandardPropertyEnvironment(new ComboPropertySource()));
         entityLoader = new SessionEntityLoader(builder);
         CityRepository cityRepository = new HibernateCityRepository(builder);
 
