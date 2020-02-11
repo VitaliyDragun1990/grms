@@ -19,6 +19,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 import java.util.Optional;
@@ -91,9 +93,10 @@ class GeographicalServiceImplIntegrationTest {
         assertDoesNotThrow(() -> service.saveCity(cityB));
     }
 
-    @Test
-    void shouldNotFindCityByIdIfNoCityWithSuchIdPresent() {
-        final Optional<City> cityOptional = service.findCityById(1);
+    @ParameterizedTest
+    @ValueSource(ints = {0, 999})
+    void shouldNotFindCityByIdIfNoCityWithSuchIdPresent(int cityId) {
+        final Optional<City> cityOptional = service.findCityById(cityId);
 
         assertTrue(cityOptional.isEmpty());
     }
