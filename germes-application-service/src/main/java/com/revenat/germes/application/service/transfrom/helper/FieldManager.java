@@ -47,8 +47,8 @@ public class FieldManager {
      */
     public Optional<Field> findFieldByName(final Class<?> clazz, final String fieldName) {
         Asserts.assertNonNull(clazz, "Class to extract fields from must be initialized");
-        Asserts.assertNonNull(clazz, "Name of the field to find should be initialized");
-        Asserts.asserts(!fieldName.isBlank(), "field name is not initialized");
+        Asserts.assertNonNull(fieldName, "Name of the field to find should be initialized");
+        Asserts.assertNotBlank(fieldName, "field name can not be blank");
 
         Class<?> current = clazz;
         while (current != null) {
@@ -124,7 +124,7 @@ public class FieldManager {
     public Object getFieldValue(final Object src, final String fieldName) {
         Asserts.assertNonNull(src, "Source object is not initialized");
         Asserts.assertNonNull(fieldName, "field name is not initialized");
-        Asserts.asserts(!fieldName.isBlank(), "field name is not initialized");
+        Asserts.assertNotBlank(fieldName, "field name can not be blank");
 
         try {
             final Field targetField = findFieldByName(src.getClass(), fieldName)
@@ -149,7 +149,7 @@ public class FieldManager {
     public void setFieldValue(final Object src, final String fieldName, final Object value) {
         Asserts.assertNonNull(src, "Source object is not initialized");
         Asserts.assertNonNull(fieldName, "field name is not initialized");
-        Asserts.asserts(!fieldName.isBlank(), "field name is not initialized");
+        Asserts.assertNotBlank(fieldName, "field name can not be blank");
 
         try {
             final Field targetField = findFieldByName(src.getClass(), fieldName)
