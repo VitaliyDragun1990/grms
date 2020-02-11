@@ -7,19 +7,19 @@ import java.util.stream.Collectors;
 
 /**
  * Environment that allows user override configuration properties defined somewhere
- * by specifying environment variables with same name. If environment variable with given name
+ * by specifying system property with same name. If system property with given name
  * is found, it will be returned, otherwise property will be looked up using provided environment.
  *
  * @author Vitaliy Dragun
  */
-public class EnvironmentVariablesOverPropertiesEnvironment implements Environment {
+public class SystemVariablesOverPropertiesEnvironment implements Environment {
 
     private final Environment environment;
 
     /**
      * Creates new instance with environment to look up for properties
      */
-    public EnvironmentVariablesOverPropertiesEnvironment(final Environment environment) {
+    public SystemVariablesOverPropertiesEnvironment(final Environment environment) {
         Asserts.assertNonNull(environment, "environment can not be null");
         this.environment = environment;
     }

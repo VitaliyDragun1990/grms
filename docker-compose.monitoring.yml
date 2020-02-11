@@ -17,3 +17,6 @@ services:
       - network1
     ports:
     - "3000:3000"
+  admin:
+    environment:
+      - graphite.reporter.enabled=true

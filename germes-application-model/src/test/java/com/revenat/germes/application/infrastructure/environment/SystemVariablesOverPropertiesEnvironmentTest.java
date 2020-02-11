@@ -16,13 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @author Vitaliy Dragun
  */
 @DisplayName("environment variables over properties environment")
-class EnvironmentVariablesOverPropertiesEnvironmentTest {
+class SystemVariablesOverPropertiesEnvironmentTest {
 
     private Environment environment;
 
     @BeforeEach
     void setUp() {
-        environment = new EnvironmentVariablesOverPropertiesEnvironment(new StandardPropertyEnvironment());
+        environment = new SystemVariablesOverPropertiesEnvironment(new StandardPropertyEnvironment());
     }
 
     @Test
@@ -58,7 +58,7 @@ class EnvironmentVariablesOverPropertiesEnvironmentTest {
     @SetSystemProperty(key = "test.value", value = "environment")
     @Test
     void shouldPreferEnvironmentVariablesOverPropertiesWhenReturningPropertiesByPrefix() {
-        environment = new EnvironmentVariablesOverPropertiesEnvironment(new StandardPropertyEnvironment("custom.properties"));
+        environment = new SystemVariablesOverPropertiesEnvironment(new StandardPropertyEnvironment("custom.properties"));
 
         final Map<String, String> result = environment.getProperties("test");
 
