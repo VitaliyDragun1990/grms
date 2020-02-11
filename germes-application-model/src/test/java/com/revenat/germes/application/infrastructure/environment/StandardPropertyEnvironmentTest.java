@@ -64,4 +64,62 @@ class StandardPropertyEnvironmentTest {
 
         assertThat(result.size(), equalTo(0));
     }
+
+    @Test
+    void shouldReturnPropertyValueAsIntegerIfValueCanBeParsedToInteger() {
+        environment = new StandardPropertyEnvironment("custom.properties");
+
+        final int result = environment.getPropertyAsInt("number");
+
+        assertThat(result, equalTo(10));
+    }
+
+    @Test
+    void shouldFailToReturnPropertyValueAsIntegerIfValueCanNotBeParsedToInteger() {
+        environment = new StandardPropertyEnvironment("custom.properties");
+
+        assertThrows(ConfigurationException.class,
+                () -> environment.getPropertyAsInt("boolean"),
+                "Can not parse integer from property value:true"
+        );
+    }
+
+    @Test
+    void shouldFailToReturnPropertyValueAsIntegerIfNoSuchProperty() {
+        environment = new StandardPropertyEnvironment("custom.properties");
+
+        assertThrows(ConfigurationException.class,
+                () -> environment.getPropertyAsInt("test.number"),
+                "No property defined with name:test.number"
+        );
+    }
+
+    @Test
+    void shouldReturnPropertyValueAsBooleanIfValueCanBeParsedToBoolean() {
+        environment = new StandardPropertyEnvironment("custom.properties");
+
+        final boolean result = environment.getPropertyAsBoolean("boolean");
+
+        assertThat(result, equalTo(true));
+    }
+
+    @Test
+    void shouldFailToReturnPropertyValueAsBooleanIfValueCanNotBeParsedToBoolean() {
+        environment = new StandardPropertyEnvironment("custom.properties");
+
+        assertThrows(ConfigurationException.class,
+                () -> environment.getPropertyAsBoolean("number"),
+                "Can not parse boolean from property value:10"
+        );
+    }
+
+    @Test
+    void shouldFailToReturnPropertyValueAsBooleanIfNoSuchProperty() {
+        environment = new StandardPropertyEnvironment("custom.properties");
+
+        assertThrows(ConfigurationException.class,
+                () -> environment.getPropertyAsBoolean("test.boolean"),
+                "No property defined with name:test.boolean"
+        );
+    }
 }
