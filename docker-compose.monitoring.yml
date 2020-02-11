@@ -6,17 +6,17 @@ services:
     networks:
       - network1
     ports:
-    - "80:80"
-    - "2003-2004:2003-2004"
-    - "2023-2024:2023-2024"
-    - "8125:8125/udp"
-    - "8126:8126"
+      - "80:80"
+      - "2003-2004:2003-2004"
+      - "2023-2024:2023-2024"
+      - "8125:8125/udp"
+      - "8126:8126"
   grafana:
     image: grafana/grafana:5.4.5
     networks:
       - network1
     ports:
-    - "3000:3000"
+      - "3000:3000"
   admin:
     environment:
       - graphite.reporter.enabled=true

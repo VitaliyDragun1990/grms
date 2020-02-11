@@ -1,12 +1,16 @@
 package com.revenat.germes.application.infrastructure.environment;
 
+import com.revenat.germes.application.infrastructure.environment.source.ClassPathFilePropertySource;
+import com.revenat.germes.application.infrastructure.environment.source.EnvironmentPropertySource;
+import com.revenat.germes.application.infrastructure.environment.source.PropertySource;
+import com.revenat.germes.application.infrastructure.environment.source.SystemPropertySource;
 import com.revenat.germes.application.infrastructure.exception.ConfigurationException;
 import com.revenat.germes.application.infrastructure.helper.Asserts;
 
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 /**
  * Default implementation of the {@link Environment} abstraction
@@ -19,9 +23,7 @@ public class StandardPropertyEnvironment implements Environment {
 
     private static final String DEFAULT_PROPERTIES_FILE = "application.properties";
 
-    private final String propertiesFile;
-
-    private final Properties properties;
+    private final List<PropertySource> propertySources;
 
     /**
      * Creates StandardPropertiesEnvironment using provided name for properties file
@@ -32,10 +34,11 @@ public class StandardPropertyEnvironment implements Environment {
     public StandardPropertyEnvironment(final String propertiesFile) {
         Asserts.assertNonNull(propertiesFile, "propertiesFile can not be null");
         Asserts.assertNotBlank(propertiesFile, "propertiesFile can not be blank");
-        assertFileExists(propertiesFile);
 
-        this.propertiesFile = propertiesFile;
-        properties = loadProperties();
+        propertySources = new ArrayList<>();
+        propertySources.add(new SystemPropertySource()); // highest priority
+        propertySources.add(new ClassPathFilePropertySource(propertiesFile));
+        propertySources.add(new EnvironmentPropertySource()); // lowest priority
     }
 
     /**
@@ -45,10 +48,7 @@ public class StandardPropertyEnvironment implements Environment {
      * @throws ConfigurationException if no properties file called {@code application.properties} exists in classpath
      */
     public StandardPropertyEnvironment() {
-        assertFileExists(DEFAULT_PROPERTIES_FILE);
-
-        propertiesFile = DEFAULT_PROPERTIES_FILE;
-        properties = loadProperties();
+        this(DEFAULT_PROPERTIES_FILE);
     }
 
     @Override
@@ -56,35 +56,29 @@ public class StandardPropertyEnvironment implements Environment {
         Asserts.assertNonNull(name, "Property name can not be null");
         Asserts.assertNotBlank(name, "Property name can not be blank or empty");
 
-        return properties.getProperty(name);
+        for (final PropertySource propertySource : propertySources) {
+            final String value = propertySource.getProperty(name);
+            if (value != null) {
+                return value;
+            }
+        }
+        return null;
     }
 
     @Override
     public Map<String, String> getProperties(final String prefix) {
         Asserts.assertNonNull(prefix, "prefix can not be null");
 
-        return properties.keySet().stream()
-                .map(Object::toString)
-                .filter(key -> key.startsWith(prefix))
-                .collect(Collectors.toUnmodifiableMap(key -> key, properties::getProperty));
-    }
+        final Map<String, String> properties = new HashMap<>();
 
-    private Properties loadProperties() {
-        try {
-            final InputStream in = getClass().getClassLoader().getResourceAsStream(propertiesFile);
-            final Properties props = new Properties();
-
-            props.load(Asserts.assertNonNull(in, "Can not get input stream"));
-
-            return props;
-        } catch (final Exception e) {
-            throw new ConfigurationException("Error while loading properties from " + propertiesFile + " file", e);
+        for (final PropertySource propertySource : propertySources) {
+            // putIfAbsent make sure properties from higher priority property source
+            // won't be overridden by properties from lower priority property source
+            propertySource.getProperties().entrySet().stream()
+                    .filter(entry -> entry.getKey().startsWith(prefix))
+                    .forEach(entry -> properties.putIfAbsent(entry.getKey(), entry.getValue()));
         }
-    }
 
-    private void assertFileExists(final String file) {
-        if (null == getClass().getClassLoader().getResourceAsStream(file)) {
-            throw new ConfigurationException("No properties file called " + file + " was found in classpath");
-        }
+        return properties;
     }
 }

@@ -46,6 +46,13 @@ class StandardPropertyEnvironmentTest {
     }
 
     @Test
+    void shouldFailToReturnPropertiesIfSpecifiedPrefixIsNull() {
+        environment = new StandardPropertyEnvironment();
+
+        assertThrows(NullPointerException.class, () -> environment.getProperties(null), "prefix can not be null");
+    }
+
+    @Test
     void shouldReturnAllPropertiesWithSpecifiedPrefix() {
         environment = new StandardPropertyEnvironment("custom.properties");
 
@@ -104,22 +111,20 @@ class StandardPropertyEnvironmentTest {
     }
 
     @Test
-    void shouldFailToReturnPropertyValueAsBooleanIfValueCanNotBeParsedToBoolean() {
+    void shouldReturnFalseIfValueCanNotBeParsedToBoolean() {
         environment = new StandardPropertyEnvironment("custom.properties");
 
-        assertThrows(ConfigurationException.class,
-                () -> environment.getPropertyAsBoolean("number"),
-                "Can not parse boolean from property value:10"
-        );
+        final boolean result = environment.getPropertyAsBoolean("number");
+
+        assertFalse(result, "should be false if value can not be parsed to boolean");
     }
 
     @Test
-    void shouldFailToReturnPropertyValueAsBooleanIfNoSuchProperty() {
+    void shouldReturnFalseIfNoSuchPropertyGetAsBoolean() {
         environment = new StandardPropertyEnvironment("custom.properties");
 
-        assertThrows(ConfigurationException.class,
-                () -> environment.getPropertyAsBoolean("test.boolean"),
-                "No property defined with name:test.boolean"
-        );
+        final boolean result = environment.getPropertyAsBoolean("test.boolean");
+
+        assertFalse(result, "should be false if property is absent");
     }
 }
