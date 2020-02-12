@@ -22,15 +22,21 @@ node {
     nodeModulesDir = file("client")
 }
 
+task createNodeModulesDir() {
+    doFirst { mkdir node.nodeModulesDir }
+}
+
+yarn_install.mustRunAfter createNodeModulesDir
+
 task cleanAngular(type:Delete) {
     delete "${projectDir}/client/dist"
 }
 
-task testAngular(type:CacheableNpmTask) {
+task testAngular(type:CacheableYarnTask) {
     args = ['run', 'testExit']
 }
 
-task buildAngular(type:CacheableNpmTask, dependsOn:'npmInstall') {
+task buildAngular(type:CacheableYarnTask, dependsOn:'yarn_install') {
     args = ['run', 'build']
 }
 
@@ -45,10 +51,10 @@ war {
     classpath = classpath.filter {!it.name.contains('jmh-')}
 }
 
-import com.moowork.gradle.node.npm.NpmTask
+import com.moowork.gradle.node.yarn.YarnTask
 
 @CacheableTask
-class CacheableNpmTask extends NpmTask {
+class CacheableYarnTask extends YarnTask {
 
     @InputFiles
     FileCollection sourceFiles = project.files('client/src', 'client/package.json', 'client/.angular-cli.json')

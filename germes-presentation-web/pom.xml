@@ -57,7 +57,7 @@
                             <id>install dependencies</id>
                             <configuration>
                                 <workingDirectory>client/src/</workingDirectory>
-                                <executable>npm</executable>
+                                <executable>yarn</executable>
                                 <arguments>
                                     <argument>install</argument>
                                 </arguments>
@@ -72,10 +72,26 @@
                             <id>build angular</id>
                             <configuration>
                                 <workingDirectory>client/src/</workingDirectory>
-                                <executable>npm</executable>
+                                <executable>yarn</executable>
                                 <arguments>
                                     <argument>run</argument>
                                     <argument>build</argument>
+                                </arguments>
+                                <skip>${maven.exec.skip}</skip>
+                            </configuration>
+                            <phase>generate-resources</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>test angular</id>
+                            <configuration>
+                                <workingDirectory>client/src/</workingDirectory>
+                                <executable>yarn</executable>
+                                <arguments>
+                                    <argument>run</argument>
+                                    <argument>testExit</argument>
                                 </arguments>
                                 <skip>${maven.exec.skip}</skip>
                             </configuration>
