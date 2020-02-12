@@ -54,8 +54,6 @@ services:
     depends_on:
       - mysql
     entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
-    #environment:
-    #- JAVA_OPTS=--add-modules javax.xml.bind
   # Germes client application
   client:
     build:
@@ -70,8 +68,6 @@ services:
     depends_on:
       - mysql
     entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
-    #environment:
-    #- JAVA_OPTS=--add-modules javax.xml.bind
 # Networks definition
 networks:
   network1:
