@@ -18,7 +18,7 @@
                     <p:commandButton value="#{msg['button.login']}" action="#{userBean.login()}"/>
                 </h:panelGrid>
 
-                <p:messages id="messages" autoUpdate="true" closable="true"/>
+                <p:messages id="messages" closable="true"><p:autoUpdate/></p:messages>
             </h:form>
     </ui:define>
 </ui:composition>

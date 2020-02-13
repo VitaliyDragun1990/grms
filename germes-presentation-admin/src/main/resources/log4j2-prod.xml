@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" packages="org.graylog2.log4j2">
+    <Appenders>
+        <GELF name="gelfAppender" server="graylog" port="12201">
+            <PatternLayout pattern="%logger{36} - %msg%n"/>
+            <!-- Additional fields -->
+            <KeyValuePair key="app" value="admin"/>
+        </GELF>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="gelfAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>

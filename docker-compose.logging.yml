@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+  mongo:
+    image: mongo:3.6
+    networks:
+      - network1
+      - network2
+    volumes:
+      - mongo_graylog_data:/data/db
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.2
+    environment:
+      - http.host=0.0.0.0
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms768m -Xmx768m"
+    networks:
+      - network1
+      - network2
+  graylog:
+    image: graylog/graylog:2.4
+    environment:
+      - GRAYLOG_WEB_ENDPOINT_URI=http://192.168.99.100:9001/api
+    ports:
+      - 9001:9000
+      - 12201:12201
+      - 12201:12201/udp
+    depends_on:
+      - mongo
+      - elasticsearch
+    networks:
+      - network1
+      - network2
+  admin:
+    environment:
+      - JAVA_OPTS=-Dlog4j.configuration=log4j2-prod.xml
+    depends_on:
+      - mysql
+      - graylog
+  client:
+    environment:
+      - JAVA_OPTS=-Dlog4j.configuration=log4j2-prod.xml
+    depends_on:
+      - mysql
+      - graylog
+networks:
+  network2:
+    driver: bridge
+volumes:
+  mongo_graylog_data:
+    driver: local
