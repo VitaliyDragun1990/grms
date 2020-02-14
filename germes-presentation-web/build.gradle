@@ -22,27 +22,28 @@ node {
     nodeModulesDir = file("client")
 }
 
-task createNodeModulesDir() {
+tasks.register("createNodeModulesDir") {
     doFirst { mkdir node.nodeModulesDir }
 }
 
 yarn_install.mustRunAfter createNodeModulesDir
 
-task cleanAngular(type:Delete) {
-    delete "${projectDir}/client/dist"
+tasks.register("cleanAngular", Delete) {
+    doFirst { delete "${projectDir}/client/dist" }
 }
 
-task testAngular(type:CacheableYarnTask) {
+tasks.register("testAngular", CacheableYarnTask) {
     args = ['run', 'testExit']
 }
 
-task buildAngular(type:CacheableYarnTask, dependsOn:'yarn_install') {
-    args = ['run', 'build']
+tasks.register("buildAngular", CacheableYarnTask) {
+    dependsOn tasks.named("yarn_install")
+    args = ['run', "build"]
 }
 
-clean.dependsOn 'cleanAngular'
-test.dependsOn 'testAngular'
-assemble.dependsOn 'buildAngular'
+clean.dependsOn tasks.named("cleanAngular")
+test.dependsOn tasks.named("testAngular")
+assemble.dependsOn tasks.named("buildAngular")
 
 war {
     archiveName 'client.war'
