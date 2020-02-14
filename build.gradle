@@ -209,6 +209,25 @@ subprojects {
     }
 }
 
-def isWildFlyDependency(File file) {
+tasks.register("downloadDependencies") {
+    doFirst {
+        ["germes-presentation-web", "germes-presentation-admin"].each { name ->
+            project(":$name").buildscript.configurations.each { configuration ->
+                resolveConfiguration(configuration)
+            }
+            project(":$name").configurations.each { configuration ->
+                resolveConfiguration(configuration)
+            }
+        }
+    }
+}
+
+static boolean resolveConfiguration(configuration) {
+    if (configuration.isCanBeResolved()) {
+        configuration.resolve()
+    }
+}
+
+static def isWildFlyDependency(File file) {
     return ["jboss", "weld", "cdi", "javax.faces", "validation-api", "javax.el"].findIndexOf { file.getName().contains(it) } >= 0
 }

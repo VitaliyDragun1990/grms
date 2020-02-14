@@ -4,8 +4,6 @@ plugins {
     id "com.moowork.node" version "1.3.1"
 }
 
-apply plugin: "com.moowork.node"
-
 dependencies {
     implementation project(':germes-presentation-rest')
 
@@ -18,32 +16,36 @@ gretty {
     httpPort = 8080
 }
 
-node {
-    nodeModulesDir = file("client")
+if (!project.hasProperty('skipAngular')) {
+    apply plugin: "com.moowork.node"
+
+    node {
+        nodeModulesDir = file("client")
+    }
+
+    tasks.register("createNodeModulesDir") {
+        doFirst { mkdir node.nodeModulesDir }
+    }
+
+    yarn_install.mustRunAfter createNodeModulesDir
+
+    tasks.register("cleanAngular", Delete) {
+        doFirst { delete "${projectDir}/client/dist" }
+    }
+
+    tasks.register("testAngular", CacheableYarnTask) {
+        args = ['run', 'testExit']
+    }
+
+    tasks.register("buildAngular", CacheableYarnTask) {
+        dependsOn tasks.named("yarn_install")
+        args = ['run', "build"]
+    }
+
+    clean.dependsOn tasks.named("cleanAngular")
+    test.dependsOn tasks.named("testAngular")
+    assemble.dependsOn tasks.named("buildAngular")
 }
-
-tasks.register("createNodeModulesDir") {
-    doFirst { mkdir node.nodeModulesDir }
-}
-
-yarn_install.mustRunAfter createNodeModulesDir
-
-tasks.register("cleanAngular", Delete) {
-    doFirst { delete "${projectDir}/client/dist" }
-}
-
-tasks.register("testAngular", CacheableYarnTask) {
-    args = ['run', 'testExit']
-}
-
-tasks.register("buildAngular", CacheableYarnTask) {
-    dependsOn tasks.named("yarn_install")
-    args = ['run', "build"]
-}
-
-clean.dependsOn tasks.named("cleanAngular")
-test.dependsOn tasks.named("testAngular")
-assemble.dependsOn tasks.named("buildAngular")
 
 war {
     archiveName 'client.war'

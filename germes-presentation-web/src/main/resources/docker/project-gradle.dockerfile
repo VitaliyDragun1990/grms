@@ -21,32 +21,33 @@ ARG build_flag
 
 USER root
 
-# Copy already build angular propject from node13 layer to maven3 layer
-COPY --from=node13 /opt/client/dist/ /home/gradle/project/germes-presentation-web/client/dist
-
 # Copy gradle.build files from all modules and install all necessary dependencies
-COPY build.gradle /home/gradle/project/build.gradle
-COPY gradle.properties /home/gradle/project/gradle.properties
-COPY settings.gradle /home/gradle/project/settings.gradle
-COPY germes-presentation-web/build.gradle /home/gradle/project/germes-presentation-web/build.gradle
-COPY germes-presentation-admin/build.gradle /home/gradle/project/germes-presentation-admin/build.gradle
-COPY germes-presentation-rest/build.gradle /home/gradle/project/germes-presentation-rest/build.gradle
-COPY germes-application-model/build.gradle /home/gradle/project/germes-application-model/build.gradle
-COPY germes-application-service/build.gradle /home/gradle/project/germes-application-service/build.gradle
-COPY germes-persistence/build.gradle /home/gradle/project/germes-persistence/build.gradle
+COPY build.gradle /home/gradle/build.gradle
+COPY gradle.properties /home/gradle/gradle.properties
+COPY settings.gradle /home/gradle/settings.gradle
+COPY germes-presentation-web/build.gradle /home/gradle/germes-presentation-web/build.gradle
+COPY germes-presentation-admin/build.gradle /home/gradle/germes-presentation-admin/build.gradle
+COPY germes-presentation-rest/build.gradle /home/gradle/germes-presentation-rest/build.gradle
+COPY germes-application-model/build.gradle /home/gradle/germes-application-model/build.gradle
+COPY germes-application-service/build.gradle /home/gradle/germes-application-service/build.gradle
+COPY germes-persistence/build.gradle /home/gradle/germes-persistence/build.gradle
 
-WORKDIR /home/gradle/project
+WORKDIR /home/gradle
 
-RUN gradle -x nodeSetup -x yarn_install -x cleanAngular -x testAngular -x buildAngular -PangularDir=.
+# Skip building and testing angular project, because it was already build above in node13-based container
+RUN gradle -PskipAngular downloadDependencies
 
 # Copy all project source code files and build client and admin applications
-COPY . /home/gradle/project/
+COPY . /home/gradle/
+
+# Copy already build angular propject from node13 layer to maven3 layer
+COPY --from=node13 /opt/client/dist/ /home/gradle/germes-presentation-web/client/dist
 
 # Build client and admin applicaitons
-RUN gradle clean assemble -x nodeSetup -x yarn_install -x cleanAngular -x testAngular -x buildAngular $build_flag && \
-    cp /home/gradle/project/germes-presentation-web/build/libs/client.war /home/gradle && \
-    cp /home/gradle/project/germes-presentation-admin/build/libs/admin.war /home/gradle && \
-    rm -rf /home/gradle/project
+RUN gradle $build_flag -PskipAngular clean build && \
+    cp /home/gradle/germes-presentation-web/build/libs/client.war /opt && \
+    cp /home/gradle/germes-presentation-admin/build/libs/admin.war /opt && \
+    rm -rf /home/gradle/germes*
 
 # From project root directory
 # docker build [--build-arg build_flag=-Ppayara] -t germes/base[:payara] \
