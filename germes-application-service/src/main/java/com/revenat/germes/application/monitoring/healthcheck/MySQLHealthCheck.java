@@ -1,9 +1,7 @@
-package com.revenat.germes.persistence.monitoring.healthcheck;
+package com.revenat.germes.application.monitoring.healthcheck;
 
 import com.codahale.metrics.health.HealthCheck;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
-import org.hibernate.Session;
-import org.hibernate.query.NativeQuery;
+import com.revenat.germes.persistence.repository.SystemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,17 +15,16 @@ public class MySQLHealthCheck extends HealthCheck {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MySQLHealthCheck.class);
 
-    private final SessionFactoryBuilder sessionFactoryBuilder;
+    private final SystemRepository systemRepository;
 
-    public MySQLHealthCheck(final SessionFactoryBuilder sessionFactoryBuilder) {
-        this.sessionFactoryBuilder = sessionFactoryBuilder;
+    public MySQLHealthCheck(final SystemRepository systemRepository) {
+        this.systemRepository = systemRepository;
     }
 
     @Override
     protected Result check() throws Exception {
-        try (final Session session = sessionFactoryBuilder.getSessionFactory().openSession()) {
-            final NativeQuery<?> query = session.createNativeQuery("SHOW TABLES");
-            query.getResultList();
+        try {
+            systemRepository.healthCheck();
 
             LOGGER.info("MYSQL health check is successful");
 

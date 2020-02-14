@@ -20,8 +20,10 @@ import com.revenat.germes.application.service.transfrom.impl.cache.CachedFieldPr
 import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.CityRepository;
 import com.revenat.germes.persistence.repository.StationRepository;
+import com.revenat.germes.persistence.repository.SystemRepository;
 import com.revenat.germes.persistence.repository.hibernate.HibernateCityRepository;
 import com.revenat.germes.persistence.repository.hibernate.HibernateStationRepository;
+import com.revenat.germes.persistence.repository.hibernate.HibernateSystemRepository;
 import com.revenat.germes.persistence.repository.hibernate.transport.HibernateOrderRepository;
 import com.revenat.germes.persistence.repository.hibernate.transport.HibernateRouteRepository;
 import com.revenat.germes.persistence.repository.hibernate.transport.HibernateTicketRepository;
@@ -51,6 +53,7 @@ public class ComponentBinder extends AbstractBinder {
         bind(HibernateTripRepository.class).to(TripRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
         bind(HibernateTicketRepository.class).to(TicketRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
         bind(HibernateOrderRepository.class).to(OrderRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
+        bind(HibernateSystemRepository.class).to(SystemRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
 
         bind(BaseFieldProvider.class).to(FieldProvider.class).in(Singleton.class);
         bind(CachedFieldProvider.class).to(FieldProvider.class).in(Singleton.class).qualifiedBy(new CachedInstance());

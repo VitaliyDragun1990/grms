@@ -6,8 +6,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':germes-application-model'), project(':germes-application-service'),
-            project(':germes-persistence')
+    implementation project(':germes-application-service')
 
     implementation misc.commonsLang3, log.log4jWeb, server.jerseySse
 
@@ -20,7 +19,7 @@ dependencies {
 
     compileOnly persistence.jpaApi, misc.validationApi
 
-    runtimeOnly misc.jaxbRuntime, server.jerseyValidation, server.jerseyServlet
+    runtimeOnly misc.jaxbRuntime, server.jerseyValidation, server.jerseyServlet, misc.hibernateValidator, misc.el
 
     testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
     testCompileOnly persistence.jpaApi

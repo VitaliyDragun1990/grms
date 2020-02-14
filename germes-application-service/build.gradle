@@ -3,14 +3,13 @@
  */
 
 dependencies {
-    implementation project(':germes-application-model'), project(':germes-persistence')
-    implementation misc.jmhCore, misc.jmhGenerator, misc.validationApi, metrics.dropwizardCore, metrics.dropwizardJvm,
+    api project(':germes-persistence')
+    implementation misc.jmhCore, misc.jmhGenerator, metrics.dropwizardCore, metrics.dropwizardJvm,
             metrics.dropwizardHealthchecks
-    compileOnly misc.jakartaInject, persistence.jpaApi, misc.jakartaCdi
-    runtimeOnly misc.el
+    compileOnly misc.jakartaInject, misc.jakartaCdi, persistence.jpaApi
 
-    testCompileOnly persistence.jpaApi
     testRuntimeOnly misc.jaxbRuntime
+    testCompileOnly persistence.jpaApi
 }
 
 jar {

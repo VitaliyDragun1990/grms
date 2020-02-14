@@ -5,8 +5,9 @@ import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
 import com.revenat.germes.application.infrastructure.environment.Environment;
 import com.revenat.germes.application.monitoring.MetricsManager;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
-import com.revenat.germes.persistence.monitoring.healthcheck.MySQLHealthCheck;
+import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
+import com.revenat.germes.application.monitoring.healthcheck.MySQLHealthCheck;
+import com.revenat.germes.persistence.repository.SystemRepository;
 import com.revenat.germes.presentation.admin.bean.startup.Eager;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -29,9 +30,9 @@ public class AdminMonitoringConfiguration {
 
     @Inject
     public AdminMonitoringConfiguration(final MetricsManager metricsManager,
-                                        final SessionFactoryBuilder sessionFactoryBuilder,
+                                        final @DBSource SystemRepository systemRepository,
                                         final Environment env) {
-        metricsManager.registerHealthCheck(MYSQL_HEALTH_CHECK, new MySQLHealthCheck(sessionFactoryBuilder));
+        metricsManager.registerHealthCheck(MYSQL_HEALTH_CHECK, new MySQLHealthCheck(systemRepository));
 
         final boolean reporterEnabled = env.getPropertyAsBoolean("graphite.reporter.enabled");
 
