@@ -10,7 +10,6 @@ services:
   mongo:
     image: mongo:3.6
     networks:
-      - network1
       - network2
     volumes:
       - mongo_graylog_data:/data/db
@@ -19,9 +18,8 @@ services:
     environment:
       - http.host=0.0.0.0
       - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms768m -Xmx768m"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     networks:
-      - network1
       - network2
   graylog:
     image: graylog/graylog:2.5
@@ -35,20 +33,7 @@ services:
       - mongo
       - elasticsearch
     networks:
-      - network1
       - network2
-  admin:
-    environment:
-      - JAVA_OPTS=-Dlog4j.configurationFile=log4j2-prod.xml
-    depends_on:
-      - mysql
-      - graylog
-  client:
-    environment:
-      - JAVA_OPTS=-Dlog4j.configurationFile=log4j2-prod.xml
-    depends_on:
-      - mysql
-      - graylog
 networks:
   network2:
     driver: bridge
