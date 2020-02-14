@@ -18,6 +18,13 @@
 
 # FOR DEPLOYING WAR ARCHIVES ALREADY BUILT ON LOCAL MACHINE
 version: '3.7'
+# Define anchor definition for healthcheck functionality
+x-healthcheck:
+  &health_check
+  interval: 1m
+  timeout: 10s
+  retries: 2
+  start_period: 2m
 # Services definition
 services:
   # Germes mysql database server
@@ -40,6 +47,9 @@ services:
     command: ['--collation-server=utf8mb4_unicode_ci', '--character-set-server=utf8mb4']
     volumes:
       - germes-mysql-data:/var/lib/mysql
+    healthcheck:
+      << : *health_check
+      test: mysql -ugermes -pgermes -e "SELECT version();"
   # Germes admin application
   admin:
     build:
@@ -52,8 +62,9 @@ services:
     depends_on:
       - mysql
     entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
-    #environment:
-    #- JAVA_OPTS=--add-modules javax.xml.bind
+    healthcheck:
+      << : *health_check
+      test: curl -f http://localhost:8080 || exit 1
   # Germes client application
   client:
     build:
@@ -66,8 +77,9 @@ services:
     depends_on:
       - mysql
     entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
-    #environment:
-    #- JAVA_OPTS=--add-modules javax.xml.bind
+    healthcheck:
+      << : *health_check
+      test: curl -f http://localhost:8080 || exit 1
 # Networks definition
 networks:
   network1:
