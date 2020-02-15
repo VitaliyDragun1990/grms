@@ -66,7 +66,7 @@
         <mysql.version>5.1.47</mysql.version>
 
         <!--security-->
-        <shiro.version>1.4.0</shiro.version>
+        <shiro.version>1.4.2</shiro.version>
 
         <!--tests-->
         <jersey-junit.version>2.1.0</jersey-junit.version>

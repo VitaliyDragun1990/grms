@@ -63,7 +63,7 @@ allprojects {
         bootstrapVersion = '1.0.10'
 
         // security
-        shiroVersion = '1.4.0'
+        shiroVersion = '1.4.2'
 
         // metrics
         dropwizardVersion = '4.1.2'
