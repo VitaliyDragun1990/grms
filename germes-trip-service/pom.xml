@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>germes-ticket-service</artifactId>
+    <artifactId>germes-trip-service</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.revenat</groupId>
-            <artifactId>germes-persistence</artifactId>
+            <artifactId>germes-common</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>

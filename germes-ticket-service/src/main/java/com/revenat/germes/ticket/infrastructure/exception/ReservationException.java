@@ -1,4 +1,6 @@
-package com.revenat.germes.application.infrastructure.exception;
+package com.revenat.germes.ticket.infrastructure.exception;
+
+import com.revenat.germes.application.infrastructure.exception.FlowException;
 
 /**
  * Signals about incorrect state or incorrect parameters in the reservation flow

@@ -1,6 +1,5 @@
 package com.revenat.germes.application.service;
 
-import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.travel.Order;
 import com.revenat.germes.application.model.entity.travel.Route;
 import com.revenat.germes.application.model.entity.travel.Ticket;

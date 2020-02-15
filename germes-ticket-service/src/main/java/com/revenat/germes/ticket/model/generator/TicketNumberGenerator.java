@@ -1,7 +1,7 @@
-package com.revenat.germes.application.ticket.model.generator;
+package com.revenat.germes.ticket.model.generator;
 
 import com.revenat.germes.application.infrastructure.helper.generator.text.RandomDigitStringGenerator;
-import com.revenat.germes.application.ticket.model.entity.Ticket;
+import com.revenat.germes.ticket.model.entity.Ticket;
 
 /**
  * Serves as a factory to generate ticket numbers

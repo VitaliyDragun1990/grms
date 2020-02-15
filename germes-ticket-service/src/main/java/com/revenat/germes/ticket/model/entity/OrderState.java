@@ -1,4 +1,4 @@
-package com.revenat.germes.application.ticket.model.entity;
+package com.revenat.germes.ticket.model.entity;
 
 /**
  * All supported states of the ticket order

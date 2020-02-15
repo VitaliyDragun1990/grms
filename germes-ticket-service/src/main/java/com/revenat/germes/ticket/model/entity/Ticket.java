@@ -1,8 +1,8 @@
-package com.revenat.germes.application.ticket.model.entity;
+package com.revenat.germes.ticket.model.entity;
 
 import com.revenat.germes.application.infrastructure.helper.Asserts;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
-import com.revenat.germes.application.ticket.model.generator.TicketNumberGenerator;
+import com.revenat.germes.ticket.model.generator.TicketNumberGenerator;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -17,19 +17,18 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "TICKETS")
-@NamedQuery(name = Ticket.QUERY_FIND_ALL, query = "from Ticket")
-//@AssociationOverride(name = "createdBy", joinColumns = @JoinColumn(name = "CREATED_BY", updatable = false, nullable = false))
+@NamedQuery(name = Ticket.QUERY_FIND_ALL_BY_TRIP, query = "from Ticket t where t.trip = :trip")
 @Setter
 public class Ticket extends AbstractEntity {
 
-    public static final String QUERY_FIND_ALL = "Ticket.findAll";
+    public static final String QUERY_FIND_ALL_BY_TRIP = "Ticket.findAll";
 
     public static final int TICKET_NUMBER_SIZE = 32;
 
-//    /**
-//     * Link to the underlying trip
-//     */
-//    private Trip trip;
+    /**
+     * Link to the underlying trip
+     */
+    private String trip;
 
     /**
      * Client name/surname
@@ -41,11 +40,10 @@ public class Ticket extends AbstractEntity {
      */
     private String uid;
 
-//    @ManyToOne(cascade = {}, fetch = FetchType.EAGER, optional = false)
-//    @JoinColumn(name = "TRIP_ID", nullable = false)
-//    public Trip getTrip() {
-//        return trip;
-//    }
+    @Column(name = "TRIP_ID", nullable = false)
+    public String getTrip() {
+        return trip;
+    }
 
     @Column(name = "CLIENT_NAME", length = 32, nullable = false)
     public String getClientName() {

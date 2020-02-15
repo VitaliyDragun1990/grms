@@ -1,6 +1,6 @@
-package com.revenat.germes.application.ticket.model.entity;
+package com.revenat.germes.ticket.model.entity;
 
-import com.revenat.germes.application.infrastructure.exception.ReservationException;
+import com.revenat.germes.ticket.infrastructure.exception.ReservationException;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
  *
  * @author Vitaliy Dragun
  */
-// TODO: make user who created such Order obligatory attribute (createdBy property)
 @Entity
 @Table(name = "ORDERS")
 @Setter
@@ -34,10 +33,10 @@ public class Order extends AbstractEntity {
      */
     private LocalDateTime dueDate;
 
-//    /**
-//     * Link to the ticket's trip
-//     */
-//    private Trip trip;
+    /**
+     * Link to the ticket's trip
+     */
+    private String trip;
 
     /**
      * Link to the payed ticket(if order is completed)
@@ -70,11 +69,10 @@ public class Order extends AbstractEntity {
         return dueDate;
     }
 
-//    @ManyToOne(cascade = {}, fetch = FetchType.EAGER, optional = false)
-//    @JoinColumn(name = "TRIP_ID", nullable = false)
-//    public Trip getTrip() {
-//        return trip;
-//    }
+    @Column(name = "TRIP_ID", nullable = false)
+    public String getTrip() {
+        return trip;
+    }
 
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
     @JoinColumn(name = "TICKET_ID")

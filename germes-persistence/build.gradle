@@ -7,15 +7,15 @@ plugins {
 
 dependencies {
     api project(":germes-application-model")
-
-    implementation(persistence.hibernateCore) {
+    api(persistence.hibernateCore) {
         exclude group: 'org:javassist', module: 'javassist'
     }
+    api misc.jakartaInject, misc.jakartaCdi
 
     implementation misc.javassist, misc.commonsLang3, misc.reflections, misc.jmhCore, misc.jmhGenerator,
             misc.classgraph, metrics.dropwizardHealthchecks
 
-    compileOnly misc.jakartaInject, misc.jakartaAnnotations, misc.jakartaCdi
+    compileOnly misc.jakartaAnnotations
 
     testImplementation persistence.hibernateTools
     testRuntimeOnly misc.jaxbRuntime
