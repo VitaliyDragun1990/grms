@@ -20,6 +20,7 @@
         <module>germes-trip-service</module>
         <module>germes-common</module>
         <module>germes-persistence-base</module>
+        <module>germes-user-service</module>
     </modules>
 
     <properties>
