@@ -9,3 +9,6 @@ include(':germes-persistence')
 include(':germes-presentation-admin')
 include(':germes-presentation-rest')
 include(':germes-presentation-web')
+include(':germes-ticket-service')
+include(':germes-common')
+
