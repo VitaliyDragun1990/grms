@@ -3,14 +3,12 @@ package com.revenat.germes.presentation.admin.bean;
 import com.revenat.germes.application.infrastructure.helper.Encrypter;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
-import com.revenat.germes.presentation.admin.bean.startup.Eager;
+import com.revenat.germes.presentation.admin.config.startup.Eager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Named;

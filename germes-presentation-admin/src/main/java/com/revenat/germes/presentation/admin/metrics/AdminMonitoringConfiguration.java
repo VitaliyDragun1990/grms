@@ -8,7 +8,7 @@ import com.revenat.germes.application.monitoring.MetricsManager;
 import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.application.monitoring.healthcheck.MySQLHealthCheck;
 import com.revenat.germes.persistence.repository.SystemRepository;
-import com.revenat.germes.presentation.admin.bean.startup.Eager;
+import com.revenat.germes.presentation.admin.config.startup.Eager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

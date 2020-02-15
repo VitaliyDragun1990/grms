@@ -1,7 +1,7 @@
 package com.revenat.germes.application.service.transfrom.impl.cache;
 
 import com.revenat.germes.application.infrastructure.helper.Asserts;
-import com.revenat.germes.application.service.infrastructure.cdi.Cached;
+import com.revenat.germes.application.infrastructure.cdi.Cached;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 
 import javax.enterprise.context.Dependent;

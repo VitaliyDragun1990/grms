@@ -4,7 +4,7 @@ import com.revenat.germes.application.infrastructure.environment.StandardPropert
 import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.application.model.entity.person.User;
 import com.revenat.germes.application.service.UserService;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.hibernate.HibernateUserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

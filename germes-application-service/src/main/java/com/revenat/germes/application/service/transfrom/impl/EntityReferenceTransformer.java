@@ -7,7 +7,7 @@ import com.revenat.germes.application.infrastructure.helper.Asserts;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
 import com.revenat.germes.application.model.transform.Transformable;
-import com.revenat.germes.application.service.infrastructure.cdi.Cached;
+import com.revenat.germes.application.infrastructure.cdi.Cached;
 import com.revenat.germes.application.service.transfrom.Transformer;
 import com.revenat.germes.application.service.transfrom.annotation.DomainProperty;
 import com.revenat.germes.application.service.transfrom.helper.ClassInstanceCreator;

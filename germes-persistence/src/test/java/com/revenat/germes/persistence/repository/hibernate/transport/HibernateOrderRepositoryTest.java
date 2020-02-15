@@ -9,7 +9,7 @@ import com.revenat.germes.application.model.entity.travel.Order;
 import com.revenat.germes.application.model.entity.travel.OrderState;
 import com.revenat.germes.application.model.entity.travel.Route;
 import com.revenat.germes.application.model.entity.travel.Trip;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.CityRepository;
 import com.revenat.germes.persistence.repository.hibernate.HibernateCityRepository;
 import com.revenat.germes.persistence.repository.transport.OrderRepository;

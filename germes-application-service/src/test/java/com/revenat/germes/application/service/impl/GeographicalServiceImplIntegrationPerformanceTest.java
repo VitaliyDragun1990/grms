@@ -4,7 +4,7 @@ import com.revenat.germes.application.infrastructure.environment.StandardPropert
 import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.service.GeographicalService;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.CityRepository;
 import com.revenat.germes.persistence.repository.StationRepository;
 import com.revenat.germes.persistence.repository.hibernate.HibernateCityRepository;

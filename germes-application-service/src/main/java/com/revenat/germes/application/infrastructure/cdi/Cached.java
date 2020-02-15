@@ -1,4 +1,4 @@
-package com.revenat.germes.application.service.infrastructure.cdi;
+package com.revenat.germes.application.infrastructure.cdi;
 
 import javax.inject.Qualifier;
 import java.lang.annotation.ElementType;

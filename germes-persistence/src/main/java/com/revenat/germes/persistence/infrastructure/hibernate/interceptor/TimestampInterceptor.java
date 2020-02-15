@@ -1,4 +1,4 @@
-package com.revenat.germes.persistence.hibernate.interceptor;
+package com.revenat.germes.persistence.infrastructure.hibernate.interceptor;
 
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import org.apache.commons.lang3.ArrayUtils;

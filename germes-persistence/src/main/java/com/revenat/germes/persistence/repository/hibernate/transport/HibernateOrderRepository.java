@@ -2,7 +2,7 @@ package com.revenat.germes.persistence.repository.hibernate.transport;
 
 import com.revenat.germes.application.model.entity.travel.Order;
 import com.revenat.germes.application.model.entity.travel.Trip;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.hibernate.BaseHibernateRepository;
 import com.revenat.germes.persistence.repository.transport.OrderRepository;

@@ -1,8 +1,7 @@
-package com.revenat.germes.persistence.hibernate;
+package com.revenat.germes.persistence.infrastructure.hibernate;
 
 import com.revenat.germes.application.infrastructure.environment.Environment;
-import com.revenat.germes.application.infrastructure.exception.PersistenceException;
-import com.revenat.germes.persistence.hibernate.interceptor.TimestampInterceptor;
+import com.revenat.germes.persistence.infrastructure.hibernate.interceptor.TimestampInterceptor;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
@@ -15,8 +14,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.Entity;
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;

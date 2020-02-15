@@ -4,7 +4,8 @@ import com.revenat.germes.application.infrastructure.environment.StandardPropert
 import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.application.model.entity.geography.City;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.loader.hibernate.SessionEntityLoader;
 import com.revenat.germes.persistence.repository.CityRepository;
 import com.revenat.germes.persistence.repository.hibernate.HibernateCityRepository;
 import org.junit.jupiter.api.AfterEach;

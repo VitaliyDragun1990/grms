@@ -1,9 +1,9 @@
-package com.revenat.germes.persistence.hibernate.loader;
+package com.revenat.germes.persistence.loader.hibernate;
 
 import com.revenat.germes.application.infrastructure.exception.PersistenceException;
 import com.revenat.germes.application.model.entity.base.AbstractEntity;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.hibernate.SessionFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

@@ -10,7 +10,7 @@ plugins {
 
 allprojects {
     group = 'com.revenat'
-    version = '0.0.1'
+    version = '2.0.0'
 
     ext {
         // misc

@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.config;
+package com.revenat.germes.presentation.infrastructure.config;
 
 import javax.ws.rs.core.Feature;
 import javax.ws.rs.core.FeatureContext;

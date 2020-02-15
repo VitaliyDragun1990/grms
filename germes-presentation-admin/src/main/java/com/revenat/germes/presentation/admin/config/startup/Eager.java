@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.admin.bean.startup;
+package com.revenat.germes.presentation.admin.config.startup;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

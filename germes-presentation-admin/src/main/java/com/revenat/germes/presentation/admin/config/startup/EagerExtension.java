@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.admin.bean.startup;
+package com.revenat.germes.presentation.admin.config.startup;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;

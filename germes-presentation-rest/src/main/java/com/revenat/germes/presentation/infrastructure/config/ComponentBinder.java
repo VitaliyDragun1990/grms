@@ -1,9 +1,8 @@
-package com.revenat.germes.presentation.config;
+package com.revenat.germes.presentation.infrastructure.config;
 
 import com.revenat.germes.application.infrastructure.environment.Environment;
 import com.revenat.germes.application.infrastructure.environment.StandardPropertyEnvironment;
 import com.revenat.germes.application.infrastructure.environment.source.ComboPropertySource;
-import com.revenat.germes.application.infrastructure.environment.source.PropertySource;
 import com.revenat.germes.application.model.entity.loader.EntityLoader;
 import com.revenat.germes.application.service.GeographicalService;
 import com.revenat.germes.application.service.TransportService;
@@ -17,7 +16,7 @@ import com.revenat.germes.application.service.transfrom.impl.EntityReferenceTran
 import com.revenat.germes.application.service.transfrom.impl.BaseFieldProvider;
 import com.revenat.germes.application.service.transfrom.impl.FieldProvider;
 import com.revenat.germes.application.service.transfrom.impl.cache.CachedFieldProvider;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.CityRepository;
 import com.revenat.germes.persistence.repository.StationRepository;
 import com.revenat.germes.persistence.repository.SystemRepository;

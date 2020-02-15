@@ -1,7 +1,7 @@
 package com.revenat.germes.persistence.repository.hibernate;
 
 import com.revenat.germes.application.infrastructure.exception.PersistenceException;
-import com.revenat.germes.persistence.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.persistence.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.persistence.repository.SystemRepository;
 import org.hibernate.query.NativeQuery;
