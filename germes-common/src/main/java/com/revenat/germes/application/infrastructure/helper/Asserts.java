@@ -49,4 +49,18 @@ public final class Asserts {
         }
         return s;
     }
+
+    /**
+     * Verifies that specified string is not null or blank
+     *
+     * @param s   string to verify
+     * @param msg message passed to thrown exception if check fails
+     * @throws IllegalArgumentException if check fails
+     */
+    public static String assertNotNullOrBlank(final String s, final String msg) {
+        if (s.isBlank()) {
+            throw new IllegalArgumentException(msg);
+        }
+        return s;
+    }
 }

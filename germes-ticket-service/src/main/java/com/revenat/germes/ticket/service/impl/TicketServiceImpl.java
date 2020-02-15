@@ -1,6 +1,8 @@
 package com.revenat.germes.ticket.service.impl;
 
 
+import com.revenat.germes.application.infrastructure.helper.Asserts;
+import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.model.entity.Ticket;
 import com.revenat.germes.ticket.model.generator.TicketNumberGenerator;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +36,9 @@ public class TicketServiceImpl implements TicketService {
      */
     private final TicketNumberGenerator ticketNumberGenerator = new TicketNumberGenerator();
 
-    public TicketServiceImpl(final TicketRepository ticketRepository, final OrderRepository orderRepository) {
+    @Inject
+    public TicketServiceImpl(@DBSource final TicketRepository ticketRepository,
+                             @DBSource final OrderRepository orderRepository) {
         this.ticketRepository = ticketRepository;
         this.orderRepository = orderRepository;
     }
@@ -73,6 +78,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket buyTicket(final String tripId, final String clientName) {
+        Asserts.assertNonNull(tripId, "tripId can not be null");
+        Asserts.assertNotNullOrBlank(clientName, "clientName can not be null or blank");
+
         final Ticket ticket = new Ticket();
         ticket.setTrip(tripId);
         ticket.setClientName(clientName);
