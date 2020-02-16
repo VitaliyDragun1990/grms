@@ -1,8 +1,9 @@
 package com.revenat.germes.ticket.model.entity;
 
-import com.revenat.germes.application.infrastructure.helper.Asserts;
-import com.revenat.germes.application.model.entity.base.AbstractEntity;
+import com.revenat.germes.infrastructure.helper.Asserts;
+import com.revenat.germes.model.entity.base.AbstractEntity;
 import com.revenat.germes.ticket.model.generator.TicketNumberGenerator;
+import lombok.AccessLevel;
 import lombok.Setter;
 
 import javax.persistence.Column;
@@ -18,7 +19,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TICKETS")
 @NamedQuery(name = Ticket.QUERY_FIND_ALL_BY_TRIP, query = "from Ticket t where t.trip = :trip")
-@Setter
 public class Ticket extends AbstractEntity {
 
     public static final String QUERY_FIND_ALL_BY_TRIP = "Ticket.findAll";
@@ -28,16 +28,19 @@ public class Ticket extends AbstractEntity {
     /**
      * Link to the underlying trip
      */
+    @Setter
     private String trip;
 
     /**
      * Client name/surname
      */
+    @Setter
     private String clientName;
 
     /**
      * Auto-generated ticket identifier (usually random)
      */
+    @Setter(AccessLevel.PACKAGE)
     private String uid;
 
     @Column(name = "TRIP_ID", nullable = false)
@@ -61,7 +64,7 @@ public class Ticket extends AbstractEntity {
      * @param numberGenerator  string generator that should generate unique uid strings
      */
     public void generateUid(final TicketNumberGenerator numberGenerator) {
-        Asserts.assertNonNull(numberGenerator, "numberGenerator should be initialized");
+        Asserts.assertNotNull(numberGenerator, "numberGenerator should be initialized");
         uid = numberGenerator.generate();
     }
 

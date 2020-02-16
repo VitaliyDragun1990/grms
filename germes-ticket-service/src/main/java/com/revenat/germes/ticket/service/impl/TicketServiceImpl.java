@@ -1,8 +1,8 @@
 package com.revenat.germes.ticket.service.impl;
 
 
-import com.revenat.germes.application.infrastructure.helper.Asserts;
-import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
+import com.revenat.germes.infrastructure.cdi.DBSource;
+import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.model.entity.Ticket;
 import com.revenat.germes.ticket.model.generator.TicketNumberGenerator;
@@ -31,16 +31,15 @@ public class TicketServiceImpl implements TicketService {
 
     private final OrderRepository orderRepository;
 
-    /**
-     * Default generator for ticket numbers
-     */
-    private final TicketNumberGenerator ticketNumberGenerator = new TicketNumberGenerator();
+    private final TicketNumberGenerator ticketNumberGenerator;
 
     @Inject
     public TicketServiceImpl(@DBSource final TicketRepository ticketRepository,
-                             @DBSource final OrderRepository orderRepository) {
+                             @DBSource final OrderRepository orderRepository,
+                             final TicketNumberGenerator numberGenerator) {
         this.ticketRepository = ticketRepository;
         this.orderRepository = orderRepository;
+        ticketNumberGenerator = numberGenerator;
     }
 
     @Override
@@ -78,7 +77,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket buyTicket(final String tripId, final String clientName) {
-        Asserts.assertNonNull(tripId, "tripId can not be null");
+        Asserts.assertNotNullOrBlank(tripId, "tripId can not be null");
         Asserts.assertNotNullOrBlank(clientName, "clientName can not be null or blank");
 
         final Ticket ticket = new Ticket();

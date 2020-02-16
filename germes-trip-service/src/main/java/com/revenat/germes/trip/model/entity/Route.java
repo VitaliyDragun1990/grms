@@ -1,7 +1,7 @@
 package com.revenat.germes.trip.model.entity;
 
-import com.revenat.germes.application.infrastructure.helper.SafeCollectionWrapper;
-import com.revenat.germes.application.model.entity.base.AbstractEntity;
+import com.revenat.germes.infrastructure.helper.SafeCollectionWrapper;
+import com.revenat.germes.model.entity.base.AbstractEntity;
 import lombok.AccessLevel;
 import lombok.Setter;
 
@@ -99,6 +99,9 @@ public class Route extends AbstractEntity {
         return trip;
     }
 
+    /**
+     * Removes specified trip from the trip list for this route
+     */
     public void deleteTrip(final Trip trip) {
         trips.remove(trip);
         trip.setRoute(null);

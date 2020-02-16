@@ -1,7 +1,7 @@
 package com.revenat.germes.ticket.model.entity;
 
 import com.revenat.germes.ticket.infrastructure.exception.ReservationException;
-import com.revenat.germes.application.model.entity.base.AbstractEntity;
+import com.revenat.germes.model.entity.base.AbstractEntity;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

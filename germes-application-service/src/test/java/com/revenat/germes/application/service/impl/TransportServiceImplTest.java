@@ -30,6 +30,7 @@ import static org.mockito.Mockito.*;
 class TransportServiceImplTest {
 
     public static final String JOHN_SMITH = "John Smith";
+
     @InjectMocks
     private TransportServiceImpl transportService;
 

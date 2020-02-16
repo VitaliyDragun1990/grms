@@ -1,6 +1,6 @@
 package com.revenat.germes.trip.service.impl;
 
-import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
+import com.revenat.germes.infrastructure.cdi.DBSource;
 import com.revenat.germes.trip.model.entity.Route;
 import com.revenat.germes.trip.model.entity.Trip;
 import com.revenat.germes.trip.respository.RouteRepository;

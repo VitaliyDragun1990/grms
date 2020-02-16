@@ -1,7 +1,7 @@
 package com.revenat.germes.ticket.persistence.repository.hibernate;
 
-import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
-import com.revenat.germes.persistence.infrastructure.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.infrastructure.cdi.DBSource;
+import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.hibernate.BaseHibernateRepository;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.persistence.repository.OrderRepository;
