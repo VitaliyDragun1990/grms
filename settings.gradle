@@ -14,4 +14,5 @@ include(':germes-trip-service')
 include(':germes-common')
 include(':germes-persistence-base')
 include(':germes-user-service')
+include(':germes-geography-service')
 

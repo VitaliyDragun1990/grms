@@ -1,7 +1,7 @@
 package com.revenat.germes.ticket.service.impl;
 
 
-import com.revenat.germes.infrastructure.cdi.DBSource;
+import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.model.entity.Ticket;

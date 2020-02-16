@@ -1,0 +1,8 @@
+plugins {
+    id "io.franzbecker.gradle-lombok"
+}
+
+dependencies {
+    implementation project(':germes-persistence-base')
+    implementation misc.commonsLang3
+}

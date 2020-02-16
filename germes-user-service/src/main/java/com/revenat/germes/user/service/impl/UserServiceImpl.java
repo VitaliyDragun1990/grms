@@ -1,8 +1,8 @@
 package com.revenat.germes.user.service.impl;
 
-import com.revenat.germes.infrastructure.cdi.DBSource;
+import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
 import com.revenat.germes.user.model.entity.User;
-import com.revenat.germes.user.repository.UserRepository;
+import com.revenat.germes.user.persistence.repository.UserRepository;
 import com.revenat.germes.user.service.UserService;
 
 import javax.enterprise.context.Dependent;

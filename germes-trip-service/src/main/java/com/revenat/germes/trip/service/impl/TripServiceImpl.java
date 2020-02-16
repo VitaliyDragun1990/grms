@@ -1,10 +1,10 @@
 package com.revenat.germes.trip.service.impl;
 
-import com.revenat.germes.infrastructure.cdi.DBSource;
+import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
 import com.revenat.germes.trip.model.entity.Route;
 import com.revenat.germes.trip.model.entity.Trip;
-import com.revenat.germes.trip.respository.RouteRepository;
-import com.revenat.germes.trip.respository.TripRepository;
+import com.revenat.germes.trip.persistence.repository.RouteRepository;
+import com.revenat.germes.trip.persistence.repository.TripRepository;
 import com.revenat.germes.trip.service.TripService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

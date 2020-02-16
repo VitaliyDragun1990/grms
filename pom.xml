@@ -21,6 +21,7 @@
         <module>germes-common</module>
         <module>germes-persistence-base</module>
         <module>germes-user-service</module>
+        <module>germes-geography-service</module>
     </modules>
 
     <properties>
