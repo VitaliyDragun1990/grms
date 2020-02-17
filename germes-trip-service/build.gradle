@@ -3,5 +3,19 @@ plugins {
 }
 
 dependencies {
-    implementation project(':germes-persistence-base')
+    implementation project(':germes-persistence-base'), project(':germes-common-rest')
+
+    implementation misc.commonsLang3, log.log4jWeb, server.jerseySse,
+            misc.javassist, server.swagger, server.jerseyJson
+
+    implementation( server.jerseyHk2) {
+        exclude group: 'org:javassist', module: 'javassist'
+    }
+
+    compileOnly misc.validationApi
+
+    runtimeOnly misc.jaxbRuntime, server.jerseyValidation, server.jerseyServlet, misc.hibernateValidator, misc.el
+
+    testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
+    testRuntimeOnly tests.jerseyTestProvider
 }

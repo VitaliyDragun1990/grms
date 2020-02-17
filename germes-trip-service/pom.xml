@@ -11,12 +11,135 @@
 
     <artifactId>germes-trip-service</artifactId>
 
+    <properties>
+        <jersey.scope>compile</jersey.scope>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.revenat</groupId>
             <artifactId>germes-persistence-base</artifactId>
             <version>${project.parent.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.revenat</groupId>
+            <artifactId>germes-common-rest</artifactId>
+            <version>${project.parent.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <scope>${jersey.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <scope>${jersey.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <scope>${jersey.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <scope>${jersey.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-sse</artifactId>
+            <scope>${jersey.scope}</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-bean-validation</artifactId>
+            <scope>${jersey.scope}</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-jersey2-jaxrs</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.containers</groupId>
+                    <artifactId>jersey-container-servlet-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.media</groupId>
+                    <artifactId>jersey-media-multipart</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- test dependencies -->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-grizzly2-http</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework</groupId>
+            <artifactId>jersey-test-framework-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+            <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.hanleyt</groupId>
+            <artifactId>jersey-junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
