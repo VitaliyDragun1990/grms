@@ -1,2 +1,0 @@
-1. Define germes-common-rest with all common rest-related stuff: base resource, exception handlers, etc
-2. Use germes-common-rest in germes-geography service

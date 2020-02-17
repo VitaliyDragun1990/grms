@@ -1,5 +1,6 @@
 plugins {
     id "io.franzbecker.gradle-lombok"
+    id "war"
 }
 
 dependencies {
@@ -18,4 +19,12 @@ dependencies {
 
     testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
     testRuntimeOnly tests.jerseyTestProvider
+}
+
+war {
+    archiveName 'geography-service.war'
+}
+
+test {
+    jvmArgs '-Djersey.config.test.container.port=9997'
 }
