@@ -1,0 +1,15 @@
+plugins {
+    id "io.franzbecker.gradle-lombok"
+}
+
+dependencies {
+    implementation project(":germes-common")
+    implementation log.log4jWeb, server.jerseySse
+
+    implementation( server.jerseyHk2) {
+        exclude group: 'org:javassist', module: 'javassist'
+    }
+
+    implementation misc.javassist, misc.jacksonDatatype, misc.jacksonDatatypeJdk8, misc.jacksonParamNames,
+            server.jerseyJson
+}
