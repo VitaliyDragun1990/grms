@@ -46,57 +46,43 @@ services:
       - mysql.env
     command: ['--collation-server=utf8mb4_unicode_ci', '--character-set-server=utf8mb4']
     volumes:
-      - mysql-data:/var/lib/mysql
+      - germes-mysql-data:/var/lib/mysql
     healthcheck:
-      <<: *health_check
+      << : *health_check
       test: mysql -ugermes -pgermes -e "SELECT version();"
   # Germes admin application
-#  admin:
-#    build:
-#      context: .
-#      dockerfile: deploy-jetty.dockerfile
-#      args:
-#        - war_path=germes-presentation-admin/target/admin.war
-#    ports:
-#      - "9000:8080"
-#    networks:
-#      - network1
-#    depends_on:
-#      - mysql
-#    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
-#    healthcheck:
-#      <<: *health_check
-#      test: curl -f http://localhost:8080 || exit 1
-  # Germes client application
-  client:
-    build:
-      context: germes-presentation-web
-      dockerfile: src/main/resources/docker/deploy-httpd.dockerfile
-    ports:
-      - "8080:80"
-    networks:
-      - network1
-    depends_on:
-      - geography
-    healthcheck:
-      <<: *health_check
-      test: curl -f http://localhost:80 || exit 1
-  # Geography service
-  geography:
+  admin:
     build:
       context: .
       dockerfile: deploy-jetty.dockerfile
       args:
-        - war_path=germes-geography-service/target/germes-geography.war
+        - war_path=germes-presentation-admin/target/admin.war
     ports:
-      - "8090:8080"
+      - "9000:8080"
     networks:
       - network1
     depends_on:
       - mysql
     entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
     healthcheck:
-      <<: *health_check
+      << : *health_check
+      test: curl -f http://localhost:8080 || exit 1
+  # Germes client application
+  client:
+    build:
+      context: .
+      dockerfile: deploy-jetty.dockerfile
+      args:
+        - war_path=germes-presentation-web/target/client.war
+    ports:
+      - "8080:8080"
+    networks:
+      - network1
+    depends_on:
+      - mysql
+    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
+    healthcheck:
+      << : *health_check
       test: curl -f http://localhost:8080 || exit 1
 # Networks definition
 networks:
@@ -104,4 +90,4 @@ networks:
     driver: bridge
 # Volumes definition
 volumes:
-  mysql-data:
+  germes-mysql-data:

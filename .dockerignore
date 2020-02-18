@@ -13,3 +13,5 @@
 **/*.log
 **/*.bat
 **/*.iml
+!germes-presentation-admin/target/admin.war
+!germes-geography-service/target/germes-geography.war

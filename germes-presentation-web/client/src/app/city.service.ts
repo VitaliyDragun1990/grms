@@ -9,7 +9,7 @@ export class CityService {
   constructor(private http: HttpClient) { }
 
   getCities(): Observable<Array<City>> {
-    return this.http.get<Array<City>>('api/cities');
+    return this.http.get<Array<City>>('http://192.168.99.100:8090/api/cities');
   }
 
 }

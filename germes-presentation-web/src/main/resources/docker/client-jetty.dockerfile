@@ -1,5 +1,7 @@
 FROM jetty:9.4.18-jre11
 
+RUN rm -rf /var/lib/jetty/webapps/ROOT
+
 ADD target/client.war /var/lib/jetty/webapps/ROOT.war
 #ADD build/libs/client.war /var/lib/jetty/webapps/ROOT.war
 

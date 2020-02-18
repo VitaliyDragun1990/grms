@@ -1,5 +1,4 @@
 *
 !src/main/resources/docker
-build/libs/client.war
-!target/client.war
-!target/generated/swagger-ui/swagger.json
+target/generated/swagger-ui/swagger.json
+!client/dist

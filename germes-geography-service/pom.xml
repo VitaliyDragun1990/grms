@@ -92,6 +92,11 @@
         </dependency>
 
         <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
             <scope>runtime</scope>
@@ -104,6 +109,11 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-hikaricp</artifactId>
             <scope>runtime</scope>
         </dependency>
 

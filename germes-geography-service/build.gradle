@@ -15,7 +15,8 @@ dependencies {
 
     compileOnly misc.validationApi
 
-    runtimeOnly misc.jaxbRuntime, server.jerseyValidation, server.jerseyServlet, misc.hibernateValidator, misc.el
+    runtimeOnly misc.jaxbRuntime, server.jerseyValidation, server.jerseyServlet, misc.hibernateValidator, misc.el,
+            persistence.mysql, persistence.hikariCp
 
     testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
     testRuntimeOnly tests.jerseyTestProvider

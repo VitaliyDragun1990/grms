@@ -36,7 +36,7 @@ describe('CityService', () => {
       expect(cities).toEqual(dummyResponse);
     });
 
-    let cityRequest = httpController.expectOne('api/cities');
+    let cityRequest = httpController.expectOne('http://192.168.99.100:8090/api/cities');
     cityRequest.flush(dummyResponse);
   });
 });
