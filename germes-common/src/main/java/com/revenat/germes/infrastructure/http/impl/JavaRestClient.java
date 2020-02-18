@@ -4,6 +4,7 @@ import com.revenat.germes.infrastructure.exception.CommunicationException;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.infrastructure.http.RestClient;
 import com.revenat.germes.infrastructure.http.RestResponse;
+import com.revenat.germes.infrastructure.json.JsonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,25 +30,24 @@ public class JavaRestClient implements RestClient {
 
     private final int timeoutInSeconds;
 
-    public JavaRestClient(final int timeout) {
+    private final JsonClient jsonClient;
+
+    public JavaRestClient(final int timeout, final JsonClient jsonClient) {
         Asserts.asserts(timeout > 0, "timeout can not be negative value:%d", timeout);
+        Asserts.assertNotNull(jsonClient,  "json client can not be null");
 
         httpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
         timeoutInSeconds = timeout;
+        this.jsonClient = jsonClient;
     }
 
     @Override
     public <T> RestResponse<T> get(final String url, final Class<T> clz) {
         Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
 
-        final HttpRequest request = buildRequestForUrl(url);
-
         try {
-            final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            final String responseBody = response.body();
-            // TODO: create RestResponse
-            return null;
+            final HttpRequest request = buildRequestFor(url);
+            return sendRequest(request, clz);
         } catch (final IOException | InterruptedException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CommunicationException("Error while trying to make GET request: url="
@@ -55,7 +55,13 @@ public class JavaRestClient implements RestClient {
         }
     }
 
-    private HttpRequest buildRequestForUrl(final String url) {
+    private <T> RestResponse<T> sendRequest(final HttpRequest request, final Class<T> responseType)
+            throws IOException, InterruptedException {
+        final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        return new RestResponse<>(response.statusCode(), jsonClient.fromJson(response.body(), responseType));
+    }
+
+    private HttpRequest buildRequestFor(final String url) {
         return HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(timeoutInSeconds))

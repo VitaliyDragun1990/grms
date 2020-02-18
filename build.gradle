@@ -29,6 +29,7 @@ allprojects {
         jmhVersion = '1.23'
         classgraphVersion = '4.8.60'
         jacksonVersion = '2.10.1'
+        gsonVersion = '2.8.6'
 
         // log
         log4jVersion = '2.13.0'
@@ -86,7 +87,8 @@ allprojects {
                 classgraph : "io.github.classgraph:classgraph:$classgraphVersion",
                 jacksonDatatype : "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion",
                 jacksonDatatypeJdk8 : "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion",
-                jacksonParamNames : "com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion"
+                jacksonParamNames : "com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion",
+                gson : "com.google.code.gson:gson:$gsonVersion"
         ]
 
         server = [

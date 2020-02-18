@@ -5,7 +5,7 @@ plugins {
 dependencies {
     api persistence.jpaApi
     api misc.jakartaInject, misc.jakartaCdi
-    implementation misc.commonsLang3, misc.guava
+    implementation misc.commonsLang3, misc.guava, misc.gson
 
     testImplementation tests.junitPioneer
 }
