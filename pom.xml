@@ -14,7 +14,6 @@
         <module>germes-application-service</module>
         <module>germes-presentation-admin</module>
         <module>germes-persistence</module>
-        <module>germes-presentation-rest</module>
         <module>germes-presentation-web</module>
         <module>germes-ticket-service</module>
         <module>germes-trip-service</module>

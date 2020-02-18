@@ -12,4 +12,6 @@ dependencies {
 
     implementation misc.javassist, misc.jacksonDatatype, misc.jacksonDatatypeJdk8, misc.jacksonParamNames,
             server.jerseyJson
+
+    testImplementation tests.jerseyTestCore
 }

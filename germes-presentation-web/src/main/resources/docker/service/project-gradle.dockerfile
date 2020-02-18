@@ -16,7 +16,6 @@ COPY germes-persistence-base/build.gradle /home/gradle/germes-persistence-base/b
 COPY germes-geography-service/build.gradle /home/gradle/germes-geography-service/build.gradle
 COPY germes-presentation-web/build.gradle /home/gradle/germes-presentation-web/build.gradle
 #COPY germes-presentation-admin/build.gradle /home/gradle/germes-presentation-admin/build.gradle
-#COPY germes-presentation-rest/build.gradle /home/gradle/germes-presentation-rest/build.gradle
 #COPY germes-application-model/build.gradle /home/gradle/germes-application-model/build.gradle
 #COPY germes-application-service/build.gradle /home/gradle/germes-application-service/build.gradle
 #COPY germes-persistence/build.gradle /home/gradle/germes-persistence/build.gradle

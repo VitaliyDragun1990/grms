@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.jersey.extension;
+package com.revenat.germes.rest.infrastructure.jersey.extension;
 
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.jupiter.api.extension.*;
