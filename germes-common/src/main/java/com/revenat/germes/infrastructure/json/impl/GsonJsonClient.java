@@ -1,6 +1,8 @@
 package com.revenat.germes.infrastructure.json.impl;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.revenat.germes.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.infrastructure.json.JsonClient;
 
@@ -22,6 +24,10 @@ public class GsonJsonClient implements JsonClient {
     public <T> T fromJson(final String json, final Class<T> clz) {
         Asserts.assertNotNull(clz, "class of the object to get from JSON can not be null");
 
-        return GSON.fromJson(json, clz);
+        try {
+            return GSON.fromJson(json, clz);
+        } catch (final JsonSyntaxException e) {
+            throw new ValidationException("Error parsing JSON string", e);
+        }
     }
 }

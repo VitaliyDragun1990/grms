@@ -48,9 +48,9 @@ public class JavaRestClient implements RestClient {
         try {
             final HttpRequest request = buildRequestFor(url);
             return sendRequest(request, clz);
-        } catch (final IOException | InterruptedException e) {
+        } catch (final Exception e) {
             LOGGER.error(e.getMessage(), e);
-            throw new CommunicationException("Error while trying to make GET request: url="
+            throw new CommunicationException("Error while making GET request: url="
                     + url + ", response type=" + clz.getSimpleName(), e);
         }
     }

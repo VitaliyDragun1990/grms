@@ -1,5 +1,7 @@
 package com.revenat.germes.infrastructure.json;
 
+import com.revenat.germes.infrastructure.exception.flow.ValidationException;
+
 /**
  * High-level abstraction over JSON transformation
  *
@@ -22,6 +24,7 @@ public interface JsonClient {
      * @param json JSON string to transform from
      * @param clz  class of the java object to transform to
      * @param <T>  type of the java object
+     * @throws ValidationException if specified JSON string is invalid
      */
     <T> T fromJson(String json, Class<T> clz);
 }
