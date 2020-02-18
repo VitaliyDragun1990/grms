@@ -1,0 +1,5 @@
+dependencies {
+    api project(':germes-persistence-base')
+    implementation metrics.dropwizardCore, metrics.dropwizardJvm,
+            metrics.dropwizardHealthchecks
+}

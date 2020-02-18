@@ -22,6 +22,7 @@
         <module>germes-user-service</module>
         <module>germes-geography-service</module>
         <module>germes-common-rest</module>
+        <module>germes-common-monitoring</module>
     </modules>
 
     <properties>

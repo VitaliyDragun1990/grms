@@ -15,4 +15,5 @@ include(':germes-persistence-base')
 include(':germes-user-service')
 include(':germes-geography-service')
 include(':germes-common-rest')
+include(':germes-common-monitoring')
 
