@@ -8,10 +8,17 @@ import com.revenat.germes.geography.presentation.rest.dto.StationDTO;
 import com.revenat.germes.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.infrastructure.transform.Transformable;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Vitaliy Dragun
  */
 public class StationTransformable implements Transformable<Station, StationDTO> {
+
+    private final Map<String, String> domainMappings = Map.of("cityId", "city");
+
+    private final List<String> ignoredFields = List.of("transportType");
 
     @Override
     public StationDTO transform(final Station station, final StationDTO stationDTO) {
@@ -50,5 +57,15 @@ public class StationTransformable implements Transformable<Station, StationDTO> 
         }
 
         return station;
+    }
+
+    @Override
+    public List<String> getIgnoredFields() {
+        return ignoredFields;
+    }
+
+    @Override
+    public Map<String, String> getSourceMapping() {
+        return domainMappings;
     }
 }

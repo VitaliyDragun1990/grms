@@ -3,6 +3,7 @@ package com.revenat.germes.infrastructure.transform.impl;
 import com.revenat.germes.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.infrastructure.helper.ToStringBuilder;
+import com.revenat.germes.infrastructure.transform.Transformable;
 import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.infrastructure.transform.impl.helper.ClassInstanceCreator;
@@ -12,13 +13,17 @@ import com.revenat.germes.model.entity.base.AbstractEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Default transformation engine implementation
  *
  * @author Vitaliy Dragun
  */
+@SuppressWarnings("unchecked")
 public class SimpleDTOTransformer implements Transformer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleDTOTransformer.class);
@@ -53,9 +58,9 @@ public class SimpleDTOTransformer implements Transformer {
     public <T extends AbstractEntity, P> P transform(final T entity, final P dto) {
         checkParams(entity, dto);
 
-        copyState(entity, dto);
+        copyState(entity, dto, findFieldToIgnoreFor(entity));
 
-        additionTransform(entity, dto);
+        findTransformableFor(entity).ifPresent(t -> t.transform(entity, dto));
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("SimpleDTOTransformer.transform: {} DTO object",
@@ -63,6 +68,14 @@ public class SimpleDTOTransformer implements Transformer {
         }
 
         return dto;
+    }
+
+    private <T extends AbstractEntity, P> List<String> findFieldToIgnoreFor(T entity) {
+        final Optional<Transformable<T, P>> transformable = findTransformableFor(entity);
+        final List<String> fieldsToIgnore = new ArrayList<>();
+        transformable.ifPresent(t -> fieldsToIgnore.addAll(t.getIgnoredFields()));
+
+        return fieldsToIgnore;
     }
 
     @Override
@@ -73,7 +86,7 @@ public class SimpleDTOTransformer implements Transformer {
 
         try {
             return untransform(dto, entity);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new ValidationException(e.getMessage(), e);
         }
     }
@@ -82,9 +95,9 @@ public class SimpleDTOTransformer implements Transformer {
     public <T extends AbstractEntity, P> T untransform(final P dto, final T entity) {
         checkParams(dto, entity);
 
-        copyState(dto, entity);
+        copyState(dto, entity, findFieldToIgnoreFor(entity));
 
-        additionUntransform(dto, entity);
+        findTransformableFor(entity).ifPresent(t -> t.untransform(dto, entity));
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("SimpleDTOTransformer.untransform: {} entity object",
@@ -94,17 +107,8 @@ public class SimpleDTOTransformer implements Transformer {
         return entity;
     }
 
-
-    @SuppressWarnings("unchecked")
-    private <T extends AbstractEntity, P> void additionTransform(T entity, P dto) {
-        transformableProvider.find((Class<T>) entity.getClass())
-                .ifPresent(transformable -> transformable.transform(entity, dto));
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T extends AbstractEntity, P> void additionUntransform(P dto, T entity) {
-        transformableProvider.find((Class<T>) entity.getClass())
-                .ifPresent(transformable -> transformable.untransform(dto, entity));
+    private <T extends AbstractEntity, P> Optional<Transformable<T, P>> findTransformableFor(final T entity) {
+        return transformableProvider.find((Class<T>) entity.getClass());
     }
 
     private void checkParams(final Object src, final Class<?> targetClz) {
@@ -117,8 +121,10 @@ public class SimpleDTOTransformer implements Transformer {
         Asserts.assertNotNull(target, "Target transformation object is not initialized");
     }
 
-    private <S, D> void copyState(final S source, final D dest) {
-        final List<String> fieldNamesToCopy = fieldProvider.getSimilarFieldNames(source.getClass(), dest.getClass());
+    private <S, D> void copyState(final S source, final D dest, final List<String> fieldsToIgnore) {
+        final List<String> fieldNamesToCopy = fieldProvider.getSimilarFieldNames(source.getClass(), dest.getClass()).stream()
+                .filter(fieldName -> !fieldsToIgnore.contains(fieldName))
+                .collect(Collectors.toUnmodifiableList());
         stateCopier.copyState(source, dest, fieldNamesToCopy);
     }
 

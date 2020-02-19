@@ -17,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -30,6 +31,13 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("simple DTO transformer")
 public class SimpleDTOTransformerTest {
+
+    private static final int CITY_POPULATION = 10_000;
+    private static final String AREA_CODE = "OD";
+    private static final String DISTRICT = "None";
+    private static final String REGION = "Od";
+    private static final String CITY_NAME = "Odessa";
+    private static final int CITY_ID = 1;
 
     private Transformer transformer;
 
@@ -45,11 +53,12 @@ public class SimpleDTOTransformerTest {
 
     @Test
     void shouldTransformEntityToDtoUsingDtoClass() {
-        final City entity = new City("Odessa");
-        entity.setId(1);
-        entity.setRegion("Od");
-        entity.setDistrict("None");
-        entity.setAreaCode("OD");
+        final City entity = new City(CITY_NAME);
+        entity.setId(CITY_ID);
+        entity.setRegion(REGION);
+        entity.setDistrict(DISTRICT);
+        entity.setAreaCode(AREA_CODE);
+        entity.setPopulation(CITY_POPULATION);
 
         final CityDTO dto = transformer.transform(entity, CityDTO.class);
 
@@ -58,15 +67,17 @@ public class SimpleDTOTransformerTest {
         assertThat(dto.getRegion(), equalTo(entity.getRegion()));
         assertThat(dto.getDistrict(), equalTo(entity.getDistrict()));
         assertThat(dto.getArea(), is(nullValue()));
+        assertThat(dto.getPopulation(), equalTo(10_000));
     }
 
     @Test
     void shouldTransformEntityToDtoUsingDtoInstance() {
-        final City entity = new City("Odessa");
-        entity.setId(1);
-        entity.setRegion("Od");
-        entity.setDistrict("None");
-        entity.setAreaCode("OD");
+        final City entity = new City(CITY_NAME);
+        entity.setId(CITY_ID);
+        entity.setRegion(REGION);
+        entity.setDistrict(DISTRICT);
+        entity.setAreaCode(AREA_CODE);
+        entity.setPopulation(CITY_POPULATION);
 
         final CityDTO dto = transformer.transform(entity, CityDTO.class);
 
@@ -74,17 +85,19 @@ public class SimpleDTOTransformerTest {
         assertThat(dto.getName(), equalTo(entity.getName()));
         assertThat(dto.getRegion(), equalTo(entity.getRegion()));
         assertThat(dto.getDistrict(), equalTo(entity.getDistrict()));
+        assertThat(dto.getPopulation(), equalTo(entity.getPopulation()));
         assertThat(dto.getArea(), is(nullValue()));
     }
 
     @Test
     void shouldTransformDTOIntoEntity() {
         final CityDTO dto = new CityDTO();
-        dto.setId(1);
-        dto.setName("Odessa");
-        dto.setRegion("Od");
-        dto.setDistrict("None");
-        dto.setArea("OD");
+        dto.setId(CITY_ID);
+        dto.setName(CITY_NAME);
+        dto.setRegion(REGION);
+        dto.setDistrict(DISTRICT);
+        dto.setArea(AREA_CODE);
+        dto.setPopulation(CITY_POPULATION);
 
         final City entity = transformer.untransform(dto, City.class);
 
@@ -92,6 +105,7 @@ public class SimpleDTOTransformerTest {
         assertThat(entity.getName(), equalTo(dto.getName()));
         assertThat(entity.getRegion(), equalTo(dto.getRegion()));
         assertThat(entity.getDistrict(), equalTo(dto.getDistrict()));
+        assertThat(entity.getPopulation(), equalTo(dto.getPopulation()));
         assertThat(entity.getAreaCode(), is(nullValue()));
     }
 
@@ -100,18 +114,11 @@ public class SimpleDTOTransformerTest {
         when(transformableProviderMock.find(City.class))
                 .thenReturn(Optional.of(cityTransformable()));
 
-        final City entity = new City("Odessa");
-        entity.setId(1);
-        entity.setRegion("Od");
-        entity.setDistrict("None");
-        entity.setAreaCode("OD");
+        final City entity = new City(CITY_NAME);
+        entity.setAreaCode(AREA_CODE);
 
         final CityDTO dto = transformer.transform(entity, CityDTO.class);
 
-        assertThat(dto.getId(), equalTo(entity.getId()));
-        assertThat(dto.getName(), equalTo(entity.getName()));
-        assertThat(dto.getRegion(), equalTo(entity.getRegion()));
-        assertThat(dto.getDistrict(), equalTo(entity.getDistrict()));
         assertThat(dto.getArea(), is(entity.getAreaCode()));
     }
 
@@ -121,29 +128,47 @@ public class SimpleDTOTransformerTest {
                 .thenReturn(Optional.of(cityTransformable()));
 
         final CityDTO dto = new CityDTO();
-        dto.setId(1);
-        dto.setName("Odessa");
-        dto.setRegion("Od");
-        dto.setDistrict("None");
-        dto.setArea("OD");
+        dto.setArea(AREA_CODE);
 
         final City entity = transformer.untransform(dto, City.class);
 
-        assertThat(entity.getId(), equalTo(dto.getId()));
-        assertThat(entity.getName(), equalTo(dto.getName()));
-        assertThat(entity.getRegion(), equalTo(dto.getRegion()));
-        assertThat(entity.getDistrict(), equalTo(dto.getDistrict()));
         assertThat(entity.getAreaCode(), is(dto.getArea()));
+    }
+
+    @Test
+    void shouldIgnoreFieldsDefinedInCustomTransformableForTransformationEntityToDTO() {
+        when(transformableProviderMock.find(City.class))
+                .thenReturn(Optional.of(cityTransformable()));
+
+        final City entity = new City(CITY_NAME);
+        entity.setPopulation(CITY_POPULATION);
+
+        final CityDTO dto = transformer.transform(entity, CityDTO.class);
+
+        assertThat(dto.getPopulation(), is(0));
+    }
+
+    @Test
+    void shouldIgnoreFieldsDefinedInCustomTransformableForTransformationDTOToEntity() {
+        when(transformableProviderMock.find(City.class))
+                .thenReturn(Optional.of(cityTransformable()));
+
+        final CityDTO dto = new CityDTO();
+        dto.setPopulation(CITY_POPULATION);
+
+        final City entity = transformer.untransform(dto, City.class);
+
+        assertThat(entity.getPopulation(), is(0));
     }
 
     @Test
     void shouldFailToTransformIfEitherOfArgumentsIsNull() {
         assertThrows(NullPointerException.class, () -> transformer.transform(null, CityDTO.class));
-        assertThrows(NullPointerException.class, () -> transformer.transform(new City("Odessa"), (Class<CityDTO>)null));
+        assertThrows(NullPointerException.class, () -> transformer.transform(new City(CITY_NAME), (Class<CityDTO>)null));
         assertThrows(NullPointerException.class, () -> transformer.transform(null, (Class<CityDTO>)null));
 
         assertThrows(NullPointerException.class, () -> transformer.transform(null, new CityDTO()));
-        assertThrows(NullPointerException.class, () -> transformer.transform(new City("Odessa"), (CityDTO)null));
+        assertThrows(NullPointerException.class, () -> transformer.transform(new City(CITY_NAME), (CityDTO)null));
         assertThrows(NullPointerException.class, () -> transformer.transform(null, (CityDTO)null));
     }
 
@@ -171,6 +196,8 @@ public class SimpleDTOTransformerTest {
         private String region;
 
         private String area;
+
+        private int population;
     }
 
     @Getter
@@ -185,6 +212,8 @@ public class SimpleDTOTransformerTest {
         private String region;
 
         private String areaCode;
+
+        private int population;
 
         public City(String name) {
             this.name = name;
@@ -203,6 +232,11 @@ public class SimpleDTOTransformerTest {
         public City untransform(CityDTO dto, City city) {
             city.setAreaCode(dto.getArea());
             return city;
+        }
+
+        @Override
+        public List<String> getIgnoredFields() {
+            return List.of("population");
         }
     }
 }

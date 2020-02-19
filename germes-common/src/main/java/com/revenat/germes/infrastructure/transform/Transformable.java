@@ -1,5 +1,9 @@
 package com.revenat.germes.infrastructure.transform;
 
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Declares transform/untransform operations that should be used to copy
  * data between pair of objects in two directions (for example, business entity and DTO)
@@ -28,5 +32,13 @@ public interface Transformable<T, P> {
      */
     default T untransform(P p, T t) {
         return t;
+    }
+
+    default List<String> getIgnoredFields() {
+        return List.of();
+    }
+
+    default Map<String, String> getSourceMapping() {
+        return Map.of();
     }
 }

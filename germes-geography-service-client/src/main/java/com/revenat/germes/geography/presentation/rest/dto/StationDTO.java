@@ -1,7 +1,5 @@
 package com.revenat.germes.geography.presentation.rest.dto;
 
-import com.revenat.germes.infrastructure.transform.annotation.DomainProperty;
-import com.revenat.germes.infrastructure.transform.annotation.Ignore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -27,7 +25,6 @@ public class StationDTO {
     private int id;
 
     @Positive
-    @DomainProperty("city")
     @ApiModelProperty(value="identifier of the city where station is located", required = true)
     private int cityId;
 
@@ -60,7 +57,6 @@ public class StationDTO {
     @ApiModelProperty(value = "longitude coordinate of the station", name = "longitude")
     private double y;
 
-    @Ignore
     @NotBlank
     @ApiModelProperty(value = "transport type the station has", required = true)
     private String transportType;

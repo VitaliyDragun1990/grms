@@ -19,6 +19,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Map;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -52,6 +53,8 @@ class EntityReferenceTransformerTest {
 
     @Test
     void shouldTransformEntityIntoDto() {
+        when(transformableProvider.find(Route.class)).thenReturn(Optional.of(routeTransformable()));
+
         final Station start = new Station();
         start.setId(1);
         final Station dest = new Station();
@@ -68,6 +71,8 @@ class EntityReferenceTransformerTest {
 
     @Test
     void shouldFailToTransformIfDomainPropertyDesignatesNotEntity() {
+        when(transformableProvider.find(Route.class)).thenReturn(Optional.of(brokenRouteTransformable()));
+
         final Station start = new Station();
         start.setId(1);
         final Station dest = new Station();
@@ -82,6 +87,8 @@ class EntityReferenceTransformerTest {
 
     @Test
     void shouldUntransformFromDtoIntoEntity() {
+        when(transformableProvider.find(Route.class)).thenReturn(Optional.of(routeTransformable()));
+
         final Station start = new Station();
         start.setId(1);
         final Station dest = new Station();
@@ -102,6 +109,8 @@ class EntityReferenceTransformerTest {
     @Test
     @SuppressWarnings("unchecked")
     void shouldFailToUntransformIfNoEntityByGivenId() {
+        when(transformableProvider.find(Route.class)).thenReturn(Optional.of(routeTransformable()));
+
         when(entityLoader.load(ArgumentMatchers.any(Class.class), anyInt())).thenReturn(Optional.empty());
 
         final RouteDTO dto = new RouteDTO();
@@ -109,6 +118,14 @@ class EntityReferenceTransformerTest {
         dto.destId = 2;
 
         assertThrows(ValidationException.class, () -> transformer.untransform(dto, Route.class));
+    }
+
+    private <T> T routeTransformable() {
+        return (T) new RouteTransformable();
+    }
+
+    private <T> T brokenRouteTransformable() {
+        return (T) new BrokenRouteTransformable();
     }
 
     static class Station extends AbstractEntity {
@@ -124,16 +141,30 @@ class EntityReferenceTransformerTest {
     }
 
     static class RouteDTO {
-        @DomainProperty("start")
+
         int startId;
 
-        @DomainProperty("dest")
         int destId;
     }
 
     static class BrokenRouteDTO {
 
-        @DomainProperty("name")
         String routeName;
+    }
+
+    static class RouteTransformable implements Transformable<Route, RouteDTO> {
+
+        @Override
+        public Map<String, String> getSourceMapping() {
+            return Map.of("startId", "start", "destId", "dest");
+        }
+    }
+
+    static class BrokenRouteTransformable implements Transformable<Route, BrokenRouteDTO> {
+
+        @Override
+        public Map<String, String> getSourceMapping() {
+            return Map.of("routeName", "name");
+        }
     }
 }

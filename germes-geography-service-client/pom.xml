@@ -14,13 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.revenat</groupId>
-            <artifactId>germes-common</artifactId>
-            <version>${project.parent.version}</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
