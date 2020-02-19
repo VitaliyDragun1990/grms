@@ -1,13 +1,9 @@
 package com.revenat.germes.geography.presentation.rest.dto;
 
-import com.revenat.germes.geography.model.entity.Address;
-import com.revenat.germes.geography.model.entity.Coordinate;
-import com.revenat.germes.geography.model.entity.Station;
-import com.revenat.germes.geography.model.entity.TransportType;
 import com.revenat.germes.infrastructure.dto.base.BaseDTO;
-import com.revenat.germes.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.infrastructure.transform.annotation.DomainProperty;
 import com.revenat.germes.infrastructure.transform.annotation.Ignore;
+import com.revenat.germes.model.entity.base.AbstractEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -25,7 +21,10 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @ApiModel(description = "Transport station to book and purchase tickets")
-public class StationDTO extends BaseDTO<Station> {
+public class StationDTO {
+
+    @ApiModelProperty(value = "Identifier of the station", name = "id")
+    private int id;
 
     @Positive
     @DomainProperty("city")
@@ -65,41 +64,4 @@ public class StationDTO extends BaseDTO<Station> {
     @NotBlank
     @ApiModelProperty(value = "transport type the station has", required = true)
     private String transportType;
-
-    @Override
-    public void transform(final Station station) {
-        super.transform(station);
-        zipCode = station.getAddress().getZipCode();
-        street = station.getAddress().getStreet();
-        apartment = station.getAddress().getApartment();
-        houseNo = station.getAddress().getHouseNo();
-        x = station.getCoordinate().getX();
-        y = station.getCoordinate().getY();
-        transportType = station.getTransportType().name();
-    }
-
-    @Override
-    public Station untransform(final Station station) {
-        if (station.getAddress() == null) {
-            station.setAddress(new Address());
-        }
-        station.getAddress().setApartment(apartment);
-        station.getAddress().setHouseNo(houseNo);
-        station.getAddress().setStreet(street);
-        station.getAddress().setZipCode(zipCode);
-
-        if (station.getCoordinate() == null) {
-            station.setCoordinate(new Coordinate());
-        }
-        station.getCoordinate().setX(x);
-        station.getCoordinate().setY(y);
-
-        try {
-            station.setTransportType(TransportType.valueOf(transportType.toUpperCase()));
-        } catch (final IllegalArgumentException e) {
-            throw new InvalidParameterException("No transport type for value: " + transportType);
-        }
-
-        return super.untransform(station);
-    }
 }

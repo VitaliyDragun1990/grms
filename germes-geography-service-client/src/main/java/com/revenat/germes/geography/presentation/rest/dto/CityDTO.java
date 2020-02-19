@@ -1,7 +1,5 @@
 package com.revenat.germes.geography.presentation.rest.dto;
 
-import com.revenat.germes.geography.model.entity.City;
-import com.revenat.germes.infrastructure.dto.base.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -14,7 +12,9 @@ import javax.validation.constraints.Size;
  * @author Vitaliy Dragun
  */
 @ApiModel(description = "City with transport stations to book and purchase tickets")
-public class CityDTO extends BaseDTO<City> {
+public class CityDTO {
+
+    private int id;
 
     @NotBlank
     @Size(min = 2, max = 32)
@@ -33,6 +33,15 @@ public class CityDTO extends BaseDTO<City> {
     @NotBlank
     @Size(min = 2, max = 32)
     private String region;
+
+    @ApiModelProperty(value = "Identifier of the city", name = "id")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @ApiModelProperty(value = "Name of the city", name = "name", required = true)
     public String getName() {
