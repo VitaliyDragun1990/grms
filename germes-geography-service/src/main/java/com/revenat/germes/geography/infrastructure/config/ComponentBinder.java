@@ -4,12 +4,14 @@ import com.revenat.germes.geography.persistence.repository.CityRepository;
 import com.revenat.germes.geography.persistence.repository.StationRepository;
 import com.revenat.germes.geography.persistence.repository.hibernate.HibernateCityRepository;
 import com.revenat.germes.geography.persistence.repository.hibernate.HibernateStationRepository;
+import com.revenat.germes.geography.presentation.rest.dto.transformable.DefaultTransformableProvider;
 import com.revenat.germes.geography.service.GeographicalService;
 import com.revenat.germes.geography.service.impl.GeographicalServiceImpl;
 import com.revenat.germes.infrastructure.environment.Environment;
 import com.revenat.germes.infrastructure.environment.StandardPropertyEnvironment;
 import com.revenat.germes.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.infrastructure.transform.impl.EntityReferenceTransformer;
 import com.revenat.germes.infrastructure.transform.impl.helper.BaseFieldProvider;
@@ -45,6 +47,7 @@ public class ComponentBinder extends AbstractBinder {
 
         bind(SessionEntityLoader.class).to(EntityLoader.class).in(Singleton.class);
 
+        bind(DefaultTransformableProvider.class).to(TransformableProvider.class).in(Singleton.class);
         bind(EntityReferenceTransformer.class).to(Transformer.class).in(Singleton.class);
 
         bind(GeographicalServiceImpl.class).to(GeographicalService.class).in(Singleton.class);

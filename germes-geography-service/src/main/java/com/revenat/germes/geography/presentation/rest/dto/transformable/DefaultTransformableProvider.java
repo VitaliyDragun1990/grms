@@ -1,0 +1,29 @@
+package com.revenat.germes.geography.presentation.rest.dto.transformable;
+
+import com.revenat.germes.geography.model.entity.Station;
+import com.revenat.germes.infrastructure.transform.Transformable;
+import com.revenat.germes.infrastructure.transform.TransformableProvider;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+/**
+ * Default provider that returns current {@link Transformable} instances for the project entities
+ *
+ * @author Vitaliy Dragun
+ */
+public class DefaultTransformableProvider implements TransformableProvider {
+
+    private final Map<Class<?>, Transformable<?, ?>> transformables = new HashMap<>();
+
+    public DefaultTransformableProvider() {
+        transformables.put(Station.class, new StationTransformable());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T, P> Optional<Transformable<T, P>> find(Class<T> classT) {
+        return (Optional) Optional.ofNullable(transformables.get(classT));
+    }
+}

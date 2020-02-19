@@ -4,10 +4,11 @@ plugins {
 }
 
 dependencies {
-    implementation project(':germes-persistence-base'), project(':germes-common-rest')
+    implementation project(':germes-persistence-base'), project(':germes-common-rest'),
+            project(':germes-geography-service-client')
 
     implementation misc.commonsLang3, log.log4jWeb, server.jerseySse,
-            misc.javassist, server.swagger, server.jerseyJson
+            misc.javassist, server.jerseyJson
 
     implementation( server.jerseyHk2) {
         exclude group: 'org:javassist', module: 'javassist'
