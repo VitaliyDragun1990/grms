@@ -19,7 +19,7 @@ public interface Transformer {
      * @param <P>      type of the DTO object
      * @return DTO object created from domain entity
      */
-    <T extends AbstractEntity, P extends Transformable<T>> P transform(T entity, Class<P> dtoClass);
+    <T extends AbstractEntity, P> P transform(T entity, Class<P> dtoClass);
 
     /**
      * Converts specified entity object into existing DTO object
@@ -29,7 +29,7 @@ public interface Transformer {
      * @param <T>    type of the entity object
      * @param <P>    type of the DTO object
      */
-    <T extends AbstractEntity, P extends Transformable<T>> P transform(T entity, P dto);
+    <T extends AbstractEntity, P> P transform(T entity, P dto);
 
     /**
      * Converts specified dto object into domain entity object of the specified entityClass
@@ -40,7 +40,7 @@ public interface Transformer {
      * @param <P>         type of the DTO object
      * @return domain entity created from DTO object
      */
-    <T extends AbstractEntity, P extends Transformable<T>> T untransform(P dto, Class<T> entityClass);
+    <T extends AbstractEntity, P> T untransform(P dto, Class<T> entityClass);
 
     /**
      * Converts specified dto object into specified domain entity object
@@ -51,5 +51,5 @@ public interface Transformer {
      * @param <P>    type of the DTO object
      * @return domain entity created from DTO object
      */
-    <T extends AbstractEntity, P extends Transformable<T>> T untransform(P dto, T entity);
+    <T extends AbstractEntity, P> T untransform(P dto, T entity);
 }

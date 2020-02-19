@@ -3,6 +3,7 @@ package com.revenat.germes.infrastructure.transform.impl;
 import com.revenat.germes.infrastructure.exception.ConfigurationException;
 import com.revenat.germes.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.infrastructure.transform.Transformable;
+import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.infrastructure.transform.annotation.DomainProperty;
 import com.revenat.germes.infrastructure.transform.impl.helper.BaseFieldProvider;
@@ -38,12 +39,15 @@ class EntityReferenceTransformerTest {
     @Mock
     private EntityLoader entityLoader;
 
+    @Mock
+    private TransformableProvider transformableProvider;
+
 
     @BeforeEach
     void setUp() {
         final FieldManager fieldManager = new FieldManager();
         final BaseFieldProvider fieldProvider = new BaseFieldProvider(new SimilarFieldsLocator(), fieldManager);
-        transformer = new EntityReferenceTransformer(entityLoader, fieldManager, fieldProvider);
+        transformer = new EntityReferenceTransformer(entityLoader, fieldManager, fieldProvider, transformableProvider);
     }
 
     @Test
@@ -119,37 +123,17 @@ class EntityReferenceTransformerTest {
         Station dest;
     }
 
-    static class RouteDTO implements Transformable<Route> {
-
+    static class RouteDTO {
         @DomainProperty("start")
         int startId;
 
         @DomainProperty("dest")
         int destId;
-
-        @Override
-        public void transform(final Route route) {
-        }
-
-        @Override
-        public Route untransform(final Route route) {
-            return route;
-        }
     }
 
-    static class BrokenRouteDTO implements Transformable<Route> {
+    static class BrokenRouteDTO {
 
         @DomainProperty("name")
         String routeName;
-
-        @Override
-        public void transform(final Route route) {
-
-        }
-
-        @Override
-        public Route untransform(final Route route) {
-            return route;
-        }
     }
 }

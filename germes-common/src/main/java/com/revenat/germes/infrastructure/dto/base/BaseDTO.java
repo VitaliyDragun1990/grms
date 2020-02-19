@@ -9,7 +9,7 @@ import com.revenat.germes.model.entity.base.AbstractEntity;
  *
  * @author Vitaliy Dragun
  */
-public abstract class BaseDTO<T extends AbstractEntity> implements Transformable<T> {
+public abstract class BaseDTO<T extends AbstractEntity> {
 
     /**
      * Unique entity identifier

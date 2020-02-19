@@ -3,7 +3,7 @@ package com.revenat.germes.infrastructure.transform.impl;
 import com.revenat.germes.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.infrastructure.helper.ToStringBuilder;
-import com.revenat.germes.infrastructure.transform.Transformable;
+import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.infrastructure.transform.impl.helper.ClassInstanceCreator;
 import com.revenat.germes.infrastructure.transform.impl.helper.FieldProvider;
@@ -25,18 +25,24 @@ public class SimpleDTOTransformer implements Transformer {
 
     private final FieldProvider fieldProvider;
 
+    private final TransformableProvider transformableProvider;
+
     private final ClassInstanceCreator classInstanceCreator;
 
     private final ObjectStateCopier stateCopier;
 
-    public SimpleDTOTransformer(final FieldProvider fieldProvider) {
+    public SimpleDTOTransformer(final FieldProvider fieldProvider, final TransformableProvider transformableProvider) {
+        Asserts.assertNotNull(fieldProvider, "fieldProvider can not be null");
+        Asserts.assertNotNull(transformableProvider, "transformableProvider can not be null");
+
         this.fieldProvider = fieldProvider;
+        this.transformableProvider = transformableProvider;
         classInstanceCreator = new ClassInstanceCreator();
         stateCopier = new ObjectStateCopier();
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> P transform(final T entity, final Class<P> dtoClass) {
+    public <T extends AbstractEntity, P> P transform(final T entity, final Class<P> dtoClass) {
         checkParams(entity, dtoClass);
 
         final P dto = createInstance(dtoClass);
@@ -44,11 +50,12 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> P transform(final T entity, final P dto) {
+    public <T extends AbstractEntity, P> P transform(final T entity, final P dto) {
         checkParams(entity, dto);
 
         copyState(entity, dto);
-        dto.transform(entity);
+
+        additionTransform(entity, dto);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("SimpleDTOTransformer.transform: {} DTO object",
@@ -59,7 +66,7 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> T untransform(final P dto, final Class<T> entityClass) {
+    public <T extends AbstractEntity, P> T untransform(final P dto, final Class<T> entityClass) {
         checkParams(dto, entityClass);
 
         final T entity = createInstance(entityClass);
@@ -72,11 +79,12 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> T untransform(final P dto, final T entity) {
+    public <T extends AbstractEntity, P> T untransform(final P dto, final T entity) {
         checkParams(dto, entity);
 
         copyState(dto, entity);
-        dto.untransform(entity);
+
+        additionUntransform(dto, entity);
 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("SimpleDTOTransformer.untransform: {} entity object",
@@ -84,6 +92,19 @@ public class SimpleDTOTransformer implements Transformer {
         }
 
         return entity;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private <T extends AbstractEntity, P> void additionTransform(T entity, P dto) {
+        transformableProvider.find((Class<T>) entity.getClass())
+                .ifPresent(transformable -> transformable.transform(entity, dto));
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends AbstractEntity, P> void additionUntransform(P dto, T entity) {
+        transformableProvider.find((Class<T>) entity.getClass())
+                .ifPresent(transformable -> transformable.untransform(dto, entity));
     }
 
     private void checkParams(final Object src, final Class<?> targetClz) {

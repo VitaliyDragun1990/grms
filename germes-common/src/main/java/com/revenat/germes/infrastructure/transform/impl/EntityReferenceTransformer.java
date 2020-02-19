@@ -5,7 +5,7 @@ import com.revenat.germes.infrastructure.exception.ConfigurationException;
 import com.revenat.germes.infrastructure.exception.flow.InvalidParameterException;
 import com.revenat.germes.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.infrastructure.helper.Asserts;
-import com.revenat.germes.infrastructure.transform.Transformable;
+import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.infrastructure.transform.annotation.DomainProperty;
 import com.revenat.germes.infrastructure.transform.impl.helper.ClassInstanceCreator;
@@ -47,7 +47,8 @@ public class EntityReferenceTransformer implements Transformer {
     @Inject
     public EntityReferenceTransformer(final EntityLoader entityLoader,
                                       final FieldManager fieldManager,
-                                      @Cached final FieldProvider fieldProvider) {
+                                      @Cached final FieldProvider fieldProvider,
+                                      final TransformableProvider transformableProvider) {
         Asserts.assertNotNull(entityLoader, "entityLoader is not initialized");
         Asserts.assertNotNull(fieldManager, "fieldManager is not initialized");
         Asserts.assertNotNull(fieldProvider, "fieldProvider is not initialized");
@@ -56,11 +57,11 @@ public class EntityReferenceTransformer implements Transformer {
         this.entityLoader = entityLoader;
         this.fieldManager = fieldManager;
         this.fieldProvider = fieldProvider;
-        delegate = new SimpleDTOTransformer(fieldProvider);
+        delegate = new SimpleDTOTransformer(fieldProvider, transformableProvider);
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> P transform(final T entity, final Class<P> dtoClass) {
+    public <T extends AbstractEntity, P> P transform(final T entity, final Class<P> dtoClass) {
         checkParams(entity, dtoClass);
 
         final P dto = instanceCreator.createInstance(dtoClass);
@@ -68,7 +69,7 @@ public class EntityReferenceTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> P transform(final T entity, final P dto) {
+    public <T extends AbstractEntity, P> P transform(final T entity, final P dto) {
         checkParams(dto, entity);
 
         final List<String> markedFieldNames = fieldProvider.getDomainPropertyFields(dto.getClass());
@@ -85,20 +86,20 @@ public class EntityReferenceTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> T untransform(final P dto, final Class<T> entityClass) {
+    public <T extends AbstractEntity, P> T untransform(final P dto, final Class<T> entityClass) {
         checkParams(dto, entityClass);
 
         final T entity = instanceCreator.createInstance(entityClass);
 
         try {
             return untransform(dto, entity);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new ValidationException(e.getMessage(), e);
         }
     }
 
     @Override
-    public <T extends AbstractEntity, P extends Transformable<T>> T untransform(final P dto, final T entity) {
+    public <T extends AbstractEntity, P> T untransform(final P dto, final T entity) {
         checkParams(dto, entity);
 
         final List<String> markedFieldNames = fieldProvider.getDomainPropertyFields(dto.getClass());
@@ -117,7 +118,7 @@ public class EntityReferenceTransformer implements Transformer {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private AbstractEntity loadEntity(Class entityClass, int id) {
+    private AbstractEntity loadEntity(final Class entityClass, final int id) {
         final Optional<? extends AbstractEntity> optionalEntity = entityLoader.load(entityClass, id);
 
         return optionalEntity.orElseThrow(
@@ -125,7 +126,7 @@ public class EntityReferenceTransformer implements Transformer {
                         " entity with identifier: " + id));
     }
 
-    private <T extends AbstractEntity, P extends Transformable<T>> void checkParams(final P dto, final T entity) {
+    private <T extends AbstractEntity, P> void checkParams(final P dto, final T entity) {
         Asserts.assertNotNull(entity, "Entity object is not initialized");
         Asserts.assertNotNull(dto, "DTO object is not initialized");
     }

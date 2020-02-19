@@ -1,25 +1,32 @@
 package com.revenat.germes.infrastructure.transform;
 
 /**
- * Any object that supports direct/backward transformation
- * into some kind of object
+ * Declares transform/untransform operations that should be used to copy
+ * data between pair of objects in two directions (for example, business entity and DTO)
  *
  * @author Vitaliy Dragun
  */
-public interface Transformable<P> {
+public interface Transformable<T, P> {
 
     /**
-     * Transform given object into current one
+     * Transforms object {@code t} into object {@code p}
      *
-     * @param p object to transform from
-     */
-    void transform(P p);
-
-    /**
-     * Transform current object into given one
+     * @param t object to transform from
      * @param p object to transform to
-     *
-     * @return transformed object
+     * @return transformed object {@code p}
      */
-    P untransform(P p);
+    default P transform(T t, P p) {
+        return p;
+    }
+
+    /**
+     * Untransforms object {@code p} into object {@code t}
+     *
+     * @param p object to untransform from
+     * @param t object to transform to
+     * @return untransformed object {@code t}
+     */
+    default T untransform(P p, T t) {
+        return t;
+    }
 }
