@@ -1,9 +1,7 @@
 package com.revenat.germes.geography.presentation.rest.dto;
 
-import com.revenat.germes.infrastructure.dto.base.BaseDTO;
 import com.revenat.germes.infrastructure.transform.annotation.DomainProperty;
 import com.revenat.germes.infrastructure.transform.annotation.Ignore;
-import com.revenat.germes.model.entity.base.AbstractEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -11,6 +9,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 /**
@@ -23,6 +22,7 @@ import javax.validation.constraints.Size;
 @ApiModel(description = "Transport station to book and purchase tickets")
 public class StationDTO {
 
+    @PositiveOrZero
     @ApiModelProperty(value = "Identifier of the station", name = "id")
     private int id;
 

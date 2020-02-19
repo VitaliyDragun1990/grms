@@ -1,8 +1,6 @@
 package com.revenat.germes.trip.presentation.rest.dto;
 
-import com.revenat.germes.infrastructure.dto.base.BaseDTO;
 import com.revenat.germes.infrastructure.transform.annotation.DomainProperty;
-import com.revenat.germes.trip.model.entity.Trip;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -21,7 +19,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ApiModel(description = "Trip with exact date, time and price")
-public class TripDTO extends BaseDTO<Trip> {
+public class TripDTO {
+
+    @PositiveOrZero
+    @ApiModelProperty(value = "Identifier of the trip")
+    private int id;
 
     @ApiModelProperty(value = "Identifier of the parent route", required = true)
     @Positive

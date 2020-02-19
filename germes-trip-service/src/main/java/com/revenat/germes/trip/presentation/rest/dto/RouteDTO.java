@@ -1,8 +1,5 @@
 package com.revenat.germes.trip.presentation.rest.dto;
 
-import com.revenat.germes.infrastructure.dto.base.BaseDTO;
-import com.revenat.germes.infrastructure.transform.annotation.DomainProperty;
-import com.revenat.germes.trip.model.entity.Route;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -11,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalTime;
 
 /**
@@ -21,7 +19,11 @@ import java.time.LocalTime;
 @Setter
 @Getter
 @ApiModel(description = "Generic route that exists between start and destination stations")
-public class RouteDTO  extends BaseDTO<Route> {
+public class RouteDTO {
+
+    @PositiveOrZero
+    @ApiModelProperty(value = "Identifier of the route", name = "id")
+    private int id;
 
     @ApiModelProperty(value = "Identifier of the start station", required = true)
     @NotBlank

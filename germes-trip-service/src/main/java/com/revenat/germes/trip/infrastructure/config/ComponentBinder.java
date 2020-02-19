@@ -5,6 +5,7 @@ import com.revenat.germes.infrastructure.environment.Environment;
 import com.revenat.germes.infrastructure.environment.StandardPropertyEnvironment;
 import com.revenat.germes.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.infrastructure.transform.impl.EntityReferenceTransformer;
 import com.revenat.germes.infrastructure.transform.impl.helper.BaseFieldProvider;
@@ -46,6 +47,7 @@ public class ComponentBinder extends AbstractBinder {
 
         bind(SessionEntityLoader.class).to(EntityLoader.class).in(Singleton.class);
 
+        bind(TransformableProvider.empty()).to(TransformableProvider.class);
         bind(EntityReferenceTransformer.class).to(Transformer.class).in(Singleton.class);
 
         bind(TripServiceImpl.class).to(TripService.class).in(Singleton.class);

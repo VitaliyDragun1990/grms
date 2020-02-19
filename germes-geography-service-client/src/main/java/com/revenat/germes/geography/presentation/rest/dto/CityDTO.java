@@ -2,8 +2,11 @@ package com.revenat.germes.geography.presentation.rest.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 /**
@@ -12,18 +15,24 @@ import javax.validation.constraints.Size;
  * @author Vitaliy Dragun
  */
 @ApiModel(description = "City with transport stations to book and purchase tickets")
+@Getter
+@Setter
 public class CityDTO {
 
+    @PositiveOrZero
+    @ApiModelProperty(value = "Identifier of the city", name = "id")
     private int id;
 
     @NotBlank
     @Size(min = 2, max = 32)
+    @ApiModelProperty(value = "Name of the city", name = "name", required = true)
     private String name;
 
     /**
      * Name of the district where city is placed
      */
     @Size(min = 4, max = 32)
+    @ApiModelProperty(value = "Name of the city's district. Empty for region center", name="district")
     private String district;
 
     /**
@@ -32,44 +41,6 @@ public class CityDTO {
      */
     @NotBlank
     @Size(min = 2, max = 32)
-    private String region;
-
-    @ApiModelProperty(value = "Identifier of the city", name = "id")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @ApiModelProperty(value = "Name of the city", name = "name", required = true)
-    public String getName() {
-        return name;
-    }
-
-    public CityDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    @ApiModelProperty(value = "Name of the city's district. Empty for region center", name="district")
-    public String getDistrict() {
-        return district;
-    }
-
-    public CityDTO setDistrict(String district) {
-        this.district = district;
-        return this;
-    }
-
     @ApiModelProperty(value = "Name of the city's region", name="region", required = true)
-    public String getRegion() {
-        return region;
-    }
-
-    public CityDTO setRegion(String region) {
-        this.region = region;
-        return this;
-    }
+    private String region;
 }
