@@ -21,8 +21,8 @@ import static com.revenat.germes.geography.presentation.rest.resource.TestHelper
 import static javax.ws.rs.core.Response.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * {@link CityResourceTest} is an integration test that verifies
@@ -51,10 +51,9 @@ class CityResourceTest {
     @Test
     void shouldSaveNewCity(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setDistrict("Some district")
-                .setRegion("Some region")
-                .setName("Odessa");
+        cityDTO.setDistrict("Odessa");
+        cityDTO.setRegion("Odessa");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("cities")
@@ -67,11 +66,9 @@ class CityResourceTest {
     @Test
     void shouldSaveNewCityReactClient(final WebTarget target) throws Throwable {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setDistrict("Odessa")
-                .setRegion("Odessa")
-                .setName("Odessa");
-
+        cityDTO.setDistrict("Odessa");
+        cityDTO.setRegion("Odessa");
+        cityDTO.setName("Odessa");
 
         final CompletableFuture<Void> cf = target
                 .path("cities")
@@ -96,10 +93,9 @@ class CityResourceTest {
     @Test
     void shouldReturnLocationOfNewlySavedCity(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setDistrict("Some district")
-                .setRegion("Some region")
-                .setName("Odessa");
+        cityDTO.setDistrict("Odessa");
+        cityDTO.setRegion("Odessa");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("cities")
@@ -112,15 +108,13 @@ class CityResourceTest {
     @Test
     void shouldFindAllPresentCities(final WebTarget target) {
         final CityDTO odessa = new CityDTO();
-        odessa
-                .setDistrict("Some district")
-                .setRegion("Some region")
-                .setName("Odessa");
+        odessa.setDistrict("Odessa");
+        odessa.setRegion("Odessa");
+        odessa.setName("Odessa");
         final CityDTO kiyv = new CityDTO();
-        kiyv
-                .setDistrict("Kiyv district")
-                .setRegion("Kiyv region")
-                .setName("Kiyv");
+        kiyv.setDistrict("Kiyv");
+        kiyv.setRegion("Kiyv");
+        kiyv.setName("Kiyv");
         saveResources(target, "cities", odessa, kiyv);
 
         final List<Map<String, String>> cities = target.path("cities").request().get(List.class);
@@ -133,15 +127,98 @@ class CityResourceTest {
     @Test
     void shouldFindCityById(final WebTarget target) {
         final CityDTO odessa = new CityDTO();
-        odessa
-                .setDistrict("Some district")
-                .setRegion("Some region")
-                .setName("Odessa");
-        saveResources(target, "cities", odessa);
+        odessa.setDistrict("Odessa");
+        odessa.setRegion("Odessa");
+        odessa.setName("Odessa");
+        final int cityId = saveResource(target, "cities", odessa);
 
-        final CityDTO result = target.path("/cities/1").request().get(CityDTO.class);
+        final Response response = target.path("/cities/1").request().get();
+        final CityDTO result = response.readEntity(CityDTO.class);
 
-        assertThat(result.getId(), equalTo(1));
+        assertStatus(response, OK);
+        assertThat(result.getId(), equalTo(cityId));
+    }
+
+    @Test
+    void shouldUpdateExistingCityInstance(final WebTarget target) {
+        final CityDTO odessa = new CityDTO();
+        odessa.setDistrict("Odessa");
+        odessa.setRegion("Odessa");
+        odessa.setName("Odessa");
+        final int cityId = saveResource(target, "cities", odessa);
+
+        final CityDTO updatedDTO = new CityDTO();
+        updatedDTO.setId(cityId);
+        updatedDTO.setName("Odessa");
+        updatedDTO.setDistrict("Kiev");
+        updatedDTO.setRegion("Odessa");
+
+        Response response = target.path("/cities/" + cityId).request()
+                .put(Entity.entity(updatedDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, OK);
+        final CityDTO responseDTO = response.readEntity(CityDTO.class);
+        assertEqualContent(responseDTO, updatedDTO);
+        assertActualCityContent(cityId, responseDTO, target);
+    }
+
+    @Test
+    void shouldReturnStatusNotFoundIfNoCityWithSpecifiedIdToUpdate(final WebTarget target) {
+        int invalidCityId = 999;
+
+        final CityDTO updatedDTO = new CityDTO();
+        updatedDTO.setId(invalidCityId);
+        updatedDTO.setName("Odessa");
+        updatedDTO.setDistrict("Kiev");
+        updatedDTO.setRegion("Odessa");
+
+        Response response = target.path("/cities/" + invalidCityId).request()
+                .put(Entity.entity(updatedDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, NOT_FOUND);
+    }
+
+    @Test
+    void shouldReturnStatusBadRequestIfTryToUpdateCityWithInvalidData(final WebTarget target) {
+        final CityDTO odessa = new CityDTO();
+        odessa.setDistrict("Odessa");
+        odessa.setRegion("Odessa");
+        odessa.setName("Odessa");
+        final int cityId = saveResource(target, "cities", odessa);
+
+        final CityDTO updatedDTO = new CityDTO();
+        updatedDTO.setId(cityId);
+        updatedDTO.setName("O");
+        updatedDTO.setDistrict("");
+        updatedDTO.setRegion("Odessa");
+
+        Response response = target.path("/cities/" + cityId).request()
+                .put(Entity.entity(updatedDTO, MediaType.APPLICATION_JSON));
+
+        assertStatus(response, BAD_REQUEST);
+    }
+
+    @Test
+    void shouldDeleteCityById(final WebTarget target) {
+        final CityDTO odessa = new CityDTO();
+        odessa.setDistrict("Odessa");
+        odessa.setRegion("Odessa");
+        odessa.setName("Odessa");
+        final int cityId = saveResource(target, "cities", odessa);
+
+        final Response response = target.path("/cities/" + cityId).request().delete();
+
+        assertStatus(response, NO_CONTENT);
+        assertResourceNotFound("/cities/" + cityId, target);
+    }
+
+    @Test
+    void shouldReturnStatusNotFoundIfNoCityWithSpecifiedIdToDelete(final WebTarget target) {
+        int invalidCityId = 999;
+
+        final Response response = target.path("/cities/" + invalidCityId).request().delete();
+
+        assertStatus(response, NOT_FOUND);
     }
 
     @Test
@@ -161,9 +238,9 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithoutName(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setDistrict("Odessa district")
-                .setRegion("Odessa region");
+        final CityDTO odessa = new CityDTO();
+        odessa.setDistrict("Odessa");
+        odessa.setRegion("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -176,9 +253,8 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithoutRegion(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("Odessa")
-                .setDistrict("Odessa district");
+        cityDTO.setDistrict("Odessa");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -192,10 +268,9 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithTooShortName(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("O")
-                .setDistrict("Odessa")
-                .setRegion("Odessa");
+        cityDTO.setDistrict("O");
+        cityDTO.setRegion("Odessa");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -208,10 +283,9 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithTooLongName(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("a".repeat(33))
-                .setDistrict("Odessa")
-                .setRegion("Odessa");
+        cityDTO.setDistrict("a".repeat(33));
+        cityDTO.setRegion("Odessa");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -224,10 +298,9 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithEmptyName(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("")
-                .setDistrict("Odessa")
-                .setRegion("Odessa");
+        cityDTO.setDistrict("");
+        cityDTO.setRegion("Odessa");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -240,10 +313,9 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithTooShortRegion(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("Odessa")
-                .setDistrict("Odessa")
-                .setRegion("O");
+        cityDTO.setDistrict("Odessa");
+        cityDTO.setRegion("O");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -256,10 +328,9 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithTooLongRegion(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("Odessa")
-                .setDistrict("Odessa")
-                .setRegion("O".repeat(35));
+        cityDTO.setDistrict("Odessa");
+        cityDTO.setRegion("O".repeat(35));
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -272,10 +343,9 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithEmptyRegion(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("Odessa")
-                .setDistrict("Odessa")
-                .setRegion("");
+        cityDTO.setDistrict("Odessa");
+        cityDTO.setRegion("");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -288,10 +358,9 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithTooLongDistrict(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("Odessa")
-                .setDistrict("O".repeat(35))
-                .setRegion("Odessa");
+        cityDTO.setDistrict("O".repeat(35));
+        cityDTO.setRegion("Odessa");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -304,10 +373,9 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusBadRequestIfTryToSaveCityWithTooShortDistrict(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("Odessa")
-                .setDistrict("O")
-                .setRegion("Odessa");
+        cityDTO.setDistrict("O");
+        cityDTO.setRegion("Odessa");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -320,9 +388,8 @@ class CityResourceTest {
     @Test
     void shouldReturnStatusCreatedIfTryToSaveCityWithoutDistrict(final WebTarget target) {
         final CityDTO cityDTO = new CityDTO();
-        cityDTO
-                .setName("Odessa")
-                .setRegion("Odessa");
+        cityDTO.setRegion("Odessa");
+        cityDTO.setName("Odessa");
 
         final Response response = target
                 .path("/cities")
@@ -336,5 +403,18 @@ class CityResourceTest {
         final List<Map<String, String>> cities = response.readEntity(List.class);
         assertNotNull(cities);
         assertThat(cities, hasItems(hasEntry(equalTo("name"), equalTo(cityName))));
+    }
+
+    private void assertActualCityContent(int cityId, CityDTO expected, WebTarget target) {
+        final CityDTO result = target.path("/cities/" + cityId).request().get(CityDTO.class);
+
+        assertEqualContent(result, expected);
+    }
+
+    private void assertEqualContent(CityDTO actual, CityDTO expected) {
+        assertThat(actual.getId(), equalTo(expected.getId()));
+        assertThat(actual.getName(), equalTo(expected.getName()));
+        assertThat(actual.getDistrict(), equalTo(expected.getDistrict()));
+        assertThat(actual.getRegion(), equalTo(expected.getRegion()));
     }
 }

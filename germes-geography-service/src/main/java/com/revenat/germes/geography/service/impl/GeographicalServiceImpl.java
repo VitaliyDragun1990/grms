@@ -10,10 +10,12 @@ import com.revenat.germes.geography.service.GeographicalService;
 import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.model.search.range.RangeCriteria;
+import com.revenat.germes.rest.infrastructure.exception.ResourceNotFoundException;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,6 +51,15 @@ public class GeographicalServiceImpl implements GeographicalService {
     }
 
     @Override
+    public void updateCity(final City city) {
+        Asserts.assertNotNull(city, "city to update can not be null");
+
+        assertCityPresent(city.getId());
+
+        cityRepository.update(city);
+    }
+
+    @Override
     public Optional<City> findCityById(final int id) {
         return cityRepository.findById(id);
     }
@@ -81,6 +92,8 @@ public class GeographicalServiceImpl implements GeographicalService {
 
     @Override
     public void deleteCity(final int cityId) {
+        assertCityPresent(cityId);
+
         cityRepository.delete(cityId);
     }
 
@@ -89,5 +102,9 @@ public class GeographicalServiceImpl implements GeographicalService {
         Asserts.assertNotNull(station, "station to save can not be null");
 
         stationRepository.save(station);
+    }
+
+    private void assertCityPresent(int cityId) {
+        cityRepository.findById(cityId).orElseThrow(() -> new ResourceNotFoundException(City.class, cityId));
     }
 }

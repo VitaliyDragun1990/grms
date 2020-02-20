@@ -19,7 +19,6 @@ import static javax.ws.rs.core.Response.Status.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * {@link StationResourceTest} is an integration test that verifies
@@ -207,10 +206,9 @@ class StationResourceTest {
 
     private int saveCity(final WebTarget target) {
         final CityDTO odessa = new CityDTO();
-        odessa
-                .setDistrict("Some district")
-                .setRegion("Some region")
-                .setName("Odessa");
+        odessa.setDistrict("Odessa");
+        odessa.setRegion("Odessa");
+        odessa.setName("Odessa");
 
         return saveResource(target, "cities", odessa);
     }

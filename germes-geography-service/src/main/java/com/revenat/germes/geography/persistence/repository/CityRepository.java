@@ -18,6 +18,11 @@ public interface CityRepository {
     void save(City city);
 
     /**
+     * Updates existing city instance with data from specified city
+     */
+    void update(City city);
+
+    /**
      * Returns city with specified identifier
      *
      * @param cityId identifier of specified city to return

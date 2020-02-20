@@ -14,6 +14,7 @@ import com.revenat.germes.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.infrastructure.exception.PersistenceException;
 import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.model.search.range.RangeCriteria;
+import com.revenat.germes.rest.infrastructure.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,6 +101,43 @@ class GeographicalServiceImplIntegrationTest {
         final Optional<City> cityOptional = service.findCityById(cityId);
 
         assertTrue(cityOptional.isEmpty());
+    }
+
+    @Test
+    void shouldUpdateExistingCity() {
+        final City city = buildCity(CITY_ODESSA, REGION_ODESSA);
+        service.saveCity(city);
+
+        City updateHolder = buildCity(CITY_KIYV, REGION_KIYV);
+        updateHolder.setId(city.getId());
+
+        service.updateCity(updateHolder);
+
+        City result = service.findCityById(city.getId()).get();
+        assertEqualContent(result, updateHolder);
+    }
+
+    @Test
+    void shouldFailToUpdateCityIfNoCityWithSpecifiedIdentifierPresent() {
+        City updateHolder = buildCity(CITY_KIYV, REGION_KIYV);
+        updateHolder.setId(999);
+
+        assertThrows(ResourceNotFoundException.class, () -> service.updateCity(updateHolder));
+    }
+
+    @Test
+    void shouldDeleteCityById() {
+        final City city = buildCity(CITY_ODESSA, REGION_ODESSA);
+        service.saveCity(city);
+
+        service.deleteCity(city.getId());
+
+        assertNoCityWithGivenId(city.getId());
+    }
+
+    @Test
+    void shouldFailToDeleteCityIfNoCityWithGivenIdentifier() {
+        assertThrows(ResourceNotFoundException.class, () -> service.deleteCity(999));
     }
 
     @Test
@@ -347,5 +386,16 @@ class GeographicalServiceImplIntegrationTest {
         for (final City city : expectedCities) {
             assertThat(cities, hasItem(equalTo(city)));
         }
+    }
+
+    private void assertNoCityWithGivenId(int cityId) {
+        final Optional<City> cityOptional = service.findCityById(cityId);
+        assertTrue(cityOptional.isEmpty());
+    }
+
+    private void assertEqualContent(City actual, City expected) {
+        assertThat(actual.getId(), equalTo(expected.getId()));
+        assertThat(actual.getName(), equalTo(expected.getName()));
+        assertThat(actual.getRegion(), equalTo(expected.getRegion()));
     }
 }

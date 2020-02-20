@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +35,18 @@ public class HibernateCityRepository extends BaseHibernateRepository implements 
     @Override
     public void save(final City city) {
         execute(session -> session.saveOrUpdate(city));
+    }
+
+    @Override
+    public void update(City city) {
+        execute(session -> {
+            final City cityToUpdate = session.get(City.class, city.getId());
+
+            cityToUpdate.setName(city.getName());
+            cityToUpdate.setDistrict(city.getDistrict());
+            cityToUpdate.setRegion(city.getRegion());
+            cityToUpdate.setModifiedAt(LocalDateTime.now());
+        });
     }
 
     @Override

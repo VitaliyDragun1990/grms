@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +68,7 @@ public class CityResource extends BaseResource {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Saves city instance", consumes = MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Saves new city instance", consumes = MediaType.APPLICATION_JSON)
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid content of city object"),
             @ApiResponse(code = 201, message = "City instance has been saved")
@@ -83,6 +84,54 @@ public class CityResource extends BaseResource {
     }
 
     /**
+     * Updates existing city instance
+     */
+    @PUT
+    @Path("/{cityId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Updates existing city instance", consumes = MediaType.APPLICATION_JSON)
+    @ApiResponses(value = {
+            @ApiResponse(code = 400, message = "Invalid content of city object"),
+            @ApiResponse(code = 404, message = "Identifier of the non-existing city"),
+            @ApiResponse(code = 200, message = "City instance has been updated")
+    })
+    public Response updateCity(
+            @ApiParam(value = "Unique numeric city identifier", required = true) @PathParam("cityId") final int cityId,
+            @Valid @ApiParam(name = "city", required = true) final CityDTO cityDTO) {
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("CityResource.updateCity: {}", ToStringBuilder.shortStyle(cityDTO));
+        }
+
+        cityDTO.setId(cityId); // to make sure correct id is set
+
+        final City updateHolder = transformer.untransform(cityDTO, City.class);
+
+        service.updateCity(updateHolder);
+
+        final City updatedCity = service.findCityById(cityId).orElseThrow();
+
+        return ok(transformer.transform(updatedCity, CityDTO.class));
+    }
+
+    /**
+     * Deletes city with specified identifier
+     */
+    @Path("/{cityId}")
+    @DELETE
+    @ApiOperation("Deletes existing city by its identifier")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "City instance has been deleted"),
+            @ApiResponse(code = 404, message = "Identifier of the non-existing city")
+    })
+    public void deleteCity(@ApiParam(value = "Unique numeric city identifier", required = true)
+                             @PathParam("cityId") final int cityId) {
+        LOGGER.info("CityResource.deleteCity: {}", cityId);
+
+        service.deleteCity(cityId);
+    }
+
+    /**
      * Returns city with specified identifier
      */
     @Path("/{cityId}")
@@ -90,6 +139,7 @@ public class CityResource extends BaseResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation("Returns existing city by its identifier")
     @ApiResponses({
+            @ApiResponse(code = 200, message = "City with specified identifier has been found"),
             @ApiResponse(code = 400, message = "Invalid city identifier"),
             @ApiResponse(code = 404, message = "Identifier of the non-existing city")
     })

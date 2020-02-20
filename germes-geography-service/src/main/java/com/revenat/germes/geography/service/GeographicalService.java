@@ -4,6 +4,7 @@ import com.revenat.germes.geography.model.entity.City;
 import com.revenat.germes.geography.model.entity.Station;
 import com.revenat.germes.geography.model.search.StationCriteria;
 import com.revenat.germes.model.search.range.RangeCriteria;
+import com.revenat.germes.rest.infrastructure.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,13 @@ public interface GeographicalService {
      * Save specified city instance
      */
     void saveCity(City city);
+
+    /**
+     * Updates specified city instance
+     *
+     * @throws ResourceNotFoundException if no city with specified id to update
+     */
+    void updateCity(City city);
 
     /**
      * Returns city with specified identifier. If no city is found, then empty Optional is returned
@@ -67,6 +75,7 @@ public interface GeographicalService {
      * Delete city with specified identifier
      *
      * @param cityId unique identifier of the city to delete
+     * @throws ResourceNotFoundException if no city with specified identifier present
      */
     void deleteCity(int cityId);
 

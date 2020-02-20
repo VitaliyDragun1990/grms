@@ -6,7 +6,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
 
-import static javax.ws.rs.core.Response.Status.CREATED;
+import static javax.ws.rs.core.Response.Status.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -38,6 +38,18 @@ public final class TestHelper {
 
     public static void assertStatus(final Response response, final Response.Status status) {
         assertThat(response.getStatus(), equalTo(status.getStatusCode()));
+    }
+
+    public static void assertResourceNotFound(final String path, final WebTarget target) {
+        final Response response = target.path(path).request().get();
+
+        assertStatus(response, NOT_FOUND);
+    }
+
+    public static void assertResourcePresent(final String path, final WebTarget target) {
+        final Response response = target.path(path).request().get();
+
+        assertStatus(response, OK);
     }
 
     public static int assertCreatedResourceLocationPresent(final Response response) {
