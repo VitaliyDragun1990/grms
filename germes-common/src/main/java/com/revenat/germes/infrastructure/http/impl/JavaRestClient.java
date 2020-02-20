@@ -49,43 +49,72 @@ public class JavaRestClient implements RestClient {
         try {
             final HttpRequest request = buildGetRequestFor(url);
 
-            return sendGetRequest(request, clz);
+            return sendRequest(request, clz);
         } catch (final Exception e) {
             LOGGER.error(e.getMessage(), e);
             throw new CommunicationException("Error during GET request: url="
-                    + url + ", response type=" + clz.getSimpleName(), e);
+                    + url, e);
         }
     }
 
     @Override
-    public <T> RestResponse<T> post(String url, Class<T> clz, T entity) {
+    public <T> RestResponse<T> post(final String url, final Class<T> clz, final T entity) {
         Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
 
         try {
-            String json = jsonClient.toJson(entity);
-            HttpRequest request = buildPostRequestFor(url, json);
+            final String json = jsonClient.toJson(entity);
+            final HttpRequest request = buildPostRequestFor(url, json);
 
-            return sendPostRequest(request);
-        } catch (Exception e) {
+            return sendRequest(request);
+        } catch (final Exception e) {
             LOGGER.error(e.getMessage(), e);
             throw new CommunicationException("Error during POST request: url="
                 + url, e);
         }
     }
 
-    private <T> RestResponse<T> sendGetRequest(final HttpRequest request, final Class<T> responseType)
+    @Override
+    public <T> RestResponse<T> put(String url, Class<T> clz, T entity) {
+        Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
+
+        try {
+            String json = jsonClient.toJson(entity);
+            final HttpRequest request = buildPutRequestFor(url, json);
+            return sendRequest(request, clz);
+        } catch (final Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CommunicationException("Error during PUT request: url="
+                    + url, e);
+        }
+    }
+
+    @Override
+    public <T> RestResponse<T> delete(String url) {
+        Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
+
+        try {
+            final HttpRequest request = buildDeleteRequestFor(url);
+            return sendRequest(request);
+        } catch (final Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CommunicationException("Error during DELETE request: url="
+                    + url, e);
+        }
+    }
+
+    private <T> RestResponse<T> sendRequest(final HttpRequest request, final Class<T> responseType)
             throws IOException, InterruptedException {
         final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         return new RestResponse<>(response.statusCode(), jsonClient.fromJson(response.body(), responseType));
     }
 
-    private <T> RestResponse<T> sendPostRequest(final HttpRequest request)
+    private <T> RestResponse<T> sendRequest(final HttpRequest request)
             throws IOException, InterruptedException {
         final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         return new RestResponse<>(response.statusCode(), null);
     }
 
-    private HttpRequest buildPostRequestFor(String url, String json) {
+    private HttpRequest buildPostRequestFor(final String url, final String json) {
         return HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(timeoutInSeconds))
@@ -100,6 +129,24 @@ public class JavaRestClient implements RestClient {
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(timeoutInSeconds))
                 .header("Accept", CONTENT_TYPE_JSON)
+                .build();
+    }
+
+    private HttpRequest buildPutRequestFor(String url, String json) {
+        return HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofSeconds(timeoutInSeconds))
+                .header("Accept", CONTENT_TYPE_JSON)
+                .headers("Content-Type", CONTENT_TYPE_JSON)
+                .PUT(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8))
+                .build();
+    }
+
+    private HttpRequest buildDeleteRequestFor(String url) {
+        return HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofSeconds(timeoutInSeconds))
+                .DELETE()
                 .build();
     }
 }
