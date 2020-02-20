@@ -13,6 +13,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 /**
@@ -46,22 +47,55 @@ public class JavaRestClient implements RestClient {
         Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
 
         try {
-            final HttpRequest request = buildRequestFor(url);
-            return sendRequest(request, clz);
+            final HttpRequest request = buildGetRequestFor(url);
+
+            return sendGetRequest(request, clz);
         } catch (final Exception e) {
             LOGGER.error(e.getMessage(), e);
-            throw new CommunicationException("Error while making GET request: url="
+            throw new CommunicationException("Error during GET request: url="
                     + url + ", response type=" + clz.getSimpleName(), e);
         }
     }
 
-    private <T> RestResponse<T> sendRequest(final HttpRequest request, final Class<T> responseType)
+    @Override
+    public <T> RestResponse<T> post(String url, Class<T> clz, T entity) {
+        Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
+
+        try {
+            String json = jsonClient.toJson(entity);
+            HttpRequest request = buildPostRequestFor(url, json);
+
+            return sendPostRequest(request);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CommunicationException("Error during POST request: url="
+                + url, e);
+        }
+    }
+
+    private <T> RestResponse<T> sendGetRequest(final HttpRequest request, final Class<T> responseType)
             throws IOException, InterruptedException {
         final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         return new RestResponse<>(response.statusCode(), jsonClient.fromJson(response.body(), responseType));
     }
 
-    private HttpRequest buildRequestFor(final String url) {
+    private <T> RestResponse<T> sendPostRequest(final HttpRequest request)
+            throws IOException, InterruptedException {
+        final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        return new RestResponse<>(response.statusCode(), null);
+    }
+
+    private HttpRequest buildPostRequestFor(String url, String json) {
+        return HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofSeconds(timeoutInSeconds))
+                .header("Accept", CONTENT_TYPE_JSON)
+                .headers("Content-Type", CONTENT_TYPE_JSON)
+                .POST(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8))
+                .build();
+    }
+
+    private HttpRequest buildGetRequestFor(final String url) {
         return HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(timeoutInSeconds))
