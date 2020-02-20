@@ -8,7 +8,6 @@ import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.infrastructure.transform.Transformable;
 import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.infrastructure.transform.Transformer;
-import com.revenat.germes.infrastructure.transform.annotation.DomainProperty;
 import com.revenat.germes.infrastructure.transform.impl.helper.ClassInstanceCreator;
 import com.revenat.germes.infrastructure.transform.impl.helper.FieldManager;
 import com.revenat.germes.infrastructure.transform.impl.helper.FieldProvider;
@@ -19,7 +18,6 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.lang.reflect.Field;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,8 +36,6 @@ public class EntityReferenceTransformer implements Transformer {
     private final EntityLoader entityLoader;
 
     private final FieldManager fieldManager;
-
-    private final FieldProvider fieldProvider;
 
     private final TransformableProvider transformableProvider;
 
@@ -61,7 +57,6 @@ public class EntityReferenceTransformer implements Transformer {
         instanceCreator = new ClassInstanceCreator();
         this.entityLoader = entityLoader;
         this.fieldManager = fieldManager;
-        this.fieldProvider = fieldProvider;
         this.transformableProvider = transformableProvider;
         delegate = new SimpleDTOTransformer(fieldProvider, transformableProvider);
     }
@@ -86,16 +81,6 @@ public class EntityReferenceTransformer implements Transformer {
             final int id = ref.getId();
             fieldManager.setFieldValue(dto, fieldName, id);
         }
-
-//        final List<String> markedFieldNames = fieldProvider.getDomainPropertyFields(dto.getClass());
-//        for (final String fieldName : markedFieldNames) {
-//            final Field dtoField = fieldManager.findFieldByName(dto.getClass(), fieldName).orElseThrow();
-//            final String domainPropertyName = dtoField.getAnnotation(DomainProperty.class).value();
-//            final Object domainPropertyValue = fieldManager.getFieldValue(entity, domainPropertyName);
-//            final AbstractEntity ref = assertPropertyIsAbstractEntity(entity, domainPropertyValue);
-//            final int id = ref.getId();
-//            fieldManager.setFieldValue(dto, fieldName, id);
-//        }
 
         return delegate.transform(entity, dto);
     }
@@ -127,18 +112,6 @@ public class EntityReferenceTransformer implements Transformer {
             final AbstractEntity domainPropertyValue = loadEntity(entityField.getType(), id);
             fieldManager.setFieldValue(entity, domainPropertyName, domainPropertyValue);
         }
-
-//        final List<String> markedFieldNames = fieldProvider.getDomainPropertyFields(dto.getClass());
-//        for (final String fieldName : markedFieldNames) {
-//            final Field dtoField = fieldManager.findFieldByName(dto.getClass(), fieldName).orElseThrow();
-//            final String domainPropertyName = dtoField.getAnnotation(DomainProperty.class).value();
-//
-//            final Field entityField = getEntityField(entity.getClass(), domainPropertyName);
-//            final int id = (int) fieldManager.getFieldValue(dto, fieldName);
-//
-//            final AbstractEntity domainPropertyValue = loadEntity(entityField.getType(), id);
-//            fieldManager.setFieldValue(entity, domainPropertyName, domainPropertyValue);
-//        }
 
         return delegate.untransform(dto, entity);
     }

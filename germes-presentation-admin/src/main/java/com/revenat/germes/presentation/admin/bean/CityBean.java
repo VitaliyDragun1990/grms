@@ -45,6 +45,14 @@ public class CityBean implements Serializable {
         dto.setName(name);
         dto.setDistrict(district);
         dto.setRegion(region);
+
         return dto;
+    }
+
+    public void fromDTO(CityDTO dto) {
+        id = dto.getId();
+        name = dto.getName();
+        district = dto.getDistrict();
+        region = dto.getRegion();
     }
 }

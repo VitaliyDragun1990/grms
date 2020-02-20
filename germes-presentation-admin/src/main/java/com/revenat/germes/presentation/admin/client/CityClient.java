@@ -7,6 +7,7 @@ import com.revenat.germes.infrastructure.http.RestClient;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,17 +25,24 @@ public class CityClient {
     private final RestClient restClient;
 
     @Inject
-    public CityClient(Environment env, RestClient restClient) {
-        this.baseUrl = env.getProperty("client.geography.url") + "/cities";
+    public CityClient(final Environment env, final RestClient restClient) {
+        baseUrl = env.getProperty("client.geography.url") + "/cities";
         this.restClient = restClient;
     }
 
-    @SuppressWarnings("unchecked")
     public List<CityDTO> findAll() {
-        return restClient.get(baseUrl, List.class).getBody();
+        return Arrays.asList(restClient.get(baseUrl, CityDTO[].class).getBody());
     }
 
-    public CityDTO create(CityDTO city) {
+    public CityDTO create(final CityDTO city) {
         return restClient.post(baseUrl, CityDTO.class, city).getBody();
+    }
+
+    public CityDTO update(final CityDTO city) {
+        return restClient.put(baseUrl + "/" + city.getId(), CityDTO.class, city).getBody();
+    }
+
+    public void delete(final int id) {
+        restClient.delete(baseUrl + "/" + id);
     }
 }

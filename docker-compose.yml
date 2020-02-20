@@ -51,22 +51,22 @@ services:
       <<: *health_check
       test: mysql -ugermes -pgermes -e "SELECT version();"
   # Germes admin application
-#  admin:
-#    build:
-#      context: .
-#      dockerfile: deploy-jetty.dockerfile
-#      args:
-#        - war_path=germes-presentation-admin/target/admin.war
-#    ports:
-#      - "9000:8080"
-#    networks:
-#      - network1
-#    depends_on:
-#      - mysql
-#    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
-#    healthcheck:
-#      <<: *health_check
-#      test: curl -f http://localhost:8080 || exit 1
+  admin:
+    build:
+      context: .
+      dockerfile: deploy-jetty.dockerfile
+      args:
+        - war_path=germes-presentation-admin/target/admin.war
+    ports:
+      - "9000:8080"
+    networks:
+      - network1
+    depends_on:
+      - mysql
+    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
+    healthcheck:
+      <<: *health_check
+      test: curl -f http://localhost:8080 || exit 1
   # Germes client application
   client:
     build:

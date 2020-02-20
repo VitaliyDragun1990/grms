@@ -5,7 +5,6 @@ import com.codahale.metrics.MetricRegistry;
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
 import com.revenat.germes.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
-import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.presentation.admin.client.CityClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,14 +24,11 @@ import java.util.List;
  */
 @Named
 @ApplicationScoped
-@SuppressWarnings("unchecked")
 public class CityController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CityController.class);
 
     private final CityClient cityClient;
-
-    private final Transformer transformer;
 
     private final MetricsManager metricsManager;
 
@@ -44,10 +40,8 @@ public class CityController {
 
     @Inject
     public CityController(final CityClient cityClient,
-                          final Transformer transformer,
                           final MetricsManager metricsManager) {
         this.cityClient = cityClient;
-        this.transformer = transformer;
         this.metricsManager = metricsManager;
         LOGGER.info("CityController has been created");
     }
@@ -68,7 +62,11 @@ public class CityController {
     public void saveCity(final CityBean cityBean) {
         LOGGER.info("CityController.saveCity(): {}", ToStringBuilder.shortStyle(cityBean));
 
-        cityClient.create(cityBean.toDTO());
+        if (cityBean.getId() > 0) {
+            cityClient.update(cityBean.toDTO());
+        } else {
+            cityClient.create(cityBean.toDTO());
+        }
 
         cityChannel.send("City has been saved");
 
@@ -76,15 +74,15 @@ public class CityController {
     }
 
     public void updateCity(final CityDTO city, final CityBean cityBean) {
-//        LOGGER.info("CityController.updateCity(): {} <- {}", ToStringBuilder.shortStyle(city,"stations"),
-//                ToStringBuilder.shortStyle(cityBean));
-//
-//        transformer.transform(city, cityBean);
+        LOGGER.info("CityController.updateCity(): {} <- {}", ToStringBuilder.shortStyle(city,"stations"),
+                ToStringBuilder.shortStyle(cityBean));
+
+        cityBean.fromDTO(city);
     }
 
     public void deleteCity(final int cityId) {
-//        LOGGER.info("CityController.deleteCity(): {}", cityId);
-//
-//        geographicalService.deleteCity(cityId);
+        LOGGER.info("CityController.deleteCity(): {}", cityId);
+
+        cityClient.delete(cityId);
     }
 }

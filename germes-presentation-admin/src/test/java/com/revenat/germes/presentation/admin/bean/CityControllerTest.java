@@ -6,7 +6,6 @@ import com.revenat.germes.infrastructure.monitoring.MetricsManager;
 import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.presentation.admin.client.CityClient;
 import org.jglue.cdiunit.CdiRunner;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -38,10 +37,6 @@ public class CityControllerTest {
 
     @Produces
     @Mock
-    private Transformer transformer;
-
-    @Produces
-    @Mock
     private MetricsManager metricsManager;
 
     @Produces
@@ -57,7 +52,9 @@ public class CityControllerTest {
     @Test
     public void shouldSaveCity() {
         CityBean cityBean = new CityBean();
-//        when(transformer.untransform(cityBean, City.class)).thenReturn(new City("test"));
+        cityBean.setName("name");
+        cityBean.setDistrict("district");
+        cityBean.setRegion("region");
         when(metricsManager.registerMetric(Mockito.any(), Mockito.any())).thenReturn(new Counter());
 
         cityController.saveCity(cityBean);
@@ -66,27 +63,25 @@ public class CityControllerTest {
     }
 
     @Test
-    @Ignore
     public void shouldUpdateCity() {
-//        City city = new City("name");
-//        city.setId(1);
-//        city.setName("name");
-//        city.setDistrict("district");
-//        city.setRegion("region");
-//        CityBean cityBean = new CityBean();
-//
-//        cityController.updateCity(city, cityBean);
-//
-//        verify(transformer, atLeastOnce()).transform(city, cityBean);
+        when(metricsManager.registerMetric(Mockito.any(), Mockito.any())).thenReturn(new Counter());
+        CityBean cityBean = new CityBean();
+        cityBean.setId(1);
+        cityBean.setName("name");
+        cityBean.setDistrict("district");
+        cityBean.setRegion("region");
+
+        cityController.saveCity(cityBean);
+
+        verify(cityClient, atLeastOnce()).update(Mockito.any(CityDTO.class));
     }
 
     @Test
-    @Ignore
     public void shouldDeleteCityById() {
-//        final int cityId = 1;
-//
-//        cityController.deleteCity(cityId);
-//
-//        verify(geographicalService, times(1)).deleteCity(cityId);
+        final int cityId = 1;
+
+        cityController.deleteCity(cityId);
+
+        verify(cityClient, times(1)).delete(cityId);
     }
 }
