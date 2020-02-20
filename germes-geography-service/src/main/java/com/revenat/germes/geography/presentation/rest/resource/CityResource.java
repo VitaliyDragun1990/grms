@@ -67,7 +67,7 @@ public class CityResource extends BaseResource {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Saves new city instance", consumes = MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Saves city instance", consumes = MediaType.APPLICATION_JSON)
     @ApiResponses(value = {
             @ApiResponse(code = 400, message = "Invalid content of city object"),
             @ApiResponse(code = 201, message = "City instance has been saved")

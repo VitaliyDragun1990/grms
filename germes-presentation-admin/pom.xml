@@ -25,17 +25,22 @@
     <dependencies>
         <dependency>
             <groupId>com.revenat</groupId>
-            <artifactId>germes-application-service</artifactId>
+            <artifactId>germes-common</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.revenat</groupId>
-            <artifactId>germes-application-model</artifactId>
+            <artifactId>germes-user-service</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>com.revenat</groupId>
-            <artifactId>germes-persistence</artifactId>
+            <artifactId>germes-common-monitoring</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.revenat</groupId>
+            <artifactId>germes-geography-service-client</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

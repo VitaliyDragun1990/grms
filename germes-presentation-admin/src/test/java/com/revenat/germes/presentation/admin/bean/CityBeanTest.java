@@ -1,7 +1,5 @@
 package com.revenat.germes.presentation.admin.bean;
 
-import com.revenat.germes.application.model.entity.geography.City;
-import com.revenat.germes.presentation.admin.bean.CityBean;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -29,13 +27,13 @@ public class CityBeanTest {
         assertThat(cityBean.getRegion(), is(emptyString()));
     }
 
-    @Test
-    public void shouldReturnSameCityInstanceAfterUntransform() {
-        City city = new City("test");
-        CityBean cityBean = new CityBean();
-
-        final City result = cityBean.untransform(city);
-
-        assertThat(result, sameInstance(city));
-    }
+//    @Test
+//    public void shouldReturnSameCityInstanceAfterUntransform() {
+//        City city = new City("test");
+//        CityBean cityBean = new CityBean();
+//
+//        final City result = cityBean.untransform(city);
+//
+//        assertThat(result, sameInstance(city));
+//    }
 }

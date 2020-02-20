@@ -1,6 +1,6 @@
 package com.revenat.germes.presentation.admin.security;
 
-import com.revenat.germes.application.service.UserService;
+import com.revenat.germes.user.service.UserService;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
 import org.apache.shiro.web.env.WebEnvironment;

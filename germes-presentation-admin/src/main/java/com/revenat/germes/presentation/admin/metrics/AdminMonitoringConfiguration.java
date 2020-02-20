@@ -3,10 +3,10 @@ package com.revenat.germes.presentation.admin.metrics;
 import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
-import com.revenat.germes.application.infrastructure.environment.Environment;
-import com.revenat.germes.application.monitoring.MetricsManager;
-import com.revenat.germes.persistence.infrastructure.cdi.DBSource;
-import com.revenat.germes.application.monitoring.healthcheck.MySQLHealthCheck;
+import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
+import com.revenat.germes.infrastructure.environment.Environment;
+import com.revenat.germes.infrastructure.monitoring.MetricsManager;
+import com.revenat.germes.infrastructure.monitoring.healthcheck.MySQLHealthCheck;
 import com.revenat.germes.persistence.repository.SystemRepository;
 import com.revenat.germes.presentation.admin.config.startup.Eager;
 

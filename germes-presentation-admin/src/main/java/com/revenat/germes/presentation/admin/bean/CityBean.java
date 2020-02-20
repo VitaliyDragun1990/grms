@@ -1,7 +1,6 @@
 package com.revenat.germes.presentation.admin.bean;
 
-import com.revenat.germes.application.model.entity.geography.City;
-import com.revenat.germes.application.model.transform.Transformable;
+import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,7 +20,7 @@ import java.io.Serializable;
 @ToString
 @Getter
 @Setter
-public class CityBean implements Transformable<City>, Serializable {
+public class CityBean implements Serializable {
 
     private static final long serialVersionUID = -368720723800007386L;
 
@@ -40,13 +39,12 @@ public class CityBean implements Transformable<City>, Serializable {
         setRegion("");
     }
 
-    @Override
-    public void transform(final City city) {
-
-    }
-
-    @Override
-    public City untransform(final City city) {
-        return city;
+    public CityDTO toDTO() {
+        CityDTO dto = new CityDTO();
+        dto.setId(id);
+        dto.setName(name);
+        dto.setDistrict(district);
+        dto.setRegion(region);
+        return dto;
     }
 }

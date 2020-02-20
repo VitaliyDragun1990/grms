@@ -2,17 +2,16 @@ package com.revenat.germes.presentation.admin.bean;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
-import com.revenat.germes.application.infrastructure.helper.ToStringBuilder;
-import com.revenat.germes.application.model.entity.geography.City;
-import com.revenat.germes.application.monitoring.MetricsManager;
-import com.revenat.germes.application.service.GeographicalService;
-import com.revenat.germes.application.service.transfrom.Transformer;
+import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
+import com.revenat.germes.infrastructure.helper.ToStringBuilder;
+import com.revenat.germes.infrastructure.monitoring.MetricsManager;
+import com.revenat.germes.infrastructure.transform.Transformer;
+import com.revenat.germes.presentation.admin.client.CityClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Default;
 import javax.faces.push.Push;
 import javax.faces.push.PushContext;
 import javax.inject.Inject;
@@ -26,11 +25,12 @@ import java.util.List;
  */
 @Named
 @ApplicationScoped
+@SuppressWarnings("unchecked")
 public class CityController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CityController.class);
 
-    private final GeographicalService geographicalService;
+    private final CityClient cityClient;
 
     private final Transformer transformer;
 
@@ -43,10 +43,10 @@ public class CityController {
     private Counter savedCityCounter;
 
     @Inject
-    public CityController(@Default final GeographicalService geographicalService,
-                          @Default final Transformer transformer,
+    public CityController(final CityClient cityClient,
+                          final Transformer transformer,
                           final MetricsManager metricsManager) {
-        this.geographicalService = geographicalService;
+        this.cityClient = cityClient;
         this.transformer = transformer;
         this.metricsManager = metricsManager;
         LOGGER.info("CityController has been created");
@@ -57,8 +57,8 @@ public class CityController {
         savedCityCounter = metricsManager.registerMetric(MetricRegistry.name("city", "saved"), new Counter());
     }
 
-    public List<City> getCities() {
-        final List<City> cities = geographicalService.findCities();
+    public List<CityDTO> getCities() {
+        final List<CityDTO> cities = cityClient.findAll();
 
         LOGGER.info("LoggerController.getCities() -> {} cities found", cities.size());
 
@@ -68,24 +68,23 @@ public class CityController {
     public void saveCity(final CityBean cityBean) {
         LOGGER.info("CityController.saveCity(): {}", ToStringBuilder.shortStyle(cityBean));
 
-        final City cityToSave = transformer.untransform(cityBean, City.class);
-        geographicalService.saveCity(cityToSave);
+        cityClient.create(cityBean.toDTO());
 
         cityChannel.send("City has been saved");
 
         savedCityCounter.inc();
     }
 
-    public void updateCity(final City city, final CityBean cityBean) {
-        LOGGER.info("CityController.updateCity(): {} <- {}", ToStringBuilder.shortStyle(city,"stations"),
-                ToStringBuilder.shortStyle(cityBean));
-
-        transformer.transform(city, cityBean);
+    public void updateCity(final CityDTO city, final CityBean cityBean) {
+//        LOGGER.info("CityController.updateCity(): {} <- {}", ToStringBuilder.shortStyle(city,"stations"),
+//                ToStringBuilder.shortStyle(cityBean));
+//
+//        transformer.transform(city, cityBean);
     }
 
     public void deleteCity(final int cityId) {
-        LOGGER.info("CityController.deleteCity(): {}", cityId);
-
-        geographicalService.deleteCity(cityId);
+//        LOGGER.info("CityController.deleteCity(): {}", cityId);
+//
+//        geographicalService.deleteCity(cityId);
     }
 }

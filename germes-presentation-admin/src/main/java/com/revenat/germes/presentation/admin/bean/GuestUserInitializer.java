@@ -1,9 +1,9 @@
 package com.revenat.germes.presentation.admin.bean;
 
-import com.revenat.germes.application.infrastructure.helper.Encrypter;
-import com.revenat.germes.application.model.entity.person.User;
-import com.revenat.germes.application.service.UserService;
+import com.revenat.germes.infrastructure.helper.encrypter.Encrypter;
 import com.revenat.germes.presentation.admin.config.startup.Eager;
+import com.revenat.germes.user.model.entity.User;
+import com.revenat.germes.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

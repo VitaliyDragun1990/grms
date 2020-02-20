@@ -12,7 +12,9 @@ repositories {
 }
 
 dependencies {
-    implementation project(":germes-application-service")
+    implementation project(":germes-common"), project(":germes-user-service"), project(":germes-common-monitoring"),
+            project(":germes-geography-service-client")
+
     implementation ui.primefaces, ui.jsf, ui.bootstrap, misc.jakartaInject, server.weldServlet, security.shiroCore,
             security.shiroWeb, metrics.dropwizardServlets, metrics.dropwizardGraphite
     providedCompile server.servletApi
@@ -21,14 +23,6 @@ dependencies {
 
     testImplementation tests.junitVintage, server.weldSe, tests.cdiUnit
     testCompileOnly persistence.jpaApi
-}
-
-
-// use appRunWar/appStartWar, appRun/appStart doesn't work well with Weld container
-gretty {
-    servletContainer = 'jetty9.4'
-    contextPath = '/'
-    httpPort = 9000
 }
 
 processResources {

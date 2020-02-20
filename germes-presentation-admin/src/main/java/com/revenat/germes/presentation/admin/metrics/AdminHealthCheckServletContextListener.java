@@ -2,7 +2,7 @@ package com.revenat.germes.presentation.admin.metrics;
 
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.codahale.metrics.servlets.HealthCheckServlet;
-import com.revenat.germes.application.monitoring.MetricsManager;
+import com.revenat.germes.infrastructure.monitoring.MetricsManager;
 
 import javax.inject.Inject;
 import javax.servlet.annotation.WebListener;
