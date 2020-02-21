@@ -1,5 +1,6 @@
 package com.revenat.germes.user.presentation.rest.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@AllArgsConstructor
 public class LoginDTO {
 
     private String userName;

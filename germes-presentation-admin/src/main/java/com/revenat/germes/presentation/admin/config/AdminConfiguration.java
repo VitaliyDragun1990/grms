@@ -13,6 +13,8 @@ import com.revenat.germes.infrastructure.json.JsonClient;
 import com.revenat.germes.infrastructure.json.impl.GsonJsonClient;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
 import com.revenat.germes.infrastructure.transform.TransformableProvider;
+import com.revenat.germes.user.presentation.rest.client.UserFacade;
+import com.revenat.germes.user.presentation.rest.client.impl.UserClient;
 
 
 import javax.enterprise.context.ApplicationScoped;
@@ -68,5 +70,11 @@ public class AdminConfiguration {
     @ApplicationScoped
     public CityFacade cityClient(final Environment env, final RestClient restClient) {
         return new CityClient(env.getProperty("service.geography.city.url"), restClient);
+    }
+
+    @Produces
+    @ApplicationScoped
+    public UserFacade userClient() {
+        return new UserClient();
     }
 }

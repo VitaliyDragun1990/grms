@@ -30,11 +30,6 @@
         </dependency>
         <dependency>
             <groupId>com.revenat</groupId>
-            <artifactId>germes-user-service</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.revenat</groupId>
             <artifactId>germes-common-monitoring</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
