@@ -1,4 +1,4 @@
-package com.revenat.germes.presentation.admin.client;
+package com.revenat.germes.geography.presentation.rest.client;
 
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
 import com.revenat.germes.infrastructure.exception.CommunicationException;

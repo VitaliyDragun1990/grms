@@ -1,14 +1,14 @@
-package com.revenat.germes.presentation.admin.client.impl;
+package com.revenat.germes.geography.presentation.rest.client.impl;
 
 import com.github.tomakehurst.wiremock.http.Fault;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.revenat.germes.geography.presentation.rest.client.CityFacade;
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
 import com.revenat.germes.infrastructure.exception.CommunicationException;
 import com.revenat.germes.infrastructure.http.RestClient;
 import com.revenat.germes.infrastructure.http.impl.JavaRestClient;
 import com.revenat.germes.infrastructure.json.JsonClient;
 import com.revenat.germes.infrastructure.json.impl.GsonJsonClient;
-import com.revenat.germes.presentation.admin.client.CityFacade;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,6 +16,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.setGlobalFixedDelay;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -48,8 +49,8 @@ public class CityClientTest {
         final String expectedLocation = getCityServiceUrl(wireMockRule.port()) + "/1";
         wireMockRule.stubFor(post(urlEqualTo("/")).willReturn(
                 aResponse()
-                .withStatus(200)
-                .withHeader("Location", expectedLocation)));
+                        .withStatus(200)
+                        .withHeader("Location", expectedLocation)));
 
         CityDTO city = new CityDTO();
         city.setName("Odessa");
@@ -65,7 +66,7 @@ public class CityClientTest {
     public void shouldFailIWhenCreateCityIfServerReturnStatusCode500() {
         wireMockRule.stubFor(post(urlEqualTo("/")).willReturn(
                 aResponse()
-                .withStatus(500)));
+                        .withStatus(500)));
 
         CityDTO city = new CityDTO();
         city.setName("Odessa");
@@ -121,7 +122,7 @@ public class CityClientTest {
     public void shouldFailWhenDeleteCityIfServerReturnsStatusCode500() {
         wireMockRule.stubFor(delete(urlEqualTo("/1")).willReturn(
                 aResponse()
-                .withStatus(500)));
+                        .withStatus(500)));
 
         cityClient.delete(1);
     }
@@ -137,7 +138,7 @@ public class CityClientTest {
         wireMockRule.stubFor(put(urlEqualTo("/1")).willReturn(
                 aResponse()
                         .withBody(jsonClient.toJson(city))
-                .withStatus(200)));
+                        .withStatus(200)));
 
         final CityDTO result = cityClient.update(city);
 
@@ -203,7 +204,7 @@ public class CityClientTest {
         cityB.setRegion("Kiyv");
         wireMockRule.stubFor(get(urlEqualTo("/")).willReturn(
                 aResponse()
-                .withBody(jsonClient.toJson(new CityDTO[] {cityA, cityB}))));
+                        .withBody(jsonClient.toJson(new CityDTO[] {cityA, cityB}))));
 
         final List<CityDTO> result = cityClient.findAll();
 

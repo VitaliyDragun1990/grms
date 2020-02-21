@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     implementation project(":germes-common"), project(":germes-user-service"), project(":germes-common-monitoring"),
-            project(":germes-geography-service-client")
+            project(":germes-geography-service-client"), project(":germes-user-service-client")
 
     implementation ui.primefaces, ui.jsf, ui.bootstrap, misc.jakartaInject, server.weldServlet, security.shiroCore,
             security.shiroWeb, metrics.dropwizardServlets, metrics.dropwizardGraphite
@@ -21,7 +21,7 @@ dependencies {
     runtimeOnly persistence.mysql, persistence.hikariCp, misc.jaxbRuntime, log.commonsLogging
     compileOnly persistence.jpaApi
 
-    testImplementation tests.junitVintage, server.weldSe, tests.cdiUnit, tests.wireMock
+    testImplementation tests.junitVintage, server.weldSe, tests.cdiUnit
     testCompileOnly persistence.jpaApi
 }
 

@@ -2,11 +2,11 @@ package com.revenat.germes.presentation.admin.bean;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
+import com.revenat.germes.geography.presentation.rest.client.CityFacade;
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
 import com.revenat.germes.infrastructure.exception.CommunicationException;
 import com.revenat.germes.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
-import com.revenat.germes.presentation.admin.client.CityFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
