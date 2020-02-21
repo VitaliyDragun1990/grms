@@ -1,24 +1,18 @@
 package com.revenat.germes.user.persistence.repository.hibernate;
 
-import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
 import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.persistence.repository.hibernate.BaseHibernateRepository;
 import com.revenat.germes.user.model.entity.User;
 import com.revenat.germes.user.persistence.repository.UserRepository;
 import org.hibernate.query.Query;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * @author Vitaliy Dragun
  */
-@Named
-@DBSource
-@Dependent
 public class HibernateUserRepository extends BaseHibernateRepository implements UserRepository {
 
     @Inject

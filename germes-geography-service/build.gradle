@@ -24,7 +24,7 @@ dependencies {
 }
 
 war {
-    archiveName 'geography-service.war'
+    archiveName 'germes-geography.war'
 }
 
 test {

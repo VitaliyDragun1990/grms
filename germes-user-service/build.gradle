@@ -1,7 +1,15 @@
 plugins {
     id "io.franzbecker.gradle-lombok"
+    id "war"
 }
 
 dependencies {
     implementation project(':germes-common-persistence'), project(':germes-user-service-client')
+    implementation misc.springContext, server.springWeb, log.log4jWeb
+    providedCompile server.servletApi
+    runtimeOnly persistence.mysql, persistence.hikariCp
+}
+
+war {
+    archiveName 'germes-user.war'
 }

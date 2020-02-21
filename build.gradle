@@ -30,6 +30,7 @@ allprojects {
         classgraphVersion = '4.8.60'
         jacksonVersion = '2.10.1'
         gsonVersion = '2.8.6'
+        springVersion = '5.1.13.RELEASE'
 
         // log
         log4jVersion = '2.13.0'
@@ -89,7 +90,8 @@ allprojects {
                 jacksonDatatype : "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion",
                 jacksonDatatypeJdk8 : "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion",
                 jacksonParamNames : "com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion",
-                gson : "com.google.code.gson:gson:$gsonVersion"
+                gson : "com.google.code.gson:gson:$gsonVersion",
+                springContext : "org.springframework:spring-context:$springVersion"
         ]
 
         server = [
@@ -101,7 +103,8 @@ allprojects {
                 swagger : "io.swagger:swagger-jersey2-jaxrs:$swaggerVersion",
                 servletApi : "javax.servlet:javax.servlet-api:$servletVersion",
                 weldServlet : "org.jboss.weld.servlet:weld-servlet-core:$weldVersion",
-                weldSe : "org.jboss.weld.se:weld-se-core:$weldVersion"
+                weldSe : "org.jboss.weld.se:weld-se-core:$weldVersion",
+                springWeb : "org.springframework:spring-web:$springVersion"
         ]
 
         persistence = [

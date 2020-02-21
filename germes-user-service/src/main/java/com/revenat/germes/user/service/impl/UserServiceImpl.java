@@ -1,13 +1,10 @@
 package com.revenat.germes.user.service.impl;
 
-import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
 import com.revenat.germes.user.model.entity.User;
 import com.revenat.germes.user.persistence.repository.UserRepository;
 import com.revenat.germes.user.service.UserService;
 
-import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,14 +13,12 @@ import static java.util.Objects.requireNonNull;
 /**
  * @author Vitaliy Dragun
  */
-@Named
-@Dependent
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
     @Inject
-    public UserServiceImpl(@DBSource final UserRepository userRepository) {
+    public UserServiceImpl(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

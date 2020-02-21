@@ -12,13 +12,16 @@ COPY gradle.properties /home/gradle/gradle.properties
 COPY settings.gradle /home/gradle/settings.gradle
 COPY germes-common/build.gradle /home/gradle/germes-common/build.gradle
 COPY germes-common-rest/build.gradle /home/gradle/germes-common-rest/build.gradle
-COPY germes-persistence-base/build.gradle /home/gradle/germes-persistence-base/build.gradle
+COPY germes-common-monitoring/build.gradle /home/gradle/germes-common-monitoring/build.gradle
+COPY germes-common-persistence/build.gradle /home/gradle/germes-common-persistence/build.gradle
 COPY germes-geography-service/build.gradle /home/gradle/germes-geography-service/build.gradle
+COPY germes-geography-service-client/build.gradle /home/gradle/germes-geography-service-client/build.gradle
 COPY germes-presentation-web/build.gradle /home/gradle/germes-presentation-web/build.gradle
-#COPY germes-presentation-admin/build.gradle /home/gradle/germes-presentation-admin/build.gradle
-#COPY germes-application-model/build.gradle /home/gradle/germes-application-model/build.gradle
-#COPY germes-application-service/build.gradle /home/gradle/germes-application-service/build.gradle
-#COPY germes-persistence/build.gradle /home/gradle/germes-persistence/build.gradle
+COPY germes-presentation-admin/build.gradle /home/gradle/germes-presentation-admin/build.gradle
+COPY germes-ticket-service/build.gradle /home/gradle/germes-ticket-service/build.gradle
+COPY germes-trip-service/build.gradle /home/gradle/germes-trip-service/build.gradle
+COPY germes-user-service/build.gradle /home/gradle/germes-user-service/build.gradle
+COPY germes-user-service-client/build.gradle /home/gradle/germes-user-service-client/build.gradle
 
 WORKDIR /home/gradle
 
@@ -29,8 +32,9 @@ COPY . /home/gradle/
 
 # Build applicaitons
 RUN gradle $build_flag -PskipAngular clean build && \
-    cp /home/gradle/germes-geography-service/build/libs/geography-service.war /opt && \
-#    cp /home/gradle/germes-presentation-admin/build/libs/admin.war /opt && \
+    cp /home/gradle/germes-geography-service/build/libs/germes-geography.war /opt && \
+    cp /home/gradle/germes-presentation-admin/build/libs/admin.war /opt && \
+    cp /home/gradle/germes-user-service/build/libs/germes-user.war /opt && \
     rm -rf /home/gradle/germes*
 
 # From project root directory

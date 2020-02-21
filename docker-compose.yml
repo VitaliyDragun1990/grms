@@ -98,6 +98,22 @@ services:
     healthcheck:
       <<: *health_check
       test: curl -f http://localhost:8080 || exit 1
+  user:
+    build:
+      context: .
+      dockerfile: deploy-jetty.dockerfile
+      args:
+        - war_path=germes-user-service/target/germes-user.war
+    ports:
+      - "8070:8080"
+    networks:
+      - network1
+    depends_on:
+      - mysql
+    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
+    healthcheck:
+      <<: *health_check
+      test: curl -f http://localhost:8080 || exit 1
 # Networks definition
 networks:
   network1:
