@@ -43,7 +43,7 @@ public class UserSpringConfig {
             return new StandardPropertyEnvironment(propertySource);
         }
 
-        @Bean
+        @Bean(destroyMethod = "destroy")
         public SessionFactoryBuilder sessionFactoryBuilder(final Environment environment) {
             return new SessionFactoryBuilder(environment);
         }

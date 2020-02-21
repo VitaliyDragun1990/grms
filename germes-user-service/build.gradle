@@ -8,6 +8,8 @@ dependencies {
     implementation misc.springContext, server.springWeb, log.log4jWeb
     providedCompile server.servletApi
     runtimeOnly persistence.mysql, persistence.hikariCp
+
+    testCompileOnly tests.springTest
 }
 
 war {

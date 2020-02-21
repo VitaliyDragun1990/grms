@@ -1,16 +1,15 @@
 package com.revenat.germes.user.service.impl;
 
-import com.revenat.germes.infrastructure.environment.StandardPropertyEnvironment;
-import com.revenat.germes.infrastructure.environment.source.ComboPropertySource;
-
-import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
+import com.revenat.germes.user.infrastructure.config.UserSpringConfig;
 import com.revenat.germes.user.model.entity.User;
-import com.revenat.germes.user.persistence.repository.hibernate.HibernateUserRepository;
 import com.revenat.germes.user.service.UserService;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Vitaliy Dragun
  */
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = UserSpringConfig.class)
 @DisplayName("user service")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class UserServiceImplIntegrationTest {
 
     private static final String JOE_12345 = "joe12345";
@@ -34,20 +36,9 @@ class UserServiceImplIntegrationTest {
 
     private static final String SECRET = "secret";
 
+    @Autowired
     private UserService service;
 
-    private SessionFactoryBuilder builder;
-
-    @BeforeEach
-    void setUp() {
-        builder = new SessionFactoryBuilder(new StandardPropertyEnvironment(new ComboPropertySource()));
-        service = new UserServiceImpl(new HibernateUserRepository(builder));
-    }
-
-    @AfterEach
-    void tearDown() {
-        builder.destroy();
-    }
 
     @Test
     void shouldNotFindAnyUserIfNoUserWasSaved() {

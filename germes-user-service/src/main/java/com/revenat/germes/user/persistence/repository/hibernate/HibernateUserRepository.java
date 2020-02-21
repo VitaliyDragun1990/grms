@@ -6,7 +6,6 @@ import com.revenat.germes.user.model.entity.User;
 import com.revenat.germes.user.persistence.repository.UserRepository;
 import org.hibernate.query.Query;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +14,6 @@ import java.util.Optional;
  */
 public class HibernateUserRepository extends BaseHibernateRepository implements UserRepository {
 
-    @Inject
     public HibernateUserRepository(final SessionFactoryBuilder builder) {
         super(builder);
     }

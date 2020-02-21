@@ -146,7 +146,8 @@ allprojects {
                 jerseyJunit       : "com.github.hanleyt:jersey-junit:$jerseyJunitVersion",
                 cdiUnit : "org.jglue.cdi-unit:cdi-unit:$cdiUnitVersion",
                 junitPioneer : "org.junit-pioneer:junit-pioneer:$junitPioneerVersion",
-                wireMock : "com.github.tomakehurst:wiremock-jre8:$wireMockVersion"
+                wireMock : "com.github.tomakehurst:wiremock-jre8:$wireMockVersion",
+                springTest : "org.springframework:spring-test:$springVersion"
         ]
 
         security = [

@@ -4,7 +4,6 @@ import com.revenat.germes.user.model.entity.User;
 import com.revenat.germes.user.persistence.repository.UserRepository;
 import com.revenat.germes.user.service.UserService;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +16,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    @Inject
     public UserServiceImpl(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
