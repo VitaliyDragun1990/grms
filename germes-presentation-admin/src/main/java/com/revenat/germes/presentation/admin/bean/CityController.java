@@ -3,6 +3,7 @@ package com.revenat.germes.presentation.admin.bean;
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
+import com.revenat.germes.infrastructure.exception.CommunicationException;
 import com.revenat.germes.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
 import com.revenat.germes.presentation.admin.client.CityFacade;
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.push.Push;
 import javax.faces.push.PushContext;
 import javax.inject.Inject;
@@ -52,25 +55,36 @@ public class CityController {
     }
 
     public List<CityDTO> getCities() {
-        final List<CityDTO> cities = cityFacade.findAll();
+        try {
+            final List<CityDTO> cities = cityFacade.findAll();
 
-        LOGGER.info("LoggerController.getCities() -> {} cities found", cities.size());
+            LOGGER.info("LoggerController.getCities() -> {} cities found", cities.size());
 
-        return cities;
+            return cities;
+        } catch (CommunicationException e) {
+            LOGGER.error("Error fetching cities", e);
+            return List.of();
+        }
     }
 
     public void saveCity(final CityBean cityBean) {
         LOGGER.info("CityController.saveCity(): {}", ToStringBuilder.shortStyle(cityBean));
 
+        execute(() -> saveOrUpdate(cityBean));
+    }
+
+    private void saveOrUpdate(CityBean cityBean) {
         if (cityBean.getId() > 0) {
             cityFacade.update(cityBean.toDTO());
+
+            LOGGER.info("City has been updated {}", cityBean);
         } else {
             cityFacade.create(cityBean.toDTO());
+
+            savedCityCounter.inc();
+            cityChannel.send("City has been saved");
+            LOGGER.info("City has been saved {}", cityBean);
         }
-
-        cityChannel.send("City has been saved");
-
-        savedCityCounter.inc();
     }
 
     public void updateCity(final CityDTO city, final CityBean cityBean) {
@@ -83,6 +97,20 @@ public class CityController {
     public void deleteCity(final int cityId) {
         LOGGER.info("CityController.deleteCity(): {}", cityId);
 
-        cityFacade.delete(cityId);
+        execute(() -> cityFacade.delete(cityId));
+    }
+
+    private void addErrorMessage(String message) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Error", message));
+    }
+
+    private void execute(Runnable action) {
+        try {
+            action.run();
+        } catch (CommunicationException e) {
+            LOGGER.error(e.getMessage(), e);
+            addErrorMessage(e.getMessage());
+        }
     }
 }

@@ -18,7 +18,7 @@
             <div style="text-align:right; margin-top:20px">
                 <p:commandButton oncomplete="PF('cityDlg').hide();"
                                  actionListener="#{cityController.saveCity(currentCity)}"
-                                 update="citiesTable"
+                                 update="citiesTable,growl"
                                  value="#{msg['button.save']}"/>
                 <p:commandButton oncomplete="PF('cityDlg').hide();" value="#{msg['button.cancel']}"/>
             </div>

@@ -8,8 +8,6 @@ import com.revenat.germes.infrastructure.http.RestClient;
 import com.revenat.germes.infrastructure.http.RestResponse;
 import com.revenat.germes.infrastructure.json.JsonClient;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -25,8 +23,6 @@ import java.time.Duration;
  * @author Vitaliy Dragun
  */
 public class JavaRestClient implements RestClient {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaRestClient.class);
 
     private static final String CONTENT_TYPE_JSON = "application/json";
 
@@ -134,7 +130,6 @@ public class JavaRestClient implements RestClient {
             return new RestResponse<>(response.statusCode(), body, response.headers().map());
 
         } catch (final IOException | InterruptedException | ValidationException e) {
-            LOGGER.error(e.getMessage(), e);
             throw new CommunicationException("Http request error: url="
                     + request.uri() + " method= " + request.method(), e);
         }
