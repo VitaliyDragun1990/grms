@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.revenat</groupId>
-            <artifactId>germes-persistence-base</artifactId>
+            <artifactId>germes-common-persistence</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <!--metrics-->

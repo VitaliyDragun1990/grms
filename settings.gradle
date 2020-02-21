@@ -3,15 +3,12 @@
  */
 
 rootProject.name = 'germes'
-include(':germes-application-model')
-include(':germes-application-service')
-include(':germes-persistence')
 include(':germes-presentation-admin')
 include(':germes-presentation-web')
 include(':germes-ticket-service')
 include(':germes-trip-service')
 include(':germes-common')
-include(':germes-persistence-base')
+include(':germes-common-persistence')
 include(':germes-user-service')
 include(':germes-geography-service')
 include(':germes-common-rest')

@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation project(':germes-persistence-base')
+    implementation project(':germes-common-persistence')
 }
