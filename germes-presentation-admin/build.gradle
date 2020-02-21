@@ -21,7 +21,7 @@ dependencies {
     runtimeOnly persistence.mysql, persistence.hikariCp, misc.jaxbRuntime, log.commonsLogging
     compileOnly persistence.jpaApi
 
-    testImplementation tests.junitVintage, server.weldSe, tests.cdiUnit
+    testImplementation tests.junitVintage, server.weldSe, tests.cdiUnit, tests.wireMock
     testCompileOnly persistence.jpaApi
 }
 

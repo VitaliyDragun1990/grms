@@ -11,6 +11,8 @@ import com.revenat.germes.infrastructure.json.JsonClient;
 import com.revenat.germes.infrastructure.json.impl.GsonJsonClient;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
 import com.revenat.germes.infrastructure.transform.TransformableProvider;
+import com.revenat.germes.presentation.admin.client.CityFacade;
+import com.revenat.germes.presentation.admin.client.impl.CityClient;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -33,7 +35,7 @@ public class AdminConfiguration {
 
     @Produces
     @ApplicationScoped
-    public Environment environment(PropertySource propertySource) {
+    public Environment environment(final PropertySource propertySource) {
         return new StandardPropertyEnvironment(propertySource);
     }
 
@@ -45,7 +47,7 @@ public class AdminConfiguration {
 
     @Produces
     @ApplicationScoped
-    public RestClient restClient(Environment environment, JsonClient jsonClient) {
+    public RestClient restClient(final Environment environment, final JsonClient jsonClient) {
         return new JavaRestClient(environment.getPropertyAsInt("http.connection.timeout"), jsonClient);
     }
 
@@ -59,5 +61,11 @@ public class AdminConfiguration {
     @ApplicationScoped
     public TransformableProvider transformableProvider() {
         return TransformableProvider.empty();
+    }
+
+    @Produces
+    @ApplicationScoped
+    public CityFacade cityClient(final Environment env, final RestClient restClient) {
+        return new CityClient(env.getProperty("service.geography.city.url"), restClient);
     }
 }

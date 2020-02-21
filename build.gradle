@@ -57,6 +57,7 @@ allprojects {
         jerseyJunitVersion = '2.1.0'
         cdiUnitVersion = '4.1.0'
         junitPioneerVersion = '0.5.3'
+        wireMockVersion = '2.26.0'
 
         // UI
         primefacesVersion = '6.2'
@@ -141,7 +142,8 @@ allprojects {
                 jerseyHttp   : "org.glassfish.jersey.containers:jersey-container-grizzly2-http:$jerseyVersion",
                 jerseyJunit       : "com.github.hanleyt:jersey-junit:$jerseyJunitVersion",
                 cdiUnit : "org.jglue.cdi-unit:cdi-unit:$cdiUnitVersion",
-                junitPioneer : "org.junit-pioneer:junit-pioneer:$junitPioneerVersion"
+                junitPioneer : "org.junit-pioneer:junit-pioneer:$junitPioneerVersion",
+                wireMock : "com.github.tomakehurst:wiremock-jre8:$wireMockVersion"
         ]
 
         security = [

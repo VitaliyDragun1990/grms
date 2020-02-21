@@ -3,8 +3,7 @@ package com.revenat.germes.presentation.admin.bean;
 import com.codahale.metrics.Counter;
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
-import com.revenat.germes.infrastructure.transform.Transformer;
-import com.revenat.germes.presentation.admin.client.CityClient;
+import com.revenat.germes.presentation.admin.client.CityFacade;
 import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +32,7 @@ public class CityControllerTest {
 
     @Produces
     @Mock
-    private CityClient cityClient;
+    private CityFacade cityFacade;
 
     @Produces
     @Mock
@@ -59,7 +58,7 @@ public class CityControllerTest {
 
         cityController.saveCity(cityBean);
 
-        verify(cityClient, atLeastOnce()).create(Mockito.any(CityDTO.class));
+        verify(cityFacade, atLeastOnce()).create(Mockito.any(CityDTO.class));
     }
 
     @Test
@@ -73,7 +72,7 @@ public class CityControllerTest {
 
         cityController.saveCity(cityBean);
 
-        verify(cityClient, atLeastOnce()).update(Mockito.any(CityDTO.class));
+        verify(cityFacade, atLeastOnce()).update(Mockito.any(CityDTO.class));
     }
 
     @Test
@@ -82,6 +81,6 @@ public class CityControllerTest {
 
         cityController.deleteCity(cityId);
 
-        verify(cityClient, times(1)).delete(cityId);
+        verify(cityFacade, times(1)).delete(cityId);
     }
 }

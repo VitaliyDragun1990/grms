@@ -85,6 +85,7 @@
         <hamcrest.version>2.1</hamcrest.version>
         <mockito.version>3.0.0</mockito.version>
         <junit-pioneer.version>0.5.3</junit-pioneer.version>
+        <wiremock.version>2.26.0</wiremock.version>
 
         <!--benchmarks-->
         <jmh.version>1.23</jmh.version>
@@ -340,6 +341,11 @@
                 <groupId>org.junit-pioneer</groupId>
                 <artifactId>junit-pioneer</artifactId>
                 <version>${junit-pioneer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.tomakehurst</groupId>
+                <artifactId>wiremock-jre8</artifactId>
+                <version>${wiremock.version}</version>
             </dependency>
 
             <!--benchmarks-->

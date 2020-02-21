@@ -1,10 +1,13 @@
 package com.revenat.germes.infrastructure.http.impl;
 
 import com.revenat.germes.infrastructure.exception.CommunicationException;
+import com.revenat.germes.infrastructure.exception.flow.HttpRestException;
+import com.revenat.germes.infrastructure.exception.flow.ValidationException;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.infrastructure.http.RestClient;
 import com.revenat.germes.infrastructure.http.RestResponse;
 import com.revenat.germes.infrastructure.json.JsonClient;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +30,12 @@ public class JavaRestClient implements RestClient {
 
     private static final String CONTENT_TYPE_JSON = "application/json";
 
+    private static final int CLIENT_ERROR_GROUP = 4;
+
+    private static final int SERVER_ERROR_GROUP = 5;
+
+    private static final String NOT_NULL_URL_MSG = "url can not be null or blank";
+
     private final HttpClient httpClient;
 
     private final int timeoutInSeconds;
@@ -44,74 +53,36 @@ public class JavaRestClient implements RestClient {
 
     @Override
     public <T> RestResponse<T> get(final String url, final Class<T> clz) {
-        Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
+        Asserts.assertNotNullOrBlank(url, NOT_NULL_URL_MSG);
 
-        try {
-            final HttpRequest request = buildGetRequestFor(url);
-
-            return sendRequest(request, clz);
-        } catch (final Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CommunicationException("Error during GET request: url="
-                    + url, e);
-        }
+        final HttpRequest request = buildGetRequestFor(url);
+        return execute(request, clz);
     }
 
     @Override
     public <T> RestResponse<T> post(final String url, final Class<T> clz, final T entity) {
-        Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
+        Asserts.assertNotNullOrBlank(url, NOT_NULL_URL_MSG);
 
-        try {
-            final String json = jsonClient.toJson(entity);
-            final HttpRequest request = buildPostRequestFor(url, json);
-
-            return sendRequest(request);
-        } catch (final Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CommunicationException("Error during POST request: url="
-                + url, e);
-        }
+        final String json = jsonClient.toJson(entity);
+        final HttpRequest request = buildPostRequestFor(url, json);
+        return execute(request, null);
     }
 
     @Override
-    public <T> RestResponse<T> put(String url, Class<T> clz, T entity) {
-        Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
+    public <T> RestResponse<T> put(final String url, final Class<T> clz, final T entity) {
+        Asserts.assertNotNullOrBlank(url, NOT_NULL_URL_MSG);
 
-        try {
-            String json = jsonClient.toJson(entity);
-            final HttpRequest request = buildPutRequestFor(url, json);
-            return sendRequest(request, clz);
-        } catch (final Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CommunicationException("Error during PUT request: url="
-                    + url, e);
-        }
+        final String json = jsonClient.toJson(entity);
+        final HttpRequest request = buildPutRequestFor(url, json);
+        return execute(request, clz);
     }
 
     @Override
-    public <T> RestResponse<T> delete(String url) {
-        Asserts.assertNotNullOrBlank(url, "url can not be null or blank");
+    public <T> RestResponse<T> delete(final String url) {
+        Asserts.assertNotNullOrBlank(url, NOT_NULL_URL_MSG);
 
-        try {
-            final HttpRequest request = buildDeleteRequestFor(url);
-            return sendRequest(request);
-        } catch (final Exception e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CommunicationException("Error during DELETE request: url="
-                    + url, e);
-        }
-    }
-
-    private <T> RestResponse<T> sendRequest(final HttpRequest request, final Class<T> responseType)
-            throws IOException, InterruptedException {
-        final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        return new RestResponse<>(response.statusCode(), jsonClient.fromJson(response.body(), responseType));
-    }
-
-    private <T> RestResponse<T> sendRequest(final HttpRequest request)
-            throws IOException, InterruptedException {
-        final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        return new RestResponse<>(response.statusCode(), null);
+        final HttpRequest request = buildDeleteRequestFor(url);
+        return execute(request, null);
     }
 
     private HttpRequest buildPostRequestFor(final String url, final String json) {
@@ -132,7 +103,7 @@ public class JavaRestClient implements RestClient {
                 .build();
     }
 
-    private HttpRequest buildPutRequestFor(String url, String json) {
+    private HttpRequest buildPutRequestFor(final String url, final String json) {
         return HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(timeoutInSeconds))
@@ -142,11 +113,45 @@ public class JavaRestClient implements RestClient {
                 .build();
     }
 
-    private HttpRequest buildDeleteRequestFor(String url) {
+    private HttpRequest buildDeleteRequestFor(final String url) {
         return HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .timeout(Duration.ofSeconds(timeoutInSeconds))
                 .DELETE()
                 .build();
+    }
+
+    private <T> RestResponse<T> execute(final HttpRequest request, final Class<T> responseBodyType) {
+        try {
+            final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            if (isError(response)) {
+                throw new HttpRestException(response.body(), isClientError(response.statusCode()));
+            }
+
+            final String text = response.body();
+            final T body = StringUtils.isEmpty(text) ? null : jsonClient.fromJson(text, responseBodyType);
+
+            return new RestResponse<>(response.statusCode(), body, response.headers().map());
+
+        } catch (final IOException | InterruptedException | ValidationException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CommunicationException("Http request error: url="
+                    + request.uri() + " method= " + request.method(), e);
+        }
+    }
+
+    private <T> boolean isError(final HttpResponse<T> response) {
+        final int statusCode = response.statusCode();
+        return isClientError(statusCode) || isServerError(statusCode);
+    }
+
+    private boolean isServerError(final int statusCode) {
+        final int group = statusCode / 100;
+        return group == SERVER_ERROR_GROUP;
+    }
+
+    private boolean isClientError(final int statusCode) {
+        final int group = statusCode / 100;
+        return group == CLIENT_ERROR_GROUP;
     }
 }
