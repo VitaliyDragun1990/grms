@@ -1,4 +1,4 @@
-package com.revenat.germes.user.service;
+package com.revenat.germes.user.application.service;
 
 
 import com.revenat.germes.user.model.entity.User;

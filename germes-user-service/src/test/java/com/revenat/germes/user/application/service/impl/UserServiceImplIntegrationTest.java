@@ -1,9 +1,9 @@
-package com.revenat.germes.user.service.impl;
+package com.revenat.germes.user.application.service.impl;
 
 import com.revenat.germes.user.infrastructure.config.UserSpringConfig.PersistenceConfig;
 import com.revenat.germes.user.infrastructure.config.UserSpringConfig.ServiceConfig;
 import com.revenat.germes.user.model.entity.User;
-import com.revenat.germes.user.service.UserService;
+import com.revenat.germes.user.application.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

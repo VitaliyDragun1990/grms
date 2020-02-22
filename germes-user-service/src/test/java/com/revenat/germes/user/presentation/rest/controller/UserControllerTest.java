@@ -3,7 +3,7 @@ package com.revenat.germes.user.presentation.rest.controller;
 import com.revenat.germes.user.infrastructure.config.UserServiceTestConfig;
 import com.revenat.germes.user.infrastructure.config.UserSpringConfig;
 import com.revenat.germes.user.model.entity.User;
-import com.revenat.germes.user.service.UserService;
+import com.revenat.germes.user.application.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

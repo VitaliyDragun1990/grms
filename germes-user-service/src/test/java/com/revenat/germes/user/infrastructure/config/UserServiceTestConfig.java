@@ -1,6 +1,6 @@
 package com.revenat.germes.user.infrastructure.config;
 
-import com.revenat.germes.user.service.UserService;
+import com.revenat.germes.user.application.service.UserService;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

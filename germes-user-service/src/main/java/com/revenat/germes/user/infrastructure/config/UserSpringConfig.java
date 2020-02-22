@@ -4,6 +4,7 @@ import com.revenat.germes.infrastructure.environment.Environment;
 import com.revenat.germes.infrastructure.environment.StandardPropertyEnvironment;
 import com.revenat.germes.infrastructure.environment.source.ComboPropertySource;
 import com.revenat.germes.infrastructure.environment.source.PropertySource;
+import com.revenat.germes.infrastructure.helper.encrypter.Encrypter;
 import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.infrastructure.transform.Transformer;
@@ -13,10 +14,12 @@ import com.revenat.germes.infrastructure.transform.impl.helper.FieldManager;
 import com.revenat.germes.infrastructure.transform.impl.helper.FieldProvider;
 import com.revenat.germes.infrastructure.transform.impl.helper.SimilarFieldsLocator;
 import com.revenat.germes.infrastructure.transform.impl.helper.cached.CachedFieldProvider;
+import com.revenat.germes.user.application.security.Authenticator;
+import com.revenat.germes.user.application.security.impl.DBAuthenticator;
+import com.revenat.germes.user.application.service.UserService;
+import com.revenat.germes.user.application.service.impl.UserServiceImpl;
 import com.revenat.germes.user.persistence.repository.UserRepository;
 import com.revenat.germes.user.persistence.repository.hibernate.HibernateUserRepository;
-import com.revenat.germes.user.service.UserService;
-import com.revenat.germes.user.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +46,20 @@ public class UserSpringConfig {
         @Bean
         public UserService userService(final UserRepository userRepository) {
             return new UserServiceImpl(userRepository);
+        }
+    }
+
+    @Configuration
+    public static class AuthenticationConfig {
+
+        @Bean
+        public Encrypter encrypter() {
+            return new Encrypter();
+        }
+
+        @Bean
+        public Authenticator authenticator(final UserService userService, final Encrypter encrypter) {
+            return new DBAuthenticator(userService, encrypter);
         }
     }
 

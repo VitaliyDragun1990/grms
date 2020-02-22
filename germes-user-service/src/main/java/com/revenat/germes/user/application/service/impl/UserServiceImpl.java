@@ -1,8 +1,8 @@
-package com.revenat.germes.user.service.impl;
+package com.revenat.germes.user.application.service.impl;
 
 import com.revenat.germes.user.model.entity.User;
 import com.revenat.germes.user.persistence.repository.UserRepository;
-import com.revenat.germes.user.service.UserService;
+import com.revenat.germes.user.application.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
