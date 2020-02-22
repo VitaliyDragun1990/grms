@@ -20,6 +20,7 @@ import com.revenat.germes.user.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * Spring Java-configuration
@@ -28,16 +29,21 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ComponentScan("com.revenat.germes.user.presentation.rest.controller")
+@EnableWebMvc
 public class UserSpringConfig {
 
-    @Bean
-    public UserRepository userRepository(final SessionFactoryBuilder sessionFactoryBuilder) {
-        return new HibernateUserRepository(sessionFactoryBuilder);
-    }
+    @Configuration
+    public static class ServiceConfig {
 
-    @Bean
-    public UserService userService(final UserRepository userRepository) {
-        return new UserServiceImpl(userRepository);
+        @Bean
+        public UserRepository userRepository(final SessionFactoryBuilder sessionFactoryBuilder) {
+            return new HibernateUserRepository(sessionFactoryBuilder);
+        }
+
+        @Bean
+        public UserService userService(final UserRepository userRepository) {
+            return new UserServiceImpl(userRepository);
+        }
     }
 
     @Configuration

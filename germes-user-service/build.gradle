@@ -7,9 +7,9 @@ dependencies {
     implementation project(':germes-common-persistence'), project(':germes-user-service-client')
     implementation misc.springContext, server.springWebMvc, log.log4jWeb
     providedCompile server.servletApi
-    runtimeOnly persistence.mysql, persistence.hikariCp
+    runtimeOnly persistence.mysql, persistence.hikariCp, misc.jacksonDatabind
 
-    testCompileOnly tests.springTest
+    testImplementation tests.springTest
 }
 
 war {

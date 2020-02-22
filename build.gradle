@@ -90,6 +90,7 @@ allprojects {
                 jacksonDatatype : "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion",
                 jacksonDatatypeJdk8 : "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion",
                 jacksonParamNames : "com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion",
+                jacksonDatabind : "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
                 gson : "com.google.code.gson:gson:$gsonVersion",
                 springContext : "org.springframework:spring-context:$springVersion"
         ]

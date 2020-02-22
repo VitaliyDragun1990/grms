@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Vitaliy Dragun
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = UserSpringConfig.class)
+@ContextConfiguration(classes = {UserSpringConfig.ServiceConfig.class, UserSpringConfig.PersistenceConfig.class})
 @DisplayName("user service")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class UserServiceImplIntegrationTest {
