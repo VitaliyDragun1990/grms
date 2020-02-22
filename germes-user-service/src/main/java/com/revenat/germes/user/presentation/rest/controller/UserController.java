@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping(path = "login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public UserDTO login(@RequestBody final LoginDTO loginDTO) {
+    public UserDTO login(@Valid @RequestBody final LoginDTO loginDTO) {
         return authenticator.authenticate(loginDTO.getUserName(), loginDTO.getHashedPassword())
                 .map(user -> transformer.transform(user, UserDTO.class))
                 .orElseThrow(() -> new AuthenticationException("Invalid login/password for user " + loginDTO.getUserName()));

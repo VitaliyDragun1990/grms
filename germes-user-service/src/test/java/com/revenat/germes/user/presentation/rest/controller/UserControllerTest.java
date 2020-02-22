@@ -12,6 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,6 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -42,8 +46,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class UserControllerTest {
 
     private static final String TEST_123 = "test123";
-    private static final String AMY = "Amy";
-    private static final String JOHN = "John";
+    private static final String AMY = "Amy155";
+    private static final String JOHN = "John123";
 
     private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -118,6 +122,29 @@ class UserControllerTest {
 
         result
                 .andExpect(status().isUnauthorized());
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInvalidCredentials")
+    void shouldReturnStatusBadRequestIfSpecifiedLoginDataIsInvalid(String userName, String password) throws Exception {
+        LoginDTO loginDTO = new LoginDTO(userName, password);
+
+        final ResultActions result = mockMvc.perform(post("/users/login")
+                .content(OBJECT_MAPPER.writeValueAsString(loginDTO))
+                .contentType(MediaType.APPLICATION_JSON_UTF8));
+
+        result
+                .andExpect(status().isBadRequest());
+    }
+
+    private static Stream<Arguments> provideInvalidCredentials() {
+        return Stream.of(
+                Arguments.of(null, null),
+                Arguments.of("", TEST_123),
+                Arguments.of(AMY, ""),
+                Arguments.of(AMY, "aa"),
+                Arguments.of("aaa", TEST_123)
+        );
     }
 
     private User buildUser(final String userName, final String password) {
