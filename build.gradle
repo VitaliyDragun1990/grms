@@ -104,7 +104,7 @@ allprojects {
                 servletApi : "javax.servlet:javax.servlet-api:$servletVersion",
                 weldServlet : "org.jboss.weld.servlet:weld-servlet-core:$weldVersion",
                 weldSe : "org.jboss.weld.se:weld-se-core:$weldVersion",
-                springWeb : "org.springframework:spring-web:$springVersion"
+                springWebMvc : "org.springframework:spring-webmvc:$springVersion"
         ]
 
         persistence = [
