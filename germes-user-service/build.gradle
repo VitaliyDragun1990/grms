@@ -10,6 +10,7 @@ dependencies {
     runtimeOnly persistence.mysql, persistence.hikariCp, misc.jacksonDatabind
 
     testImplementation tests.springTest
+    testRuntimeOnly tests.jsonPath
 }
 
 war {

@@ -1,15 +1,14 @@
 package com.revenat.germes.user.service.impl;
 
-import com.revenat.germes.user.infrastructure.config.UserSpringConfig;
+import com.revenat.germes.user.infrastructure.config.UserSpringConfig.PersistenceConfig;
+import com.revenat.germes.user.infrastructure.config.UserSpringConfig.ServiceConfig;
 import com.revenat.germes.user.model.entity.User;
 import com.revenat.germes.user.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,10 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Vitaliy Dragun
  */
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {UserSpringConfig.ServiceConfig.class, UserSpringConfig.PersistenceConfig.class})
-@DisplayName("user service")
+@SpringJUnitConfig({ServiceConfig.class, PersistenceConfig.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DisplayName("user service")
 class UserServiceImplIntegrationTest {
 
     private static final String JOE_12345 = "joe12345";

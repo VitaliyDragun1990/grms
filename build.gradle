@@ -31,6 +31,7 @@ allprojects {
         jacksonVersion = '2.10.1'
         gsonVersion = '2.8.6'
         springVersion = '5.1.13.RELEASE'
+        jsonPathVersion = '2.4.0'
 
         // log
         log4jVersion = '2.13.0'
@@ -148,7 +149,8 @@ allprojects {
                 cdiUnit : "org.jglue.cdi-unit:cdi-unit:$cdiUnitVersion",
                 junitPioneer : "org.junit-pioneer:junit-pioneer:$junitPioneerVersion",
                 wireMock : "com.github.tomakehurst:wiremock-jre8:$wireMockVersion",
-                springTest : "org.springframework:spring-test:$springVersion"
+                springTest : "org.springframework:spring-test:$springVersion",
+                jsonPath : "com.jayway.jsonpath:json-path:$jsonPathVersion"
         ]
 
         security = [
