@@ -31,7 +31,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @author Vitaliy Dragun
  */
 @Configuration
-@ComponentScan("com.revenat.germes.user.presentation.rest.controller")
+@ComponentScan("com.revenat.germes.user")
 @EnableWebMvc
 public class UserSpringConfig {
 

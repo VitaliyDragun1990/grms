@@ -1,9 +1,13 @@
 package com.revenat.germes.user.presentation.rest.controller;
 
-import com.revenat.germes.user.infrastructure.config.UserServiceTestConfig;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revenat.germes.user.application.security.Authenticator;
+import com.revenat.germes.user.infrastructure.config.UserControllerTestConfig;
 import com.revenat.germes.user.infrastructure.config.UserSpringConfig;
 import com.revenat.germes.user.model.entity.User;
 import com.revenat.germes.user.application.service.UserService;
+import com.revenat.germes.user.presentation.rest.dto.LoginDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,11 +23,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -31,17 +37,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-@SpringJUnitWebConfig({UserSpringConfig.class, UserServiceTestConfig.class})
+@SpringJUnitWebConfig({UserSpringConfig.class, UserControllerTestConfig.class})
 @DisplayName("user controller")
 class UserControllerTest {
 
     private static final String TEST_123 = "test123";
     private static final String AMY = "Amy";
     private static final String JOHN = "John";
+
+    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     private MockMvc mockMvc;
 
     @Autowired
     private UserService userServiceMock;
+
+    @Autowired
+    private Authenticator authenticatorMock;
 
     @BeforeEach
     void setUp(final WebApplicationContext context) {
@@ -74,6 +86,38 @@ class UserControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].userName", equalTo(AMY)))
                 .andExpect(jsonPath("$[1].userName", equalTo(JOHN)));
+    }
+
+    @Test
+    void shouldReturnUserIfLoginSuccess() throws Exception {
+        String userName = JOHN;
+        String password = TEST_123;
+        when(authenticatorMock.authenticate(userName, password)).thenReturn(Optional.of(buildUser(userName, password)));
+
+        LoginDTO loginDTO = new LoginDTO(userName, password);
+        final ResultActions result = mockMvc.perform(post("/users/login")
+                .content(OBJECT_MAPPER.writeValueAsString(loginDTO))
+                .contentType(MediaType.APPLICATION_JSON_UTF8));
+
+        result
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.userName", equalTo(userName)));
+    }
+
+    @Test
+    void shouldReturnStatusUnauthorizedIfLoginFails() throws Exception {
+        String userName = JOHN;
+        String password = TEST_123;
+        when(authenticatorMock.authenticate(userName, password)).thenReturn(Optional.empty());
+
+        LoginDTO loginDTO = new LoginDTO(userName, password);
+        final ResultActions result = mockMvc.perform(post("/users/login")
+                .content(OBJECT_MAPPER.writeValueAsString(loginDTO))
+                .contentType(MediaType.APPLICATION_JSON_UTF8));
+
+        result
+                .andExpect(status().isUnauthorized());
     }
 
     private User buildUser(final String userName, final String password) {

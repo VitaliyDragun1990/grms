@@ -1,5 +1,6 @@
 package com.revenat.germes.user.presentation.rest.controller;
 
+import com.revenat.germes.infrastructure.exception.AuthenticationException;
 import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.user.application.security.Authenticator;
 import com.revenat.germes.user.application.service.UserService;
@@ -33,10 +34,10 @@ public class UserController {
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public UserDTO login(@RequestBody final LoginDTO loginDTO) {
         return authenticator.authenticate(loginDTO.getUserName(), loginDTO.getHashedPassword())
                 .map(user -> transformer.transform(user, UserDTO.class))
-                .orElse(null);
+                .orElseThrow(() -> new AuthenticationException("Invalid login/password for user " + loginDTO.getUserName()));
     }
 }
