@@ -38,7 +38,7 @@ public class UserSpringConfig {
     @Configuration
     public static class ServiceConfig {
 
-        @Bean
+//        @Bean
         public UserRepository userRepository(final SessionFactoryBuilder sessionFactoryBuilder) {
             return new HibernateUserRepository(sessionFactoryBuilder);
         }

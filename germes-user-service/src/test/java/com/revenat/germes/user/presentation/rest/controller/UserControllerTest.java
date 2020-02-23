@@ -1,12 +1,11 @@
 package com.revenat.germes.user.presentation.rest.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revenat.germes.user.application.security.Authenticator;
+import com.revenat.germes.user.application.service.UserService;
 import com.revenat.germes.user.infrastructure.config.UserControllerTestConfig;
 import com.revenat.germes.user.infrastructure.config.UserSpringConfig;
 import com.revenat.germes.user.model.entity.User;
-import com.revenat.germes.user.application.service.UserService;
 import com.revenat.germes.user.presentation.rest.dto.LoginDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

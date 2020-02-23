@@ -18,7 +18,7 @@ public interface UserRepository {
      *
      * @param user user instance to save
      */
-    void save(User user);
+    User save(User user);
 
     /**
      * Returns user with specified identifier boxed into {@link Optional}
@@ -41,7 +41,7 @@ public interface UserRepository {
      *
      * @param userId unique identifier to delete user with
      */
-    void delete(int userId);
+    void deleteById(int userId);
 
     /**
      * Returns all users

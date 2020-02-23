@@ -4,6 +4,7 @@ import com.revenat.germes.user.application.security.Authenticator;
 import com.revenat.germes.user.application.service.UserService;
 import com.revenat.germes.user.presentation.rest.controller.UserController;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -15,7 +16,7 @@ import org.springframework.context.annotation.Profile;
  * @author Vitaliy Dragun
  */
 @Profile("test")
-@Configuration
+@TestConfiguration
 public class UserControllerTestConfig {
 
     @Bean

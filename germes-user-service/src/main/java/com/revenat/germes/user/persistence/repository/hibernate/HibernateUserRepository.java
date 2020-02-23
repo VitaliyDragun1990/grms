@@ -19,8 +19,9 @@ public class HibernateUserRepository extends BaseHibernateRepository implements 
     }
 
     @Override
-    public void save(final User user) {
+    public User save(final User user) {
         execute(session -> session.saveOrUpdate(user));
+        return user;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class HibernateUserRepository extends BaseHibernateRepository implements 
     }
 
     @Override
-    public void delete(final int userId) {
+    public void deleteById(final int userId) {
         execute(session -> {
             final User user = session.get(User.class, userId);
             if (user != null) {

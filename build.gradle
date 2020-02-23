@@ -109,8 +109,7 @@ allprojects {
                 weldServlet : "org.jboss.weld.servlet:weld-servlet-core:$weldVersion",
                 weldSe : "org.jboss.weld.se:weld-se-core:$weldVersion",
                 springWebMvc : "org.springframework:spring-webmvc:$springVersion",
-                springBootStarterWeb : "org.springframework.boot:spring-boot-starter-web:$springBootVersion",
-                springBootStarter : "org.springframework.boot:spring-boot-starter:$springBootVersion"
+                springBootStarterWeb : "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
         ]
 
         persistence = [
@@ -121,7 +120,8 @@ allprojects {
                 sqLite : "org.xerial:sqlite-jdbc:$sqLiteVersion",
                 c3p0: "org.hibernate:hibernate-c3p0:$hibernateVersion",
                 mysql : "mysql:mysql-connector-java:$mysqlVersion",
-                hikariCp: "org.hibernate:hibernate-hikaricp:$hibernateVersion"
+                hikariCp: "org.hibernate:hibernate-hikaricp:$hibernateVersion",
+                springBootStarterDataJpa : "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
         ]
 
         log = [
@@ -156,7 +156,8 @@ allprojects {
                 junitPioneer : "org.junit-pioneer:junit-pioneer:$junitPioneerVersion",
                 wireMock : "com.github.tomakehurst:wiremock-jre8:$wireMockVersion",
                 springTest : "org.springframework:spring-test:$springVersion",
-                jsonPath : "com.jayway.jsonpath:json-path:$jsonPathVersion"
+                jsonPath : "com.jayway.jsonpath:json-path:$jsonPathVersion",
+                springBootStarterTest : "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
         ]
 
         security = [

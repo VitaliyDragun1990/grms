@@ -1,14 +1,16 @@
 package com.revenat.germes.user.application.service.impl;
 
-import com.revenat.germes.user.infrastructure.config.UserSpringConfig.PersistenceConfig;
-import com.revenat.germes.user.infrastructure.config.UserSpringConfig.ServiceConfig;
-import com.revenat.germes.user.model.entity.User;
 import com.revenat.germes.user.application.service.UserService;
+import com.revenat.germes.user.infrastructure.config.UserServiceTestConfig;
+import com.revenat.germes.user.infrastructure.config.UserSpringConfig;
+import com.revenat.germes.user.model.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author Vitaliy Dragun
  */
-@SpringJUnitConfig({ServiceConfig.class, PersistenceConfig.class})
+@SpringJUnitConfig({UserServiceTestConfig.class})
+@DataJpaTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DisplayName("user service")
 class UserServiceImplIntegrationTest {

@@ -4,6 +4,7 @@ import com.revenat.germes.model.entity.base.AbstractEntity;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  * Entity that encapsulates user of the application
@@ -35,5 +36,12 @@ public class User extends AbstractEntity {
     @Column(name = "PASSWORD", nullable = false, length = 256)
     public String getPassword() {
         return password;
+    }
+
+    @PrePersist
+    void setCreatedAt() {
+        if (getCreatedAt() == null) {
+            setCreatedAt(LocalDateTime.now());
+        }
     }
 }

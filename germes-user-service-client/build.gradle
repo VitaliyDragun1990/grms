@@ -4,7 +4,6 @@ plugins {
 
 dependencies {
     implementation project(":germes-common")
-    api server.swagger
 
     compileOnly misc.validationApi
     testImplementation tests.junitVintage, tests.wireMock
