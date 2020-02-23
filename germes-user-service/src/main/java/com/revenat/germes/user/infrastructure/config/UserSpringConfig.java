@@ -72,7 +72,7 @@ public class UserSpringConfig {
         }
 
         @Bean
-        public Environment environment(final PropertySource propertySource) {
+        public Environment appEnvironment(final PropertySource propertySource) {
             return new StandardPropertyEnvironment(propertySource);
         }
 

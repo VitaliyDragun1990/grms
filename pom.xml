@@ -55,8 +55,10 @@
         <jersey.version>2.29.1</jersey.version>
         <servlet.version>4.0.1</servlet.version>
         <weld.version>3.1.3.Final</weld.version>
+        <spring-boot.version>2.1.12.RELEASE</spring-boot.version>
 
         <!--logging-->
+        <slf4j-version>1.7.25</slf4j-version>
         <log4j.version>2.13.0</log4j.version>
         <jbossLogging.version>3.3.2.Final</jbossLogging.version>
         <log4j2-gelf.version>1.3.1</log4j2-gelf.version>
@@ -229,21 +231,26 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
 
             <!--logging-->
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-web</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-api</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
                 <version>${log4j.version}</version>
             </dependency>
             <dependency>
@@ -266,6 +273,11 @@
                 <groupId>biz.paluch.logging</groupId>
                 <artifactId>logstash-gelf</artifactId>
                 <version>${logstash-gelf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
 
             <!--ui-->
@@ -417,16 +429,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-web</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>biz.paluch.logging</groupId>

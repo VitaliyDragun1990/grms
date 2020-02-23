@@ -26,6 +26,9 @@
         <Logger name="com.revenat.germes" level="INFO" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
+        <Logger name="org.springframework.web" level="TRACE" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
         <Root level="WARN">
             <AppenderRef ref="LogToRollingFile"/>
             <AppenderRef ref="LogToConsole"/>

@@ -5,9 +5,13 @@ plugins {
 
 dependencies {
     implementation project(':germes-common-persistence'), project(':germes-user-service-client')
-    implementation misc.springContext, server.springWebMvc, log.log4jWeb
+    implementation(server.springBootStarterWeb) {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+    implementation log.springBootStarterLog4j2
+
     providedCompile server.servletApi
-    runtimeOnly persistence.mysql, persistence.hikariCp, misc.jacksonDatabind, misc.hibernateValidator, misc.el
+    runtimeOnly persistence.mysql, persistence.hikariCp, misc.el
 
     testImplementation tests.springTest
     testRuntimeOnly tests.jsonPath

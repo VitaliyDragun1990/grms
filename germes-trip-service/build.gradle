@@ -6,7 +6,7 @@ plugins {
 dependencies {
     implementation project(':germes-common-persistence'), project(':germes-common-rest')
 
-    implementation misc.commonsLang3, log.log4jWeb, server.jerseySse,
+    implementation misc.commonsLang3, server.jerseySse,
             misc.javassist, server.swagger, server.jerseyJson
 
     implementation( server.jerseyHk2) {

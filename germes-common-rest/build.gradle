@@ -4,7 +4,7 @@ plugins {
 
 dependencies {
     implementation project(":germes-common")
-    implementation log.log4jWeb, server.jerseySse
+    implementation server.jerseySse
 
     implementation( server.jerseyHk2) {
         exclude group: 'org:javassist', module: 'javassist'

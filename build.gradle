@@ -34,6 +34,7 @@ allprojects {
         jsonPathVersion = '2.4.0'
 
         // log
+        slf4jVersion = '1.7.25'
         log4jVersion = '2.13.0'
         commonsLoggingVersion = '1.2'
         logstashGelfVersion = '1.14.0'
@@ -51,6 +52,7 @@ allprojects {
         swaggerVersion = '1.6.0'
         servletVersion = '4.0.1'
         weldVersion = '3.1.3.Final'
+        springBootVersion = '2.1.12.RELEASE'
 
         // test
         junitVersion = '5.5.1'
@@ -106,7 +108,9 @@ allprojects {
                 servletApi : "javax.servlet:javax.servlet-api:$servletVersion",
                 weldServlet : "org.jboss.weld.servlet:weld-servlet-core:$weldVersion",
                 weldSe : "org.jboss.weld.se:weld-se-core:$weldVersion",
-                springWebMvc : "org.springframework:spring-webmvc:$springVersion"
+                springWebMvc : "org.springframework:spring-webmvc:$springVersion",
+                springBootStarterWeb : "org.springframework.boot:spring-boot-starter-web:$springBootVersion",
+                springBootStarter : "org.springframework.boot:spring-boot-starter:$springBootVersion"
         ]
 
         persistence = [
@@ -121,12 +125,14 @@ allprojects {
         ]
 
         log = [
+                slf4jApi : "org.slf4j:slf4j-api:$slf4jVersion",
                 log4jApi  : "org.apache.logging.log4j:log4j-api:$log4jVersion",
                 log4jCore : "org.apache.logging.log4j:log4j-core:$log4jVersion",
                 log4jSlf4j: "org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion",
                 log4jWeb  : "org.apache.logging.log4j:log4j-web:$log4jVersion",
                 commonsLogging : "commons-logging:commons-logging:$commonsLoggingVersion",
-                logstashGelf : "biz.paluch.logging:logstash-gelf:$logstashGelfVersion"
+                logstashGelf : "biz.paluch.logging:logstash-gelf:$logstashGelfVersion",
+                springBootStarterLog4j2 : "org.springframework.boot:spring-boot-starter-log4j2:$springBootVersion"
         ]
 
         ui = [
@@ -192,9 +198,9 @@ subprojects {
     }
 
     dependencies {
-        implementation log.log4jApi, log.log4jCore, log.log4jSlf4j
+        implementation log.slf4jApi
         compileOnly misc.lombok
-        runtimeOnly log.logstashGelf
+        runtimeOnly log.log4jSlf4j, log.log4jWeb, log.logstashGelf
 
         testImplementation tests.junitApi, tests.hamcrest, tests.mockito
         testRuntimeOnly persistence.hikariCp, tests.junitEngine, persistence.h2
