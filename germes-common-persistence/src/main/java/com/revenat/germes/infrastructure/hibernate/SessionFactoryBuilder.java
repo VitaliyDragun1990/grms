@@ -2,19 +2,22 @@ package com.revenat.germes.infrastructure.hibernate;
 
 import com.revenat.germes.infrastructure.environment.Environment;
 import com.revenat.germes.infrastructure.hibernate.interceptor.TimestampInterceptor;
+import io.github.classgraph.ClassGraph;
+import io.github.classgraph.ClassInfoList;
+import io.github.classgraph.ScanResult;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
-import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.Entity;
-import java.util.Set;
+import java.util.Collection;
 
 
 /**
@@ -26,6 +29,8 @@ import java.util.Set;
 @Named
 @ApplicationScoped
 public class SessionFactoryBuilder {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionFactoryBuilder.class);
 
     private static final String PROPERTIES_PREFIX = "hibernate";
 
@@ -55,9 +60,18 @@ public class SessionFactoryBuilder {
 
     }
 
-    private Set<Class<?>> findEntityClasses(final Environment env) {
-        final Reflections reflections = new Reflections(env.getProperty("hibernate.base.package", "com.revenat.germes"));
-        return reflections.getTypesAnnotatedWith(Entity.class);
+    private Collection<Class<?>> findEntityClasses(final Environment env) {
+        final String basePackage = env.getProperty("hibernate.base.package", "com.revenat.germes");
+        LOGGER.debug("base package to scan for entities: {}", basePackage);
+
+        try (ScanResult scanResult =
+                     new ClassGraph()
+                             .enableAllInfo()
+                             .whitelistPackages(basePackage)
+                             .scan()) {
+            final ClassInfoList classesWithAnnotation = scanResult.getClassesWithAnnotation("javax.persistence.Entity");
+            return classesWithAnnotation.loadClasses();
+        }
     }
 
     /**

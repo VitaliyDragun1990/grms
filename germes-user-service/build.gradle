@@ -1,7 +1,9 @@
 plugins {
     id "io.franzbecker.gradle-lombok"
-    id "war"
+    id 'org.springframework.boot' version '2.1.12.RELEASE'
 }
+
+apply plugin: 'org.springframework.boot'
 
 dependencies {
     implementation project(':germes-common-persistence'), project(':germes-user-service-client')
@@ -10,13 +12,12 @@ dependencies {
     }
     implementation log.springBootStarterLog4j2
 
-    providedCompile server.servletApi
     runtimeOnly persistence.mysql, persistence.hikariCp, misc.el
 
     testImplementation tests.springTest
     testRuntimeOnly tests.jsonPath
 }
 
-war {
-    archiveName 'germes-user.war'
+bootJar {
+    archiveFileName = 'user-service.jar'
 }

@@ -37,7 +37,6 @@ class UserServiceImplIntegrationTest {
     @Autowired
     private UserService service;
 
-
     @Test
     void shouldNotFindAnyUserIfNoUserWasSaved() {
         final List<User> users = service.findAll();

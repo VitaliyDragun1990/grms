@@ -23,7 +23,7 @@
 
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="com.revenat.germes" level="INFO" additivity="false">
+        <Logger name="com.revenat.germes" level="DEBUG" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Logger name="org.springframework.web" level="TRACE" additivity="false">

@@ -149,7 +149,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warName>germes-geography</warName>
+                    <warName>geography-service</warName>
                 </configuration>
             </plugin>
             <plugin>

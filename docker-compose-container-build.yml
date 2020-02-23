@@ -18,6 +18,13 @@
 
 # FOR DEPLOYING WAR ARCHIVES ALREADY BUILT ON GRADLE/MAVEN DOCKER CONTAINER
 version: '3.7'
+# Define anchor definition for healthcheck functionality
+x-healthcheck:
+  &health_check
+  interval: 1m
+  timeout: 10s
+  retries: 2
+  start_period: 2m
 # Services definition
 services:
   # Germes mysql database server
@@ -39,12 +46,15 @@ services:
       - mysql.env
     command: ['--collation-server=utf8mb4_unicode_ci', '--character-set-server=utf8mb4']
     volumes:
-      - germes-mysql-data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      <<: *health_check
+      test: mysql -ugermes -pgermes -e "SELECT version();"
   # Germes admin application
   admin:
     build:
       context: .
-      dockerfile: germes-presentation-web/src/main/resources/docker/jetty-maven.dockerfile
+      dockerfile: germes-presentation-web/src/main/resources/docker/service/jetty-base.dockerfile
       args:
         - war_path=/opt/admin.war
     ports:
@@ -54,20 +64,56 @@ services:
     depends_on:
       - mysql
     entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
+    healthcheck:
+      <<: *health_check
+      test: curl -f http://localhost:8080 || exit 1
   # Germes client application
   client:
     build:
       context: .
-      dockerfile: germes-presentation-web/src/main/resources/docker/jetty-maven.dockerfile
-      args:
-        - war_path=/opt/client.war
+      dockerfile: germes-presentation-web/src/main/resources/docker/service/client.dockerfile
     ports:
-      - "8080:8080"
+      - "8080:80"
+    networks:
+      - network1
+    depends_on:
+      - geography
+    healthcheck:
+      <<: *health_check
+      test: curl -f http://localhost:80 || exit 1
+  # Geography service
+  geography:
+    build:
+      context: .
+      dockerfile: germes-presentation-web/src/main/resources/docker/service/jetty-base.dockerfile
+      args:
+        - war_path=/opt/geography-service.war
+    ports:
+      - "8090:8080"
     networks:
       - network1
     depends_on:
       - mysql
     entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
+    healthcheck:
+      <<: *health_check
+      test: curl -f http://localhost:8080 || exit
+  user:
+    build:
+      context: .
+      dockerfile: germes-presentation-web/src/main/resources/docker/service/jvm.dockerfile
+      args:
+        - jar_path=/opt/user-service.jar
+    ports:
+      - "8070:8080"
+    networks:
+      - network1
+    depends_on:
+      - mysql
+    entrypoint: bash -c "sleep 5s && java -jar /opt/user-service.jar"
+    healthcheck:
+      <<: *health_check
+      test: curl -f http://localhost:8080 || exit 1
 # Networks definition
 networks:
   network1:

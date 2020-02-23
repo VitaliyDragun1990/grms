@@ -1,35 +1,23 @@
-# From node image
-FROM node:13-slim AS node13
-
-RUN apt-get update && apt-get install -y bzip2
-
-# Copy package.json file and install all angular dependencies for germes-presentation-web module
-COPY germes-presentation-web/client/package.json /opt/client/package.json
-WORKDIR /opt/client/
-
-RUN yarn install
-
-COPY germes-presentation-web/client/ /opt/client
-
-RUN node_modules/.bin/ng build --prod
-
 # From maven image
 FROM maven:3.6.3-jdk-11-slim AS maven3
 
 # to customise build for Payara/Wildfly
 ARG build_flag
 
-# Copy already build angular propject from node13 layer to maven3 layer
-COPY --from=node13 /opt/client/dist/ /opt/maven/germes-presentation-web/client/dist
-
 # Copy pom.xml files from all modules and install all necessary dependencies
 COPY pom.xml /opt/maven/pom.xml
-COPY germes-presentation-admin/pom.xml /opt/maven/germes-presentation-admin/pom.xml
+COPY germes-common/pom.xml /opt/maven/germes-common/pom.xml
+COPY germes-common-monitoring/pom.xml /opt/maven/germes-common-monitoring/pom.xml
+COPY germes-common-persistence/pom.xml /opt/maven/germes-common-persistence/pom.xml
+COPY germes-common-rest/pom.xml /opt/maven/germes-common-rest/pom.xml
+COPY germes-geography-service/pom.xml /opt/maven/germes-geography-service/pom.xml
+COPY germes-geography-service-client/pom.xml /opt/maven/germes-geography-service-client/pom.xml
+COPY germes-user-service/pom.xml /opt/maven/germes-user-service/pom.xml
+COPY germes-user-service-client/pom.xml /opt/maven/germes-user-service-client/pom.xml
+COPY germes-trip-service/pom.xml /opt/maven/germes-trip-service/pom.xml
+COPY germes-ticket-service/pom.xml /opt/maven/germes-ticket-service/pom.xml
 COPY germes-presentation-web/pom.xml /opt/maven/germes-presentation-web/pom.xml
-COPY germes-presentation-rest/pom.xml /opt/maven/germes-presentation-rest/pom.xml
-COPY germes-application-model/pom.xml /opt/maven/germes-application-model/pom.xml
-COPY germes-application-service/pom.xml /opt/maven/germes-application-service/pom.xml
-COPY germes-persistence/pom.xml /opt/maven/germes-persistence/pom.xml
+COPY germes-presentation-admin/pom.xml /opt/maven/germes-presentation-admin/pom.xml
 
 WORKDIR /opt/maven
 
@@ -41,9 +29,9 @@ COPY . /opt/maven/
 
 # Build client and admin applicaitons
 RUN mvn clean package -Dmaven.exec.skip=true $build_flag && \
-    cp /opt/maven/germes-presentation-web/target/client.war /opt && \
+    cp /opt/maven/germes-geography-service/target/geography-service.war /opt && \
+    cp /opt/maven/germes-user-service/target/user-service.jar /opt && \
     cp /opt/maven/germes-presentation-admin/target/admin.war /opt && \
-    cp /opt/maven/germes-presentation-web/target/generated/swagger-ui/swagger.json /opt && \
     rm -rf /opt/maven
 
 # From project root directory

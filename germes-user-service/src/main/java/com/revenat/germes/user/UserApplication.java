@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author Vitaliy Dragun
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.revenat.germes.user")
 public class UserApplication {
 
     public static void main(String[] args) {

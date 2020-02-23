@@ -32,9 +32,9 @@ COPY . /home/gradle/
 
 # Build applicaitons
 RUN gradle $build_flag -PskipAngular clean build && \
-    cp /home/gradle/germes-geography-service/build/libs/germes-geography.war /opt && \
+    cp /home/gradle/germes-geography-service/build/libs/geography-service.war /opt && \
     cp /home/gradle/germes-presentation-admin/build/libs/admin.war /opt && \
-    cp /home/gradle/germes-user-service/build/libs/germes-user.war /opt && \
+    cp /home/gradle/germes-user-service/build/libs/user-service.jar /opt && \
     rm -rf /home/gradle/germes*
 
 # From project root directory

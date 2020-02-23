@@ -9,7 +9,7 @@ dependencies {
     }
     api misc.jakartaInject, misc.jakartaCdi
 
-    implementation misc.javassist, misc.commonsLang3, misc.reflections
+    implementation misc.javassist, misc.commonsLang3, misc.classgraph
 
     compileOnly misc.jakartaAnnotations
 

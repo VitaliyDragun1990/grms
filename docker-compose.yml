@@ -87,7 +87,7 @@ services:
       context: .
       dockerfile: deploy-jetty.dockerfile
       args:
-        - war_path=germes-geography-service/target/germes-geography.war
+        - war_path=germes-geography-service/target/geography-service.war
     ports:
       - "8090:8080"
     networks:
@@ -101,16 +101,16 @@ services:
   user:
     build:
       context: .
-      dockerfile: deploy-jetty.dockerfile
+      dockerfile: deploy-jvm.dockerfile
       args:
-        - war_path=germes-user-service/target/germes-user.war
+        - jar_path=germes-user-service/build/libs/user-service.jar
     ports:
       - "8070:8080"
     networks:
       - network1
     depends_on:
       - mysql
-    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
+    entrypoint: bash -c "sleep 5s && java -jar /opt/user-service.jar"
     healthcheck:
       <<: *health_check
       test: curl -f http://localhost:8080 || exit 1
