@@ -1,13 +1,11 @@
 package com.revenat.germes.user.presentation.rest.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revenat.germes.user.application.security.Authenticator;
 import com.revenat.germes.user.application.service.UserService;
 import com.revenat.germes.user.infrastructure.config.UserControllerTestConfig;
 import com.revenat.germes.user.infrastructure.config.UserSpringConfig;
 import com.revenat.germes.user.model.entity.User;
 import com.revenat.germes.user.presentation.rest.dto.LoginDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,13 +14,14 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +40,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
 @SpringJUnitWebConfig({UserSpringConfig.class, UserControllerTestConfig.class})
+@AutoConfigureMockMvc
+@AutoConfigureJsonTesters
 @DisplayName("user controller")
 class UserControllerTest {
 
@@ -48,20 +49,17 @@ class UserControllerTest {
     private static final String AMY = "Amy155";
     private static final String JOHN = "John123";
 
-    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
+    @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private JacksonTester<LoginDTO> userTester;
 
     @Autowired
     private UserService userServiceMock;
 
     @Autowired
     private Authenticator authenticatorMock;
-
-    @BeforeEach
-    void setUp(final WebApplicationContext context) {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-    }
 
     @Test
     void shouldReturnEmptyArrayIfNoUsersPresent() throws Exception {
@@ -99,7 +97,7 @@ class UserControllerTest {
 
         LoginDTO loginDTO = new LoginDTO(userName, password);
         final ResultActions result = mockMvc.perform(post("/users/login")
-                .content(OBJECT_MAPPER.writeValueAsString(loginDTO))
+                .content(userTester.write(loginDTO).getJson())
                 .contentType(MediaType.APPLICATION_JSON_UTF8));
 
         result
@@ -116,7 +114,7 @@ class UserControllerTest {
 
         LoginDTO loginDTO = new LoginDTO(userName, password);
         final ResultActions result = mockMvc.perform(post("/users/login")
-                .content(OBJECT_MAPPER.writeValueAsString(loginDTO))
+                .content(userTester.write(loginDTO).getJson())
                 .contentType(MediaType.APPLICATION_JSON_UTF8));
 
         result
@@ -129,7 +127,7 @@ class UserControllerTest {
         LoginDTO loginDTO = new LoginDTO(userName, password);
 
         final ResultActions result = mockMvc.perform(post("/users/login")
-                .content(OBJECT_MAPPER.writeValueAsString(loginDTO))
+                .content(userTester.write(loginDTO).getJson())
                 .contentType(MediaType.APPLICATION_JSON_UTF8));
 
         result
