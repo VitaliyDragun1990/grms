@@ -1,11 +1,6 @@
 package com.revenat.germes.user.infrastructure.config;
 
-import com.revenat.germes.infrastructure.environment.Environment;
-import com.revenat.germes.infrastructure.environment.StandardPropertyEnvironment;
-import com.revenat.germes.infrastructure.environment.source.ComboPropertySource;
-import com.revenat.germes.infrastructure.environment.source.PropertySource;
 import com.revenat.germes.infrastructure.helper.encrypter.Encrypter;
-import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
 import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.infrastructure.transform.Transformer;
 import com.revenat.germes.infrastructure.transform.impl.SimpleDTOTransformer;
@@ -19,10 +14,11 @@ import com.revenat.germes.user.application.security.impl.DBAuthenticator;
 import com.revenat.germes.user.application.service.UserService;
 import com.revenat.germes.user.application.service.impl.UserServiceImpl;
 import com.revenat.germes.user.persistence.repository.UserRepository;
-import com.revenat.germes.user.persistence.repository.hibernate.HibernateUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.config.BootstrapMode;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
@@ -37,11 +33,6 @@ public class UserSpringConfig {
 
     @Configuration
     public static class ServiceConfig {
-
-//        @Bean
-        public UserRepository userRepository(final SessionFactoryBuilder sessionFactoryBuilder) {
-            return new HibernateUserRepository(sessionFactoryBuilder);
-        }
 
         @Bean
         public UserService userService(final UserRepository userRepository) {
@@ -64,22 +55,10 @@ public class UserSpringConfig {
     }
 
     @Configuration
+    @EnableJpaRepositories(
+            value = "com.revenat.germes.user.persistence.repository.spring",
+            bootstrapMode = BootstrapMode.LAZY)
     public static class PersistenceConfig {
-
-        @Bean
-        public PropertySource propertySource() {
-            return new ComboPropertySource();
-        }
-
-        @Bean
-        public Environment appEnvironment(final PropertySource propertySource) {
-            return new StandardPropertyEnvironment(propertySource);
-        }
-
-        @Bean(destroyMethod = "destroy")
-        public SessionFactoryBuilder sessionFactoryBuilder(final Environment environment) {
-            return new SessionFactoryBuilder(environment);
-        }
     }
 
     @Configuration

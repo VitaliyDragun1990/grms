@@ -3,7 +3,10 @@ package com.revenat.germes.user.model.entity;
 import com.revenat.germes.model.entity.base.AbstractEntity;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
@@ -13,16 +16,8 @@ import java.time.LocalDateTime;
  */
 @Table(name = "USERS")
 @Entity
-@NamedQueries({
-        @NamedQuery(name = User.QUERY_FIND_ALL, query = "from User"),
-        @NamedQuery(name = User.QUERY_FIND_BY_USERNAME, query = "from User u where u.userName = :userName")
-})
 @Setter
 public class User extends AbstractEntity {
-
-    public static final String QUERY_FIND_ALL = "User.findAll";
-
-    public static final String QUERY_FIND_BY_USERNAME = "User.findByUsername";
 
     private String userName;
 
