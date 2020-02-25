@@ -58,7 +58,7 @@ class TicketControllerTest {
 
         result
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.length()", equalTo(0)));
     }
 
@@ -70,7 +70,7 @@ class TicketControllerTest {
 
         result
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.length()", equalTo(1)))
                 .andExpect(jsonPath("$[0].tripId", equalTo(TRIP_ID)))
                 .andExpect(jsonPath("$[0].clientName", equalTo(JOHN_SMITH)))

@@ -1,8 +1,8 @@
 FROM germes/base AS base
 
-FROM openjdk:11-jre-stretch
+FROM openjdk:13-jdk-alpine
 
-RUN apt-get update && apt-get -y install curl
+RUN apk update && apk add curl
 
 ARG jar_path
 

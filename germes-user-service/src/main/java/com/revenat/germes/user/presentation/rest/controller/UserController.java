@@ -28,14 +28,14 @@ public class UserController {
 
     private final Authenticator authenticator;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserDTO> findAll() {
         return userService.findAll().stream()
                 .map(user -> transformer.transform(user, UserDTO.class))
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    @PostMapping(path = "login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO login(@Valid @RequestBody final LoginDTO loginDTO) {
         return authenticator.authenticate(loginDTO.getUserName(), loginDTO.getHashedPassword())
                 .map(user -> transformer.transform(user, UserDTO.class))

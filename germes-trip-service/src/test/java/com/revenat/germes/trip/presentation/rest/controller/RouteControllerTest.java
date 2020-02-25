@@ -64,7 +64,7 @@ class RouteControllerTest {
 
         result
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.length()", equalTo(0)));
     }
 
@@ -78,7 +78,7 @@ class RouteControllerTest {
 
         result
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.length()", equalTo(3)));
     }
 
@@ -93,7 +93,7 @@ class RouteControllerTest {
 
         final ResultActions result = mockMvc.perform(post("/routes")
                 .content(routeTester.write(route).getJson())
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
                 .andExpect(status().isCreated());
@@ -110,7 +110,7 @@ class RouteControllerTest {
 
         final ResultActions result = mockMvc.perform(post("/routes")
                 .content(routeTester.write(route).getJson())
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
                 .andExpect(header().string("location", endsWith("/routes/1")));
@@ -127,7 +127,7 @@ class RouteControllerTest {
 
         final ResultActions result = mockMvc.perform(post("/routes")
                 .content(routeTester.write(route).getJson())
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
                 .andExpect(status().isBadRequest());
@@ -148,7 +148,7 @@ class RouteControllerTest {
 
         result
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.start", equalTo(STATION_A)))
                 .andExpect(jsonPath("$.destination", equalTo(STATION_B)))
                 .andExpect(jsonPath("$.startTime", equalTo("15:30:00")))

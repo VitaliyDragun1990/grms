@@ -48,18 +48,17 @@
         <classgraph.version>4.8.60</classgraph.version>
         <jackson.version>2.10.1</jackson.version>
         <gson.version>2.8.6</gson.version>
-        <spring.version>5.1.13.RELEASE</spring.version>
         <json-path.version>2.4.0</json-path.version>
 
         <!--server-->
         <jersey.version>2.29.1</jersey.version>
         <servlet.version>4.0.1</servlet.version>
         <weld.version>3.1.3.Final</weld.version>
-        <spring-boot.version>2.1.12.RELEASE</spring-boot.version>
+        <spring-boot.version>2.2.4.RELEASE</spring-boot.version>
 
         <!--logging-->
         <slf4j-version>1.7.25</slf4j-version>
-        <log4j.version>2.13.0</log4j.version>
+        <log4j.version>2.12.1</log4j.version>
         <jbossLogging.version>3.3.2.Final</jbossLogging.version>
         <log4j2-gelf.version>1.3.1</log4j2-gelf.version>
         <logstash-gelf.version>1.14.0</logstash-gelf.version>
@@ -199,11 +198,6 @@
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
 
             <!--server-->
             <dependency>
@@ -225,11 +219,6 @@
                 <groupId>org.jboss.weld.module</groupId>
                 <artifactId>weld-web</artifactId>
                 <version>${weld.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-webmvc</artifactId>
-                <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -375,11 +364,6 @@
                 <version>${wiremock.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.jayway.jsonpath</groupId>
                 <artifactId>json-path</artifactId>
                 <version>${json-path.version}</version>
@@ -519,7 +503,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
                     <configuration>
-                        <release>11</release>
+                        <release>13</release>
                         <showWarnings>true</showWarnings>
                         <showDeprecation>true</showDeprecation>
                     </configuration>

@@ -25,7 +25,7 @@ public class TicketController {
 
     private final Transformer transformer;
 
-    @GetMapping(path = "{tripId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "{tripId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<TicketDTO> findTickets(@PathVariable final String tripId) {
         return ticketService.findTickets(tripId).stream()
                 .map(ticket -> transformer.transform(ticket, TicketDTO.class))

@@ -1,4 +1,4 @@
-FROM jetty:9.4.18-jre11
+FROM jetty:9.4.26-jdk13-slim
 
 # Remove default ROOT app
 RUN rm -rf /var/lib/jetty/webapps/ROOT

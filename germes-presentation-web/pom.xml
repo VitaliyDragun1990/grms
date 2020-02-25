@@ -13,7 +13,7 @@
     <packaging>war</packaging>
 
     <properties>
-        <maven.exec.skip>false</maven.exec.skip>
+        <maven.exec.skip>true</maven.exec.skip>
         <angular.dist.folder>client/dist</angular.dist.folder>
     </properties>
 

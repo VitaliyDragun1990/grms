@@ -1,7 +1,7 @@
-# Image with jdk11 jvm to run jar files
-FROM openjdk:11-jre-stretch
+# Image with jdk13 jvm to run jar files
+FROM openjdk:13-jdk-alpine
 
-RUN apt-get update && apt-get -y install curl
+RUN apk update && apk add curl
 
 ARG jar_path
 

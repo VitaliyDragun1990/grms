@@ -1,5 +1,5 @@
 # From gradle image
-FROM gradle:6.0-jdk11 AS gradle6
+FROM gradle:6.0-jdk13 AS gradle6
 
 # to customise build for Payara/Wildfly
 ARG build_flag

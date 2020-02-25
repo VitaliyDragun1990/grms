@@ -69,7 +69,7 @@ class UserControllerTest {
 
         result
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$", hasSize(0)));
     }
 
@@ -83,7 +83,7 @@ class UserControllerTest {
 
         result
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].userName", equalTo(AMY)))
                 .andExpect(jsonPath("$[1].userName", equalTo(JOHN)));
@@ -98,11 +98,11 @@ class UserControllerTest {
         LoginDTO loginDTO = new LoginDTO(userName, password);
         final ResultActions result = mockMvc.perform(post("/users/login")
                 .content(userTester.write(loginDTO).getJson())
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.userName", equalTo(userName)));
     }
 
@@ -115,7 +115,7 @@ class UserControllerTest {
         LoginDTO loginDTO = new LoginDTO(userName, password);
         final ResultActions result = mockMvc.perform(post("/users/login")
                 .content(userTester.write(loginDTO).getJson())
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
                 .andExpect(status().isUnauthorized());
@@ -128,7 +128,7 @@ class UserControllerTest {
 
         final ResultActions result = mockMvc.perform(post("/users/login")
                 .content(userTester.write(loginDTO).getJson())
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
                 .andExpect(status().isBadRequest());

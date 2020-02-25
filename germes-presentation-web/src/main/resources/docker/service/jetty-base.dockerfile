@@ -2,7 +2,7 @@
 FROM germes/base AS  base
 
 # Here we'll put war archives
-FROM jetty:9.4.18-jre11
+FROM jetty:9.4.26-jdk13-slim
 
 RUN rm -rf /var/lib/jetty/webapps/ROOT
 

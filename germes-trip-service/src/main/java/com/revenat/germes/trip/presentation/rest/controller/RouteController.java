@@ -29,14 +29,14 @@ public class RouteController {
 
     private final Transformer transformer;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<RouteDTO> findAll() {
         return tripService.findRoutes().stream()
                 .map(route -> transformer.transform(route, RouteDTO.class))
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> save(@Valid @RequestBody final RouteDTO routeDTO) {
         final Route route = transformer.untransform(routeDTO, Route.class);
         tripService.saveRoute(route);
@@ -44,7 +44,7 @@ public class RouteController {
         return resourceCreated(route.getId());
     }
 
-    @GetMapping(path = "/{routeId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/{routeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public RouteDTO findById(@PathVariable("routeId") final int routeId) {
         final Route route = tripService.findRouteById(routeId)
                 .orElseThrow(

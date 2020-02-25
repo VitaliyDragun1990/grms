@@ -1,5 +1,5 @@
 # From maven image
-FROM maven:3.6.3-jdk-11-slim AS maven3
+FROM maven:3.6.3-jdk-13 AS maven3
 
 # to customise build for Payara/Wildfly
 ARG build_flag

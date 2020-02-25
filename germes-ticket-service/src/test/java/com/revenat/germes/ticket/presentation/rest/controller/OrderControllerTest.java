@@ -66,7 +66,7 @@ class OrderControllerTest {
 
         final ResultActions result = mockMvc.perform(post("/orders")
                 .content(orderTester.write(order).getJson())
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
                 .andExpect(status().isBadRequest());
@@ -84,7 +84,7 @@ class OrderControllerTest {
 
         final ResultActions result = mockMvc.perform(post("/orders")
                 .content(orderTester.write(order).getJson())
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
                 .andExpect(status().isCreated());
@@ -102,7 +102,7 @@ class OrderControllerTest {
 
         final ResultActions result = mockMvc.perform(post("/orders")
                 .content(orderTester.write(order).getJson())
-                .contentType(MediaType.APPLICATION_JSON_UTF8));
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
                 .andExpect(status().isBadRequest());

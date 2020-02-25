@@ -29,7 +29,7 @@ public class OrderController {
 
     private final Transformer transformer;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> create(@RequestBody @Valid OrderDTO order) {
         try {
             ticketService.makeReservation(transformer.untransform(order, Order.class));
