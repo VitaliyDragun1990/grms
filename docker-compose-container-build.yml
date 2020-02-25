@@ -114,6 +114,22 @@ services:
     healthcheck:
       <<: *health_check
       test: curl -f http://localhost:8080 || exit 1
+  ticket:
+    build:
+      context: .
+      dockerfile: germes-presentation-web/src/main/resources/docker/service/jvm.dockerfile
+      args:
+        - jar_path=/opt/ticket-service.jar
+    ports:
+      - "8060:8080"
+    networks:
+      - network1
+    depends_on:
+      - mysql
+    entrypoint: bash -c "sleep 5s && java -jar /opt/ticket-service.jar"
+    healthcheck:
+      <<: *health_check
+      test: curl -f http://localhost:8080 || exit 1
 # Networks definition
 networks:
   network1:

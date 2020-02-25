@@ -128,7 +128,7 @@ public class EntityReferenceTransformer implements Transformer {
 
         return optionalEntity.orElseThrow(
                 () -> new InvalidParameterException("There is no " + entityClass.getSimpleName() +
-                        " entity with identifier: " + id));
+                        " with identifier: " + id));
     }
 
     private <T extends AbstractEntity, P> void checkParams(final P dto, final T entity) {

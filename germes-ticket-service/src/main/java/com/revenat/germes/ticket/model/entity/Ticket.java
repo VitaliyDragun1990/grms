@@ -8,8 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 /**
  * Trip ticket
@@ -18,10 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "TICKETS")
-@NamedQuery(name = Ticket.QUERY_FIND_ALL_BY_TRIP, query = "from Ticket t where t.trip = :trip")
 public class Ticket extends AbstractEntity {
-
-    public static final String QUERY_FIND_ALL_BY_TRIP = "Ticket.findAll";
 
     public static final int TICKET_NUMBER_SIZE = 32;
 
@@ -29,7 +27,7 @@ public class Ticket extends AbstractEntity {
      * Link to the underlying trip
      */
     @Setter
-    private String trip;
+    private String tripId;
 
     /**
      * Client name/surname
@@ -44,8 +42,8 @@ public class Ticket extends AbstractEntity {
     private String uid;
 
     @Column(name = "TRIP_ID", nullable = false)
-    public String getTrip() {
-        return trip;
+    public String getTripId() {
+        return tripId;
     }
 
     @Column(name = "CLIENT_NAME", length = 32, nullable = false)
@@ -68,4 +66,10 @@ public class Ticket extends AbstractEntity {
         uid = numberGenerator.generate();
     }
 
+    @PrePersist
+    void setCreatedAt() {
+        if (getCreatedAt() == null) {
+            setCreatedAt(LocalDateTime.now());
+        }
+    }
 }

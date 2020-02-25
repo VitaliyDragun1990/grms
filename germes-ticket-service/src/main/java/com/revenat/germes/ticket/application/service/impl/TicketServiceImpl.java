@@ -1,28 +1,22 @@
-package com.revenat.germes.ticket.service.impl;
+package com.revenat.germes.ticket.application.service.impl;
 
 
-import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
 import com.revenat.germes.infrastructure.helper.Asserts;
+import com.revenat.germes.ticket.application.service.TicketService;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.model.entity.Ticket;
 import com.revenat.germes.ticket.model.generator.TicketNumberGenerator;
 import com.revenat.germes.ticket.persistence.repository.OrderRepository;
 import com.revenat.germes.ticket.persistence.repository.TicketRepository;
-import com.revenat.germes.ticket.service.TicketService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * @author Vitaliy Dragun
  */
-@Named
-@Dependent
 public class TicketServiceImpl implements TicketService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TicketServiceImpl.class);
@@ -33,9 +27,8 @@ public class TicketServiceImpl implements TicketService {
 
     private final TicketNumberGenerator ticketNumberGenerator;
 
-    @Inject
-    public TicketServiceImpl(@DBSource final TicketRepository ticketRepository,
-                             @DBSource final OrderRepository orderRepository,
+    public TicketServiceImpl(final TicketRepository ticketRepository,
+                             final OrderRepository orderRepository,
                              final TicketNumberGenerator numberGenerator) {
         this.ticketRepository = ticketRepository;
         this.orderRepository = orderRepository;
@@ -44,12 +37,12 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> findTickets(final String tripId) {
-        return ticketRepository.findAll(tripId);
+        return ticketRepository.findByTripId(tripId);
     }
 
     @Override
     public List<Order> findReservations(final String tripId) {
-        return orderRepository.findAll(tripId);
+        return orderRepository.findByTripId(tripId);
     }
 
     @Override
@@ -81,7 +74,7 @@ public class TicketServiceImpl implements TicketService {
         Asserts.assertNotNullOrBlank(clientName, "clientName can not be null or blank");
 
         final Ticket ticket = new Ticket();
-        ticket.setTrip(tripId);
+        ticket.setTripId(tripId);
         ticket.setClientName(clientName);
         ticket.generateUid(ticketNumberGenerator);
         ticketRepository.save(ticket);

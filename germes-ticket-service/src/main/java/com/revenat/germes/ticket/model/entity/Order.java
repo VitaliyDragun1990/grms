@@ -36,7 +36,7 @@ public class Order extends AbstractEntity {
     /**
      * Link to the ticket's trip
      */
-    private String trip;
+    private String tripId;
 
     /**
      * Link to the payed ticket(if order is completed)
@@ -70,8 +70,8 @@ public class Order extends AbstractEntity {
     }
 
     @Column(name = "TRIP_ID", nullable = false)
-    public String getTrip() {
-        return trip;
+    public String getTripId() {
+        return tripId;
     }
 
     @ManyToOne(cascade = {}, fetch = FetchType.EAGER)
@@ -128,5 +128,12 @@ public class Order extends AbstractEntity {
             throw new ReservationException("This order misses due date, id: " + getId());
         }
         state = OrderState.COMPLETED;
+    }
+
+    @PrePersist
+    void setCreatedAt() {
+        if (getCreatedAt() == null) {
+            setCreatedAt(LocalDateTime.now());
+        }
     }
 }

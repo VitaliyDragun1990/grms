@@ -31,6 +31,7 @@ COPY . /opt/maven/
 RUN mvn clean package -Dmaven.exec.skip=true $build_flag && \
     cp /opt/maven/germes-geography-service/target/geography-service.war /opt && \
     cp /opt/maven/germes-user-service/target/user-service.jar /opt && \
+    cp /opt/maven/germes-user-service/target/ticket-service.jar /opt && \
     cp /opt/maven/germes-presentation-admin/target/admin.war /opt && \
     rm -rf /opt/maven
 

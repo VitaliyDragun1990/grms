@@ -16,14 +16,14 @@ public interface OrderRepository {
     /**
      * Saves (creates or updates) specified order instance
      */
-    void save(Order order);
+    Order save(Order order);
 
     /**
      * Returns all the orders(completed or not) linked to the trip with specified identifier
      *
      * @param tripId identifier of the trip to find orders linked to
      */
-    List<Order> findAll(String tripId);
+    List<Order> findByTripId(String tripId);
 
     /**
      * Returns order with specified id, or empty Optional if no order was found

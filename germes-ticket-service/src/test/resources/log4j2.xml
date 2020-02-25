@@ -8,6 +8,9 @@
     </Appenders>
 
     <Loggers>
+        <Logger name="org.springframework.web" level="DEBUG" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
         <!-- avoid duplicated logs with additivity=false -->
         <Logger name="com.revenat.germes.ticket" level="DEBUG" additivity="false">
             <AppenderRef ref="LogToConsole"/>

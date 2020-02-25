@@ -1,4 +1,4 @@
-package com.revenat.germes.ticket.service;
+package com.revenat.germes.ticket.application.service;
 
 
 import com.revenat.germes.ticket.model.entity.Order;

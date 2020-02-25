@@ -1,11 +1,11 @@
-package com.revenat.germes.ticket.service.impl;
+package com.revenat.germes.ticket.application.service.impl;
 
+import com.revenat.germes.ticket.application.service.TicketService;
 import com.revenat.germes.ticket.model.entity.FakeTicketNumberGenerator;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.model.entity.Ticket;
 import com.revenat.germes.ticket.persistence.repository.OrderRepository;
 import com.revenat.germes.ticket.persistence.repository.TicketRepository;
-import com.revenat.germes.ticket.service.TicketService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -93,7 +93,7 @@ class TicketServiceImplTest {
         final Ticket ticket = ticketService.buyTicket(TRIP_ID, JOHN_SMITH);
 
         assertThat(ticket.getClientName(), equalTo(JOHN_SMITH));
-        assertThat(ticket.getTrip(), equalTo(TRIP_ID));
+        assertThat(ticket.getTripId(), equalTo(TRIP_ID));
         verify(ticketRepositoryMock, times(1)).save(ArgumentMatchers.eq(ticket));
     }
 

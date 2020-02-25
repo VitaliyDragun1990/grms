@@ -1,7 +1,26 @@
 plugins {
     id "io.franzbecker.gradle-lombok"
+    id 'org.springframework.boot' version '2.1.12.RELEASE'
 }
 
+apply plugin: 'org.springframework.boot'
+
 dependencies {
-    implementation project(':germes-common-persistence')
+    implementation project(':germes-common')
+    implementation server.springBootStarterWeb
+    implementation log.springBootStarterLog4j2
+    implementation persistence.springBootStarterDataJpa
+
+    runtimeOnly persistence.mysql, misc.el
+
+    testImplementation tests.springBootStarterTest
+    testRuntimeOnly tests.jsonPath
+}
+
+configurations.all {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+bootJar {
+    archiveFileName = 'ticket-service.jar'
 }

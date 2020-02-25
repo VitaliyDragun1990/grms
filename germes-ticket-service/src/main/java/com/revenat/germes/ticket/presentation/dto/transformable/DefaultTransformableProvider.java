@@ -1,8 +1,8 @@
-package com.revenat.germes.geography.presentation.rest.dto.transformable;
+package com.revenat.germes.ticket.presentation.dto.transformable;
 
-import com.revenat.germes.geography.model.entity.Station;
 import com.revenat.germes.infrastructure.transform.Transformable;
 import com.revenat.germes.infrastructure.transform.TransformableProvider;
+import com.revenat.germes.ticket.model.entity.Order;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +18,12 @@ public class DefaultTransformableProvider implements TransformableProvider {
     private final Map<Class<?>, Transformable<?, ?>> transformables = new HashMap<>();
 
     public DefaultTransformableProvider() {
-        transformables.put(Station.class, new StationTransformable());
+        transformables.put(Order.class, new OrderTransformable());
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public <T, P> Optional<Transformable<T, P>> find(Class<T> classT) {
+    public <T, P> Optional<Transformable<T, P>> find(final Class<T> classT) {
         return (Optional) Optional.ofNullable(transformables.get(classT));
     }
 }
