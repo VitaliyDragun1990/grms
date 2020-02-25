@@ -1,26 +1,26 @@
 plugins {
     id "io.franzbecker.gradle-lombok"
-    id "war"
+    id 'org.springframework.boot' version '2.1.12.RELEASE'
 }
+
+apply plugin: 'org.springframework.boot'
 
 dependencies {
-    implementation project(':germes-common-persistence'), project(':germes-common-rest')
+    implementation project(':germes-common')
+    implementation server.springBootStarterWeb
+    implementation log.springBootStarterLog4j2
+    implementation persistence.springBootStarterDataJpa
 
-    implementation misc.commonsLang3, server.jerseySse,
-            misc.javassist, server.swagger, server.jerseyJson
+    runtimeOnly persistence.mysql, misc.el
 
-    implementation( server.jerseyHk2) {
-        exclude group: 'org:javassist', module: 'javassist'
-    }
-
-    compileOnly misc.validationApi
-
-    runtimeOnly misc.jaxbRuntime, server.jerseyValidation, server.jerseyServlet, misc.hibernateValidator, misc.el
-
-    testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
-    testRuntimeOnly tests.jerseyTestProvider
+    testImplementation tests.springBootStarterTest
+    testRuntimeOnly tests.jsonPath
 }
 
-war {
-    archiveName "germes-trip.war"
+configurations.all {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+bootJar {
+    archiveFileName = 'trip-service.jar'
 }

@@ -7,7 +7,9 @@ import com.revenat.germes.ticket.application.service.TicketService;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.presentation.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,9 +30,10 @@ public class OrderController {
     private final Transformer transformer;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void create(@RequestBody @Valid OrderDTO order) {
+    public ResponseEntity<Object> create(@RequestBody @Valid OrderDTO order) {
         try {
             ticketService.makeReservation(transformer.untransform(order, Order.class));
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (InvalidParameterException e) {
             throw new ValidationException(e.getMessage(), e);
         }

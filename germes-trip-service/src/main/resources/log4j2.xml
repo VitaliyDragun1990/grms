@@ -9,8 +9,8 @@
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
 
-        <RollingFile name="LogToRollingFile" fileName="${basePath}/germes-trip.log"
-                     filePattern="${basePath}/$${date:yyyy-MM}/germes-trip-%d{MM-dd-yyyy}-%i.log.gz">
+        <RollingFile name="LogToRollingFile" fileName="${basePath}/trip-service.log"
+                     filePattern="${basePath}/$${date:yyyy-MM}/trip-service-%d{MM-dd-yyyy}-%i.log.gz">
             <PatternLayout>
                 <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
             </PatternLayout>
@@ -23,7 +23,10 @@
 
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="com.revenat.germes" level="INFO" additivity="false">
+        <Logger name="com.revenat.germes" level="DEBUG" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Logger name="org.springframework.web" level="DEBUG" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Root level="WARN">

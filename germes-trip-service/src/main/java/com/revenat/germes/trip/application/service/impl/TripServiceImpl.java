@@ -1,36 +1,26 @@
-package com.revenat.germes.trip.service.impl;
+package com.revenat.germes.trip.application.service.impl;
 
-import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
+import com.revenat.germes.trip.application.service.TripService;
 import com.revenat.germes.trip.model.entity.Route;
 import com.revenat.germes.trip.model.entity.Trip;
 import com.revenat.germes.trip.persistence.repository.RouteRepository;
 import com.revenat.germes.trip.persistence.repository.TripRepository;
-import com.revenat.germes.trip.service.TripService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * @author Vitaliy Dragun
  */
-@Named
-@Dependent
-public class TripServiceImpl implements TripService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TripServiceImpl.class);
+public class TripServiceImpl implements TripService {
 
     private final RouteRepository routeRepository;
 
     private final TripRepository tripRepository;
 
-    @Inject
-    public TripServiceImpl(@DBSource final RouteRepository routeRepository,
-                           @DBSource final TripRepository tripRepository) {
+    public TripServiceImpl(final RouteRepository routeRepository,
+                           final TripRepository tripRepository) {
         this.routeRepository = routeRepository;
         this.tripRepository = tripRepository;
     }
@@ -41,7 +31,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Optional<Route> findByRouteId(final int id) {
+    public Optional<Route> findRouteById(final int id) {
         return routeRepository.findById(id);
     }
 
@@ -51,13 +41,13 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public void deleteRoute(final int routeId) {
-        routeRepository.delete(routeId);
+    public void deleteRouteById(final int routeId) {
+        routeRepository.deleteById(routeId);
     }
 
     @Override
     public List<Trip> findTrips(final int routeId) {
-        return tripRepository.findAll(routeId);
+        return tripRepository.findByRouteId(routeId);
     }
 
     @Override
@@ -71,7 +61,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public void deleteTrip(final int tripId) {
-        tripRepository.delete(tripId);
+    public void deleteTripById(final int tripId) {
+        tripRepository.deleteById(tripId);
     }
 }

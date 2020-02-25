@@ -1,4 +1,4 @@
-package com.revenat.germes.trip.service;
+package com.revenat.germes.trip.application.service;
 
 import com.revenat.germes.trip.model.entity.Route;
 import com.revenat.germes.trip.model.entity.Trip;
@@ -22,7 +22,7 @@ public interface TripService {
      * Returns route with specified identifier. If no route is found then empty optional
      * is returned
      */
-    Optional<Route> findByRouteId(int id);
+    Optional<Route> findRouteById(int id);
 
     /**
      * Saves specified route instance
@@ -32,7 +32,7 @@ public interface TripService {
     /**
      * Deletes route with specified identifier
      */
-    void deleteRoute(int routeId);
+    void deleteRouteById(int routeId);
 
     /**
      * Returns list of existing trips for the route with specified identifier
@@ -52,5 +52,5 @@ public interface TripService {
     /**
      * Deletes trip with specified identifier
      */
-    void deleteTrip(int tripId);
+    void deleteTripById(int tripId);
 }

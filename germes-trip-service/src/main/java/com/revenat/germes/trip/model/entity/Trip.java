@@ -78,4 +78,11 @@ public class Trip extends AbstractEntity {
     public double getPrice() {
         return price;
     }
+
+    @PrePersist
+    void setCreatedAt() {
+        if (getCreatedAt() == null) {
+            setCreatedAt(LocalDateTime.now());
+        }
+    }
 }

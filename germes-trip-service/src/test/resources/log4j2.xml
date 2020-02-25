@@ -12,6 +12,9 @@
         <Logger name="com.revenat.germes.trip" level="DEBUG" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
+        <Logger name="org.springframework.web" level="DEBUG" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
         <Root level="ERROR">
             <AppenderRef ref="LogToConsole"/>
         </Root>

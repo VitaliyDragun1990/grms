@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,10 +18,7 @@ import java.util.Set;
  */
 @Table(name = "ROUTES")
 @Entity
-@NamedQuery(name = Route.QUERY_FIND_ALL, query = "from Route")
 public class Route extends AbstractEntity {
-
-    public static final String QUERY_FIND_ALL = "Route.findAll";
 
     /**
      * Starting point of the route
@@ -84,7 +82,7 @@ public class Route extends AbstractEntity {
         return price;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "route"/*, orphanRemoval = true*/)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "route", orphanRemoval = true)
     public Set<Trip> getTrips() {
         return SafeCollectionWrapper.asSafeSet(trips);
     }
@@ -105,5 +103,12 @@ public class Route extends AbstractEntity {
     public void deleteTrip(final Trip trip) {
         trips.remove(trip);
         trip.setRoute(null);
+    }
+
+    @PrePersist
+    void setCreatedAt() {
+        if (getCreatedAt() == null) {
+            setCreatedAt(LocalDateTime.now());
+        }
     }
 }

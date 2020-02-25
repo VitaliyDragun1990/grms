@@ -73,7 +73,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void shouldReturnStatusOkIfReservationHasBeenMade() throws Exception {
+    void shouldReturnStatusCreatedIfReservationHasBeenMade() throws Exception {
         final Ticket ticket = persistTicket(TRIP_ID, JOHN_SMITH, TICKET_UID);
         OrderDTO order = new OrderDTO();
         order.setTicketId(ticket.getId());
@@ -87,7 +87,7 @@ class OrderControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8));
 
         result
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test

@@ -14,7 +14,6 @@ public class OrderTransformable implements Transformable<Order, OrderDTO> {
 
     private final Map<String, String> domainMappings = Map.of("ticketId", "ticket");
 
-
     @Override
     public Order untransform(OrderDTO orderDTO, Order order) {
         if (order.getState() == null) {

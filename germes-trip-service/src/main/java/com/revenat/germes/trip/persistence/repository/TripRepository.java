@@ -18,7 +18,7 @@ public interface TripRepository {
      *
      * @param routeId identifier of the route to find trips linked to
      */
-    List<Trip> findAll(int routeId);
+    List<Trip> findByRouteId(int routeId);
 
     /**
      * Returns trip with specified identifier. If no trip is found then empty optional is returned
@@ -32,12 +32,12 @@ public interface TripRepository {
      *
      * @param trip trip instance to save
      */
-    void save(Trip trip);
+    Trip save(Trip trip);
 
     /**
      * Deletes trip with specified identifier
      *
-     * @param tripId identifier of the trip to delete
+     * @param id identifier of the trip to delete
      */
-    void delete(int tripId);
+    void deleteById(int id);
 }

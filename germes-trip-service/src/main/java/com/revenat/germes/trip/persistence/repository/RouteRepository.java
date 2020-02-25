@@ -29,12 +29,12 @@ public interface RouteRepository {
      *
      * @param route route instance to save
      */
-    void save(Route route);
+    Route save(Route route);
 
     /**
      * Deletes route with specified identifier
      *
-     * @param routeId identifier of the route to delete
+     * @param id identifier of the route to delete
      */
-    void delete(int routeId);
+    void deleteById(int id);
 }

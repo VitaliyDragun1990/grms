@@ -11,7 +11,7 @@
             <Field name="server" pattern="%host" />
             <Field name="server.fqdn" pattern="%host{fqdn}" />
 
-            <Field name="app" literal="trip" />
+            <Field name="app" literal="geography" />
         </Gelf>
     </Appenders>
     <Loggers>
