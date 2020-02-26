@@ -1,5 +1,5 @@
 # Base image from which current one will be created
-FROM mysql:5.7
+FROM mysql:8.0.19
 # Addinitonal info about author, organization, enc
 LABEL Author="Vitaliy Dragun", Version=0.1
 # Define environment variables for image to use

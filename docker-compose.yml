@@ -49,7 +49,7 @@ services:
       - mysql-data:/var/lib/mysql
     healthcheck:
       <<: *health_check
-      test: mysql -ugermes -pgermes -e "SELECT version();"
+      test: mysql -u$$MYSQL_USER-p$$MYSQL_PASSWORD -e "SELECT version();"
   # Germes admin application
   admin:
     build:
@@ -108,6 +108,8 @@ services:
     ports:
       - "8070:8080"
       - "9090:9090"
+    environment:
+      MYSQL_URL: mysql:3306
     networks:
       - network1
     depends_on:
@@ -117,39 +119,43 @@ services:
       <<: *health_check
       test: curl -f http://localhost:9090/monitoring/health || exit 1
   # Ticket service
-  ticket:
-    build:
-      context: .
-      dockerfile: deploy-jvm.dockerfile
-      args:
-        - jar_path=germes-ticket-service/build/libs/ticket-service.jar
-    ports:
-      - "8060:8080"
-    networks:
-      - network1
-    depends_on:
-      - mysql
-    entrypoint: sh -c "sleep 5s && java -jar /opt/ticket-service.jar"
-    healthcheck:
-      <<: *health_check
-      test: curl -f http://localhost:9090/monitoring/health || exit 1
+#  ticket:
+#    build:
+#      context: .
+#      dockerfile: deploy-jvm.dockerfile
+#      args:
+#        - jar_path=germes-ticket-service/build/libs/ticket-service.jar
+#    ports:
+#      - "8060:8080"
+#    environment:
+#      MYSQL_URL: mysql:3306
+#    networks:
+#      - network1
+#    depends_on:
+#      - mysql
+#    entrypoint: sh -c "sleep 5s && java -jar /opt/ticket-service.jar"
+#    healthcheck:
+#      <<: *health_check
+#      test: curl -f http://localhost:9090/monitoring/health || exit 1
   # Trip service
-  trip:
-    build:
-      context: .
-      dockerfile: deploy-jvm.dockerfile
-      args:
-        - jar_path=germes-ticket-service/build/libs/trip-service.jar
-    ports:
-      - "8050:8080"
-    networks:
-      - network1
-    depends_on:
-      - mysql
-    entrypoint: sh -c "sleep 5s && java -jar /opt/trip-service.jar"
-    healthcheck:
-      <<: *health_check
-      test: curl -f http://localhost:9090/monitoring/health || exit 1
+#  trip:
+#    build:
+#      context: .
+#      dockerfile: deploy-jvm.dockerfile
+#      args:
+#        - jar_path=germes-trip-service/build/libs/trip-service.jar
+#    ports:
+#      - "8050:8080"
+#    environment:
+#      MYSQL_URL: mysql:3306
+#    networks:
+#      - network1
+#    depends_on:
+#      - mysql
+#    entrypoint: sh -c "sleep 5s && java -jar /opt/trip-service.jar"
+#    healthcheck:
+#      <<: *health_check
+#      test: curl -f http://localhost:9090/monitoring/health || exit 1
 # Networks definition
 networks:
   network1:

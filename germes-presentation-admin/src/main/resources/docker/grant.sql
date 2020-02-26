@@ -1,1 +1,1 @@
-GRANT ALL ON germes.* TO 'germes'@'%' IDENTIFIED BY 'germes'; FLUSH PRIVILEGES;
+GRANT ALL ON germes.* TO 'germes'@'%'; FLUSH PRIVILEGES;

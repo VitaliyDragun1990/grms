@@ -44,7 +44,7 @@ allprojects {
         hibernateToolsVersion = '5.4.11.Final'
         h2Version = '1.4.200'
         sqLiteVersion = '3.30.1'
-        mysqlVersion = '5.1.47'
+        mysqlVersion = '8.0.19'
 
         // server
         jerseyVersion = '2.29.1'
