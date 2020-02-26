@@ -31,6 +31,7 @@ allprojects {
         jacksonVersion = '2.10.1'
         gsonVersion = '2.8.6'
         jsonPathVersion = '2.4.0'
+        jjwtVersion = '0.11.0'
 
         // log
         slf4jVersion = '1.7.25'
@@ -93,7 +94,10 @@ allprojects {
                 jacksonDatatypeJdk8 : "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion",
                 jacksonParamNames : "com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion",
                 jacksonDatabind : "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
-                gson : "com.google.code.gson:gson:$gsonVersion"
+                gson : "com.google.code.gson:gson:$gsonVersion",
+                jjwtApi : "io.jsonwebtoken:jjwt-api:$jjwtVersion",
+                jjwtImpl : "io.jsonwebtoken:jjwt-impl:$jjwtVersion",
+                jjwtJackson : "io.jsonwebtoken:jjwt-jackson:$jjwtVersion"
         ]
 
         server = [

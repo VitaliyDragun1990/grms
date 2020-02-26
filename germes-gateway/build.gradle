@@ -11,8 +11,9 @@ dependencies {
     implementation log.springBootStarterLog4j2
     implementation persistence.springBootStarterDataJpa
     implementation metrics.springBootActuator
+    implementation misc.jjwtApi
 
-    runtimeOnly persistence.mysql, misc.el, misc.jaxbRuntime
+    runtimeOnly persistence.mysql, misc.el, misc.jaxbRuntime, misc.jjwtImpl, misc.jjwtJackson
 
     testImplementation tests.springBootStarterTest
     testRuntimeOnly tests.jsonPath
