@@ -30,7 +30,6 @@ allprojects {
         classgraphVersion = '4.8.60'
         jacksonVersion = '2.10.1'
         gsonVersion = '2.8.6'
-        springVersion = '5.1.13.RELEASE'
         jsonPathVersion = '2.4.0'
 
         // log
@@ -94,8 +93,7 @@ allprojects {
                 jacksonDatatypeJdk8 : "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:$jacksonVersion",
                 jacksonParamNames : "com.fasterxml.jackson.module:jackson-module-parameter-names:$jacksonVersion",
                 jacksonDatabind : "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
-                gson : "com.google.code.gson:gson:$gsonVersion",
-                springContext : "org.springframework:spring-context:$springVersion"
+                gson : "com.google.code.gson:gson:$gsonVersion"
         ]
 
         server = [
@@ -108,7 +106,6 @@ allprojects {
                 servletApi : "javax.servlet:javax.servlet-api:$servletVersion",
                 weldServlet : "org.jboss.weld.servlet:weld-servlet-core:$weldVersion",
                 weldSe : "org.jboss.weld.se:weld-se-core:$weldVersion",
-                springWebMvc : "org.springframework:spring-webmvc:$springVersion",
                 springBootStarterWeb : "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
         ]
 
@@ -155,7 +152,6 @@ allprojects {
                 cdiUnit : "org.jglue.cdi-unit:cdi-unit:$cdiUnitVersion",
                 junitPioneer : "org.junit-pioneer:junit-pioneer:$junitPioneerVersion",
                 wireMock : "com.github.tomakehurst:wiremock-jre8:$wireMockVersion",
-                springTest : "org.springframework:spring-test:$springVersion",
                 jsonPath : "com.jayway.jsonpath:json-path:$jsonPathVersion",
                 springBootStarterTest : "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
         ]
@@ -170,7 +166,8 @@ allprojects {
                 dropwizardJvm : "io.dropwizard.metrics:metrics-jvm:$dropwizardVersion",
                 dropwizardServlets : "io.dropwizard.metrics:metrics-servlets:$dropwizardVersion",
                 dropwizardHealthchecks : "io.dropwizard.metrics:metrics-healthchecks:$dropwizardVersion",
-                dropwizardGraphite : "io.dropwizard.metrics:metrics-graphite:$dropwizardVersion"
+                dropwizardGraphite : "io.dropwizard.metrics:metrics-graphite:$dropwizardVersion",
+                springBootActuator : "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
         ]
     }
 }

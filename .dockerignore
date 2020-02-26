@@ -15,6 +15,6 @@
 **/*.iml
 !germes-presentation-admin/target/admin.war
 !germes-geography-service/target/geography-service.war
-germes-user-service/target/user-service.jar
 !germes-user-service/build/libs/user-service.jar
 !germes-ticket-service/build/libs/ticket-service.jar
+!germes-trip-service/build/libs/trip-service.jar

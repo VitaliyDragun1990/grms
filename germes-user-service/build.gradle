@@ -10,8 +10,9 @@ dependencies {
     implementation server.springBootStarterWeb
     implementation log.springBootStarterLog4j2
     implementation persistence.springBootStarterDataJpa
+    implementation metrics.springBootActuator
 
-    runtimeOnly persistence.mysql, misc.el
+    runtimeOnly persistence.mysql, misc.el, misc.jaxbRuntime
 
     testImplementation tests.springBootStarterTest
     testRuntimeOnly tests.jsonPath

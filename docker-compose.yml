@@ -63,7 +63,7 @@ services:
       - network1
     depends_on:
       - mysql
-    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
+    entrypoint: sh -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
     healthcheck:
       <<: *health_check
       test: curl -f http://localhost:8080 || exit 1
@@ -94,7 +94,7 @@ services:
       - network1
     depends_on:
       - mysql
-    entrypoint: bash -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
+    entrypoint: sh -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
     healthcheck:
       <<: *health_check
       test: curl -f http://localhost:8080 || exit 1
@@ -107,14 +107,15 @@ services:
         - jar_path=germes-user-service/build/libs/user-service.jar
     ports:
       - "8070:8080"
+      - "9090:9090"
     networks:
       - network1
     depends_on:
       - mysql
-    entrypoint: bash -c "sleep 5s && java -jar /opt/user-service.jar"
+    entrypoint: sh -c "sleep 5s && java -jar /opt/user-service.jar"
     healthcheck:
       <<: *health_check
-      test: curl -f http://localhost:8080 || exit 1
+      test: curl -f http://localhost:9090/monitoring/health || exit 1
   # Ticket service
   ticket:
     build:
@@ -128,10 +129,27 @@ services:
       - network1
     depends_on:
       - mysql
-    entrypoint: bash -c "sleep 5s && java -jar /opt/ticket-service.jar"
+    entrypoint: sh -c "sleep 5s && java -jar /opt/ticket-service.jar"
     healthcheck:
       <<: *health_check
-      test: curl -f http://localhost:8080 || exit 1
+      test: curl -f http://localhost:9090/monitoring/health || exit 1
+  # Trip service
+  trip:
+    build:
+      context: .
+      dockerfile: deploy-jvm.dockerfile
+      args:
+        - jar_path=germes-ticket-service/build/libs/trip-service.jar
+    ports:
+      - "8050:8080"
+    networks:
+      - network1
+    depends_on:
+      - mysql
+    entrypoint: sh -c "sleep 5s && java -jar /opt/trip-service.jar"
+    healthcheck:
+      <<: *health_check
+      test: curl -f http://localhost:9090/monitoring/health || exit 1
 # Networks definition
 networks:
   network1:
