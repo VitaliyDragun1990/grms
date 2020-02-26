@@ -18,3 +18,4 @@
 !germes-user-service/build/libs/user-service.jar
 !germes-ticket-service/build/libs/ticket-service.jar
 !germes-trip-service/build/libs/trip-service.jar
+!germes-gateway/build/libs/gateway.jar

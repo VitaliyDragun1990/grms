@@ -94,6 +94,7 @@ services:
       - network1
     depends_on:
       - mysql
+      - gateway
     entrypoint: sh -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
     healthcheck:
       <<: *health_check
@@ -114,7 +115,23 @@ services:
       - network1
     depends_on:
       - mysql
+      - gateway
     entrypoint: sh -c "sleep 5s && java -jar /opt/user-service.jar"
+    healthcheck:
+      <<: *health_check
+      test: curl -f http://localhost:9090/monitoring/health || exit 1
+  # Gateway service
+  gateway:
+    build:
+      context: .
+      dockerfile: deploy-jvm.dockerfile
+      args:
+        - jar_path=germes-gateway/build/libs/gateway.jar
+    ports:
+      - "8040:8080"
+    networks:
+      - network1
+    entrypoint: sh -c "sleep 5s && java -jar /opt/gateway.jar"
     healthcheck:
       <<: *health_check
       test: curl -f http://localhost:9090/monitoring/health || exit 1
@@ -133,6 +150,7 @@ services:
 #      - network1
 #    depends_on:
 #      - mysql
+#      - gateway
 #    entrypoint: sh -c "sleep 5s && java -jar /opt/ticket-service.jar"
 #    healthcheck:
 #      <<: *health_check
@@ -152,6 +170,7 @@ services:
 #      - network1
 #    depends_on:
 #      - mysql
+#      - gateway
 #    entrypoint: sh -c "sleep 5s && java -jar /opt/trip-service.jar"
 #    healthcheck:
 #      <<: *health_check

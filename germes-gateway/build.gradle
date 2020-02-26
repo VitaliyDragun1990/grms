@@ -1,0 +1,27 @@
+plugins {
+    id "io.franzbecker.gradle-lombok"
+    id 'org.springframework.boot' version '2.2.4.RELEASE'
+}
+
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    implementation project(':germes-common')
+    implementation server.springBootStarterWeb
+    implementation log.springBootStarterLog4j2
+    implementation persistence.springBootStarterDataJpa
+    implementation metrics.springBootActuator
+
+    runtimeOnly persistence.mysql, misc.el, misc.jaxbRuntime
+
+    testImplementation tests.springBootStarterTest
+    testRuntimeOnly tests.jsonPath
+}
+
+configurations.all {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+bootJar {
+    archiveFileName = 'gateway.jar'
+}

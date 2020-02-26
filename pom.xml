@@ -22,6 +22,7 @@
         <module>germes-user-service-client</module>
         <module>germes-geography-service</module>
         <module>germes-geography-service-client</module>
+        <module>germes-gateway</module>
     </modules>
 
     <properties>
