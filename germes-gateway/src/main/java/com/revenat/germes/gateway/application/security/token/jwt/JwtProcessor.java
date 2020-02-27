@@ -1,14 +1,15 @@
-package com.revenat.germes.gateway.application.security.jwt;
+package com.revenat.germes.gateway.application.security.token.jwt;
 
-import com.revenat.germes.gateway.application.security.jwt.exception.ExpiredJwtException;
-import com.revenat.germes.gateway.application.security.jwt.exception.JwtException;
+import com.revenat.germes.gateway.application.security.token.exception.ExpiredTokenException;
+import com.revenat.germes.gateway.application.security.token.exception.TokenException;
 import com.revenat.germes.infrastructure.exception.ConfigurationException;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.WeakKeyException;
-import org.springframework.stereotype.Service;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.ConstructorBinding;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -19,8 +20,9 @@ import java.util.Date;
  *
  * @author Vitaliy Dragun
  */
-@Service
-public class JwtProcessor {
+@ConfigurationProperties("germes.gateway.jwt")
+@ConstructorBinding
+public class JwtProcessor implements com.revenat.germes.gateway.application.security.token.TokenProcessor {
 
     private static final SignatureAlgorithm JWT_ALGORITHM = SignatureAlgorithm.HS256;
 
@@ -53,13 +55,7 @@ public class JwtProcessor {
         this.issuer = issuer;
     }
 
-    /**
-     * Generates token based on provided {@code userName} argument
-     *
-     * @param userName subject for whom token will be generated
-     * @return generated JWT token
-     * @throws IllegalArgumentException if specified userName argument is null or blank
-     */
+    @Override
     public String generateToken(final String userName) {
         Asserts.assertNotNullOrBlank(userName, "userName can not be null or blank");
 
@@ -72,15 +68,7 @@ public class JwtProcessor {
                 .compact();
     }
 
-    /**
-     * Extracts user name(subject) from specified token
-     *
-     * @param token JWT token to extract data from
-     * @return user name(subject) for whom specified token was generated
-     * @throws IllegalArgumentException if provided token is null or empty
-     * @throws ExpiredJwtException      is provided token already expired
-     * @throws JwtException             if provided token is not a valid JWT token
-     */
+    @Override
     public String getUserName(final String token) {
         Asserts.assertNotNullOrBlank(token, "token can not be null or blank");
 
@@ -96,9 +84,9 @@ public class JwtProcessor {
                     .getBody()
                     .getSubject();
         } catch (io.jsonwebtoken.ExpiredJwtException e) {
-            throw new ExpiredJwtException(e);
+            throw new ExpiredTokenException(e);
         } catch (Exception e) {
-            throw new JwtException(e);
+            throw new TokenException(e);
         }
     }
 }

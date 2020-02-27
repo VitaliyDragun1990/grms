@@ -1,6 +1,7 @@
-package com.revenat.germes.gateway.application.security.jwt;
+package com.revenat.germes.gateway.application.security.token.jwt;
 
-import com.revenat.germes.gateway.application.security.jwt.exception.ExpiredJwtException;
+import com.revenat.germes.gateway.application.security.token.TokenProcessor;
+import com.revenat.germes.gateway.application.security.token.exception.ExpiredTokenException;
 import com.revenat.germes.infrastructure.exception.ConfigurationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * @author Vitaliy Dragun
@@ -33,9 +35,9 @@ class JwtProcessorTest {
 
     @Test
     void shouldGenerateToken() {
-        JwtProcessor jwtProcessor = new JwtProcessor(VALID_SECRET, THIRTY_MINUTES, ISSUER);
+        TokenProcessor tokenProcessor = new JwtProcessor(VALID_SECRET, THIRTY_MINUTES, ISSUER);
 
-        String token = jwtProcessor.generateToken(USER_NAME);
+        String token = tokenProcessor.generateToken(USER_NAME);
 
         assertNotNull(token);
     }
@@ -44,17 +46,17 @@ class JwtProcessorTest {
     @ValueSource(strings = {"", "     "})
     @NullSource
     void shouldFailToGenerateTokenIfProvidedUserNameIsUninitialized(String userName) {
-        JwtProcessor jwtProcessor = new JwtProcessor(VALID_SECRET, THIRTY_MINUTES, ISSUER);
+        TokenProcessor tokenProcessor = new JwtProcessor(VALID_SECRET, THIRTY_MINUTES, ISSUER);
 
-        assertThrows(IllegalArgumentException.class, () -> jwtProcessor.generateToken(userName));
+        assertThrows(IllegalArgumentException.class, () -> tokenProcessor.generateToken(userName));
     }
 
     @Test
     void shouldExtractUsernameFromToken() {
-        JwtProcessor jwtProcessor = new JwtProcessor(VALID_SECRET, THIRTY_MINUTES, ISSUER);
-        String token = jwtProcessor.generateToken(USER_NAME);
+        TokenProcessor tokenProcessor = new JwtProcessor(VALID_SECRET, THIRTY_MINUTES, ISSUER);
+        String token = tokenProcessor.generateToken(USER_NAME);
 
-        final String userName = jwtProcessor.getUserName(token);
+        final String userName = tokenProcessor.getUserName(token);
 
         assertThat(userName, equalTo(USER_NAME));
     }
@@ -63,17 +65,17 @@ class JwtProcessorTest {
     @ValueSource(strings = {"", "     "})
     @NullSource
     void shouldFailToExtractUserNameIfSpecifiedTokenIsUninitialized(String token) {
-        JwtProcessor jwtProcessor = new JwtProcessor(VALID_SECRET, THIRTY_MINUTES, ISSUER);
+        TokenProcessor tokenProcessor = new JwtProcessor(VALID_SECRET, THIRTY_MINUTES, ISSUER);
 
-        assertThrows(IllegalArgumentException.class,  () -> jwtProcessor.getUserName(token));
+        assertThrows(IllegalArgumentException.class,  () -> tokenProcessor.getUserName(token));
     }
 
     @Test
     void shouldFailToExtractUserNameFromTokenIfSuchTokenIsAlreadyExpired() throws InterruptedException {
-        JwtProcessor jwtProcessor = new JwtProcessor(VALID_SECRET, TEN_MILLIS, ISSUER);
-        String token = jwtProcessor.generateToken(USER_NAME);
+        TokenProcessor tokenProcessor = new JwtProcessor(VALID_SECRET, TEN_MILLIS, ISSUER);
+        String token = tokenProcessor.generateToken(USER_NAME);
 
         Thread.sleep(TEN_MILLIS + 1);
-        assertThrows(ExpiredJwtException.class, () -> jwtProcessor.getUserName(token));
+        assertThrows(ExpiredTokenException.class, () -> tokenProcessor.getUserName(token));
     }
 }

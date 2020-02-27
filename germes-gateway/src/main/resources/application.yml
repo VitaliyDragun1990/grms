@@ -5,5 +5,13 @@ management:
   endpoints:
     web:
       base-path: /monitoring
+      exposure:
+        include: beans,health,info
   server:
     port: 9090
+germes:
+  gateway:
+    jwt:
+      expiration-in-millis: 1800000
+      issuer: Germes
+      secret: inFTKqxq8MUK4/aHJ6Uq26PTgucw+9hKlx4q5CE0sr8=

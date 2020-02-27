@@ -9,11 +9,10 @@ dependencies {
     implementation project(':germes-common')
     implementation server.springBootStarterWeb
     implementation log.springBootStarterLog4j2
-    implementation persistence.springBootStarterDataJpa
     implementation metrics.springBootActuator
     implementation misc.jjwtApi
 
-    runtimeOnly persistence.mysql, misc.el, misc.jaxbRuntime, misc.jjwtImpl, misc.jjwtJackson
+    runtimeOnly misc.el, misc.jaxbRuntime, misc.jjwtImpl, misc.jjwtJackson
 
     testImplementation tests.springBootStarterTest
     testRuntimeOnly tests.jsonPath
