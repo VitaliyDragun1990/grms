@@ -7,11 +7,21 @@ import java.util.List;
  *
  * @author Vitaliy Dragun
  */
-@FunctionalInterface
 public interface RouteProvider {
 
     /**
      * Get list of route prefixes for currently configured routes
      */
     List<String> getRoutePrefixes();
+
+    /**
+     * Checks whether any provided route matches specified request URI
+     *
+     * @param requestURI request URI to check
+     * @return {@code true} if any route matches specified request URI, {@code false} otherwise
+     */
+    default boolean containsRouteMatching(final String requestURI) {
+        return getRoutePrefixes().stream()
+                .anyMatch(prefix -> requestURI.startsWith("/" + prefix));
+    }
 }

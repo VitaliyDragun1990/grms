@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.Ordered;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.handler.AbstractHandlerMapping;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,9 +21,7 @@ import java.lang.reflect.Method;
  * @author Vitaliy Dragun
  */
 @RequiredArgsConstructor
-public class GatewayHandlerMapping extends RequestMappingHandlerMapping {
-
-    private final RequestMappingInfo.BuilderConfiguration config = new RequestMappingInfo.BuilderConfiguration();
+public class GatewayHandlerMapping extends AbstractHandlerMapping {
 
     private final RouteProvider routeProvider;
 
@@ -39,15 +38,22 @@ public class GatewayHandlerMapping extends RequestMappingHandlerMapping {
     }
 
     @Override
-    protected void initHandlerMethods() {
-        super.initHandlerMethods();
+    protected Object getHandlerInternal(final HttpServletRequest request) throws Exception {
+        if (routeProvider.containsRouteMatching(request.getRequestURI())) {
+            return buildHandler();
+        }
+        return null;
+    }
 
-        final Method handlerMethod = BeanUtils.findDeclaredMethod(requestRouter.getClass(), RequestRouter.HANDLER_NAME,
+    private HandlerMethod buildHandler() {
+        final Method handlerMethod = findHandlerMethod();
+
+        return new HandlerMethod(requestRouter, handlerMethod);
+    }
+
+    private Method findHandlerMethod() {
+        return BeanUtils.findDeclaredMethod(requestRouter.getClass(), RequestRouter.HANDLER_NAME,
                 HttpServletRequest.class, HttpServletResponse.class);
-
-        routeProvider.getRoutePrefixes().stream()
-                .map(this::createGatewayEndpoint)
-                .forEach(requestInfo -> registerHandlerMethod(requestRouter, handlerMethod, requestInfo));
     }
 
     @Override
@@ -55,18 +61,5 @@ public class GatewayHandlerMapping extends RequestMappingHandlerMapping {
         // Register our custom jwt interceptor
         setInterceptors(jwtInterceptor);
         super.initInterceptors();
-    }
-
-    /**
-     * Creates custom endpoint for specified path prefix
-     *
-     * @param prefix path prefix to create endpoint for
-     */
-    private RequestMappingInfo createGatewayEndpoint(final String prefix) {
-        final RequestMappingInfo.Builder builder = RequestMappingInfo
-                .paths(prefix + "/**")
-                .methods(RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE);
-
-        return builder.options(config).build();
     }
 }
