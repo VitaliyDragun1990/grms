@@ -2,6 +2,7 @@ package com.revenat.germes.gateway.infrastructure.config;
 
 import com.revenat.germes.gateway.domain.model.route.RouteProvider;
 import com.revenat.germes.gateway.presentation.routing.RequestRouter;
+import com.revenat.germes.gateway.presentation.security.interceptor.JwtInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.Ordered;
@@ -27,6 +28,11 @@ public class GatewayHandlerMapping extends RequestMappingHandlerMapping {
 
     private final RequestRouter requestRouter;
 
+    /**
+     * Define our custom jwt interceptor to manually register it for this handler mapping
+     */
+    private final JwtInterceptor jwtInterceptor;
+
     @Override
     public int getOrder() {
         return Ordered.HIGHEST_PRECEDENCE;
@@ -42,6 +48,13 @@ public class GatewayHandlerMapping extends RequestMappingHandlerMapping {
         routeProvider.getRoutePrefixes().stream()
                 .map(this::createGatewayEndpoint)
                 .forEach(requestInfo -> registerHandlerMethod(requestRouter, handlerMethod, requestInfo));
+    }
+
+    @Override
+    protected void initInterceptors() {
+        // Register our custom jwt interceptor
+        setInterceptors(jwtInterceptor);
+        super.initInterceptors();
     }
 
     /**

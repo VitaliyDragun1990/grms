@@ -21,11 +21,13 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtInterceptor.class);
 
+    private static final String SCHEMA_BEARER = "Bearer ";
+
     private final TokenProcessor tokenProcessor;
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
-        final String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        final String authToken = getAuthorizationTokenFrom(request);
 
         final Optional<String> userName = authorize(authToken);
 
@@ -34,6 +36,14 @@ public class JwtInterceptor implements HandlerInterceptor {
             return false;
         }
         return true;
+    }
+
+    private String getAuthorizationTokenFrom(final HttpServletRequest request) {
+        final String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (authToken == null || authToken.isBlank() || !authToken.startsWith(SCHEMA_BEARER)) {
+            return null;
+        }
+        return authToken.substring(SCHEMA_BEARER.length());
     }
 
     private Optional<String> authorize(final String authToken) {

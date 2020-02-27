@@ -39,8 +39,9 @@ public class GatewaySpringConfig {
 
         @Bean
         public HandlerMapping gatewayHandlerMapping(final RouteProvider routeProvider,
-                                                    final RequestRouter requestRouter) {
-            return new GatewayHandlerMapping(routeProvider, requestRouter);
+                                                    final RequestRouter requestRouter,
+                                                    final JwtInterceptor jwtInterceptor) {
+            return new GatewayHandlerMapping(routeProvider, requestRouter, jwtInterceptor);
         }
     }
 
