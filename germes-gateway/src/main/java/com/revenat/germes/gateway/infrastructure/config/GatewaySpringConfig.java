@@ -1,6 +1,6 @@
 package com.revenat.germes.gateway.infrastructure.config;
 
-import com.revenat.germes.gateway.application.security.token.TokenProcessor;
+import com.revenat.germes.gateway.domain.model.token.TokenProcessor;
 import com.revenat.germes.gateway.presentation.security.interceptor.JwtInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

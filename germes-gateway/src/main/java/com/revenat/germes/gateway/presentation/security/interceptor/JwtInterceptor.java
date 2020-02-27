@@ -1,6 +1,6 @@
 package com.revenat.germes.gateway.presentation.security.interceptor;
 
-import com.revenat.germes.gateway.application.security.token.TokenProcessor;
+import com.revenat.germes.gateway.domain.model.token.TokenProcessor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,13 +24,16 @@ public class JwtInterceptor implements HandlerInterceptor {
     private final TokenProcessor tokenProcessor;
 
     @Override
-    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler)
-            throws Exception {
+    public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
         final String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         final Optional<String> userName = authorize(authToken);
 
-        return userName.isPresent();
+        if (userName.isEmpty()) {
+            requireAuthorization(response);
+            return false;
+        }
+        return true;
     }
 
     private Optional<String> authorize(final String authToken) {

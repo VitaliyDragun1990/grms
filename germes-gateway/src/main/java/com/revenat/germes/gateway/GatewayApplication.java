@@ -1,6 +1,6 @@
 package com.revenat.germes.gateway;
 
-import com.revenat.germes.gateway.application.security.token.jwt.JwtProcessor;
+import com.revenat.germes.gateway.domain.model.token.jwt.JwtProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

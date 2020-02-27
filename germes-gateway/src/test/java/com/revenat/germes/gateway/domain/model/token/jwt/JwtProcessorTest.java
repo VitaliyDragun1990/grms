@@ -1,7 +1,7 @@
-package com.revenat.germes.gateway.application.security.token.jwt;
+package com.revenat.germes.gateway.domain.model.token.jwt;
 
-import com.revenat.germes.gateway.application.security.token.TokenProcessor;
-import com.revenat.germes.gateway.application.security.token.exception.ExpiredTokenException;
+import com.revenat.germes.gateway.domain.model.token.TokenProcessor;
+import com.revenat.germes.gateway.domain.model.token.exception.ExpiredTokenException;
 import com.revenat.germes.infrastructure.exception.ConfigurationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

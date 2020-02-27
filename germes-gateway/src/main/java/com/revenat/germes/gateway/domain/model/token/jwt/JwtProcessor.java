@@ -1,7 +1,8 @@
-package com.revenat.germes.gateway.application.security.token.jwt;
+package com.revenat.germes.gateway.domain.model.token.jwt;
 
-import com.revenat.germes.gateway.application.security.token.exception.ExpiredTokenException;
-import com.revenat.germes.gateway.application.security.token.exception.TokenException;
+import com.revenat.germes.gateway.domain.model.token.TokenProcessor;
+import com.revenat.germes.gateway.domain.model.token.exception.ExpiredTokenException;
+import com.revenat.germes.gateway.domain.model.token.exception.TokenException;
 import com.revenat.germes.infrastructure.exception.ConfigurationException;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import io.jsonwebtoken.Jwts;
@@ -22,7 +23,7 @@ import java.util.Date;
  */
 @ConfigurationProperties("germes.gateway.jwt")
 @ConstructorBinding
-public class JwtProcessor implements com.revenat.germes.gateway.application.security.token.TokenProcessor {
+public class JwtProcessor implements TokenProcessor {
 
     private static final SignatureAlgorithm JWT_ALGORITHM = SignatureAlgorithm.HS256;
 

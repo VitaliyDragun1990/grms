@@ -1,4 +1,4 @@
-package com.revenat.germes.gateway.application.security.token.exception;
+package com.revenat.germes.gateway.domain.model.token.exception;
 
 /**
  * Signals that token is already expired

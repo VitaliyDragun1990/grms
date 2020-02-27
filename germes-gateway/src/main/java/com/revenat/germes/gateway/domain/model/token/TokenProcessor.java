@@ -1,7 +1,7 @@
-package com.revenat.germes.gateway.application.security.token;
+package com.revenat.germes.gateway.domain.model.token;
 
-import com.revenat.germes.gateway.application.security.token.exception.ExpiredTokenException;
-import com.revenat.germes.gateway.application.security.token.exception.TokenException;
+import com.revenat.germes.gateway.domain.model.token.exception.ExpiredTokenException;
+import com.revenat.germes.gateway.domain.model.token.exception.TokenException;
 
 /**
  * Component responsible for token parsing/generation
