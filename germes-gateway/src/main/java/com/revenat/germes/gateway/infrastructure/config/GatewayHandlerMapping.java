@@ -4,6 +4,7 @@ import com.revenat.germes.gateway.domain.model.route.RouteProvider;
 import com.revenat.germes.gateway.presentation.routing.RequestRouter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.core.Ordered;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -27,6 +28,11 @@ public class GatewayHandlerMapping extends RequestMappingHandlerMapping {
     private final RequestRouter requestRouter;
 
     @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE;
+    }
+
+    @Override
     protected void initHandlerMethods() {
         super.initHandlerMethods();
 
@@ -45,7 +51,7 @@ public class GatewayHandlerMapping extends RequestMappingHandlerMapping {
      */
     private RequestMappingInfo createGatewayEndpoint(final String prefix) {
         final RequestMappingInfo.Builder builder = RequestMappingInfo
-                .paths(prefix)
+                .paths(prefix + "/**")
                 .methods(RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST, RequestMethod.DELETE);
 
         return builder.options(config).build();
