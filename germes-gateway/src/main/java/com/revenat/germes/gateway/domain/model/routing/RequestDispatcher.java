@@ -1,7 +1,7 @@
 package com.revenat.germes.gateway.domain.model.routing;
 
 /**
- * Abstraction over transferring client request to the remote server(service)
+ * Boundary abstraction over transferring client request to the remote server(service)
  * Can invoke protocol/data format translation, for example,
  * JSON -> Protobuf
  * HTTP -> TCP

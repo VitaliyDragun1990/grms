@@ -15,3 +15,10 @@ germes:
       expiration-in-millis: 1800000
       issuer: Germes
       secret: inFTKqxq8MUK4/aHJ6Uq26PTgucw+9hKlx4q5CE0sr8=
+    routes:
+      - host: geography
+        port: 8090
+      - host: ticket
+        port: 8060
+      - host: trip
+        port: 8050

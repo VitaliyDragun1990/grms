@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Mediator that orchestrate wotk of request composer and request dispatcher components
+ * Mediator that orchestrate work of request composer and request dispatcher components
  *
  * @author Vitaliy Dragun
  */

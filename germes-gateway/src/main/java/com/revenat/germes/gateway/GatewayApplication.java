@@ -1,5 +1,6 @@
 package com.revenat.germes.gateway;
 
+import com.revenat.germes.gateway.domain.model.route.DynamicRouteProvider;
 import com.revenat.germes.gateway.domain.model.token.TokenProcessor;
 import com.revenat.germes.gateway.domain.model.token.jwt.JwtProcessor;
 import org.slf4j.Logger;
@@ -15,7 +16,7 @@ import javax.annotation.PostConstruct;
  * @author Vitaliy Dragun
  */
 @SpringBootApplication(scanBasePackages = "com.revenat.germes.gateway")
-@EnableConfigurationProperties(JwtProcessor.class)
+@EnableConfigurationProperties({JwtProcessor.class, DynamicRouteProvider.class})
 public class GatewayApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GatewayApplication.class);

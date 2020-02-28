@@ -35,11 +35,6 @@ public class GatewaySpringConfig {
         }
 
         @Bean
-        public RouteProvider routeProvider() {
-            return new StaticRouteProvider();
-        }
-
-        @Bean
         public RequestComposer requestComposer() {
             return new DefaultRequestComposer();
         }
