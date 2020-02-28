@@ -1,0 +1,9 @@
+germes:
+  gateway:
+    routes:
+      - host: localhost
+        port: 8090
+      - host: localhost
+        port: 8060
+      - host: localhost
+        port: 8050

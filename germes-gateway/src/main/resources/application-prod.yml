@@ -1,0 +1,9 @@
+germes:
+  gateway:
+    routes:
+      - host: geography
+        port: 8090
+      - host: ticket
+        port: 8060
+      - host: trip
+        port: 8050

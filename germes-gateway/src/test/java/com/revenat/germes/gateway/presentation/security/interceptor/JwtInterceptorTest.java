@@ -5,10 +5,12 @@ import com.revenat.germes.gateway.domain.model.routing.RequestDispatcher;
 import com.revenat.germes.gateway.domain.model.routing.RequestInfo;
 import com.revenat.germes.gateway.domain.model.routing.ResponseInfo;
 import com.revenat.germes.gateway.domain.model.token.TokenProcessor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
@@ -44,9 +46,19 @@ class JwtInterceptorTest {
     @MockBean
     private RequestDispatcher requestDispatcher;
 
+    @Value("${germes.gateway.routes[0].host}")
+    private String host;
+
+    private String path;
+
+    @BeforeEach
+    void setUp() {
+        path = "/" + host;
+    }
+
     @Test
     void shouldReturnStatusUnauthorizedIfRequestMissesAuthorizationHeader() throws Exception {
-        final ResultActions result = mockMvc.perform(get("/trip"));
+        final ResultActions result = mockMvc.perform(get(path));
 
         result
                 .andExpect(status().isUnauthorized());
@@ -57,7 +69,7 @@ class JwtInterceptorTest {
         final HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth("invalid-token");
 
-        final ResultActions result = mockMvc.perform(get("/trip").headers(headers));
+        final ResultActions result = mockMvc.perform(get(path).headers(headers));
 
         result
                 .andExpect(status().isUnauthorized());
@@ -72,7 +84,7 @@ class JwtInterceptorTest {
         final HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authToken);
 
-        final ResultActions result = mockMvc.perform(get("/trip").headers(headers));
+        final ResultActions result = mockMvc.perform(get(path).headers(headers));
 
         result
                 .andExpect(status().isOk());
