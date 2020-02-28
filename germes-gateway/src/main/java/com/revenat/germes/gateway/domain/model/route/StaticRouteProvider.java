@@ -1,7 +1,10 @@
 package com.revenat.germes.gateway.domain.model.route;
 
+import com.revenat.germes.infrastructure.helper.Asserts;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -27,5 +30,14 @@ public class StaticRouteProvider implements RouteProvider {
         return routes.stream()
                 .map(RouteDefinition::getHost)
                 .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public Optional<RouteDefinition> findRouteBy(final String prefix) {
+        Asserts.assertNotNullOrBlank(prefix, "prefix can not be null or blank");
+
+        return routes.stream()
+                .filter(route -> route.getHost().equals(prefix))
+                .findAny();
     }
 }
