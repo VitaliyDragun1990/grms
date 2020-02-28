@@ -1,7 +1,7 @@
-package com.revenat.germes.gateway.presentation.routing.impl;
+package com.revenat.germes.gateway.presentation.routing.helper;
 
-import com.revenat.germes.gateway.presentation.routing.exception.RouteException;
-import org.springframework.http.ResponseEntity;
+import com.revenat.germes.gateway.domain.model.routing.ResponseInfo;
+import com.revenat.germes.gateway.domain.model.routing.exception.RouteException;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -14,32 +14,32 @@ import java.util.Set;
 /**
  * @author Vitaliy Dragun
  */
-class ResponsePopulator {
+public class ResponsePopulator {
 
     /**
      * Populates specified {@linkplain HttpServletResponse response} using data
-     * from specified {@linkplain ResponseEntity dataHolder}
+     * from specified {@linkplain ResponseInfo responseInfo}
      *
      * @param response   target response to populate
-     * @param dataHolder source of the data
+     * @param responseInfo source of the data
      * @return response populated with data
      * @throws RouteException if some error occurs during request populating process
      */
-    HttpServletResponse populateResponseFrom(final HttpServletResponse response, final ResponseEntity<?> dataHolder) {
-        response.setStatus(dataHolder.getStatusCodeValue());
-        setResponseHeaders(response, dataHolder.getHeaders().entrySet());
-        setResponseBody(response, dataHolder.getBody());
+    public HttpServletResponse populateResponseFrom(final HttpServletResponse response, final ResponseInfo responseInfo) {
+        response.setStatus(responseInfo.getStatusCode());
+        setResponseHeaders(response, responseInfo.getHeaders().entrySet());
+        setResponseBody(response, responseInfo.getBody());
 
         return response;
     }
 
-    private void setResponseBody(HttpServletResponse response, Object body) {
+    private void setResponseBody(final HttpServletResponse response, final Object body) {
         if (body != null) {
             try {
                 final ServletOutputStream outputStream = response.getOutputStream();
                 new ObjectOutputStream(outputStream).writeObject(body);
                 outputStream.flush();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 throw new RouteException(e);
             }
         }

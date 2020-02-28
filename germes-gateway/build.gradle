@@ -14,7 +14,7 @@ dependencies {
 
     runtimeOnly misc.el, misc.jaxbRuntime, misc.jjwtImpl, misc.jjwtJackson
 
-    testImplementation tests.springBootStarterTest
+    testImplementation tests.springBootStarterTest, tests.wireMock
     testRuntimeOnly tests.jsonPath
 }
 

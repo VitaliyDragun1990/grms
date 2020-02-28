@@ -1,4 +1,4 @@
-package com.revenat.germes.gateway.presentation.routing;
+package com.revenat.germes.gateway.domain.model.routing;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -2,21 +2,20 @@ package com.revenat.germes.gateway.infrastructure.config;
 
 import com.revenat.germes.gateway.domain.model.route.RouteProvider;
 import com.revenat.germes.gateway.domain.model.route.StaticRouteProvider;
+import com.revenat.germes.gateway.domain.model.routing.RequestComposer;
+import com.revenat.germes.gateway.domain.model.routing.RequestDispatcher;
+import com.revenat.germes.gateway.domain.model.routing.RequestRouter;
 import com.revenat.germes.gateway.domain.model.token.TokenProcessor;
-import com.revenat.germes.gateway.presentation.routing.RequestRouter;
-import com.revenat.germes.gateway.presentation.routing.impl.DefaultRequestRouter;
+import com.revenat.germes.gateway.presentation.routing.DefaultRequestComposer;
+import com.revenat.germes.gateway.presentation.routing.http.HttpRequestDispatcher;
+import com.revenat.germes.gateway.presentation.routing.DefaultRequestRouter;
 import com.revenat.germes.gateway.presentation.security.interceptor.JwtInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.List;
 
 /**
  * Java-based configuration for Gateway application
@@ -41,8 +40,18 @@ public class GatewaySpringConfig {
         }
 
         @Bean
-        public RequestRouter requestRouter(final RestTemplate restTemplate, final RouteProvider routeProvider) {
-            return new DefaultRequestRouter(restTemplate, routeProvider);
+        public RequestComposer requestComposer() {
+            return new DefaultRequestComposer();
+        }
+
+        @Bean
+        public RequestDispatcher requestDispatcher(final RouteProvider routeProvider, final RestTemplate restTemplate) {
+            return new HttpRequestDispatcher(routeProvider, restTemplate);
+        }
+
+        @Bean
+        public RequestRouter requestRouter(final RequestComposer requestComposer, final RequestDispatcher requestDispatcher) {
+            return new DefaultRequestRouter(requestComposer, requestDispatcher);
         }
 
         @Bean

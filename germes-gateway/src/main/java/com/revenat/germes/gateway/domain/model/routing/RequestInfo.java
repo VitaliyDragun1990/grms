@@ -1,18 +1,20 @@
-package com.revenat.germes.gateway.presentation.routing.impl;
+package com.revenat.germes.gateway.domain.model.routing;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 /**
- * Objects that contains all required info about request
+ * Component that contains all required info about client's request that
+ * should be routed
  *
  * @author Vitaliy Dragun
  */
 @RequiredArgsConstructor
 @Getter
-class RequestInfo {
+public class RequestInfo {
 
     private final String serverPrefix;
 
@@ -20,7 +22,9 @@ class RequestInfo {
 
     private final Object body;
 
-    private final Map<String, String[]> parameters;
+    private final Map<String, List<String>> headers;
 
     private final String queryString;
+
+    private final String method;
 }

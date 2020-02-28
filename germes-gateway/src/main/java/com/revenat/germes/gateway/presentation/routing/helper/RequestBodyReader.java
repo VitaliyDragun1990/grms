@@ -1,6 +1,6 @@
-package com.revenat.germes.gateway.presentation.routing.impl;
+package com.revenat.germes.gateway.presentation.routing.helper;
 
-import com.revenat.germes.gateway.presentation.routing.exception.RouteException;
+import com.revenat.germes.gateway.domain.model.routing.exception.RouteException;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -13,14 +13,14 @@ import java.io.ObjectInputStream;
  *
  * @author Vitaliy Dragun
  */
-class RequestBodyReader {
+public class RequestBodyReader {
 
     /**
      * Reads request body if any, or returns {@code null} if no body is present
      *
      * @param request {@link HttpServletRequest} instance
      */
-    Object readRequestBody(HttpServletRequest request) {
+    public Object readRequestBody(HttpServletRequest request) {
         try {
             final ServletInputStream requestInputStream = request.getInputStream();
             if (isBodyPresent(requestInputStream)) {

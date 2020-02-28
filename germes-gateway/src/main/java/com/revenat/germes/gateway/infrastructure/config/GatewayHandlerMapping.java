@@ -1,15 +1,13 @@
 package com.revenat.germes.gateway.infrastructure.config;
 
 import com.revenat.germes.gateway.domain.model.route.RouteProvider;
-import com.revenat.germes.gateway.presentation.routing.RequestRouter;
+import com.revenat.germes.gateway.domain.model.routing.RequestRouter;
 import com.revenat.germes.gateway.presentation.security.interceptor.JwtInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.Ordered;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.AbstractHandlerMapping;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

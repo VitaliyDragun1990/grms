@@ -1,4 +1,4 @@
-package com.revenat.germes.gateway.presentation.routing.exception;
+package com.revenat.germes.gateway.domain.model.routing.exception;
 
 import com.revenat.germes.infrastructure.exception.base.ApplicationException;
 
