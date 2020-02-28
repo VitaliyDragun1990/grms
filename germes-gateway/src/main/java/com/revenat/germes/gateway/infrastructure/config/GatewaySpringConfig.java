@@ -18,14 +18,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.HandlerMapping;
 
 /**
- * Java-based configuration for Gateway application
+ * Java-based configuration for Gateway application.
+ * Deprecated in favor of {@link GatewayContextInitializer}
  *
  * @author Vitaliy Dragun
  */
-@Configuration
+//@Configuration
 public class GatewaySpringConfig {
 
-    @Configuration
+//    @Configuration
     @DependsOn("jwtInterceptor")
     public static class GatewayConfig {
 
@@ -57,7 +58,7 @@ public class GatewaySpringConfig {
         }
     }
 
-    @Configuration
+//    @Configuration
     public static class SecurityConfig {
 
         @Bean

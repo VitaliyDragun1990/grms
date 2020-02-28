@@ -5,6 +5,7 @@ import com.revenat.germes.gateway.domain.model.routing.RequestDispatcher;
 import com.revenat.germes.gateway.domain.model.routing.RequestInfo;
 import com.revenat.germes.gateway.domain.model.routing.ResponseInfo;
 import com.revenat.germes.gateway.domain.model.token.TokenProcessor;
+import com.revenat.germes.gateway.infrastructure.config.GatewayContextInitializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Vitaliy Dragun
  */
-@SpringJUnitWebConfig(GatewayApplication.class)
+@SpringJUnitWebConfig(value = GatewayApplication.class, initializers = GatewayContextInitializer.class)
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application.properties")
 @DisplayName("JWT interceptor")
