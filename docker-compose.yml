@@ -35,7 +35,7 @@ services:
       #logging:
       # driver: none
     networks:
-      - network1
+      - network2
     ports:
       - "3307:3306"
     environment:
@@ -60,7 +60,7 @@ services:
     ports:
       - "9000:8080"
     networks:
-      - network1
+      - network2
     depends_on:
       - mysql
     entrypoint: sh -c "sleep 5s && java -jar /usr/local/jetty/start.jar"
@@ -91,7 +91,7 @@ services:
     ports:
       - "8090:8080"
     networks:
-      - network1
+      - network2
     depends_on:
       - mysql
       - gateway
@@ -112,7 +112,7 @@ services:
     environment:
       MYSQL_URL: mysql:3306
     networks:
-      - network1
+      - network2
     depends_on:
       - mysql
       - gateway
@@ -131,6 +131,7 @@ services:
       - "8040:8080"
     networks:
       - network1
+      - network2
     entrypoint: sh -c "sleep 5s && java -jar /opt/gateway.jar"
     healthcheck:
       <<: *health_check
@@ -147,7 +148,7 @@ services:
 #    environment:
 #      MYSQL_URL: mysql:3306
 #    networks:
-#      - network1
+#      - network2
 #    depends_on:
 #      - mysql
 #      - gateway
@@ -167,7 +168,7 @@ services:
 #    environment:
 #      MYSQL_URL: mysql:3306
 #    networks:
-#      - network1
+#      - network2
 #    depends_on:
 #      - mysql
 #      - gateway
@@ -178,6 +179,8 @@ services:
 # Networks definition
 networks:
   network1:
+    driver: bridge
+  network2:
     driver: bridge
 # Volumes definition
 volumes:

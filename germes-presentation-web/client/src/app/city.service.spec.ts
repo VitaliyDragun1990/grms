@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
 
 import { CityService } from './city.service';
+import { BASE_API_URL } from './core';
 
 describe('CityService', () => {
 
@@ -36,7 +37,7 @@ describe('CityService', () => {
       expect(cities).toEqual(dummyResponse);
     });
 
-    let cityRequest = httpController.expectOne('http://192.168.99.100:8090/api/cities');
+    const cityRequest = httpController.expectOne(`${BASE_API_URL}api/cities`);
     cityRequest.flush(dummyResponse);
   });
 });

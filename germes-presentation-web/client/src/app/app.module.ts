@@ -1,6 +1,7 @@
 import { CityService } from './city.service';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { JwtModule } from '@auth0/angular-jwt';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -8,6 +9,7 @@ import { CitiesComponent } from './cities/cities.component';
 import { LanguageComponent } from './language/language.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { jwtLoader } from './authentication.service';
 
 
 @NgModule({
@@ -24,6 +26,11 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
+      }
+    }),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: jwtLoader
       }
     })
   ],

@@ -30,7 +30,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
 
-    let cityRequest = httpController.expectOne('http://192.168.99.100:8090/api/cities');
+    const cityRequest = httpController.expectOne('http://192.168.99.100:8090/api/cities');
     expect(app).toBeTruthy();
 
     cityRequest.flush({});
