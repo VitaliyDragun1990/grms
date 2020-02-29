@@ -35,6 +35,10 @@ public class RestResponse<T> {
         return statusCode;
     }
 
+    public boolean isSuccess() {
+        return statusCode == 200;
+    }
+
     /**
      * Returns body of the response
      */

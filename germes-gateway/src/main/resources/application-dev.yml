@@ -1,3 +1,6 @@
+server:
+  port: 8040
+
 germes:
   gateway:
     routes:
@@ -7,3 +10,6 @@ germes:
         port: 8060
       - host: localhost
         port: 8050
+    authentication:
+      url: http://localhost:8070/users
+      timeout: 15000

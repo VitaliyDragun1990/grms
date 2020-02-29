@@ -56,7 +56,7 @@ public class JavaRestClient implements RestClient {
     }
 
     @Override
-    public <T> RestResponse<T> post(final String url, final Class<T> clz, final T entity) {
+    public <T> RestResponse<T> post(final String url, final Class<T> clz, final Object entity) {
         Asserts.assertNotNullOrBlank(url, NOT_NULL_URL_MSG);
 
         final String json = jsonClient.toJson(entity);
@@ -65,7 +65,7 @@ public class JavaRestClient implements RestClient {
     }
 
     @Override
-    public <T> RestResponse<T> put(final String url, final Class<T> clz, final T entity) {
+    public <T> RestResponse<T> put(final String url, final Class<T> clz, final Object entity) {
         Asserts.assertNotNullOrBlank(url, NOT_NULL_URL_MSG);
 
         final String json = jsonClient.toJson(entity);

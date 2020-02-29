@@ -5,6 +5,7 @@ import { CitiesComponent } from './cities/cities.component';
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { BASE_API_URL } from './core';
 
 describe('AppComponent', () => {
 
@@ -30,7 +31,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
 
-    const cityRequest = httpController.expectOne('http://192.168.99.100:8090/api/cities');
+    const cityRequest = httpController.expectOne(`${BASE_API_URL}geography/api/cities`);
     expect(app).toBeTruthy();
 
     cityRequest.flush({});

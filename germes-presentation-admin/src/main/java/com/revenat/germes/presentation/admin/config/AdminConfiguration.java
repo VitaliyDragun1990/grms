@@ -16,7 +16,6 @@ import com.revenat.germes.infrastructure.transform.TransformableProvider;
 import com.revenat.germes.user.presentation.rest.client.UserFacade;
 import com.revenat.germes.user.presentation.rest.client.impl.UserClient;
 
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
@@ -74,7 +73,7 @@ public class AdminConfiguration {
 
     @Produces
     @ApplicationScoped
-    public UserFacade userClient() {
-        return new UserClient();
+    public UserFacade userClient(final Environment env, final RestClient restClient) {
+        return new UserClient(env.getProperty("service.user.url"), restClient);
     }
 }

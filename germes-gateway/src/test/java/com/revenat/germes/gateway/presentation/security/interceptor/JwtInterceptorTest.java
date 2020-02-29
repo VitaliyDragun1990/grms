@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Vitaliy Dragun
  */
-@SpringJUnitWebConfig(value = GatewayApplication.class, initializers = GatewayContextInitializer.class)
+@SpringJUnitWebConfig(classes = GatewayApplication.class, initializers = GatewayContextInitializer.class)
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application.properties")
 @DisplayName("JWT interceptor")

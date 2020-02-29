@@ -6,7 +6,7 @@ plugins {
 apply plugin: 'org.springframework.boot'
 
 dependencies {
-    implementation project(':germes-common')
+    implementation project(':germes-common'), project(":germes-user-service-client")
     implementation server.springBootStarterWeb
     implementation log.springBootStarterLog4j2
     implementation metrics.springBootActuator

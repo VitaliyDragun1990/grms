@@ -10,7 +10,7 @@ export class CityService {
   constructor(private http: HttpClient) { }
 
   getCities(): Observable<Array<City>> {
-    return this.http.get<Array<City>>(`${BASE_API_URL}api/cities`);
+    return this.http.get<Array<City>>(`${BASE_API_URL}geography/api/cities`);
   }
 
 }

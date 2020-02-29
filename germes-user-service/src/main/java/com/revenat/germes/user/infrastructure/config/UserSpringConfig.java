@@ -49,8 +49,8 @@ public class UserSpringConfig {
         }
 
         @Bean
-        public Authenticator authenticator(final UserService userService, final Encrypter encrypter) {
-            return new DBAuthenticator(userService, encrypter);
+        public Authenticator authenticator(final UserRepository userRepository, final Encrypter encrypter) {
+            return new DBAuthenticator(userRepository, encrypter);
         }
     }
 

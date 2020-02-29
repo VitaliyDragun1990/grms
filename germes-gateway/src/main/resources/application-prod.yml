@@ -7,3 +7,6 @@ germes:
         port: 8060
       - host: trip
         port: 8050
+    authentication:
+      url: http://user:8080/users
+      timeout: 15000

@@ -35,7 +35,7 @@ export class AuthenticationService {
   }
 
   login(loginDTO: LoginDTO): void {
-    this.http.post<any>(`${BASE_API_URL}api/login`, loginDTO, { observe: 'response'})
+    this.http.post<any>(`${BASE_API_URL}user/api/login`, loginDTO, { observe: 'response'})
     .pipe(map(response => response.headers.get('Authorization')), map(header => header.replace('Bearer ', '')))
     .subscribe(token => this.changeUser(token, true));
   }

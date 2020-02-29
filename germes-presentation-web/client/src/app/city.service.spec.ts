@@ -37,7 +37,7 @@ describe('CityService', () => {
       expect(cities).toEqual(dummyResponse);
     });
 
-    const cityRequest = httpController.expectOne(`${BASE_API_URL}api/cities`);
+    const cityRequest = httpController.expectOne(`${BASE_API_URL}geography/api/cities`);
     cityRequest.flush(dummyResponse);
   });
 });

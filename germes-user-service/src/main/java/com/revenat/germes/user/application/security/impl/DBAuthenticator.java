@@ -3,8 +3,8 @@ package com.revenat.germes.user.application.security.impl;
 import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.infrastructure.helper.encrypter.Encrypter;
 import com.revenat.germes.user.application.security.Authenticator;
-import com.revenat.germes.user.application.service.UserService;
 import com.revenat.germes.user.model.entity.User;
+import com.revenat.germes.user.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DBAuthenticator implements Authenticator {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     private final Encrypter encrypter;
 
@@ -24,7 +24,7 @@ public class DBAuthenticator implements Authenticator {
         Asserts.assertNotNullOrBlank(userName, "userName can not be null or blank");
         Asserts.assertNotNullOrBlank(hashedPassword, "hashedPassword can not be null or blank");
 
-        return userService.findByUserName(userName)
+        return userRepository.findByUserName(userName)
                 .filter(user -> hashedPassword.equals(encrypter.encryptSHA(user.getPassword())));
     }
 }
