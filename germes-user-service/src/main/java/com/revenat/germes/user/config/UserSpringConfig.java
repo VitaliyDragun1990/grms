@@ -1,4 +1,4 @@
-package com.revenat.germes.user.infrastructure.config;
+package com.revenat.germes.user.config;
 
 import com.revenat.germes.infrastructure.helper.encrypter.Encrypter;
 import com.revenat.germes.infrastructure.transform.TransformableProvider;
@@ -9,11 +9,6 @@ import com.revenat.germes.infrastructure.transform.impl.helper.FieldManager;
 import com.revenat.germes.infrastructure.transform.impl.helper.FieldProvider;
 import com.revenat.germes.infrastructure.transform.impl.helper.SimilarFieldsLocator;
 import com.revenat.germes.infrastructure.transform.impl.helper.cached.CachedFieldProvider;
-import com.revenat.germes.user.application.security.Authenticator;
-import com.revenat.germes.user.application.security.impl.DBAuthenticator;
-import com.revenat.germes.user.application.service.UserService;
-import com.revenat.germes.user.application.service.impl.UserServiceImpl;
-import com.revenat.germes.user.persistence.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -27,36 +22,28 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
  * @author Vitaliy Dragun
  */
 @Configuration
-@ComponentScan("com.revenat.germes.user")
 @EnableWebMvc
+@ComponentScan("com.revenat.germes.user")
 public class UserSpringConfig {
 
     @Configuration
+    @ComponentScan("com.revenat.germes.user.application.service")
     public static class ServiceConfig {
-
-        @Bean
-        public UserService userService(final UserRepository userRepository) {
-            return new UserServiceImpl(userRepository);
-        }
     }
 
     @Configuration
+    @ComponentScan("com.revenat.germes.user.application.security")
     public static class AuthenticationConfig {
 
         @Bean
         public Encrypter encrypter() {
             return new Encrypter();
         }
-
-        @Bean
-        public Authenticator authenticator(final UserRepository userRepository, final Encrypter encrypter) {
-            return new DBAuthenticator(userRepository, encrypter);
-        }
     }
 
     @Configuration
     @EnableJpaRepositories(
-            value = "com.revenat.germes.user.persistence.repository.spring",
+            value = "com.revenat.germes.user.database",
             bootstrapMode = BootstrapMode.LAZY)
     public static class PersistenceConfig {
     }

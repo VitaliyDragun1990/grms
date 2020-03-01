@@ -1,10 +1,10 @@
-package com.revenat.germes.user.presentation.rest.controller;
+package com.revenat.germes.user.resource;
 
 import com.revenat.germes.user.application.security.Authenticator;
 import com.revenat.germes.user.application.service.UserService;
-import com.revenat.germes.user.infrastructure.config.UserControllerTestConfig;
-import com.revenat.germes.user.infrastructure.config.UserSpringConfig;
-import com.revenat.germes.user.model.entity.User;
+import com.revenat.germes.user.config.UserControllerTestConfig;
+import com.revenat.germes.user.config.UserSpringConfig;
+import com.revenat.germes.user.domain.model.User;
 import com.revenat.germes.user.presentation.rest.dto.LoginDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

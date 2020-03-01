@@ -1,7 +1,7 @@
 package com.revenat.germes.user.application.service;
 
 
-import com.revenat.germes.user.model.entity.User;
+import com.revenat.germes.user.domain.model.User;
 
 import java.util.List;
 import java.util.Optional;

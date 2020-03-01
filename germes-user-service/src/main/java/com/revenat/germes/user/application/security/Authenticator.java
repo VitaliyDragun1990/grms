@@ -1,6 +1,6 @@
 package com.revenat.germes.user.application.security;
 
-import com.revenat.germes.user.model.entity.User;
+import com.revenat.germes.user.domain.model.User;
 
 import java.util.Optional;
 

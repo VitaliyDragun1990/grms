@@ -1,8 +1,9 @@
-package com.revenat.germes.user.application.service.impl;
+package com.revenat.germes.user.application.service;
 
-import com.revenat.germes.user.model.entity.User;
-import com.revenat.germes.user.persistence.repository.UserRepository;
-import com.revenat.germes.user.application.service.UserService;
+import com.revenat.germes.user.domain.model.User;
+import com.revenat.germes.user.domain.model.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,13 +13,11 @@ import static java.util.Objects.requireNonNull;
 /**
  * @author Vitaliy Dragun
  */
-public class UserServiceImpl implements UserService {
+@Service
+@RequiredArgsConstructor
+class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    public UserServiceImpl(final UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public void save(final User user) {

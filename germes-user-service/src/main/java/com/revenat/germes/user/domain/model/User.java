@@ -1,4 +1,4 @@
-package com.revenat.germes.user.model.entity;
+package com.revenat.germes.user.domain.model;
 
 import com.revenat.germes.model.entity.base.AbstractEntity;
 import lombok.Setter;

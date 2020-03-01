@@ -1,4 +1,4 @@
-package com.revenat.germes.user.infrastructure.exception.handler;
+package com.revenat.germes.user.resource.exception;
 
 import com.revenat.germes.infrastructure.exception.AuthenticationException;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author Vitaliy Dragun
  */
 @ControllerAdvice
-public class GlobalExceptionHandler {
+class GlobalExceptionHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 

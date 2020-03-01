@@ -1,16 +1,13 @@
-package com.revenat.germes.user.application.service.impl;
+package com.revenat.germes.user.application.service;
 
-import com.revenat.germes.user.application.service.UserService;
-import com.revenat.germes.user.infrastructure.config.UserServiceTestConfig;
-import com.revenat.germes.user.infrastructure.config.UserSpringConfig;
-import com.revenat.germes.user.model.entity.User;
+import com.revenat.germes.user.domain.model.User;
+import com.revenat.germes.user.config.UserServiceTestConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
 import java.util.List;
 import java.util.Optional;

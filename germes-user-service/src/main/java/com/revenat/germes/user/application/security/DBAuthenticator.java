@@ -1,19 +1,20 @@
-package com.revenat.germes.user.application.security.impl;
+package com.revenat.germes.user.application.security;
 
 import com.revenat.germes.infrastructure.helper.Asserts;
 import com.revenat.germes.infrastructure.helper.encrypter.Encrypter;
-import com.revenat.germes.user.application.security.Authenticator;
-import com.revenat.germes.user.model.entity.User;
-import com.revenat.germes.user.persistence.repository.UserRepository;
+import com.revenat.germes.user.domain.model.User;
+import com.revenat.germes.user.domain.model.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 /**
  * @author Vitaliy Dragun
  */
+@Component
 @RequiredArgsConstructor
-public class DBAuthenticator implements Authenticator {
+class DBAuthenticator implements Authenticator {
 
     private final UserRepository userRepository;
 

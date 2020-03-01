@@ -1,4 +1,4 @@
-package com.revenat.germes.user.presentation.rest.controller;
+package com.revenat.germes.user.resource;
 
 import com.revenat.germes.infrastructure.exception.AuthenticationException;
 import com.revenat.germes.infrastructure.transform.Transformer;

@@ -1,7 +1,7 @@
-package com.revenat.germes.user.persistence.repository.spring;
+package com.revenat.germes.user.database;
 
-import com.revenat.germes.user.model.entity.User;
-import com.revenat.germes.user.persistence.repository.UserRepository;
+import com.revenat.germes.user.domain.model.User;
+import com.revenat.germes.user.domain.model.UserRepository;
 import org.springframework.data.repository.RepositoryDefinition;
 import org.springframework.stereotype.Repository;
 
