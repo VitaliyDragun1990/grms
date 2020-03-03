@@ -41,8 +41,8 @@ public class HttpRequestDispatcher implements RequestDispatcher {
         final HttpHeaders requestHeaders = buildHeadersFrom(requestInfo.getHeaders());
         final HttpEntity<?> requestEntity = new HttpEntity<>(requestInfo.getBody(), requestHeaders);
 
-        final ResponseEntity<?> serviceResponse =
-                restTemplate.exchange(serviceUrl, HttpMethod.resolve(requestInfo.getMethod()), requestEntity, ResponseEntity.class);
+        final ResponseEntity<String> serviceResponse =
+                restTemplate.exchange(serviceUrl, HttpMethod.resolve(requestInfo.getMethod()), requestEntity, String.class);
 
         return new ResponseInfo(serviceResponse.getStatusCodeValue(), serviceResponse.getBody(), serviceResponse.getHeaders());
     }

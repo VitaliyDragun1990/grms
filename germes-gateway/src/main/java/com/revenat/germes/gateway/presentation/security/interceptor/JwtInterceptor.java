@@ -47,8 +47,9 @@ public class JwtInterceptor implements HandlerInterceptor {
     }
 
     private void processPreFlightRequest(HttpServletResponse response) {
-        response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, HttpHeaders.AUTHORIZATION);
+        LOGGER.debug("Processing pre-flight request");
         response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, HttpHeaders.AUTHORIZATION);
         abortWithStatus(response, HttpStatus.OK);
     }
 
@@ -58,10 +59,13 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     private String getAuthorizationTokenFrom(final HttpServletRequest request) {
         final String authToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        LOGGER.debug("Authorization token: {}", authToken);
         if (authToken == null || authToken.isBlank() || !authToken.startsWith(SCHEMA_BEARER)) {
             return null;
         }
-        return authToken.substring(SCHEMA_BEARER.length());
+        final String strippedToken = authToken.substring(SCHEMA_BEARER.length());
+        LOGGER.debug("Stripped token: {}", strippedToken);
+        return strippedToken;
     }
 
     private Optional<String> authorize(final String authToken) {

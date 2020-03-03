@@ -2,11 +2,11 @@ germes:
   gateway:
     routes:
       - host: geography
-        port: 8090
+        port: 8080
       - host: ticket
-        port: 8060
+        port: 8080
       - host: trip
-        port: 8050
+        port: 8080
     authentication:
       url: http://user:8080/users
       timeout: 15000

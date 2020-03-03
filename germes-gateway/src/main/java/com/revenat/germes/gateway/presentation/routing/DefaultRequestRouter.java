@@ -30,8 +30,9 @@ public class DefaultRequestRouter implements RequestRouter {
         LOGGER.debug("Request URI {}", req.getRequestURI());
 
         final RequestInfo requestInfo = requestComposer.extractRequest(req);
+        LOGGER.debug("RequestInfo:{}", requestInfo);
         ResponseInfo responseInfo = requestDispatcher.dispatchRequest(requestInfo);
-
+        LOGGER.debug("ResponseInfo: {}", responseInfo);
 
         responsePopulator.populateResponseFrom(resp, responseInfo);
     }

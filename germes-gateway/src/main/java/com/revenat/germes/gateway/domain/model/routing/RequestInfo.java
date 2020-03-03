@@ -2,6 +2,7 @@ package com.revenat.germes.gateway.domain.model.routing;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 @Getter
+@ToString
 public class RequestInfo {
 
     private final String serverPrefix;

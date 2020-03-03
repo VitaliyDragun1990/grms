@@ -7,6 +7,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,11 +34,11 @@ public class ResponsePopulator {
         return response;
     }
 
-    private void setResponseBody(final HttpServletResponse response, final Object body) {
+    private void setResponseBody(final HttpServletResponse response, final String body) {
         if (body != null) {
             try {
                 final ServletOutputStream outputStream = response.getOutputStream();
-                new ObjectOutputStream(outputStream).writeObject(body);
+                outputStream.write(body.getBytes(StandardCharsets.UTF_8));
                 outputStream.flush();
             } catch (final IOException e) {
                 throw new RouteException(e);
