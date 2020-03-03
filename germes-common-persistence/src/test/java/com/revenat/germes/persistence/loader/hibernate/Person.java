@@ -1,6 +1,6 @@
 package com.revenat.germes.persistence.loader.hibernate;
 
-import com.revenat.germes.model.entity.base.AbstractEntity;
+import com.revenat.germes.common.core.domain.model.AbstractEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

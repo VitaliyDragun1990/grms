@@ -4,11 +4,11 @@ import com.github.tomakehurst.wiremock.http.Fault;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.revenat.germes.geography.presentation.rest.client.CityFacade;
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
-import com.revenat.germes.infrastructure.exception.CommunicationException;
-import com.revenat.germes.infrastructure.http.RestClient;
-import com.revenat.germes.infrastructure.http.impl.JavaRestClient;
-import com.revenat.germes.infrastructure.json.JsonClient;
-import com.revenat.germes.infrastructure.json.impl.GsonJsonClient;
+import com.revenat.germes.common.core.shared.exception.CommunicationException;
+import com.revenat.germes.common.infrastructure.http.RestClient;
+import com.revenat.germes.common.infrastructure.http.impl.JavaRestClient;
+import com.revenat.germes.common.infrastructure.json.JsonTranslator;
+import com.revenat.germes.common.infrastructure.json.impl.GsonJsonTranslator;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public class CityClientTest {
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(options().dynamicPort());
 
-    private JsonClient jsonClient;
+    private JsonTranslator jsonTranslator;
 
     private CityFacade cityClient;
 
@@ -39,8 +39,8 @@ public class CityClientTest {
 
     @Before
     public void setUp() throws Exception {
-        jsonClient = new GsonJsonClient();
-        RestClient restClient = new JavaRestClient(timeoutInSeconds, jsonClient);
+        jsonTranslator = new GsonJsonTranslator();
+        RestClient restClient = new JavaRestClient(timeoutInSeconds, jsonTranslator);
         cityClient = new CityClient(getCityServiceUrl(wireMockRule.port()), restClient);
     }
 
@@ -137,7 +137,7 @@ public class CityClientTest {
 
         wireMockRule.stubFor(put(urlEqualTo("/1")).willReturn(
                 aResponse()
-                        .withBody(jsonClient.toJson(city))
+                        .withBody(jsonTranslator.toJson(city))
                         .withStatus(200)));
 
         final CityDTO result = cityClient.update(city);
@@ -204,7 +204,7 @@ public class CityClientTest {
         cityB.setRegion("Kiyv");
         wireMockRule.stubFor(get(urlEqualTo("/")).willReturn(
                 aResponse()
-                        .withBody(jsonClient.toJson(new CityDTO[] {cityA, cityB}))));
+                        .withBody(jsonTranslator.toJson(new CityDTO[] {cityA, cityB}))));
 
         final List<CityDTO> result = cityClient.findAll();
 

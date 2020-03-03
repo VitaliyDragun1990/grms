@@ -1,8 +1,8 @@
 package com.revenat.germes.user.presentation.rest.client;
 
-import com.revenat.germes.user.presentation.rest.dto.LoginDTO;
-import com.revenat.germes.user.presentation.rest.dto.UserDTO;
-import com.revenat.germes.infrastructure.exception.CommunicationException;
+import com.revenat.germes.user.presentation.rest.dto.LoginInfo;
+import com.revenat.germes.user.presentation.rest.dto.UserInfo;
+import com.revenat.germes.common.core.shared.exception.CommunicationException;
 
 /**
  * Abstraction responsible for communicating with user-related RESTful resources
@@ -18,5 +18,5 @@ public interface UserFacade {
      * @return object representing logged in user
      * @throws CommunicationException if something goes wrong during communication with RESTful resource
      */
-    UserDTO login(LoginDTO login);
+    UserInfo login(LoginInfo login);
 }

@@ -23,8 +23,11 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -89,5 +92,14 @@ class JwtInterceptorTest {
 
         result
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldReturnCorsHeadersForPreFlightOptionsRequest() throws Exception {
+        final ResultActions result = mockMvc.perform(options(path));
+
+        result
+                .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, equalTo("*")))
+                .andExpect(header().string(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, equalTo(HttpHeaders.AUTHORIZATION)));
     }
 }

@@ -1,6 +1,6 @@
 package com.revenat.germes.ticket.presentation.transformable;
 
-import com.revenat.germes.infrastructure.transform.Transformer;
+import com.revenat.germes.common.core.shared.transform.Transformer;
 import com.revenat.germes.ticket.infrastructure.config.TicketSpringConfig;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.model.entity.OrderState;

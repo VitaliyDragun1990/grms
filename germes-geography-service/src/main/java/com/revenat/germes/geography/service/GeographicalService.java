@@ -3,7 +3,7 @@ package com.revenat.germes.geography.service;
 import com.revenat.germes.geography.model.entity.City;
 import com.revenat.germes.geography.model.entity.Station;
 import com.revenat.germes.geography.model.search.StationCriteria;
-import com.revenat.germes.model.search.range.RangeCriteria;
+import com.revenat.germes.common.core.domain.model.search.RangeCriteria;
 import com.revenat.germes.rest.infrastructure.exception.ResourceNotFoundException;
 
 import java.util.List;

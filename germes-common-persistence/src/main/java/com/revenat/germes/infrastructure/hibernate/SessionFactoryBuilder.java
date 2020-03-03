@@ -1,6 +1,6 @@
 package com.revenat.germes.infrastructure.hibernate;
 
-import com.revenat.germes.infrastructure.environment.Environment;
+import com.revenat.germes.common.core.shared.environment.Environment;
 import com.revenat.germes.infrastructure.hibernate.interceptor.TimestampInterceptor;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfoList;

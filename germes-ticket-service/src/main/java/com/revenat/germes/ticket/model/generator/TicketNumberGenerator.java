@@ -1,6 +1,6 @@
 package com.revenat.germes.ticket.model.generator;
 
-import com.revenat.germes.infrastructure.helper.generator.text.RandomDigitStringGenerator;
+import com.revenat.germes.common.core.shared.generator.text.RandomDigitStringGenerator;
 import com.revenat.germes.ticket.model.entity.Ticket;
 
 import javax.enterprise.context.Dependent;

@@ -1,11 +1,14 @@
 package com.revenat.germes.user.resource;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
+import com.revenat.germes.common.infrastructure.json.JsonTranslator;
 import com.revenat.germes.user.application.security.Authenticator;
 import com.revenat.germes.user.application.service.UserService;
 import com.revenat.germes.user.config.UserControllerTestConfig;
 import com.revenat.germes.user.config.UserSpringConfig;
 import com.revenat.germes.user.domain.model.User;
-import com.revenat.germes.user.presentation.rest.dto.LoginDTO;
+import com.revenat.germes.user.presentation.rest.dto.LoginInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +26,9 @@ import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -49,17 +55,22 @@ class UserControllerTest {
     private static final String AMY = "Amy155";
     private static final String JOHN = "John123";
 
+    private static final String JSON_ROOT = "json/";
+
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private JacksonTester<LoginDTO> userTester;
+    private JacksonTester<LoginInfo> userTester;
 
     @Autowired
     private UserService userServiceMock;
 
     @Autowired
     private Authenticator authenticatorMock;
+
+    @Autowired
+    private JsonTranslator jsonTranslator;
 
     @Test
     void shouldReturnEmptyArrayIfNoUsersPresent() throws Exception {
@@ -91,13 +102,13 @@ class UserControllerTest {
 
     @Test
     void shouldReturnUserIfLoginSuccess() throws Exception {
-        String userName = JOHN;
-        String password = TEST_123;
+        final String userName = JOHN;
+        final String password = TEST_123;
         when(authenticatorMock.authenticate(userName, password)).thenReturn(Optional.of(buildUser(userName, password)));
 
-        LoginDTO loginDTO = new LoginDTO(userName, password);
+        final LoginInfo loginInfo = new LoginInfo(userName, password);
         final ResultActions result = mockMvc.perform(post("/users/login")
-                .content(userTester.write(loginDTO).getJson())
+                .content(userTester.write(loginInfo).getJson())
                 .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
@@ -108,13 +119,13 @@ class UserControllerTest {
 
     @Test
     void shouldReturnStatusUnauthorizedIfLoginFails() throws Exception {
-        String userName = JOHN;
-        String password = TEST_123;
+        final String userName = JOHN;
+        final String password = TEST_123;
         when(authenticatorMock.authenticate(userName, password)).thenReturn(Optional.empty());
 
-        LoginDTO loginDTO = new LoginDTO(userName, password);
+        final LoginInfo loginInfo = new LoginInfo(userName, password);
         final ResultActions result = mockMvc.perform(post("/users/login")
-                .content(userTester.write(loginDTO).getJson())
+                .content(userTester.write(loginInfo).getJson())
                 .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
@@ -123,11 +134,24 @@ class UserControllerTest {
 
     @ParameterizedTest
     @MethodSource("provideInvalidCredentials")
-    void shouldReturnStatusBadRequestIfSpecifiedLoginDataIsInvalid(String userName, String password) throws Exception {
-        LoginDTO loginDTO = new LoginDTO(userName, password);
+    void shouldReturnStatusBadRequestIfSpecifiedLoginDataIsInvalid(final String userName, final String password) throws Exception {
+        final LoginInfo loginInfo = new LoginInfo(userName, password);
 
         final ResultActions result = mockMvc.perform(post("/users/login")
-                .content(userTester.write(loginDTO).getJson())
+                .content(userTester.write(loginInfo).getJson())
+                .contentType(MediaType.APPLICATION_JSON_VALUE));
+
+        result
+                .andExpect(status().isBadRequest());
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideInsufficientLoginInfo")
+    void shouldReturnStatusBadRequestIfSpecifiedLoginDataIsInsufficient(final String loginInfoJson) throws Exception {
+        LoginInfo loginInfo = fromJson(loginInfoJson);
+
+        final ResultActions result = mockMvc.perform(post("/users/login")
+                .content(userTester.write(loginInfo).getJson())
                 .contentType(MediaType.APPLICATION_JSON_VALUE));
 
         result
@@ -136,11 +160,19 @@ class UserControllerTest {
 
     private static Stream<Arguments> provideInvalidCredentials() {
         return Stream.of(
-                Arguments.of(null, null),
-                Arguments.of("", TEST_123),
-                Arguments.of(AMY, ""),
                 Arguments.of(AMY, "aa"),
                 Arguments.of("aaa", TEST_123)
+        );
+    }
+
+    private static Stream<Arguments> provideInsufficientLoginInfo() {
+        return Stream.of(
+          Arguments.of(loadJson(JSON_ROOT + "login-empty-password.json")),
+          Arguments.of(loadJson(JSON_ROOT + "login-empty-username.json")),
+          Arguments.of(loadJson(JSON_ROOT + "login-null-password.json")),
+          Arguments.of(loadJson(JSON_ROOT + "login-null-username.json")),
+          Arguments.of(loadJson(JSON_ROOT + "login-null-username-password.json")),
+          Arguments.of(loadJson(JSON_ROOT + "login-empty-username-password.json"))
         );
     }
 
@@ -149,5 +181,17 @@ class UserControllerTest {
         user.setUserName(userName);
         user.setPassword(password);
         return user;
+    }
+
+    private static String loadJson(final String fileName) {
+        try (final InputStream in = UserControllerTest.class.getClassLoader().getResourceAsStream(fileName)) {
+            return CharStreams.toString(new InputStreamReader(in, Charsets.UTF_8));
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private LoginInfo fromJson(final String json) {
+        return jsonTranslator.fromJson(json, LoginInfo.class);
     }
 }

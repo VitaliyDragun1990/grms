@@ -7,15 +7,14 @@ import com.revenat.germes.geography.model.search.StationCriteria;
 import com.revenat.germes.geography.persistence.repository.CityRepository;
 import com.revenat.germes.geography.persistence.repository.StationRepository;
 import com.revenat.germes.geography.service.GeographicalService;
-import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
-import com.revenat.germes.infrastructure.helper.Asserts;
-import com.revenat.germes.model.search.range.RangeCriteria;
+import com.revenat.germes.common.infrastructure.cdi.DBSource;
+import com.revenat.germes.common.core.shared.helper.Asserts;
+import com.revenat.germes.common.core.domain.model.search.RangeCriteria;
 import com.revenat.germes.rest.infrastructure.exception.ResourceNotFoundException;
 
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

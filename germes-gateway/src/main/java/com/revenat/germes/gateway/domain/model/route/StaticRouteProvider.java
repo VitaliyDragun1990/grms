@@ -1,6 +1,6 @@
 package com.revenat.germes.gateway.domain.model.route;
 
-import com.revenat.germes.infrastructure.helper.Asserts;
+import com.revenat.germes.common.core.shared.helper.Asserts;
 
 import java.util.ArrayList;
 import java.util.List;

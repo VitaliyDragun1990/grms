@@ -1,6 +1,6 @@
 package com.revenat.germes.trip.presentation.rest.controller;
 
-import com.revenat.germes.infrastructure.transform.Transformer;
+import com.revenat.germes.common.core.shared.transform.Transformer;
 import com.revenat.germes.trip.application.service.TripService;
 import com.revenat.germes.trip.model.entity.Route;
 import com.revenat.germes.trip.presentation.rest.dto.RouteDTO;

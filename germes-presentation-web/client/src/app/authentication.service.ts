@@ -6,9 +6,7 @@ import { LoginDTO } from './login-dto';
 import { map } from 'rxjs/operators';
 import { SHA256 } from 'crypto-js';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthenticationService {
 
   private userName: string;
@@ -18,9 +16,9 @@ export class AuthenticationService {
     if (jwtToken) {
       this.changeUser(jwtToken, false);
     } else {
-      this.login({userName: 'guest', hashedPassword: SHA256('guest').toString()});
+      this.login({ userName: 'guest', hashedPassword: SHA256('guest').toString() });
     }
-   }
+  }
 
   getUserName(): string {
     return this.userName;
@@ -35,12 +33,15 @@ export class AuthenticationService {
   }
 
   login(loginDTO: LoginDTO): void {
-    this.http.post<any>(`${BASE_API_URL}user/api/login`, loginDTO, { observe: 'response'})
-    .pipe(map(response => response.headers.get('Authorization')), map(header => header.replace('Bearer ', '')))
-    .subscribe(token => this.changeUser(token, true));
+    this.http.post<any>(`${BASE_API_URL}user/api/login`, loginDTO, { observe: 'response' })
+      .pipe(map(response => response.headers.get('Authorization')), map(header => header.replace('Bearer ', '')))
+      .subscribe(token => this.changeUser(token, true));
   }
 }
 
+/**
+ * Loads JWT token from local storage
+ */
 export function jwtLoader(): string {
   return localStorage.getItem('jwt_token');
 }

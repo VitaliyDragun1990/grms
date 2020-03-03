@@ -1,6 +1,6 @@
 package com.revenat.germes.persistence.repository.hibernate;
 
-import com.revenat.germes.infrastructure.exception.PersistenceException;
+import com.revenat.germes.common.core.shared.exception.PersistenceException;
 import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

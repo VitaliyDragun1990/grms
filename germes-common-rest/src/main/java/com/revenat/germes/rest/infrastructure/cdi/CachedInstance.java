@@ -1,6 +1,6 @@
 package com.revenat.germes.rest.infrastructure.cdi;
 
-import com.revenat.germes.infrastructure.cdi.qualifier.Cached;
+import com.revenat.germes.common.infrastructure.cdi.Cached;
 import org.glassfish.hk2.api.AnnotationLiteral;
 
 /**

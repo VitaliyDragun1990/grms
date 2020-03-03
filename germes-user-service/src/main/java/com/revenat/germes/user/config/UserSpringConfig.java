@@ -1,14 +1,14 @@
 package com.revenat.germes.user.config;
 
-import com.revenat.germes.infrastructure.helper.encrypter.Encrypter;
-import com.revenat.germes.infrastructure.transform.TransformableProvider;
-import com.revenat.germes.infrastructure.transform.Transformer;
-import com.revenat.germes.infrastructure.transform.impl.SimpleDTOTransformer;
-import com.revenat.germes.infrastructure.transform.impl.helper.BaseFieldProvider;
-import com.revenat.germes.infrastructure.transform.impl.helper.FieldManager;
-import com.revenat.germes.infrastructure.transform.impl.helper.FieldProvider;
-import com.revenat.germes.infrastructure.transform.impl.helper.SimilarFieldsLocator;
-import com.revenat.germes.infrastructure.transform.impl.helper.cached.CachedFieldProvider;
+import com.revenat.germes.common.core.shared.encrypter.Encrypter;
+import com.revenat.germes.common.core.shared.transform.TransformableProvider;
+import com.revenat.germes.common.core.shared.transform.Transformer;
+import com.revenat.germes.common.core.shared.transform.impl.SimpleDTOTransformer;
+import com.revenat.germes.common.core.shared.transform.impl.helper.BaseFieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
+import com.revenat.germes.common.core.shared.transform.impl.helper.cached.CachedFieldProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

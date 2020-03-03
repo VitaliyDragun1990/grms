@@ -14,7 +14,7 @@ dependencies {
 
     runtimeOnly persistence.mysql, misc.el, misc.jaxbRuntime
 
-    testImplementation tests.springBootStarterTest
+    testImplementation tests.springBootStarterTest, misc.guava
     testRuntimeOnly tests.jsonPath
 }
 

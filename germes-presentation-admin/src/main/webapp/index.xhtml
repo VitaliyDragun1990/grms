@@ -8,8 +8,6 @@
                 template="/WEB-INF/layout/standard.xhtml">
     <ui:define name="content">
 
-        <f:websocket channel="cityChannel" onmessage="function(message){alert(message);}"/>
-
         <h:panelGrid columns="2">
             <p:commandLink value="EN" actionListener="#{language.setLanguage('en_US')}" update="mainContainer"/>
             <p:commandLink value="RU" actionListener="#{language.setLanguage('ru_RU')}" update="mainContainer"/>

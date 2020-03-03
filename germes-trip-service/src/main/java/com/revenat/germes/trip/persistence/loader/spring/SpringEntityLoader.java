@@ -1,7 +1,7 @@
 package com.revenat.germes.trip.persistence.loader.spring;
 
-import com.revenat.germes.model.entity.base.AbstractEntity;
-import com.revenat.germes.model.loader.EntityLoader;
+import com.revenat.germes.common.core.domain.model.AbstractEntity;
+import com.revenat.germes.common.core.domain.model.EntityLoader;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;

@@ -1,6 +1,6 @@
 package com.revenat.germes.rest.infrastructure.handler;
 
-import com.revenat.germes.infrastructure.exception.flow.InvalidParameterException;
+import com.revenat.germes.common.core.shared.exception.flow.InvalidParameterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

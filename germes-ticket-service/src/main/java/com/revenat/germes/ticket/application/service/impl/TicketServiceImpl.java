@@ -1,7 +1,7 @@
 package com.revenat.germes.ticket.application.service.impl;
 
 
-import com.revenat.germes.infrastructure.helper.Asserts;
+import com.revenat.germes.common.core.shared.helper.Asserts;
 import com.revenat.germes.ticket.application.service.TicketService;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.model.entity.Ticket;

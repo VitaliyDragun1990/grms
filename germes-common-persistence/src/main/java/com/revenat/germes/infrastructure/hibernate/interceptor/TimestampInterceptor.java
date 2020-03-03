@@ -1,6 +1,6 @@
 package com.revenat.germes.infrastructure.hibernate.interceptor;
 
-import com.revenat.germes.model.entity.base.AbstractEntity;
+import com.revenat.germes.common.core.domain.model.AbstractEntity;
 import org.apache.commons.lang3.ArrayUtils;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;

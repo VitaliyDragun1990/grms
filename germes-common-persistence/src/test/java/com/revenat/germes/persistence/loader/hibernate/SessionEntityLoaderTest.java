@@ -1,9 +1,9 @@
 package com.revenat.germes.persistence.loader.hibernate;
 
-import com.revenat.germes.infrastructure.environment.StandardPropertyEnvironment;
-import com.revenat.germes.infrastructure.environment.source.ClassPathFilePropertySource;
+import com.revenat.germes.common.core.shared.environment.StandardPropertyEnvironment;
+import com.revenat.germes.common.core.shared.environment.source.ClassPathFilePropertySource;
 import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
-import com.revenat.germes.model.loader.EntityLoader;
+import com.revenat.germes.common.core.domain.model.EntityLoader;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.jupiter.api.AfterEach;

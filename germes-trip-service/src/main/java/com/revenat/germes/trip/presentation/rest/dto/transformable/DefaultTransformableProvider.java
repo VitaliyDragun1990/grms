@@ -1,7 +1,7 @@
 package com.revenat.germes.trip.presentation.rest.dto.transformable;
 
-import com.revenat.germes.infrastructure.transform.Transformable;
-import com.revenat.germes.infrastructure.transform.TransformableProvider;
+import com.revenat.germes.common.core.shared.transform.Transformable;
+import com.revenat.germes.common.core.shared.transform.TransformableProvider;
 import com.revenat.germes.trip.model.entity.Trip;
 
 import java.util.HashMap;

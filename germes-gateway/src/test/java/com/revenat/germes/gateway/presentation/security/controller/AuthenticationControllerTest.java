@@ -3,13 +3,12 @@ package com.revenat.germes.gateway.presentation.security.controller;
 import com.revenat.germes.gateway.GatewayApplication;
 import com.revenat.germes.gateway.infrastructure.config.GatewayContextInitializer;
 import com.revenat.germes.user.presentation.rest.client.UserFacade;
-import com.revenat.germes.user.presentation.rest.dto.LoginDTO;
-import com.revenat.germes.user.presentation.rest.dto.UserDTO;
+import com.revenat.germes.user.presentation.rest.dto.LoginInfo;
+import com.revenat.germes.user.presentation.rest.dto.UserInfo;
 import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.json.JacksonTester;
@@ -43,36 +42,35 @@ class AuthenticationControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private JacksonTester<LoginDTO> loginTester;
+    private JacksonTester<LoginInfo> loginTester;
 
     @MockBean
     private UserFacade userFacade;
 
     @Test
     void shouldReturnUserAndAuthorizationTokenIfLoginIsSuccessful() throws Exception {
-        LoginDTO loginDTO = new LoginDTO(USER_NAME, PASSWORD);
+        LoginInfo loginInfo = new LoginInfo(USER_NAME, PASSWORD);
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserName(USER_NAME);
+        UserInfo userInfo = new UserInfo(USER_NAME);
 
-        when(userFacade.login(any(LoginDTO.class))).thenReturn(userDTO);
+        when(userFacade.login(any(LoginInfo.class))).thenReturn(userInfo);
 
         final ResultActions response = mockMvc.perform(post("/user/api/login")
-                .content(loginTester.write(loginDTO).getJson())
+                .content(loginTester.write(loginInfo).getJson())
                 .contentType(MediaType.APPLICATION_JSON));
 
         response
                 .andExpect(header().exists(HttpHeaders.AUTHORIZATION))
-                .andExpect(jsonPath("$.userName", equalTo(userDTO.getUserName())));
+                .andExpect(jsonPath("$.userName", equalTo(userInfo.getUserName())));
     }
 
     @Test
     void shouldReturnStatusUnauthorizedIfLoginFailedBecauseOfInvalidCredentials() throws Exception {
-        LoginDTO loginDTO = new LoginDTO(USER_NAME, PASSWORD);
-        when(userFacade.login(any(LoginDTO.class))).thenReturn(null);
+        LoginInfo loginInfo = new LoginInfo(USER_NAME, PASSWORD);
+        when(userFacade.login(any(LoginInfo.class))).thenReturn(null);
 
         final ResultActions response = mockMvc.perform(post("/user/api/login")
-                .content(loginTester.write(loginDTO).getJson())
+                .content(loginTester.write(loginInfo).getJson())
                 .contentType(MediaType.APPLICATION_JSON));
 
         response

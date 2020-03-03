@@ -1,6 +1,6 @@
 package com.revenat.germes.persistence.repository;
 
-import com.revenat.germes.infrastructure.exception.PersistenceException;
+import com.revenat.germes.common.core.shared.exception.PersistenceException;
 
 /**
  * Provides system-related operations

@@ -1,6 +1,6 @@
 package com.revenat.germes.gateway.domain.model.token.exception;
 
-import com.revenat.germes.infrastructure.exception.base.ApplicationException;
+import com.revenat.germes.common.core.shared.exception.base.ApplicationException;
 
 /**
  * Signals about exceptional situation concerning token

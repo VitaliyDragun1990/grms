@@ -1,5 +1,7 @@
 package com.revenat.germes.user.config;
 
+import com.revenat.germes.common.infrastructure.json.JsonTranslator;
+import com.revenat.germes.common.infrastructure.json.impl.GsonJsonTranslator;
 import com.revenat.germes.user.application.security.Authenticator;
 import com.revenat.germes.user.application.service.UserService;
 import com.revenat.germes.user.resource.UserController;
@@ -28,5 +30,10 @@ public class UserControllerTestConfig {
     @Primary
     public Authenticator authenticator() {
         return Mockito.mock(Authenticator.class);
+    }
+
+    @Bean
+    public JsonTranslator jsonClient() {
+        return new GsonJsonTranslator();
     }
 }

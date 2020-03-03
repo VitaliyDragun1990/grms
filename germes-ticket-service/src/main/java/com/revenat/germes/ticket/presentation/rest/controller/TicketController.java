@@ -1,6 +1,6 @@
 package com.revenat.germes.ticket.presentation.rest.controller;
 
-import com.revenat.germes.infrastructure.transform.Transformer;
+import com.revenat.germes.common.core.shared.transform.Transformer;
 import com.revenat.germes.ticket.application.service.TicketService;
 import com.revenat.germes.ticket.presentation.dto.TicketDTO;
 import lombok.RequiredArgsConstructor;

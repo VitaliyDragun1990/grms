@@ -1,7 +1,7 @@
 package com.revenat.germes.rest.infrastructure.exception;
 
 
-import com.revenat.germes.infrastructure.exception.base.ApplicationException;
+import com.revenat.germes.common.core.shared.exception.base.ApplicationException;
 
 /**
  * Signals that resource with given identifier can not be found.

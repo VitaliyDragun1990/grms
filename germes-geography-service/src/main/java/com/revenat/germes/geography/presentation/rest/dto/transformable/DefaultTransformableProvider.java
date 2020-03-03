@@ -1,8 +1,8 @@
 package com.revenat.germes.geography.presentation.rest.dto.transformable;
 
 import com.revenat.germes.geography.model.entity.Station;
-import com.revenat.germes.infrastructure.transform.Transformable;
-import com.revenat.germes.infrastructure.transform.TransformableProvider;
+import com.revenat.germes.common.core.shared.transform.Transformable;
+import com.revenat.germes.common.core.shared.transform.TransformableProvider;
 
 import java.util.HashMap;
 import java.util.Map;

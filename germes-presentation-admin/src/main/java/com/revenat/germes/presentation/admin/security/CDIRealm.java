@@ -1,8 +1,9 @@
 package com.revenat.germes.presentation.admin.security;
 
+import com.revenat.germes.common.core.shared.encrypter.Encrypter;
 import com.revenat.germes.user.presentation.rest.client.UserFacade;
-import com.revenat.germes.user.presentation.rest.dto.LoginDTO;
-import com.revenat.germes.user.presentation.rest.dto.UserDTO;
+import com.revenat.germes.user.presentation.rest.dto.LoginInfo;
+import com.revenat.germes.user.presentation.rest.dto.UserInfo;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -24,8 +25,11 @@ public class CDIRealm extends AuthorizingRealm {
 
     private final UserFacade userFacade;
 
-    public CDIRealm(final UserFacade userFacade) {
+    private final Encrypter encrypter;
+
+    public CDIRealm(final UserFacade userFacade, final Encrypter encrypter) {
         this.userFacade = userFacade;
+        this.encrypter = encrypter;
 
         setCredentialsMatcher(new SimpleCredentialsMatcher());
     }
@@ -37,16 +41,16 @@ public class CDIRealm extends AuthorizingRealm {
         final String password = String.valueOf(upToken.getPassword());
 
         try {
-            final UserDTO loggedUser = Optional.ofNullable(username)
-                    .map(name -> userFacade.login(new LoginDTO(name, password)))
+            final UserInfo loggedUser = Optional.ofNullable(username)
+                    .map(name -> userFacade.login(new LoginInfo(name, encrypter.encryptSHA(password))))
                     .orElseThrow(() -> new UnknownAccountException("No account found for user " + username));
 
             return new SimpleAuthenticationInfo(loggedUser.getUserName(), password, getName());
-        } catch (final Exception e) {
-            final String message = "There was an error while authenticating user " + username;
-            LOGGER.warn(message, e);
-
-            throw new AuthenticationException(message, e);
+        } catch (UnknownAccountException e) {
+            throw new AuthenticationException(e.getMessage(), e);
+        }
+         catch (final Exception e) {
+             throw new AuthenticationException("There was an error while authenticating user " + username, e);
         }
     }
 

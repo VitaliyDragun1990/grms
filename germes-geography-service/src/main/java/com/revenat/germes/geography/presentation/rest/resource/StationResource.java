@@ -3,7 +3,7 @@ package com.revenat.germes.geography.presentation.rest.resource;
 import com.revenat.germes.geography.model.entity.Station;
 import com.revenat.germes.geography.presentation.rest.dto.StationDTO;
 import com.revenat.germes.geography.service.GeographicalService;
-import com.revenat.germes.infrastructure.transform.Transformer;
+import com.revenat.germes.common.core.shared.transform.Transformer;
 import com.revenat.germes.rest.infrastructure.exception.ResourceNotFoundException;
 import com.revenat.germes.rest.resource.base.BaseResource;
 import io.swagger.annotations.*;

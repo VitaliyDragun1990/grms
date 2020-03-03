@@ -5,8 +5,8 @@ import com.revenat.germes.geography.model.entity.Coordinate;
 import com.revenat.germes.geography.model.entity.Station;
 import com.revenat.germes.geography.model.entity.TransportType;
 import com.revenat.germes.geography.presentation.rest.dto.StationDTO;
-import com.revenat.germes.infrastructure.exception.flow.InvalidParameterException;
-import com.revenat.germes.infrastructure.transform.Transformable;
+import com.revenat.germes.common.core.shared.exception.flow.InvalidParameterException;
+import com.revenat.germes.common.core.shared.transform.Transformable;
 
 import java.util.List;
 import java.util.Map;

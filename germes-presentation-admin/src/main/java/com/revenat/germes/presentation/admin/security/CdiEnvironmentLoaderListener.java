@@ -1,5 +1,6 @@
 package com.revenat.germes.presentation.admin.security;
 
+import com.revenat.germes.common.core.shared.encrypter.Encrypter;
 import com.revenat.germes.user.presentation.rest.client.UserFacade;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
@@ -22,13 +23,16 @@ public class CdiEnvironmentLoaderListener extends EnvironmentLoaderListener {
     @Default
     private UserFacade userFacade;
 
+    @Inject
+    private Encrypter encrypter;
+
     @Override
     protected WebEnvironment createEnvironment(final ServletContext context) {
         final WebEnvironment environment = super.createEnvironment(context);
 
         final RealmSecurityManager rsm = (RealmSecurityManager) environment.getSecurityManager();
 
-        rsm.setRealm(new CDIRealm(userFacade));
+        rsm.setRealm(new CDIRealm(userFacade, encrypter));
 
         return environment;
     }

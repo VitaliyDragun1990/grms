@@ -9,11 +9,11 @@ import com.revenat.germes.geography.persistence.repository.StationRepository;
 import com.revenat.germes.geography.persistence.repository.hibernate.HibernateCityRepository;
 import com.revenat.germes.geography.persistence.repository.hibernate.HibernateStationRepository;
 import com.revenat.germes.geography.service.GeographicalService;
-import com.revenat.germes.infrastructure.environment.StandardPropertyEnvironment;
-import com.revenat.germes.infrastructure.environment.source.ComboPropertySource;
-import com.revenat.germes.infrastructure.exception.PersistenceException;
+import com.revenat.germes.common.core.shared.environment.StandardPropertyEnvironment;
+import com.revenat.germes.common.core.shared.environment.source.ComboPropertySource;
+import com.revenat.germes.common.core.shared.exception.PersistenceException;
 import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
-import com.revenat.germes.model.search.range.RangeCriteria;
+import com.revenat.germes.common.core.domain.model.search.RangeCriteria;
 import com.revenat.germes.rest.infrastructure.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 

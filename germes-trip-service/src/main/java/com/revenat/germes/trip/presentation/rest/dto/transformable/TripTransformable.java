@@ -1,6 +1,6 @@
 package com.revenat.germes.trip.presentation.rest.dto.transformable;
 
-import com.revenat.germes.infrastructure.transform.Transformable;
+import com.revenat.germes.common.core.shared.transform.Transformable;
 import com.revenat.germes.trip.model.entity.Trip;
 import com.revenat.germes.trip.presentation.rest.dto.TripDTO;
 

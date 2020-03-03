@@ -4,11 +4,11 @@ import com.revenat.germes.gateway.presentation.routing.DefaultRequestComposer;
 import com.revenat.germes.gateway.presentation.routing.DefaultRequestRouter;
 import com.revenat.germes.gateway.presentation.routing.http.HttpRequestDispatcher;
 import com.revenat.germes.gateway.presentation.security.interceptor.JwtInterceptor;
-import com.revenat.germes.infrastructure.http.RestClient;
-import com.revenat.germes.infrastructure.http.impl.JavaRestClient;
-import com.revenat.germes.infrastructure.json.impl.GsonJsonClient;
+import com.revenat.germes.common.infrastructure.http.RestClient;
+import com.revenat.germes.common.infrastructure.http.impl.JavaRestClient;
+import com.revenat.germes.common.infrastructure.json.impl.GsonJsonTranslator;
 import com.revenat.germes.user.presentation.rest.client.UserFacade;
-import com.revenat.germes.user.presentation.rest.client.impl.UserClient;
+import com.revenat.germes.user.presentation.rest.client.impl.RestUserFacade;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.web.client.RestTemplate;
@@ -32,8 +32,8 @@ public class GatewayContextInitializer implements ApplicationContextInitializer<
     private UserFacade createUserFacade(final GenericApplicationContext ctx) {
         final String authUrl = ctx.getEnvironment().getProperty("germes.gateway.authentication.url");
         final int connTimeout = ctx.getEnvironment().getRequiredProperty("germes.gateway.authentication.timeout", Integer.class);
-        final RestClient restClient = new JavaRestClient(connTimeout, new GsonJsonClient());
+        final RestClient restClient = new JavaRestClient(connTimeout, new GsonJsonTranslator());
 
-        return new UserClient(authUrl, restClient);
+        return new RestUserFacade(authUrl, restClient);
     }
 }

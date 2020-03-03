@@ -12,11 +12,6 @@
     <artifactId>germes-common-monitoring</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.revenat</groupId>
-            <artifactId>germes-common-persistence</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
         <!--metrics-->
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>

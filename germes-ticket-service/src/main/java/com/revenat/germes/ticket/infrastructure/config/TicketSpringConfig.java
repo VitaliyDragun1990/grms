@@ -1,14 +1,14 @@
 package com.revenat.germes.ticket.infrastructure.config;
 
-import com.revenat.germes.infrastructure.transform.TransformableProvider;
-import com.revenat.germes.infrastructure.transform.Transformer;
-import com.revenat.germes.infrastructure.transform.impl.EntityReferenceTransformer;
-import com.revenat.germes.infrastructure.transform.impl.helper.BaseFieldProvider;
-import com.revenat.germes.infrastructure.transform.impl.helper.FieldManager;
-import com.revenat.germes.infrastructure.transform.impl.helper.FieldProvider;
-import com.revenat.germes.infrastructure.transform.impl.helper.SimilarFieldsLocator;
-import com.revenat.germes.infrastructure.transform.impl.helper.cached.CachedFieldProvider;
-import com.revenat.germes.model.loader.EntityLoader;
+import com.revenat.germes.common.core.shared.transform.TransformableProvider;
+import com.revenat.germes.common.core.shared.transform.Transformer;
+import com.revenat.germes.common.core.shared.transform.impl.EntityReferenceTransformer;
+import com.revenat.germes.common.core.shared.transform.impl.helper.BaseFieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
+import com.revenat.germes.common.core.shared.transform.impl.helper.cached.CachedFieldProvider;
+import com.revenat.germes.common.core.domain.model.EntityLoader;
 import com.revenat.germes.ticket.application.service.TicketService;
 import com.revenat.germes.ticket.application.service.impl.TicketServiceImpl;
 import com.revenat.germes.ticket.model.generator.TicketNumberGenerator;

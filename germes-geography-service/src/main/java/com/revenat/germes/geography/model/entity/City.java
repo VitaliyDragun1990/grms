@@ -1,7 +1,7 @@
 package com.revenat.germes.geography.model.entity;
 
-import com.revenat.germes.infrastructure.helper.SafeCollectionWrapper;
-import com.revenat.germes.model.entity.base.AbstractEntity;
+import com.revenat.germes.common.core.shared.helper.SafeCollectionWrapper;
+import com.revenat.germes.common.core.domain.model.AbstractEntity;
 import lombok.AccessLevel;
 import lombok.Setter;
 

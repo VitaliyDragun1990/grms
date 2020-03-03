@@ -1,7 +1,7 @@
 package com.revenat.germes.ticket.model.entity;
 
-import com.revenat.germes.infrastructure.helper.Asserts;
-import com.revenat.germes.model.entity.base.AbstractEntity;
+import com.revenat.germes.common.core.shared.helper.Asserts;
+import com.revenat.germes.common.core.domain.model.AbstractEntity;
 import com.revenat.germes.ticket.model.generator.TicketNumberGenerator;
 import lombok.AccessLevel;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.revenat.germes.ticket.infrastructure.exception.handler;
 
-import com.revenat.germes.infrastructure.exception.flow.ValidationException;
+import com.revenat.germes.common.core.shared.exception.flow.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

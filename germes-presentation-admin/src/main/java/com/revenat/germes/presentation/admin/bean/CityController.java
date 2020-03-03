@@ -2,10 +2,10 @@ package com.revenat.germes.presentation.admin.bean;
 
 import com.codahale.metrics.Counter;
 import com.codahale.metrics.MetricRegistry;
+import com.revenat.germes.common.core.shared.exception.CommunicationException;
+import com.revenat.germes.common.core.shared.helper.ToStringBuilder;
 import com.revenat.germes.geography.presentation.rest.client.CityFacade;
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
-import com.revenat.germes.infrastructure.exception.CommunicationException;
-import com.revenat.germes.infrastructure.helper.ToStringBuilder;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +14,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.push.Push;
-import javax.faces.push.PushContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
@@ -34,10 +32,6 @@ public class CityController {
     private final CityFacade cityFacade;
 
     private final MetricsManager metricsManager;
-
-    @Inject
-    @Push
-    private PushContext cityChannel;
 
     private Counter savedCityCounter;
 
@@ -82,7 +76,6 @@ public class CityController {
             cityFacade.create(cityBean.toDTO());
 
             savedCityCounter.inc();
-            cityChannel.send("City has been saved");
             LOGGER.info("City has been saved {}", cityBean);
         }
     }

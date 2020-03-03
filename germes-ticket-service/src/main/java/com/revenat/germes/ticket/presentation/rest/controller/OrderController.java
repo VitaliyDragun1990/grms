@@ -1,8 +1,8 @@
 package com.revenat.germes.ticket.presentation.rest.controller;
 
-import com.revenat.germes.infrastructure.exception.flow.InvalidParameterException;
-import com.revenat.germes.infrastructure.exception.flow.ValidationException;
-import com.revenat.germes.infrastructure.transform.Transformer;
+import com.revenat.germes.common.core.shared.exception.flow.InvalidParameterException;
+import com.revenat.germes.common.core.shared.exception.flow.ValidationException;
+import com.revenat.germes.common.core.shared.transform.Transformer;
 import com.revenat.germes.ticket.application.service.TicketService;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.presentation.dto.OrderDTO;

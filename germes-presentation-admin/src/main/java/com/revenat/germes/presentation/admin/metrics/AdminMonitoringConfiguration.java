@@ -3,11 +3,8 @@ package com.revenat.germes.presentation.admin.metrics;
 import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
-import com.revenat.germes.infrastructure.cdi.qualifier.DBSource;
-import com.revenat.germes.infrastructure.environment.Environment;
+import com.revenat.germes.common.core.shared.environment.Environment;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
-import com.revenat.germes.infrastructure.monitoring.healthcheck.MySQLHealthCheck;
-import com.revenat.germes.persistence.repository.SystemRepository;
 import com.revenat.germes.presentation.admin.config.startup.Eager;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -26,14 +23,9 @@ import java.util.concurrent.TimeUnit;
 @Eager
 public class AdminMonitoringConfiguration {
 
-    private static final String MYSQL_HEALTH_CHECK = "mysql";
-
     @Inject
     public AdminMonitoringConfiguration(final MetricsManager metricsManager,
-                                        final @DBSource SystemRepository systemRepository,
                                         final Environment env) {
-        metricsManager.registerHealthCheck(MYSQL_HEALTH_CHECK, new MySQLHealthCheck(systemRepository));
-
         final boolean reporterEnabled = env.getPropertyAsBoolean("graphite.reporter.enabled");
 
         if (reporterEnabled) {

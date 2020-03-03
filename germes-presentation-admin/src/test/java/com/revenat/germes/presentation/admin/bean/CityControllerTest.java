@@ -11,8 +11,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import javax.enterprise.inject.Produces;
-import javax.faces.push.Push;
-import javax.faces.push.PushContext;
 import javax.inject.Inject;
 
 import static org.junit.Assert.assertNotNull;
@@ -37,11 +35,6 @@ public class CityControllerTest {
     @Produces
     @Mock
     private MetricsManager metricsManager;
-
-    @Produces
-    @Push
-    @Mock
-    private PushContext pushContext;
 
     @Test
     public void shouldBeInitialized() {

@@ -7,19 +7,19 @@ import com.revenat.germes.geography.persistence.repository.hibernate.HibernateSt
 import com.revenat.germes.geography.presentation.rest.dto.transformable.DefaultTransformableProvider;
 import com.revenat.germes.geography.service.GeographicalService;
 import com.revenat.germes.geography.service.impl.GeographicalServiceImpl;
-import com.revenat.germes.infrastructure.environment.Environment;
-import com.revenat.germes.infrastructure.environment.StandardPropertyEnvironment;
-import com.revenat.germes.infrastructure.environment.source.ComboPropertySource;
+import com.revenat.germes.common.core.shared.environment.Environment;
+import com.revenat.germes.common.core.shared.environment.StandardPropertyEnvironment;
+import com.revenat.germes.common.core.shared.environment.source.ComboPropertySource;
 import com.revenat.germes.infrastructure.hibernate.SessionFactoryBuilder;
-import com.revenat.germes.infrastructure.transform.TransformableProvider;
-import com.revenat.germes.infrastructure.transform.Transformer;
-import com.revenat.germes.infrastructure.transform.impl.EntityReferenceTransformer;
-import com.revenat.germes.infrastructure.transform.impl.helper.BaseFieldProvider;
-import com.revenat.germes.infrastructure.transform.impl.helper.FieldManager;
-import com.revenat.germes.infrastructure.transform.impl.helper.FieldProvider;
-import com.revenat.germes.infrastructure.transform.impl.helper.SimilarFieldsLocator;
-import com.revenat.germes.infrastructure.transform.impl.helper.cached.CachedFieldProvider;
-import com.revenat.germes.model.loader.EntityLoader;
+import com.revenat.germes.common.core.shared.transform.TransformableProvider;
+import com.revenat.germes.common.core.shared.transform.Transformer;
+import com.revenat.germes.common.core.shared.transform.impl.EntityReferenceTransformer;
+import com.revenat.germes.common.core.shared.transform.impl.helper.BaseFieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
+import com.revenat.germes.common.core.shared.transform.impl.helper.cached.CachedFieldProvider;
+import com.revenat.germes.common.core.domain.model.EntityLoader;
 import com.revenat.germes.persistence.loader.hibernate.SessionEntityLoader;
 import com.revenat.germes.rest.infrastructure.cdi.CachedInstance;
 import com.revenat.germes.rest.infrastructure.cdi.DBSourceInstance;
@@ -39,11 +39,14 @@ public class ComponentBinder extends AbstractBinder {
         bind(HibernateCityRepository.class).to(CityRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
         bind(HibernateStationRepository.class).to(StationRepository.class).in(Singleton.class).qualifiedBy(new DBSourceInstance());
 
-        bind(BaseFieldProvider.class).to(FieldProvider.class).in(Singleton.class);
-        bind(CachedFieldProvider.class).to(FieldProvider.class).in(Singleton.class).qualifiedBy(new CachedInstance());
+        SimilarFieldsLocator similarFieldsLocator = new SimilarFieldsLocator();
+        FieldManager fieldManager = new FieldManager();
+        BaseFieldProvider baseFieldProvider = new BaseFieldProvider(similarFieldsLocator, fieldManager);
 
-        bind(SimilarFieldsLocator.class).to(SimilarFieldsLocator.class).in(Singleton.class);
-        bind(FieldManager.class).to(FieldManager.class).in(Singleton.class);
+        bind(new CachedFieldProvider(baseFieldProvider)).to(FieldProvider.class);
+
+        bind(similarFieldsLocator).to(SimilarFieldsLocator.class);
+        bind(fieldManager).to(FieldManager.class);
 
         bind(SessionEntityLoader.class).to(EntityLoader.class).in(Singleton.class);
 

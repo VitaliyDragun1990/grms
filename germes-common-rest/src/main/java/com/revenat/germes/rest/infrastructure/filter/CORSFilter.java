@@ -1,6 +1,6 @@
 package com.revenat.germes.rest.infrastructure.filter;
 
-import com.revenat.germes.infrastructure.environment.Environment;
+import com.revenat.germes.common.core.shared.environment.Environment;
 
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;

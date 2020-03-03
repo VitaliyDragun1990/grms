@@ -1,7 +1,7 @@
 package com.revenat.germes.geography.presentation.rest.client;
 
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
-import com.revenat.germes.infrastructure.exception.CommunicationException;
+import com.revenat.germes.common.core.shared.exception.CommunicationException;
 
 import java.util.List;
 

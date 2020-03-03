@@ -1,20 +1,21 @@
 package com.revenat.germes.presentation.admin.config;
 
 
+import com.revenat.germes.common.core.shared.encrypter.Encrypter;
 import com.revenat.germes.geography.presentation.rest.client.CityFacade;
 import com.revenat.germes.geography.presentation.rest.client.impl.CityClient;
-import com.revenat.germes.infrastructure.environment.Environment;
-import com.revenat.germes.infrastructure.environment.StandardPropertyEnvironment;
-import com.revenat.germes.infrastructure.environment.source.ComboPropertySource;
-import com.revenat.germes.infrastructure.environment.source.PropertySource;
-import com.revenat.germes.infrastructure.http.RestClient;
-import com.revenat.germes.infrastructure.http.impl.JavaRestClient;
-import com.revenat.germes.infrastructure.json.JsonClient;
-import com.revenat.germes.infrastructure.json.impl.GsonJsonClient;
+import com.revenat.germes.common.core.shared.environment.Environment;
+import com.revenat.germes.common.core.shared.environment.StandardPropertyEnvironment;
+import com.revenat.germes.common.core.shared.environment.source.ComboPropertySource;
+import com.revenat.germes.common.core.shared.environment.source.PropertySource;
+import com.revenat.germes.common.infrastructure.http.RestClient;
+import com.revenat.germes.common.infrastructure.http.impl.JavaRestClient;
+import com.revenat.germes.common.infrastructure.json.JsonTranslator;
+import com.revenat.germes.common.infrastructure.json.impl.GsonJsonTranslator;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
-import com.revenat.germes.infrastructure.transform.TransformableProvider;
+import com.revenat.germes.common.core.shared.transform.TransformableProvider;
 import com.revenat.germes.user.presentation.rest.client.UserFacade;
-import com.revenat.germes.user.presentation.rest.client.impl.UserClient;
+import com.revenat.germes.user.presentation.rest.client.impl.RestUserFacade;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -43,14 +44,14 @@ public class AdminConfiguration {
 
     @Produces
     @ApplicationScoped
-    public JsonClient jsonClient() {
-        return new GsonJsonClient();
+    public JsonTranslator jsonClient() {
+        return new GsonJsonTranslator();
     }
 
     @Produces
     @ApplicationScoped
-    public RestClient restClient(final Environment environment, final JsonClient jsonClient) {
-        return new JavaRestClient(environment.getPropertyAsInt("http.connection.timeout"), jsonClient);
+    public RestClient restClient(final Environment environment, final JsonTranslator jsonTranslator) {
+        return new JavaRestClient(environment.getPropertyAsInt("http.connection.timeout"), jsonTranslator);
     }
 
     @Produces
@@ -74,6 +75,12 @@ public class AdminConfiguration {
     @Produces
     @ApplicationScoped
     public UserFacade userClient(final Environment env, final RestClient restClient) {
-        return new UserClient(env.getProperty("service.user.url"), restClient);
+        return new RestUserFacade(env.getProperty("service.user.url"), restClient);
+    }
+
+    @Produces
+    @ApplicationScoped
+    public Encrypter encrypter() {
+        return new Encrypter();
     }
 }

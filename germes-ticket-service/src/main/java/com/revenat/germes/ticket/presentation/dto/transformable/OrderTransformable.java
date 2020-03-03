@@ -1,6 +1,6 @@
 package com.revenat.germes.ticket.presentation.dto.transformable;
 
-import com.revenat.germes.infrastructure.transform.Transformable;
+import com.revenat.germes.common.core.shared.transform.Transformable;
 import com.revenat.germes.ticket.model.entity.Order;
 import com.revenat.germes.ticket.model.entity.OrderState;
 import com.revenat.germes.ticket.presentation.dto.OrderDTO;

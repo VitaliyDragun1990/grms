@@ -71,18 +71,7 @@
             <version>${cdi.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-hikaricp</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>runtime</scope>
-        </dependency>
+
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
@@ -135,12 +124,6 @@
             <groupId>org.jglue.cdi-unit</groupId>
             <artifactId>cdi-unit</artifactId>
             <version>${cdunit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

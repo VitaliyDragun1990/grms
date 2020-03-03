@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -23,19 +24,36 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     private static final String SCHEMA_BEARER = "Bearer ";
 
+    private static final boolean PROCEED_EXECUTION_CHAIN = true;
+    private static final boolean SEND_RESPONSE_TO_CLIENT = false;
+
     private final TokenProcessor tokenProcessor;
 
     @Override
     public boolean preHandle(final HttpServletRequest request, final HttpServletResponse response, final Object handler) {
-        final String authToken = getAuthorizationTokenFrom(request);
+        if (isPreFlightRequest(request)) {
+            processPreFlightRequest(response);
+            return SEND_RESPONSE_TO_CLIENT;
+        }
 
+        final String authToken = getAuthorizationTokenFrom(request);
         final Optional<String> userName = authorize(authToken);
 
         if (userName.isEmpty()) {
-            requireAuthorization(response);
-            return false;
+            abortWithStatus(response, HttpStatus.UNAUTHORIZED);
+            return SEND_RESPONSE_TO_CLIENT;
         }
-        return true;
+        return PROCEED_EXECUTION_CHAIN;
+    }
+
+    private void processPreFlightRequest(HttpServletResponse response) {
+        response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, HttpHeaders.AUTHORIZATION);
+        response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        abortWithStatus(response, HttpStatus.OK);
+    }
+
+    private boolean isPreFlightRequest(HttpServletRequest request) {
+        return request.getMethod().equals(HttpMethod.OPTIONS.name());
     }
 
     private String getAuthorizationTokenFrom(final HttpServletRequest request) {
@@ -56,8 +74,8 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
     }
 
-    private void requireAuthorization(final HttpServletResponse response) {
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+    private void abortWithStatus(final HttpServletResponse response, HttpStatus status) {
+        response.setStatus(status.value());
         try {
             response.getOutputStream().flush();
         } catch (final IOException e) {

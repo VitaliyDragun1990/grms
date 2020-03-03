@@ -1,6 +1,6 @@
 package com.revenat.germes.trip.model.entity;
 
-import com.revenat.germes.model.entity.base.AbstractEntity;
+import com.revenat.germes.common.core.domain.model.AbstractEntity;
 import lombok.Setter;
 
 import javax.persistence.*;

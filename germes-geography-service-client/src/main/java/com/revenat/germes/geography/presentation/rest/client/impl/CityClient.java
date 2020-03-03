@@ -2,10 +2,10 @@ package com.revenat.germes.geography.presentation.rest.client.impl;
 
 import com.revenat.germes.geography.presentation.rest.client.CityFacade;
 import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
-import com.revenat.germes.infrastructure.exception.CommunicationException;
-import com.revenat.germes.infrastructure.exception.flow.HttpRestException;
-import com.revenat.germes.infrastructure.http.RestClient;
-import com.revenat.germes.infrastructure.http.RestResponse;
+import com.revenat.germes.common.core.shared.exception.CommunicationException;
+import com.revenat.germes.common.core.shared.exception.flow.HttpRestException;
+import com.revenat.germes.common.infrastructure.http.RestClient;
+import com.revenat.germes.common.infrastructure.http.RestResponse;
 
 import java.util.Arrays;
 import java.util.List;

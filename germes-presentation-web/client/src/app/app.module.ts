@@ -9,7 +9,7 @@ import { CitiesComponent } from './cities/cities.component';
 import { LanguageComponent } from './language/language.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { jwtLoader } from './authentication.service';
+import { jwtLoader, AuthenticationService } from './authentication.service';
 
 
 @NgModule({
@@ -30,11 +30,12 @@ import { jwtLoader } from './authentication.service';
     }),
     JwtModule.forRoot({
       config: {
+        whitelistedDomains: ['192.168.99.100:8040', 'localhost:8040'],
         tokenGetter: jwtLoader
       }
     })
   ],
-  providers: [TranslateService, CityService],
+  providers: [TranslateService, CityService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

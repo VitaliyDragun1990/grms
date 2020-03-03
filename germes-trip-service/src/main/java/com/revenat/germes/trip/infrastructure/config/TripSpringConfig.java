@@ -1,14 +1,14 @@
 package com.revenat.germes.trip.infrastructure.config;
 
-import com.revenat.germes.infrastructure.transform.TransformableProvider;
-import com.revenat.germes.infrastructure.transform.Transformer;
-import com.revenat.germes.infrastructure.transform.impl.EntityReferenceTransformer;
-import com.revenat.germes.infrastructure.transform.impl.helper.BaseFieldProvider;
-import com.revenat.germes.infrastructure.transform.impl.helper.FieldManager;
-import com.revenat.germes.infrastructure.transform.impl.helper.FieldProvider;
-import com.revenat.germes.infrastructure.transform.impl.helper.SimilarFieldsLocator;
-import com.revenat.germes.infrastructure.transform.impl.helper.cached.CachedFieldProvider;
-import com.revenat.germes.model.loader.EntityLoader;
+import com.revenat.germes.common.core.shared.transform.TransformableProvider;
+import com.revenat.germes.common.core.shared.transform.Transformer;
+import com.revenat.germes.common.core.shared.transform.impl.EntityReferenceTransformer;
+import com.revenat.germes.common.core.shared.transform.impl.helper.BaseFieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
+import com.revenat.germes.common.core.shared.transform.impl.helper.cached.CachedFieldProvider;
+import com.revenat.germes.common.core.domain.model.EntityLoader;
 import com.revenat.germes.trip.persistence.repository.RouteRepository;
 import com.revenat.germes.trip.persistence.repository.TripRepository;
 import com.revenat.germes.trip.presentation.rest.dto.transformable.DefaultTransformableProvider;
