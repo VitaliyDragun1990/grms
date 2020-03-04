@@ -1,8 +1,8 @@
 package com.revenat.germes.presentation.admin.bean;
 
 import com.codahale.metrics.Counter;
-import com.revenat.germes.geography.presentation.rest.client.CityFacade;
-import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
+import com.revenat.germes.geography.core.application.CityFacade;
+import com.revenat.germes.geography.core.application.CityDTO;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
 import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;

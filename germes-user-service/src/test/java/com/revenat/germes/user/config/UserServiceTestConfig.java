@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Import;
  * @author Vitaliy Dragun
  */
 @TestConfiguration
-@Import({UserSpringConfig.ServiceConfig.class, UserSpringConfig.PersistenceConfig.class})
+@Import({
+        UserSpringConfig.ServiceConfig.class,
+        UserSpringConfig.PersistenceConfig.class,
+        UserSpringConfig.AuthenticationConfig.class})
 public class UserServiceTestConfig {
 }

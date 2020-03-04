@@ -1,9 +1,9 @@
 package com.revenat.germes.gateway.presentation.security.controller;
 
 import com.revenat.germes.gateway.domain.model.token.jwt.JwtProcessor;
-import com.revenat.germes.user.presentation.rest.client.UserFacade;
-import com.revenat.germes.user.presentation.rest.dto.LoginInfo;
-import com.revenat.germes.user.presentation.rest.dto.UserInfo;
+import com.revenat.germes.user.core.application.UserFacade;
+import com.revenat.germes.user.core.application.LoginInfo;
+import com.revenat.germes.user.core.application.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

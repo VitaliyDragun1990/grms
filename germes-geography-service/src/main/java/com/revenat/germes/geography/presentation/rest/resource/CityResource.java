@@ -1,7 +1,7 @@
 package com.revenat.germes.geography.presentation.rest.resource;
 
 import com.revenat.germes.geography.model.entity.City;
-import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
+import com.revenat.germes.geography.core.application.CityDTO;
 import com.revenat.germes.geography.service.GeographicalService;
 import com.revenat.germes.common.core.shared.helper.ToStringBuilder;
 import com.revenat.germes.common.core.shared.transform.Transformer;

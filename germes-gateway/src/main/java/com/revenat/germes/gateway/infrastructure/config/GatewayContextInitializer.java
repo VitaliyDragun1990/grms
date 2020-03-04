@@ -7,8 +7,8 @@ import com.revenat.germes.gateway.presentation.security.interceptor.JwtIntercept
 import com.revenat.germes.common.infrastructure.http.RestClient;
 import com.revenat.germes.common.infrastructure.http.impl.JavaRestClient;
 import com.revenat.germes.common.infrastructure.json.impl.GsonJsonTranslator;
-import com.revenat.germes.user.presentation.rest.client.UserFacade;
-import com.revenat.germes.user.presentation.rest.client.impl.RestUserFacade;
+import com.revenat.germes.user.core.application.UserFacade;
+import com.revenat.germes.user.infrastructure.service.RestUserFacade;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.web.client.RestTemplate;

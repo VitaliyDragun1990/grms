@@ -2,8 +2,8 @@ package com.revenat.germes.presentation.admin.config;
 
 
 import com.revenat.germes.common.core.shared.encrypter.Encrypter;
-import com.revenat.germes.geography.presentation.rest.client.CityFacade;
-import com.revenat.germes.geography.presentation.rest.client.impl.CityClient;
+import com.revenat.germes.geography.core.application.CityFacade;
+import com.revenat.germes.geography.infrastructure.service.RestCityFacade;
 import com.revenat.germes.common.core.shared.environment.Environment;
 import com.revenat.germes.common.core.shared.environment.StandardPropertyEnvironment;
 import com.revenat.germes.common.core.shared.environment.source.ComboPropertySource;
@@ -14,8 +14,8 @@ import com.revenat.germes.common.infrastructure.json.JsonTranslator;
 import com.revenat.germes.common.infrastructure.json.impl.GsonJsonTranslator;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
 import com.revenat.germes.common.core.shared.transform.TransformableProvider;
-import com.revenat.germes.user.presentation.rest.client.UserFacade;
-import com.revenat.germes.user.presentation.rest.client.impl.RestUserFacade;
+import com.revenat.germes.user.core.application.UserFacade;
+import com.revenat.germes.user.infrastructure.service.RestUserFacade;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -69,7 +69,7 @@ public class AdminConfiguration {
     @Produces
     @ApplicationScoped
     public CityFacade cityClient(final Environment env, final RestClient restClient) {
-        return new CityClient(env.getProperty("service.geography.city.url"), restClient);
+        return new RestCityFacade(env.getProperty("service.geography.city.url"), restClient);
     }
 
     @Produces

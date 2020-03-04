@@ -27,12 +27,11 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class UserSpringConfig {
 
     @Configuration
-    @ComponentScan("com.revenat.germes.user.application.service")
+    @ComponentScan("com.revenat.germes.user.core.application")
     public static class ServiceConfig {
     }
 
     @Configuration
-    @ComponentScan("com.revenat.germes.user.application.security")
     public static class AuthenticationConfig {
 
         @Bean
@@ -43,7 +42,7 @@ public class UserSpringConfig {
 
     @Configuration
     @EnableJpaRepositories(
-            value = "com.revenat.germes.user.database",
+            value = "com.revenat.germes.user.infrastructure.persistence",
             bootstrapMode = BootstrapMode.LAZY)
     public static class PersistenceConfig {
     }

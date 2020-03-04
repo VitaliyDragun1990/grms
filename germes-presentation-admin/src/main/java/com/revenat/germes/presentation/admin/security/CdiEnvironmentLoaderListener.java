@@ -1,7 +1,7 @@
 package com.revenat.germes.presentation.admin.security;
 
 import com.revenat.germes.common.core.shared.encrypter.Encrypter;
-import com.revenat.germes.user.presentation.rest.client.UserFacade;
+import com.revenat.germes.user.core.application.UserFacade;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.web.env.EnvironmentLoaderListener;
 import org.apache.shiro.web.env.WebEnvironment;

@@ -1,9 +1,9 @@
 package com.revenat.germes.presentation.admin.security;
 
 import com.revenat.germes.common.core.shared.encrypter.Encrypter;
-import com.revenat.germes.user.presentation.rest.client.UserFacade;
-import com.revenat.germes.user.presentation.rest.dto.LoginInfo;
-import com.revenat.germes.user.presentation.rest.dto.UserInfo;
+import com.revenat.germes.user.core.application.UserFacade;
+import com.revenat.germes.user.core.application.LoginInfo;
+import com.revenat.germes.user.core.application.UserInfo;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;

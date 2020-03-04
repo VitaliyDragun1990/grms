@@ -1,6 +1,6 @@
 package com.revenat.germes.presentation.admin.bean;
 
-import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
+import com.revenat.germes.geography.core.application.CityDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

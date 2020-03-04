@@ -2,8 +2,8 @@ package com.revenat.germes.geography.presentation.rest.resource;
 
 import com.github.hanleyt.JerseyExtension;
 import com.revenat.germes.geography.infrastructure.config.JerseyConfig;
-import com.revenat.germes.geography.presentation.rest.dto.CityDTO;
-import com.revenat.germes.geography.presentation.rest.dto.StationDTO;
+import com.revenat.germes.geography.core.application.CityDTO;
+import com.revenat.germes.geography.core.application.StationDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;

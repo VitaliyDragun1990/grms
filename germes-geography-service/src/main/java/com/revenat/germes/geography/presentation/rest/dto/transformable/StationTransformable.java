@@ -4,7 +4,7 @@ import com.revenat.germes.geography.model.entity.Address;
 import com.revenat.germes.geography.model.entity.Coordinate;
 import com.revenat.germes.geography.model.entity.Station;
 import com.revenat.germes.geography.model.entity.TransportType;
-import com.revenat.germes.geography.presentation.rest.dto.StationDTO;
+import com.revenat.germes.geography.core.application.StationDTO;
 import com.revenat.germes.common.core.shared.exception.flow.InvalidParameterException;
 import com.revenat.germes.common.core.shared.transform.Transformable;
 
