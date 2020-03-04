@@ -11,7 +11,7 @@
 
     <modules>
         <module>germes-admin</module>
-        <module>germes-presentation-web</module>
+        <module>germes-client</module>
         <module>germes-ticket-service</module>
         <module>germes-trip-service</module>
         <module>germes-common</module>
