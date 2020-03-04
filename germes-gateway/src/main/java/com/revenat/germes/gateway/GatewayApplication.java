@@ -1,8 +1,8 @@
 package com.revenat.germes.gateway;
 
-import com.revenat.germes.gateway.domain.model.route.DynamicRouteProvider;
-import com.revenat.germes.gateway.domain.model.token.TokenProcessor;
-import com.revenat.germes.gateway.domain.model.token.jwt.JwtProcessor;
+import com.revenat.germes.gateway.core.route.DynamicRouteProvider;
+import com.revenat.germes.gateway.core.token.TokenProcessor;
+import com.revenat.germes.gateway.core.token.jwt.JwtProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

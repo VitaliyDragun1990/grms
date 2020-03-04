@@ -4,6 +4,8 @@ import com.codahale.metrics.Counter;
 import com.revenat.germes.geography.core.application.CityFacade;
 import com.revenat.germes.geography.core.application.CityDTO;
 import com.revenat.germes.infrastructure.monitoring.MetricsManager;
+import com.revenat.germes.presentation.admin.ui.view.CityBean;
+import com.revenat.germes.presentation.admin.ui.view.CityController;
 import org.jglue.cdiunit.CdiRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;

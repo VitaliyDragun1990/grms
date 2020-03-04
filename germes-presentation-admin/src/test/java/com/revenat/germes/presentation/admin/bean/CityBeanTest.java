@@ -1,5 +1,6 @@
 package com.revenat.germes.presentation.admin.bean;
 
+import com.revenat.germes.presentation.admin.ui.view.CityBean;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.*;
