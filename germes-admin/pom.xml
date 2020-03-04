@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>germes-presentation-admin</artifactId>
+    <artifactId>germes-admin</artifactId>
 
     <packaging>war</packaging>
 

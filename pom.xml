@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>germes-presentation-admin</module>
+        <module>germes-admin</module>
         <module>germes-presentation-web</module>
         <module>germes-ticket-service</module>
         <module>germes-trip-service</module>

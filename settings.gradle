@@ -3,7 +3,7 @@
  */
 
 rootProject.name = 'germes'
-include(':germes-presentation-admin')
+include(':germes-admin')
 include(':germes-presentation-web')
 include(':germes-ticket-service')
 include(':germes-trip-service')
