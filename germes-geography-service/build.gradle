@@ -4,23 +4,30 @@ plugins {
 }
 
 dependencies {
-    implementation project(':germes-common-persistence'), project(':germes-common-rest'),
+    implementation project(":germes-common"),
+            project(':germes-common-rest'),
             project(':germes-geography-service-client')
 
+    implementation(persistence.hibernateCore) {
+        exclude group: 'org:javassist', module: 'javassist'
+    }
+
     implementation misc.commonsLang3, server.jerseySse,
-            misc.javassist, server.jerseyJson
+            misc.javassist, server.jerseyJson,
+            misc.jakartaInject, misc.jakartaCdi,
+            misc.classgraph
 
     implementation( server.jerseyHk2) {
         exclude group: 'org:javassist', module: 'javassist'
     }
 
-    compileOnly misc.validationApi
+    compileOnly misc.validationApi, misc.jakartaAnnotations
 
     runtimeOnly misc.jaxbRuntime, server.jerseyValidation, server.jerseyServlet, misc.hibernateValidator, misc.el,
             persistence.mysql, persistence.hikariCp
 
-    testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp
-    testRuntimeOnly tests.jerseyTestProvider
+    testImplementation tests.jerseyTestCore, tests.jerseyJunit, tests.jerseyHttp, persistence.hibernateTools
+    testRuntimeOnly tests.jerseyTestProvider, misc.jaxbRuntime
 }
 
 war {

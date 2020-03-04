@@ -6,8 +6,6 @@ import com.revenat.germes.geography.core.domain.model.Station;
 import com.revenat.germes.geography.core.domain.model.search.StationCriteria;
 import com.revenat.germes.geography.core.domain.model.StationRepository;
 import com.revenat.germes.common.infrastructure.cdi.DBSource;
-import com.revenat.germes.common.infrastructure.persistence.SessionFactoryBuilder;
-import com.revenat.germes.common.infrastructure.persistence.BaseHibernateRepository;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.enterprise.context.Dependent;

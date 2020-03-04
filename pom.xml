@@ -15,7 +15,6 @@
         <module>germes-ticket-service</module>
         <module>germes-trip-service</module>
         <module>germes-common</module>
-        <module>germes-common-persistence</module>
         <module>germes-common-rest</module>
         <module>germes-common-monitoring</module>
         <module>germes-user-service</module>

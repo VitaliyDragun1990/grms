@@ -11,9 +11,9 @@ import com.revenat.germes.geography.infrastructure.persistence.HibernateStationR
 import com.revenat.germes.common.core.shared.environment.StandardPropertyEnvironment;
 import com.revenat.germes.common.core.shared.environment.source.ComboPropertySource;
 import com.revenat.germes.common.core.shared.exception.PersistenceException;
-import com.revenat.germes.common.infrastructure.persistence.SessionFactoryBuilder;
 import com.revenat.germes.common.core.domain.model.search.RangeCriteria;
 import com.revenat.germes.common.core.application.ResourceNotFoundException;
+import com.revenat.germes.geography.infrastructure.persistence.SessionFactoryBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

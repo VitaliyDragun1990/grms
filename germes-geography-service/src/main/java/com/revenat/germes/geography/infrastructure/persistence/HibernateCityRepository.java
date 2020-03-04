@@ -4,8 +4,6 @@ import com.revenat.germes.geography.core.domain.model.City;
 import com.revenat.germes.geography.core.domain.model.Station;
 import com.revenat.germes.geography.core.domain.model.CityRepository;
 import com.revenat.germes.common.infrastructure.cdi.DBSource;
-import com.revenat.germes.common.infrastructure.persistence.SessionFactoryBuilder;
-import com.revenat.germes.common.infrastructure.persistence.BaseHibernateRepository;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -10,7 +10,6 @@ import com.revenat.germes.geography.core.application.GeographicalServiceImpl;
 import com.revenat.germes.common.core.shared.environment.Environment;
 import com.revenat.germes.common.core.shared.environment.StandardPropertyEnvironment;
 import com.revenat.germes.common.core.shared.environment.source.ComboPropertySource;
-import com.revenat.germes.common.infrastructure.persistence.SessionFactoryBuilder;
 import com.revenat.germes.common.core.shared.transform.TransformableProvider;
 import com.revenat.germes.common.core.shared.transform.Transformer;
 import com.revenat.germes.common.core.shared.transform.impl.EntityReferenceTransformer;
@@ -20,8 +19,9 @@ import com.revenat.germes.common.core.shared.transform.impl.helper.FieldProvider
 import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
 import com.revenat.germes.common.core.shared.transform.impl.helper.cached.CachedFieldProvider;
 import com.revenat.germes.common.core.domain.model.EntityLoader;
-import com.revenat.germes.common.infrastructure.persistence.SessionEntityLoader;
 import com.revenat.germes.common.config.resolver.cdi.DBSourceInstance;
+import com.revenat.germes.geography.infrastructure.persistence.SessionEntityLoader;
+import com.revenat.germes.geography.infrastructure.persistence.SessionFactoryBuilder;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 import javax.inject.Singleton;
