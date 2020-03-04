@@ -16,12 +16,12 @@ COPY germes-user-service/pom.xml /opt/maven/germes-user-service/pom.xml
 COPY germes-user-service-client/pom.xml /opt/maven/germes-user-service-client/pom.xml
 COPY germes-trip-service/pom.xml /opt/maven/germes-trip-service/pom.xml
 COPY germes-ticket-service/pom.xml /opt/maven/germes-ticket-service/pom.xml
-COPY germes-presentation-web/pom.xml /opt/maven/germes-presentation-web/pom.xml
-COPY germes-presentation-admin/pom.xml /opt/maven/germes-presentation-admin/pom.xml
+COPY germes-client/pom.xml /opt/maven/germes-client/pom.xml
+COPY germes-admin/pom.xml /opt/maven/germes-admin/pom.xml
 
 WORKDIR /opt/maven
 
-RUN mkdir /opt/maven/germes-presentation-web/empty
+RUN mkdir /opt/maven/germes-client/empty
 RUN mvn verify -Dmaven.exec.skip=true -Dangular.dist.folder=empty
 
 # Copy all project source code files and build client and admin applications
@@ -31,10 +31,11 @@ COPY . /opt/maven/
 RUN mvn clean package -Dmaven.exec.skip=true $build_flag && \
     cp /opt/maven/germes-geography-service/target/geography-service.war /opt && \
     cp /opt/maven/germes-user-service/target/user-service.jar /opt && \
-    cp /opt/maven/germes-user-service/target/ticket-service.jar /opt && \
-    cp /opt/maven/germes-presentation-admin/target/admin.war /opt && \
+    cp /opt/maven/germes-ticket-service/target/ticket-service.jar /opt && \
+    cp /opt/maven/germes-trip-service/target/trip-service.jar /opt && \
+    cp /opt/maven/germes-admin/target/admin.war /opt && \
     rm -rf /opt/maven
 
 # From project root directory
 # docker build [--build-arg build_flag=-Ppayara] -t germes/base[:payara] \
-# -f germes-presentation-web/src/main/resources/docker/project-maven.dockerfile .
+# -f germes-client/src/main/resources/docker/project-maven.dockerfile .

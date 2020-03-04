@@ -23,7 +23,7 @@ services:
   # Germes mysql database server
   mysql:
     build:
-      context: germes-presentation-admin
+      context: germes-admin
       dockerfile: src/main/resources/docker/mysql.dockerfile
       #logging:
       # driver: none
@@ -43,7 +43,7 @@ services:
   # Germes admin application
   admin:
     build:
-      context: germes-presentation-admin
+      context: germes-admin
       dockerfile: src/main/resources/docker/admin-jetty.dockerfile
     ports:
       - "9000:8080"
@@ -57,7 +57,7 @@ services:
   # Germes client application
   client:
     build:
-      context: germes-presentation-web
+      context: germes-client
       dockerfile: src/main/resources/docker/client-jetty.dockerfile
     ports:
       - "8080:8080"

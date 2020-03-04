@@ -2,7 +2,7 @@ version: '3.7'
 services:
   swagger:
     build:
-      context: germes-presentation-web
+      context: germes-client
       dockerfile: src/main/resources/docker/swagger-local-build.dockerfile
     ports:
       - "8000:8080"

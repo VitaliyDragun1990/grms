@@ -16,8 +16,8 @@ COPY germes-common-monitoring/build.gradle /home/gradle/germes-common-monitoring
 COPY germes-common-persistence/build.gradle /home/gradle/germes-common-persistence/build.gradle
 COPY germes-geography-service/build.gradle /home/gradle/germes-geography-service/build.gradle
 COPY germes-geography-service-client/build.gradle /home/gradle/germes-geography-service-client/build.gradle
-COPY germes-presentation-web/build.gradle /home/gradle/germes-presentation-web/build.gradle
-COPY germes-presentation-admin/build.gradle /home/gradle/germes-presentation-admin/build.gradle
+COPY germes-client/build.gradle /home/gradle/germes-client/build.gradle
+COPY germes-admin/build.gradle /home/gradle/germes-admin/build.gradle
 COPY germes-ticket-service/build.gradle /home/gradle/germes-ticket-service/build.gradle
 COPY germes-trip-service/build.gradle /home/gradle/germes-trip-service/build.gradle
 COPY germes-user-service/build.gradle /home/gradle/germes-user-service/build.gradle
@@ -33,11 +33,12 @@ COPY . /home/gradle/
 # Build applicaitons
 RUN gradle $build_flag -PskipAngular clean build && \
     cp /home/gradle/germes-geography-service/build/libs/geography-service.war /opt && \
-    cp /home/gradle/germes-presentation-admin/build/libs/admin.war /opt && \
+    cp /home/gradle/germes-admin/build/libs/admin.war /opt && \
     cp /home/gradle/germes-user-service/build/libs/user-service.jar /opt && \
-    cp /home/gradle/germes-user-service/build/libs/ticket-service.jar /opt && \
+    cp /home/gradle/germes-ticket-service/build/libs/ticket-service.jar /opt && \
+    cp /home/gradle/germes-trip-service/build/libs/trip-service.jar /opt && \
     rm -rf /home/gradle/germes*
 
 # From project root directory
 # docker build [--build-arg build_flag=-Ppayara] -t germes/base[:payara] \
-# -f germes-presentation-web/src/main/resources/docker/project-gradle.dockerfile .
+# -f germes-client/src/main/resources/docker/project-gradle.dockerfile .

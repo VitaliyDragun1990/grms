@@ -30,7 +30,7 @@ services:
   # Germes mysql database server
   mysql:
     build:
-      context: germes-presentation-admin
+      context: germes-admin
       dockerfile: src/main/resources/docker/mysql.dockerfile
       #logging:
       # driver: none
@@ -54,7 +54,7 @@ services:
   admin:
     build:
       context: .
-      dockerfile: germes-presentation-web/src/main/resources/docker/service/jetty-base.dockerfile
+      dockerfile: germes-client/src/main/resources/docker/service/jetty-base.dockerfile
       args:
         - war_path=/opt/admin.war
     ports:
@@ -71,7 +71,7 @@ services:
   client:
     build:
       context: .
-      dockerfile: germes-presentation-web/src/main/resources/docker/service/client.dockerfile
+      dockerfile: germes-client/src/main/resources/docker/service/client.dockerfile
     ports:
       - "8080:80"
     networks:
@@ -85,7 +85,7 @@ services:
   geography:
     build:
       context: .
-      dockerfile: germes-presentation-web/src/main/resources/docker/service/jetty-base.dockerfile
+      dockerfile: germes-client/src/main/resources/docker/service/jetty-base.dockerfile
       args:
         - war_path=/opt/geography-service.war
     ports:
@@ -101,7 +101,7 @@ services:
   user:
     build:
       context: .
-      dockerfile: germes-presentation-web/src/main/resources/docker/service/jvm.dockerfile
+      dockerfile: germes-client/src/main/resources/docker/service/jvm.dockerfile
       args:
         - jar_path=/opt/user-service.jar
     ports:
@@ -117,7 +117,7 @@ services:
   ticket:
     build:
       context: .
-      dockerfile: germes-presentation-web/src/main/resources/docker/service/jvm.dockerfile
+      dockerfile: germes-client/src/main/resources/docker/service/jvm.dockerfile
       args:
         - jar_path=/opt/ticket-service.jar
     ports:
