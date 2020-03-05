@@ -3,6 +3,7 @@ package com.revenat.germes.user.core.domain.model;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Defines CRUD methods to access {@link User} objects in the persistence storage.
@@ -21,10 +22,10 @@ public interface UserRepository {
     /**
      * Returns user with specified identifier boxed into {@link Optional}
      *
-     * @param userId unique identifier to search user with
+     * @param id unique identifier to search user with
      * @return optional with found user, or empty one otherwise
      */
-    Optional<User> findById(int userId);
+    Optional<User> findById(UUID id);
 
     /**
      * Returns user with specified username
@@ -37,9 +38,9 @@ public interface UserRepository {
     /**
      * Deletes user with specified identifier
      *
-     * @param userId unique identifier to delete user with
+     * @param id unique identifier to delete user with
      */
-    void deleteById(int userId);
+    void deleteById(UUID id);
 
     /**
      * Returns all users

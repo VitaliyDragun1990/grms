@@ -1,5 +1,6 @@
 package com.revenat.germes.geography.ui.api.rest;
 
+import com.revenat.germes.geography.config.cdi.Main;
 import com.revenat.germes.geography.core.domain.model.City;
 import com.revenat.germes.geography.core.application.CityDTO;
 import com.revenat.germes.geography.core.application.GeographicalService;
@@ -43,7 +44,7 @@ public class CityResource extends BaseResource {
     private final Transformer transformer;
 
     @Inject
-    public CityResource(final GeographicalService geographicalService, final Transformer transformer) {
+    public CityResource(final GeographicalService geographicalService, @Main final Transformer transformer) {
         service = geographicalService;
         this.transformer = transformer;
     }

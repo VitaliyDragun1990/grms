@@ -1,13 +1,12 @@
 package com.revenat.germes.user.core.domain.model;
 
-import com.revenat.germes.common.core.domain.model.AbstractEntity;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrePersist;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Entity that encapsulates user of the application
@@ -17,21 +16,36 @@ import java.time.LocalDateTime;
 @Table(name = "USERS")
 @Entity
 @Setter
-public class User extends AbstractEntity {
+@Getter
+@EqualsAndHashCode(of = "id")
+public class User {
 
-    private String userName;
-
-    private String password;
+    @Id
+    @GeneratedValue
+    @Column(name = "ID")
+    private UUID id;
 
     @Column(name = "USERNAME", nullable = false, unique = true, length = 24)
-    public String getUserName() {
-        return userName;
-    }
+    private String userName;
 
-    @Column(name = "PASSWORD", nullable = false, length = 256)
-    public String getPassword() {
-        return password;
-    }
+    @Column(name = "PASSWORD", nullable = false, length = 80)
+    private String password;
+
+    @Column(name = "FIRST_NAME", nullable = false, length = 24)
+    private String firstName;
+
+    @Column(name = "LAST_NAME", nullable = false, length = 24)
+    private String lastName;
+
+    @Column(name = "CREATED_AT")
+    private LocalDateTime createdAt;
+
+    @Column(name = "REGISTRATION_IP", length = 30)
+    private String registrationIp;
+
+    @Column(name = "ROLE")
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @PrePersist
     void setCreatedAt() {

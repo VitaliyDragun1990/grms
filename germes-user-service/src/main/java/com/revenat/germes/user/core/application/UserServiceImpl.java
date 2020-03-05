@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
@@ -27,7 +28,7 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(final int userId) {
+    public Optional<User> findById(final UUID userId) {
         return userRepository.findById(userId);
     }
 
@@ -39,7 +40,7 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(final int userId) {
+    public void delete(final UUID userId) {
         userRepository.deleteById(userId);
     }
 

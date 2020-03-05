@@ -35,7 +35,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Authentication controller")
 class AuthenticationResourceTest {
 
-    private static final String USER_NAME = "test-user";
+    private static final String JACK_SMITH = "jack_smith";
+    private static final String JACK = "Jack";
+    private static final String SMITH = "Smith";
+    private static final String USER = "USER";
+    private static final String ID = "TEST99451899";
     private static final String PASSWORD = "test-password";
 
     @Autowired
@@ -49,9 +53,15 @@ class AuthenticationResourceTest {
 
     @Test
     void shouldReturnUserAndAuthorizationTokenIfLoginIsSuccessful() throws Exception {
-        LoginInfo loginInfo = new LoginInfo(USER_NAME, PASSWORD);
+        LoginInfo loginInfo = new LoginInfo(JACK_SMITH, PASSWORD);
 
-        UserInfo userInfo = new UserInfo(USER_NAME);
+        UserInfo userInfo = new UserInfo.Builder()
+                .withId(ID)
+                .withUserName(JACK_SMITH)
+                .withFirstName(JACK)
+                .withLastName(SMITH)
+                .withRole(USER)
+                .build();
 
         when(userFacade.login(any(LoginInfo.class))).thenReturn(userInfo);
 
@@ -66,7 +76,7 @@ class AuthenticationResourceTest {
 
     @Test
     void shouldReturnStatusUnauthorizedIfLoginFailedBecauseOfInvalidCredentials() throws Exception {
-        LoginInfo loginInfo = new LoginInfo(USER_NAME, PASSWORD);
+        LoginInfo loginInfo = new LoginInfo(JACK_SMITH, PASSWORD);
         when(userFacade.login(any(LoginInfo.class))).thenReturn(null);
 
         final ResultActions response = mockMvc.perform(post("/user/api/login")

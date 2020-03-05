@@ -1,6 +1,8 @@
-package com.revenat.germes.common.core.shared.transform.impl.helper;
+package com.revenat.germes.common.core.shared.transform.provider;
 
 import com.revenat.germes.common.core.shared.helper.Asserts;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
+import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
 import com.revenat.germes.common.core.shared.transform.annotation.DomainProperty;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package com.revenat.germes.geography.ui.api.rest;
 
+import com.revenat.germes.geography.config.cdi.Main;
 import com.revenat.germes.geography.core.domain.model.Station;
 import com.revenat.germes.geography.core.application.StationDTO;
 import com.revenat.germes.geography.core.application.GeographicalService;
@@ -36,7 +37,7 @@ public class StationResource extends BaseResource {
     private final Transformer transformer;
 
     @Inject
-    public StationResource(final GeographicalService service, final Transformer transformer) {
+    public StationResource(final GeographicalService service, @Main final Transformer transformer) {
         this.service = service;
         this.transformer = transformer;
     }

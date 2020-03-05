@@ -1,6 +1,7 @@
 package com.revenat.germes.user.core.application;
 
 import com.revenat.germes.user.config.UserServiceTestConfig;
+import com.revenat.germes.user.core.domain.model.Role;
 import com.revenat.germes.user.core.domain.model.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,11 +31,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @DisplayName("user service")
 class UserServiceImplIntegrationTest {
 
-    private static final String JOE_12345 = "joe12345";
+    private static final String JOE_SMITH = "joe_smith";
 
-    private static final String ANNA_54321 = "anna54321";
+    private static final String ANNA_SWANSON = "anna_swanson";
 
-    private static final String SECRET = "secret";
+    private static final String PASSWORD = "secret";
+
+    private static final String REGISTRATION_IP = "localhost";
 
     @Autowired
     private UserService service;
@@ -46,9 +51,7 @@ class UserServiceImplIntegrationTest {
 
     @Test
     void shouldSaveUser() {
-        final User user = new User();
-        user.setUserName(JOE_12345);
-        user.setPassword(SECRET);
+        final User user = buildOrdinalUser(JOE_SMITH);
 
         service.save(user);
 
@@ -57,12 +60,8 @@ class UserServiceImplIntegrationTest {
 
     @Test
     void shouldFindAllUsers() {
-        final User joe = new User();
-        joe.setUserName(JOE_12345);
-        joe.setPassword(SECRET);
-        final User anna = new User();
-        anna.setUserName(ANNA_54321);
-        anna.setPassword(SECRET);
+        final User joe = buildOrdinalUser(JOE_SMITH);
+        final User anna = buildOrdinalUser(ANNA_SWANSON);
         service.save(joe);
         service.save(anna);
 
@@ -75,16 +74,14 @@ class UserServiceImplIntegrationTest {
 
     @Test
     void shouldReturnEmptyOptionalIfNoUserWithSpecifiedIdWasFound() {
-        final Optional<User> userOptional = service.findById(1);
+        final Optional<User> userOptional = service.findById(UUID.randomUUID());
 
         assertTrue(userOptional.isEmpty());
     }
 
     @Test
     void shouldFindUserById() {
-        final User user = new User();
-        user.setUserName(JOE_12345);
-        user.setPassword(SECRET);
+        final User user = buildOrdinalUser(JOE_SMITH);
         service.save(user);
 
         final Optional<User> userOptional = service.findById(user.getId());
@@ -95,9 +92,7 @@ class UserServiceImplIntegrationTest {
 
     @Test
     void shouldDeleteUserById() {
-        final User user = new User();
-        user.setUserName(JOE_12345);
-        user.setPassword(SECRET);
+        final User user = buildOrdinalUser(JOE_SMITH);
         service.save(user);
 
         service.delete(user.getId());
@@ -114,19 +109,17 @@ class UserServiceImplIntegrationTest {
 
     @Test
     void shouldReturnEmptyOptionalIfNoUserWithSpecifiedUsername() {
-        final Optional<User> userOptional = service.findByUserName(JOE_12345);
+        final Optional<User> userOptional = service.findByUserName(JOE_SMITH);
 
         assertTrue(userOptional.isEmpty());
     }
 
     @Test
     void shouldFindUserByUsername() {
-        final User user = new User();
-        user.setUserName(JOE_12345);
-        user.setPassword(SECRET);
+        final User user = buildOrdinalUser(JOE_SMITH);
         service.save(user);
 
-        final Optional<User> userOptional = service.findByUserName(JOE_12345);
+        final Optional<User> userOptional = service.findByUserName(JOE_SMITH);
 
         assertTrue(userOptional.isPresent());
         assertThat(userOptional.get(), equalTo(user));
@@ -144,5 +137,26 @@ class UserServiceImplIntegrationTest {
         for (final User user : users) {
             assertThat(allUsers, hasItem(equalTo(user)));
         }
+    }
+
+    private User buildOrdinalUser(final String username) {
+        final String[] data = username.split("_");
+        final String firstName = capitalize(data[0]);
+        final String lastName = capitalize(data[1]);
+
+        final User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setUserName(username);
+        user.setPassword(PASSWORD);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setRegistrationIp(REGISTRATION_IP);
+        user.setRole(Role.USER);
+
+        return user;
+    }
+
+    private String capitalize(final String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
 }

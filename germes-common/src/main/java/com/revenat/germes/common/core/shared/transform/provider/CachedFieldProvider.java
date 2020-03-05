@@ -1,7 +1,6 @@
-package com.revenat.germes.common.core.shared.transform.impl.helper.cached;
+package com.revenat.germes.common.core.shared.transform.provider;
 
 import com.revenat.germes.common.core.shared.helper.Asserts;
-import com.revenat.germes.common.core.shared.transform.impl.helper.FieldProvider;
 
 import java.util.HashMap;
 import java.util.List;

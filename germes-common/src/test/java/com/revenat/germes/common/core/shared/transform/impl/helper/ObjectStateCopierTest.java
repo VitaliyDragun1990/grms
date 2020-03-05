@@ -1,11 +1,14 @@
 package com.revenat.germes.common.core.shared.transform.impl.helper;
 
+import com.revenat.germes.common.core.shared.transform.mapper.ComboMapper;
+import com.revenat.germes.common.core.shared.transform.mapper.EnumToStringMapper;
+import com.revenat.germes.common.core.shared.transform.mapper.SameTypeMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,10 +18,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DisplayName("an object state copier")
 class ObjectStateCopierTest {
 
-    private final ObjectStateCopier stateCopier = new ObjectStateCopier();
+    private final ObjectStateCopier stateCopier = new ObjectStateCopier(new FieldManager(),
+            new ComboMapper(List.of(new EnumToStringMapper(), new SameTypeMapper())));
 
     @Test
-    void shouldCopyObjectStateViaFieldWithEqualNames() {
+    void shouldCopyObjectStateViaFieldWithEqualNamesAndEqualTypes() {
         final Source source = new Source(1, "test");
         final Destination destination = new Destination();
 
@@ -26,6 +30,30 @@ class ObjectStateCopierTest {
         stateCopier.copyState(source, destination, List.of("value"));
 
         assertThat(destination.getValue(), equalTo(1));
+    }
+
+    @Test
+    void shouldCopyObjectStateViaFieldWithEqualNamesButDifferentTypes() {
+        final Source source = new Source(1, "test", State.READY);
+        final Destination destination = new Destination();
+        List<String> fieldsToCopy = List.of("value", "state");
+
+        stateCopier.copyState(source, destination, fieldsToCopy);
+
+        assertThat(destination.getValue(), equalTo(source.getValue()));
+        assertThat(destination.getState(), equalTo(source.getState().name()));
+    }
+
+    @Test
+    void shouldCopyObjectStateViaFieldEvenIfFieldValueIsNull() {
+        final Source source = new Source(1, "test", null);
+        final Destination destination = new Destination();
+        List<String> fieldsToCopy = List.of("value", "state");
+
+        stateCopier.copyState(source, destination, fieldsToCopy);
+
+        assertThat(destination.getValue(), equalTo(source.getValue()));
+        assertThat(destination.getState(), is(nullValue()));
     }
 
     @Test
@@ -54,13 +82,29 @@ class ObjectStateCopierTest {
 
     static class Source {
 
-        private int value;
+        private final int value;
 
-        private String text;
+        private final String text;
+
+        private State state;
 
         public Source(final int value, final String text) {
             this.value = value;
             this.text = text;
+        }
+
+        public Source(final int value, final String text, final State state) {
+            this.value = value;
+            this.text = text;
+            this.state = state;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public State getState() {
+            return state;
         }
     }
 
@@ -68,11 +112,21 @@ class ObjectStateCopierTest {
 
         private int value;
 
+        private String state;
+
         public Destination() {
         }
 
         public int getValue() {
             return value;
         }
+
+        public String getState() {
+            return state;
+        }
+    }
+
+    enum State {
+        READY, DONE
     }
 }

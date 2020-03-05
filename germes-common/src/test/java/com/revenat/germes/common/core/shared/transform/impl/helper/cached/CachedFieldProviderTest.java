@@ -1,10 +1,10 @@
 package com.revenat.germes.common.core.shared.transform.impl.helper.cached;
 
+import com.revenat.germes.common.core.shared.transform.provider.BaseFieldProvider;
+import com.revenat.germes.common.core.shared.transform.provider.CachedFieldProvider;
+import com.revenat.germes.common.core.shared.transform.provider.FieldProvider;
 import com.revenat.germes.common.core.shared.transform.annotation.DomainProperty;
-import com.revenat.germes.common.core.shared.transform.impl.helper.BaseFieldProvider;
-import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
-import com.revenat.germes.common.core.shared.transform.impl.helper.FieldProvider;
-import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
+import com.revenat.germes.common.core.shared.transform.impl.helper.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

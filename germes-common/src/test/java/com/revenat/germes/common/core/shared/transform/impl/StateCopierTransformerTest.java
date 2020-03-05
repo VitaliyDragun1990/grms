@@ -3,8 +3,10 @@ package com.revenat.germes.common.core.shared.transform.impl;
 import com.revenat.germes.common.core.shared.transform.Transformable;
 import com.revenat.germes.common.core.shared.transform.TransformableProvider;
 import com.revenat.germes.common.core.shared.transform.Transformer;
-import com.revenat.germes.common.core.shared.transform.impl.helper.BaseFieldProvider;
+import com.revenat.germes.common.core.shared.transform.mapper.SameTypeMapper;
+import com.revenat.germes.common.core.shared.transform.provider.BaseFieldProvider;
 import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
+import com.revenat.germes.common.core.shared.transform.impl.helper.ObjectStateCopier;
 import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
 import com.revenat.germes.common.core.domain.model.AbstractEntity;
 import lombok.Getter;
@@ -30,7 +32,7 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("simple DTO transformer")
-public class SimpleDTOTransformerTest {
+public class StateCopierTransformerTest {
 
     private static final int CITY_POPULATION = 10_000;
     private static final String AREA_CODE = "OD";
@@ -46,8 +48,12 @@ public class SimpleDTOTransformerTest {
     @BeforeEach
     void setUp() {
         transformableProviderMock = Mockito.mock(TransformableProvider.class, invocation -> Optional.empty());
-        transformer = new SimpleDTOTransformer(
-                new BaseFieldProvider(new SimilarFieldsLocator(), new FieldManager()),
+        FieldManager fieldManager = new FieldManager();
+        ObjectStateCopier stateCopier = new ObjectStateCopier(fieldManager, new SameTypeMapper());
+        transformer = new StateCopierTransformer(
+                new BaseFieldProvider(new SimilarFieldsLocator(), fieldManager),
+                fieldManager,
+                stateCopier,
                 transformableProviderMock);
     }
 

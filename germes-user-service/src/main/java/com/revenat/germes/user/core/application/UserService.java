@@ -5,6 +5,7 @@ import com.revenat.germes.user.core.domain.model.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Provides API for the {@link User} management
@@ -26,7 +27,7 @@ public interface UserService {
      * @param userId unique identifier to search user with
      * @return optional with found user, or empty one otherwise
      */
-    Optional<User> findById(int userId);
+    Optional<User> findById(UUID userId);
 
     /**
      * Returns user with specified username
@@ -41,7 +42,7 @@ public interface UserService {
      *
      * @param userId unique identifier to delete user with
      */
-    void delete(int userId);
+    void delete(UUID userId);
 
     /**
      * Returns all users

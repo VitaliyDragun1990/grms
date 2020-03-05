@@ -7,9 +7,9 @@ import com.revenat.germes.common.core.shared.transform.Transformable;
 import com.revenat.germes.common.core.shared.transform.TransformableProvider;
 import com.revenat.germes.common.core.shared.transform.Transformer;
 import com.revenat.germes.common.core.shared.transform.impl.helper.ClassInstanceCreator;
-import com.revenat.germes.common.core.shared.transform.impl.helper.FieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
 import com.revenat.germes.common.core.shared.transform.impl.helper.ObjectStateCopier;
-import com.revenat.germes.common.core.domain.model.AbstractEntity;
+import com.revenat.germes.common.core.shared.transform.provider.FieldProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
  * @author Vitaliy Dragun
  */
 @SuppressWarnings("unchecked")
-public class SimpleDTOTransformer implements Transformer {
+public class StateCopierTransformer implements Transformer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleDTOTransformer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StateCopierTransformer.class);
 
     private final FieldProvider fieldProvider;
 
@@ -36,18 +36,23 @@ public class SimpleDTOTransformer implements Transformer {
 
     private final ObjectStateCopier stateCopier;
 
-    public SimpleDTOTransformer(final FieldProvider fieldProvider, final TransformableProvider transformableProvider) {
+    public StateCopierTransformer(final FieldProvider fieldProvider,
+                                  final FieldManager fieldManager,
+                                  final ObjectStateCopier objectStateCopier,
+                                  final TransformableProvider transformableProvider) {
         Asserts.assertNotNull(fieldProvider, "fieldProvider can not be null");
+        Asserts.assertNotNull(fieldManager, "fieldManager can not be null");
+        Asserts.assertNotNull(objectStateCopier, "objectStateCopier can not be null");
         Asserts.assertNotNull(transformableProvider, "transformableProvider can not be null");
 
         this.fieldProvider = fieldProvider;
         this.transformableProvider = transformableProvider;
         classInstanceCreator = new ClassInstanceCreator();
-        stateCopier = new ObjectStateCopier();
+        stateCopier = objectStateCopier;
     }
 
     @Override
-    public <T extends AbstractEntity, P> P transform(final T entity, final Class<P> dtoClass) {
+    public <T, P> P transform(final T entity, final Class<P> dtoClass) {
         checkParams(entity, dtoClass);
 
         final P dto = createInstance(dtoClass);
@@ -55,7 +60,7 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P> P transform(final T entity, final P dto) {
+    public <T, P> P transform(final T entity, final P dto) {
         checkParams(entity, dto);
 
         copyState(entity, dto, findFieldToIgnoreFor(entity));
@@ -70,7 +75,7 @@ public class SimpleDTOTransformer implements Transformer {
         return dto;
     }
 
-    private <T extends AbstractEntity, P> List<String> findFieldToIgnoreFor(T entity) {
+    private <T, P> List<String> findFieldToIgnoreFor(T entity) {
         final Optional<Transformable<T, P>> transformable = findTransformableFor(entity);
         final List<String> fieldsToIgnore = new ArrayList<>();
         transformable.ifPresent(t -> fieldsToIgnore.addAll(t.getIgnoredFields()));
@@ -79,7 +84,7 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P> T untransform(final P dto, final Class<T> entityClass) {
+    public <T, P> T untransform(final P dto, final Class<T> entityClass) {
         checkParams(dto, entityClass);
 
         final T entity = createInstance(entityClass);
@@ -92,7 +97,7 @@ public class SimpleDTOTransformer implements Transformer {
     }
 
     @Override
-    public <T extends AbstractEntity, P> T untransform(final P dto, final T entity) {
+    public <T, P> T untransform(final P dto, final T entity) {
         checkParams(dto, entity);
 
         copyState(dto, entity, findFieldToIgnoreFor(entity));
@@ -107,7 +112,7 @@ public class SimpleDTOTransformer implements Transformer {
         return entity;
     }
 
-    private <T extends AbstractEntity, P> Optional<Transformable<T, P>> findTransformableFor(final T entity) {
+    private <T, P> Optional<Transformable<T, P>> findTransformableFor(final T entity) {
         return transformableProvider.find((Class<T>) entity.getClass());
     }
 

@@ -1,20 +1,22 @@
 package com.revenat.germes.user.config;
 
 import com.revenat.germes.common.core.shared.encrypter.Encrypter;
+import com.revenat.germes.common.core.shared.transform.mapper.*;
+import com.revenat.germes.common.core.shared.transform.provider.BaseFieldProvider;
+import com.revenat.germes.common.core.shared.transform.provider.CachedFieldProvider;
+import com.revenat.germes.common.core.shared.transform.provider.FieldProvider;
 import com.revenat.germes.common.core.shared.transform.TransformableProvider;
 import com.revenat.germes.common.core.shared.transform.Transformer;
-import com.revenat.germes.common.core.shared.transform.impl.SimpleDTOTransformer;
-import com.revenat.germes.common.core.shared.transform.impl.helper.BaseFieldProvider;
-import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
-import com.revenat.germes.common.core.shared.transform.impl.helper.FieldProvider;
-import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
-import com.revenat.germes.common.core.shared.transform.impl.helper.cached.CachedFieldProvider;
+import com.revenat.germes.common.core.shared.transform.impl.StateCopierTransformer;
+import com.revenat.germes.common.core.shared.transform.impl.helper.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.config.BootstrapMode;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.List;
 
 /**
  * Spring Java-configuration
@@ -71,8 +73,27 @@ public class UserSpringConfig {
         }
 
         @Bean
-        public Transformer transformer(final FieldProvider fieldProvider, final TransformableProvider userTransformableProvider) {
-            return new SimpleDTOTransformer(fieldProvider, userTransformableProvider);
+        public Mapper mapper() {
+            return new ComboMapper(List.of(
+                    new SameTypeMapper(),
+                    new UuidToStringMapper(),
+                    new StringToUuidMapper(),
+                    new EnumToStringMapper(),
+                    new StringToEnumMapper()
+            ));
+        }
+
+        @Bean
+        public ObjectStateCopier objectStateCopier(final FieldManager fieldManager, final Mapper mapper) {
+            return new ObjectStateCopier(fieldManager, mapper);
+        }
+
+        @Bean
+        public Transformer transformer(final FieldProvider fieldProvider,
+                                       final FieldManager fieldManager,
+                                       final ObjectStateCopier objectStateCopier,
+                                       final TransformableProvider userTransformableProvider) {
+            return new StateCopierTransformer(fieldProvider, fieldManager, objectStateCopier, userTransformableProvider);
         }
     }
 }

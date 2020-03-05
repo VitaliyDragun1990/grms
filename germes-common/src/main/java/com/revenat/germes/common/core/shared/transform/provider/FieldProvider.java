@@ -1,4 +1,4 @@
-package com.revenat.germes.common.core.shared.transform.impl.helper;
+package com.revenat.germes.common.core.shared.transform.provider;
 
 import com.revenat.germes.common.core.shared.transform.annotation.DomainProperty;
 

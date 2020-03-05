@@ -1,15 +1,17 @@
 package com.revenat.germes.common.core.shared.transform.impl;
 
+import com.revenat.germes.common.core.domain.model.AbstractEntity;
+import com.revenat.germes.common.core.domain.model.EntityLoader;
 import com.revenat.germes.common.core.shared.exception.ConfigurationException;
 import com.revenat.germes.common.core.shared.exception.flow.ValidationException;
 import com.revenat.germes.common.core.shared.transform.Transformable;
 import com.revenat.germes.common.core.shared.transform.TransformableProvider;
 import com.revenat.germes.common.core.shared.transform.Transformer;
-import com.revenat.germes.common.core.shared.transform.impl.helper.BaseFieldProvider;
+import com.revenat.germes.common.core.shared.transform.mapper.SameTypeMapper;
+import com.revenat.germes.common.core.shared.transform.provider.BaseFieldProvider;
 import com.revenat.germes.common.core.shared.transform.impl.helper.FieldManager;
+import com.revenat.germes.common.core.shared.transform.impl.helper.ObjectStateCopier;
 import com.revenat.germes.common.core.shared.transform.impl.helper.SimilarFieldsLocator;
-import com.revenat.germes.common.core.domain.model.AbstractEntity;
-import com.revenat.germes.common.core.domain.model.EntityLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,7 +49,9 @@ class EntityReferenceTransformerTest {
     void setUp() {
         final FieldManager fieldManager = new FieldManager();
         final BaseFieldProvider fieldProvider = new BaseFieldProvider(new SimilarFieldsLocator(), fieldManager);
-        transformer = new EntityReferenceTransformer(entityLoader, fieldManager, fieldProvider, transformableProvider);
+        final ObjectStateCopier stateCopier = new ObjectStateCopier(fieldManager, new SameTypeMapper());
+        final Transformer delegate = new StateCopierTransformer(fieldProvider, fieldManager, stateCopier, transformableProvider);
+        transformer = new EntityReferenceTransformer(entityLoader, fieldManager, delegate, transformableProvider);
     }
 
     @Test
