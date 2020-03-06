@@ -21,3 +21,16 @@ management:
       base-path: /monitoring
   server:
     port: 9090
+init:
+  data:
+    users:
+      admin:
+        username: admin
+        password: admin
+        first-name: Jack
+        last-name: Smith
+      user:
+        username: guest
+        password: guest
+        first-name: Anna
+        last-name: Wilson
