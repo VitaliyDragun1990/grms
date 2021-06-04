@@ -36,7 +36,7 @@
         <jakarta.annotations.version>1.3.4</jakarta.annotations.version>
         <javassist.version>3.26.0-GA</javassist.version>
         <reflections.version>0.9.12</reflections.version>
-        <hibernate-validatior.version>6.0.18.Final</hibernate-validatior.version>
+        <hibernate-validatior.version>6.0.20.Final</hibernate-validatior.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <el-version>3.0.1-b09</el-version>
         <jandex.version>2.0.3.Final</jandex.version>
