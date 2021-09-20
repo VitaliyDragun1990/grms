@@ -77,7 +77,7 @@
         <mysql.version>8.0.19</mysql.version>
 
         <!--security-->
-        <shiro.version>1.4.2</shiro.version>
+        <shiro.version>1.8.0</shiro.version>
 
         <!--tests-->
         <jersey-junit.version>2.1.0</jersey-junit.version>
