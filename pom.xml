@@ -70,7 +70,7 @@
         <primefaces-bootstrap.version>1.0.10</primefaces-bootstrap.version>
 
         <!--persistence-->
-        <hibernate.version>5.4.12.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
         <jpa-api.version>2.2</jpa-api.version>
         <h2.version>1.4.200</h2.version>
         <sqLite.version>3.30.1</sqLite.version>
