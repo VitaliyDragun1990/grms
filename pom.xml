@@ -74,7 +74,7 @@
         <jpa-api.version>2.2</jpa-api.version>
         <h2.version>1.4.200</h2.version>
         <sqLite.version>3.30.1</sqLite.version>
-        <mysql.version>8.0.19</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
 
         <!--security-->
         <shiro.version>1.4.2</shiro.version>
